@@ -16,7 +16,7 @@ class _LoadingState extends State<Loading> {
     return Positioned.fill(
       child: DottedBackground(
         color: kWhite10,
-        size: k5dp,
+        size: k3dp,
       ),
     );
   }

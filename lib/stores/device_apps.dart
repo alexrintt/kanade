@@ -115,9 +115,9 @@ class DeviceAppsStore extends ChangeNotifier {
 
     final apkFilename = '${package.appName} ${package.packageName} $id.apk';
 
-    await Permission.storage.request();
+    await Permission.manageExternalStorage.request();
 
-    final status = await Permission.storage.status;
+    final status = await Permission.manageExternalStorage.status;
 
     if (status.isDenied || status.isPermanentlyDenied) {
       return const ApkExtraction(null, Result.permissionDenied);
@@ -125,6 +125,8 @@ class DeviceAppsStore extends ChangeNotifier {
       return const ApkExtraction(null, Result.permissionRestricted);
     } else if (status.isGranted) {
       const kRootFolder = 'Kanade';
+
+      /// TODO(@LaksCastro): Find or create a package that returns the Android root folder
       final appDir = Directory('storage/emulated/0/$kRootFolder');
 
       if (!appDir.existsSync()) {

@@ -7,18 +7,23 @@ import 'package:kanade/constants/app_spacing.dart';
 import 'package:kanade/icons/pixel_art_icons.dart';
 import 'package:kanade/stores/contextual_menu.dart';
 import 'package:kanade/stores/device_apps.dart';
-import 'package:kanade/widgets/dotted_background.dart';
-import 'package:kanade/widgets/multi_animated_builder.dart';
-import 'package:kanade/widgets/toast.dart';
 
 import 'app_icon_button.dart';
 
 class PackageTile extends StatefulWidget {
   final Application package;
+  final bool isSelected;
+  final bool showCheckbox;
+  final VoidCallback onPressed;
+  final VoidCallback onLongPress;
 
   const PackageTile(
     this.package, {
     Key? key,
+    required this.isSelected,
+    required this.showCheckbox,
+    required this.onPressed,
+    required this.onLongPress,
   }) : super(key: key);
 
   @override
@@ -34,52 +39,25 @@ class _PackageTileState extends State<PackageTile>
   Uint8List? get _icon =>
       _hasIcon ? (widget.package as ApplicationWithIcon).icon : null;
 
-  bool get _isSelected =>
-      menuStore.context.isSelection && store.isSelected(widget.package);
-
-  void _onLongPress() {
-    menuStore.showSelectionMenu();
-    store.toggleSelect(widget.package);
-  }
-
-  void _onPressed() async {
-    if (menuStore.context.isSelection) {
-      store.toggleSelect(widget.package);
-    } else {
-      final extraction = await store.extractApk(widget.package);
-
-      if (extraction.result.success) {
-        showToast(context, 'Extracted to ${extraction.apk!.path}');
-      } else if (extraction.result.permissionWasDenied) {
-        showToast(context, 'Permission denied');
-      } else if (extraction.result.restrictedPermission) {
-        showToast(context, 'Permission restricted by Android');
-      }
-    }
-  }
+  bool get _isSelected => widget.isSelected;
 
   Widget? _buildTrailing() {
-    return MultiAnimatedBuilder(
-      animations: [store, menuStore],
-      builder: (context, child) {
-        Widget? child;
+    Widget? child;
 
-        if (menuStore.context.isSelection) {
-          child = AppIconButton(
-            onTap: () => store.toggleSelect(widget.package),
-            tooltip: 'Toggle Select',
-            icon: Icon(
-              _isSelected ? PixelArt.checkbox : PixelArt.checkbox_on,
-            ),
-          );
-        }
+    if (widget.showCheckbox) {
+      child = AppIconButton(
+        onTap: () => store.toggleSelect(widget.package),
+        tooltip: 'Toggle Select',
+        icon: Icon(
+          _isSelected ? PixelArt.checkbox : PixelArt.checkbox_on,
+        ),
+      );
+    }
 
-        return SizedBox(
-          width: _kLeadingSize.width,
-          height: _kLeadingSize.height,
-          child: child,
-        );
-      },
+    return SizedBox(
+      width: _kLeadingSize.width,
+      height: _kLeadingSize.height,
+      child: child,
     );
   }
 
@@ -95,12 +73,10 @@ class _PackageTileState extends State<PackageTile>
     return SizedBox(
       width: _kLeadingSize.width,
       height: _kLeadingSize.height,
-      child: RepaintBoundary(
-        child: Center(
-          child: _hasIcon
-              ? Image.memory(_icon!, gaplessPlayback: true)
-              : const Icon(PixelArt.android),
-        ),
+      child: Center(
+        child: _hasIcon
+            ? Image.memory(_icon!, gaplessPlayback: true)
+            : const Icon(PixelArt.android),
       ),
     );
   }
@@ -132,18 +108,15 @@ class _PackageTileState extends State<PackageTile>
   }
 
   Widget _buildInkEffectWrapper() {
-    return AnimatedBuilder(
-      animation: store,
-      builder: (context, child) => InkWell(
-        splashFactory: InkSplash.splashFactory,
-        onTap: _onPressed,
-        onLongPress: _onLongPress,
-        splashColor: kWhite03,
-        highlightColor: kWhite03,
-        child: DecoratedBox(
-          decoration: _createBoxDecoration(),
-          child: _buildListTile(),
-        ),
+    return InkWell(
+      splashFactory: InkSplash.splashFactory,
+      onTap: widget.onPressed,
+      onLongPress: widget.onLongPress,
+      splashColor: kWhite03,
+      highlightColor: kWhite03,
+      child: DecoratedBox(
+        decoration: _createBoxDecoration(),
+        child: _buildListTile(),
       ),
     );
   }
@@ -172,11 +145,7 @@ class _PackageTileState extends State<PackageTile>
         color: kCardColor,
         elevation: k1dp,
         shadowColor: Theme.of(context).scaffoldBackgroundColor,
-        child: DottedBackground(
-          color: kWhite10,
-          size: k3dp,
-          child: _buildInkEffectWrapper(),
-        ),
+        child: _buildInkEffectWrapper(),
       ),
     );
   }

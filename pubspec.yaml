@@ -8,8 +8,8 @@ environment:
 
 dependencies:
   device_apps: ^2.1.0
+  permission_handler: ^8.1.6
   get_it: ^7.2.0
-  path_provider: ^2.0.5
   url_launcher: ^6.0.12
   nanoid: ^1.0.0
   path: ^1.8.0

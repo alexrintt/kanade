@@ -46,9 +46,15 @@ class _PackageTileState extends State<PackageTile>
     if (menuStore.context.isSelection) {
       store.toggleSelect(widget.package);
     } else {
-      final extractedApk = await store.extractApk(widget.package);
+      final extraction = await store.extractApk(widget.package);
 
-      showToast(context, 'Extracted to ${extractedApk.path}');
+      if (extraction.result.success) {
+        showToast(context, 'Extracted to ${extraction.apk!.path}');
+      } else if (extraction.result.permissionWasDenied) {
+        showToast(context, 'Permission denied');
+      } else if (extraction.result.restrictedPermission) {
+        showToast(context, 'Permission restricted by Android');
+      }
     }
   }
 

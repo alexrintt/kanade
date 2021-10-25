@@ -5,10 +5,33 @@ import 'package:flutter/material.dart';
 import 'package:kanade/setup.dart';
 import 'package:nanoid/async.dart';
 import 'package:path/path.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 mixin DeviceAppsStoreConsumer<T extends StatefulWidget> on State<T> {
   final store = getIt<DeviceAppsStore>();
+}
+
+class ApkExtraction {
+  final File? apk;
+  final Result result;
+
+  const ApkExtraction(this.apk, this.result);
+}
+
+class Result {
+  final int value;
+
+  const Result(this.value);
+
+  static const extracted = Result(0);
+  static const permissionDenied = Result(1);
+  static const permissionRestricted = Result(2);
+
+  bool get success => value == 0;
+
+  bool get permissionWasDenied => value == 1;
+
+  bool get restrictedPermission => value == 2;
 }
 
 class DeviceAppsStore extends ChangeNotifier {
@@ -85,27 +108,46 @@ class DeviceAppsStore extends ChangeNotifier {
   }
 
   /// Extract Apk of a [package]
-  Future<File> extractApk(Application package, [int tryCount = 0]) async {
+  Future<ApkExtraction> extractApk(Application package,
+      [int tryCount = 0]) async {
     final apkFile = File(package.apkFilePath);
     final id = await nanoid(kIdLength);
 
-    final apkFilename = '${package.appName} ${package.packageName} $id';
+    final apkFilename = '${package.appName} ${package.packageName} $id.apk';
 
-    final appDir = await getApplicationDocumentsDirectory();
-    final exportedApkFile = File(join(appDir.path, apkFilename));
+    await Permission.storage.request();
 
-    if (exportedApkFile.existsSync()) {
-      if (tryCount > kMaxTriesCount) {
-        throw Exception('Too many exported Apk\'s');
+    final status = await Permission.storage.status;
+
+    if (status.isDenied || status.isPermanentlyDenied) {
+      return const ApkExtraction(null, Result.permissionDenied);
+    } else if (status.isRestricted || status.isLimited) {
+      return const ApkExtraction(null, Result.permissionRestricted);
+    } else if (status.isGranted) {
+      const kRootFolder = 'Kanade';
+      final appDir = Directory('storage/emulated/0/$kRootFolder');
+
+      if (!appDir.existsSync()) {
+        await appDir.create();
       }
 
-      /// Try again, with another id
-      return extractApk(package, tryCount + 1);
-    } else {
-      final extractedApk = await apkFile.copy(exportedApkFile.path);
+      final exportedApkFile = File(join(appDir.path, apkFilename));
 
-      return extractedApk;
+      if (exportedApkFile.existsSync()) {
+        if (tryCount > kMaxTriesCount) {
+          throw Exception('Too many exported Apk\'s');
+        }
+
+        /// Try again, with another id
+        return extractApk(package, tryCount + 1);
+      } else {
+        final extractedApk = await apkFile.copy(exportedApkFile.path);
+
+        return ApkExtraction(extractedApk, Result.extracted);
+      }
     }
+
+    throw Exception('Invalid permission result: $status');
   }
 
   /// Extract Apk of all [selected] apps

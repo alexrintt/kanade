@@ -110,13 +110,13 @@ class _PackageTileState extends State<PackageTile>
   Widget _buildListTile() {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(
-        vertical: k2dp,
-        horizontal: k4dp,
+        vertical: k3dp,
+        horizontal: k5dp,
       ),
       trailing: _buildTrailing(),
       selected: _isSelected,
       selectedTileColor: kWhite03,
-      dense: true,
+      dense: false,
       enableFeedback: false,
       visualDensity: VisualDensity.compact,
       leading: _buildTileLeading(),

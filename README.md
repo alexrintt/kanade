@@ -51,9 +51,9 @@
 
 Please, fill a issue with a printscreen or a small description of the bug, thx.
 
-### Imrprove the App
+### Improvements
 
-Any idea is welcome, please, add a issue to discuss better about a feature or any improvement, thx.
+Any ideas are welcome, please add a issue to further discuss a feature or any improvement, thx.
 
 <h2 align="center">
   Open Source

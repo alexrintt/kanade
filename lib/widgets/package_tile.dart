@@ -110,8 +110,8 @@ class _PackageTileState extends State<PackageTile>
   Widget _buildListTile() {
     return ListTile(
       contentPadding: const EdgeInsets.symmetric(
-        vertical: k3dp,
-        horizontal: k5dp,
+        vertical: k5dp,
+        horizontal: k8dp,
       ),
       trailing: _buildTrailing(),
       selected: _isSelected,
@@ -156,8 +156,13 @@ class _PackageTileState extends State<PackageTile>
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: k2dp),
+      padding: const EdgeInsets.symmetric(
+        vertical: k2dp,
+        horizontal: k5dp,
+      ),
       child: Material(
+        borderRadius: BorderRadius.circular(k2dp),
+        clipBehavior: Clip.hardEdge,
         color: kCardColor,
         elevation: k1dp,
         shadowColor: Theme.of(context).scaffoldBackgroundColor,

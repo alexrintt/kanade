@@ -1,0 +1,47 @@
+name: kanade
+description: A new Flutter project.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.12.0 <3.0.0"
+
+dependencies:
+  device_apps: ^2.1.0
+  get_it: ^7.2.0
+  path_provider: ^2.0.5
+  url_launcher: ^6.0.12
+  nanoid: ^1.0.0
+  path: ^1.8.0
+  fluttertoast: ^8.0.8
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_launcher_icons: ^0.9.2
+  flutter_lints: ^1.0.0
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/bottom.png
+    - assets/images/pixel_animation.gif
+  fonts:
+    - family: PixelArt
+      fonts:
+       - asset: assets/fonts/PixelArt.ttf
+    - family: Inconsolata
+      fonts:
+        - asset: assets/fonts/Inconsolata-Regular.ttf
+        - asset: assets/fonts/Inconsolata-Bold.ttf
+          weight: 700
+    - family: Forward
+      fonts:
+        - asset: assets/fonts/Forward.ttf
+
+flutter_icons:
+  android: "launcher_icon"
+  ios: false
+  image_path: "assets/icons/launcher.png"

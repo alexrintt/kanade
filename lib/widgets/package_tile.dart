@@ -89,8 +89,12 @@ class _PackageTileState extends State<PackageTile>
     return SizedBox(
       width: _kLeadingSize.width,
       height: _kLeadingSize.height,
-      child: Center(
-        child: _hasIcon ? Image.memory(_icon!) : const Icon(PixelArt.android),
+      child: RepaintBoundary(
+        child: Center(
+          child: _hasIcon
+              ? Image.memory(_icon!, gaplessPlayback: true)
+              : const Icon(PixelArt.android),
+        ),
       ),
     );
   }

@@ -26,7 +26,7 @@
 ### Art
 
 - [Kanade Chan by closedworldopenwound](https://www.deviantart.com/closedworldopenwound/art/Kanade-Chan-660321422)
-- [もちもち by もちもち](https://dotpict.net/works/3311931)
+- [ハムの上で寝てみたい by もちもち](https://dotpict.net/works/3311931)
 
 ### Fonts
 

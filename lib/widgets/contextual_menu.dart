@@ -43,9 +43,33 @@ class _ContextualMenuState extends State<ContextualMenu>
         AppIconButton(
           tooltip: 'Extract All Selected',
           onTap: () async {
-            await store.extractSelectedApks();
+            try {
+              showLoadingDialog(context, 'Extracting Apk\'s...');
 
-            showToast(context, 'Extracted All Selected Apks');
+              final extractedApks = await store.extractSelectedApks();
+
+              final result = extractedApks.result;
+
+              final extractedTo = extractedApks.extractions.isEmpty
+                  ? null
+                  : extractedApks.extractions.first.apk?.parent;
+
+              if (result.failed) {
+                showToast(context,
+                    'Sorry, we can\'t export any of these apk\'s because they are restricted by the OS');
+              } else if (result.permissionWasDenied) {
+                showToast(context,
+                    'To export the apk we need permission to write to your storage');
+              } else if (result.someMayFailed) {
+                showToast(context,
+                    'Some apk\'s are located in ${extractedTo?.absolute} but some apk\'s could not be extracted');
+              } else if (result.success) {
+                showToast(context,
+                    'All apk\'s are located in ${extractedTo?.absolute}!');
+              }
+            } finally {
+              Navigator.pop(context);
+            }
           },
           icon: const Icon(PixelArt.download),
         ),

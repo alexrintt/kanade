@@ -19,6 +19,34 @@ class ApkExtraction {
   const ApkExtraction(this.apk, this.result);
 }
 
+class MultipleApkExtraction {
+  /// You can analyze each extraction individually
+  final List<ApkExtraction> extractions;
+
+  /// Overall result based on [extractions] results
+  MultipleResult get result {
+    final permissionWasDenied =
+        extractions.any((extraction) => extraction.result.permissionWasDenied);
+
+    if (permissionWasDenied) return MultipleResult.permissionDenied;
+
+    final successfulExtractionsCount =
+        extractions.where((extraction) => extraction.result.success).length;
+
+    if (successfulExtractionsCount == 0) {
+      return MultipleResult.allFailed;
+    }
+
+    if (successfulExtractionsCount == extractions.length) {
+      return MultipleResult.allExtracted;
+    }
+
+    return MultipleResult.someFailed;
+  }
+
+  const MultipleApkExtraction(this.extractions);
+}
+
 class Result {
   final int value;
 
@@ -27,12 +55,43 @@ class Result {
   static const extracted = Result(0);
   static const permissionDenied = Result(1);
   static const permissionRestricted = Result(2);
+  static const notAllowed = Result(3);
 
+  /// Happy end, apk extracted successfully
   bool get success => value == 0;
 
+  /// User denied permission
   bool get permissionWasDenied => value == 1;
 
+  /// Permission restricted, usually by parent control OS feature
   bool get restrictedPermission => value == 2;
+
+  /// Extraction not permitted,
+  /// usually restricted by OS or some protected package
+  bool get extractionNotAllowed => value == 3;
+}
+
+class MultipleResult {
+  final int value;
+
+  const MultipleResult(this.value);
+
+  static const allExtracted = MultipleResult(0);
+  static const allFailed = MultipleResult(1);
+  static const someFailed = MultipleResult(2);
+  static const permissionDenied = MultipleResult(3);
+
+  /// Happy end, all apk's extracted successfully
+  bool get success => value == 0;
+
+  /// All apk's extractions failed due one or more reasons
+  bool get failed => value == 1;
+
+  /// Some apk's failed but others was successfully extracted
+  bool get someMayFailed => value == 2;
+
+  /// User denied permission
+  bool get permissionWasDenied => value == 3;
 }
 
 class DeviceAppsStore extends ChangeNotifier {
@@ -74,7 +133,9 @@ class DeviceAppsStore extends ChangeNotifier {
 
     isLoading = false;
 
-    apps.addAll(deviceApps);
+    apps
+      ..addAll(deviceApps)
+      ..sort((a, b) => a.appName.compareTo(b.appName));
 
     notifyListeners();
   }
@@ -117,10 +178,10 @@ class DeviceAppsStore extends ChangeNotifier {
     final apkFilename =
         '${package.appName}_${package.packageName}_${package.versionCode}_$id.apk';
 
-    final status = await Permission.storage.status;
+    var status = await Permission.storage.status;
 
     if (!status.isGranted) {
-      await Permission.storage.request();
+      status = await Permission.storage.request();
     }
 
     if (status.isDenied || status.isPermanentlyDenied) {
@@ -152,9 +213,12 @@ class DeviceAppsStore extends ChangeNotifier {
         /// Try again, with another id
         return extractApk(package, tryCount + 1);
       } else {
-        final extractedApk = await apkFile.copy(exportedApkFile.path);
-
-        return ApkExtraction(extractedApk, Result.extracted);
+        try {
+          final extractedApk = await apkFile.copy(exportedApkFile.path);
+          return ApkExtraction(extractedApk, Result.extracted);
+        } on FileSystemException {
+          return const ApkExtraction(null, Result.notAllowed);
+        }
       }
     }
 
@@ -162,10 +226,14 @@ class DeviceAppsStore extends ChangeNotifier {
   }
 
   /// Extract Apk of all [selected] apps
-  Future<void> extractSelectedApks() async {
+  Future<MultipleApkExtraction> extractSelectedApks() async {
+    final extractions = <ApkExtraction>[];
+
     for (final selected in selected) {
-      await extractApk(selected);
+      extractions.add(await extractApk(selected));
     }
+
+    return MultipleApkExtraction(extractions);
   }
 
   /// Verify if a given [package] is selected

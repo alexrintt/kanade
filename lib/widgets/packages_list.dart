@@ -1,5 +1,6 @@
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:kanade/constants/app_colors.dart';
 import 'package:kanade/constants/app_spacing.dart';
 import 'package:kanade/stores/contextual_menu.dart';
@@ -29,14 +30,23 @@ class _PackagesListState extends State<PackagesList>
     if (menuStore.context.isSelection) {
       store.toggleSelect(package);
     } else {
-      final extraction = await store.extractApk(package);
+      try {
+        showLoadingDialog(context, 'Extracting Apk...');
 
-      if (extraction.result.success) {
-        showToast(context, 'Extracted to ${extraction.apk!.path}');
-      } else if (extraction.result.permissionWasDenied) {
-        showToast(context, 'Permission denied');
-      } else if (extraction.result.restrictedPermission) {
-        showToast(context, 'Permission restricted by Android');
+        final extraction = await store.extractApk(package);
+
+        if (extraction.result.success) {
+          showToast(context, 'Extracted to ${extraction.apk!.path}');
+        } else if (extraction.result.permissionWasDenied) {
+          showToast(context, 'Permission denied');
+        } else if (extraction.result.restrictedPermission) {
+          showToast(context, 'Permission restricted by Android');
+        } else if (extraction.result.extractionNotAllowed) {
+          showToast(context,
+              'Operation not allowed, probably this is a protected package');
+        }
+      } finally {
+        Navigator.pop(context);
       }
     }
   }
@@ -49,7 +59,7 @@ class _PackagesListState extends State<PackagesList>
         slivers: [
           const ContextualMenu(),
           SliverPadding(
-            padding: const EdgeInsets.symmetric(vertical: 6),
+            padding: const EdgeInsets.symmetric(vertical: k3dp),
             sliver: SliverList(
               delegate: SliverChildBuilderDelegate(
                 (context, index) {

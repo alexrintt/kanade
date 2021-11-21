@@ -25,25 +25,16 @@
 
 ### Art
 
-- [Kanade Chan by closedworldopenwound](https://www.deviantart.com/closedworldopenwound/art/Kanade-Chan-660321422)
-- [ハムの上で寝てみたい by もちもち](https://dotpict.net/works/3311931)
+[`🔗 Kanade Chan by closedworldopenwound`](https://www.deviantart.com/closedworldopenwound/art/Kanade-Chan-660321422) [`🔗 ハムの上で寝てみたい by もちもち`](https://dotpict.net/works/3311931)
 
 ### Fonts
 
-- [FFF Forward](https://www.1001fonts.com/fff-forward-font.html)
-- [Pixel Art Icons](https://pixelarticons.com/)
-- [Flutter Icon - Svg to Font Bundler](https://www.fluttericon.com/)
+[`🔗 FFF Forward`](https://www.1001fonts.com/fff-forward-font.html) [`🔗 Pixel Art Icons`](https://pixelarticons.com/) [`🔗 Flutter Icon - Svg to Font Bundler`](https://www.fluttericon.com/)
 
 ### Open Source Libraries
 
-- [`url_launcher`](https://pub.dev/packages/url_launcher)
-- [`device_apps`](https://pub.dev/packages/device_apps)
-- [`flutter_launcher_icons`](https://pub.dev/packages/flutter_launcher_icons)
-- [`nanoid`](https://pub.dev/packages/nanoid)
-- [`path`](https://pub.dev/packages/path)
-- [`fluttertoast`](https://pub.dev/packages/fluttertoast)
-- [`permission_handler`](https://pub.dev/packages/permission_handler)
-- [`Flutter, of course`](https://flutter.dev/)
+[`🔗 url_launcher`](https://pub.dev/packages/url_launcher) [`🔗 device_apps`](https://pub.dev/packages/device_apps) [`🔗 flutter_launcher_icons`](https://pub.dev/packages/flutter_launcher_icons) [`🔗 nanoid`](https://pub.dev/packages/nanoid) <br> [`🔗 path`](https://pub.dev/packages/path)
+[`🔗 fluttertoast`](https://pub.dev/packages/fluttertoast) [`🔗 permission_handler`](https://pub.dev/packages/permission_handler) [`🔗 flutter`](https://flutter.dev/)
 
 <hr>
 

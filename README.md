@@ -33,8 +33,8 @@
 
 ### Open Source Libraries
 
-[`🔗 url_launcher`](https://pub.dev/packages/url_launcher) [`🔗 device_apps`](https://pub.dev/packages/device_apps) [`🔗 flutter_launcher_icons`](https://pub.dev/packages/flutter_launcher_icons) [`🔗 nanoid`](https://pub.dev/packages/nanoid) [`🔗 path`](https://pub.dev/packages/path)
-[`🔗 fluttertoast`](https://pub.dev/packages/fluttertoast) [`🔗 permission_handler`](https://pub.dev/packages/permission_handler) [`🔗 Flutter, of course`](https://flutter.dev/)
+[`🔗 url_launcher`](https://pub.dev/packages/url_launcher) [`🔗 device_apps`](https://pub.dev/packages/device_apps) [`🔗 flutter_launcher_icons`](https://pub.dev/packages/flutter_launcher_icons) [`🔗 nanoid`](https://pub.dev/packages/nanoid) <br> [`🔗 path`](https://pub.dev/packages/path)
+[`🔗 fluttertoast`](https://pub.dev/packages/fluttertoast) [`🔗 permission_handler`](https://pub.dev/packages/permission_handler) [`🔗 flutter`](https://flutter.dev/)
 
 <hr>
 

@@ -7,6 +7,7 @@ environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
+  shared_storage: ^0.1.1
   device_apps: ^2.1.0
   permission_handler: ^8.1.6
   get_it: ^7.2.0

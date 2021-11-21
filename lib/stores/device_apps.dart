@@ -6,6 +6,7 @@ import 'package:kanade/setup.dart';
 import 'package:nanoid/async.dart';
 import 'package:path/path.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_storage/shared_storage.dart';
 
 mixin DeviceAppsStoreConsumer<T extends StatefulWidget> on State<T> {
   final store = getIt<DeviceAppsStore>();
@@ -117,20 +118,25 @@ class DeviceAppsStore extends ChangeNotifier {
 
     await Permission.manageExternalStorage.request();
 
-    final status = await Permission.manageExternalStorage.status;
+    final status = await Permission.storage.request();
 
     if (status.isDenied || status.isPermanentlyDenied) {
       return const ApkExtraction(null, Result.permissionDenied);
     } else if (status.isRestricted || status.isLimited) {
       return const ApkExtraction(null, Result.permissionRestricted);
     } else if (status.isGranted) {
-      const kRootFolder = 'Kanade';
+      const kRootFolder = 'KanadeExtractedApks';
 
-      /// TODO(@LaksCastro): Find or create a package that returns the Android root folder
-      final appDir = Directory('storage/emulated/0/$kRootFolder');
+      final appDir = await getExternalStoragePublicDirectory(
+        const EnvironmentDirectory.custom(kRootFolder),
+      );
+
+      if (appDir == null) {
+        throw Exception('Unsupported operation');
+      }
 
       if (!appDir.existsSync()) {
-        await appDir.create();
+        await appDir.create(recursive: true);
       }
 
       final exportedApkFile = File(join(appDir.path, apkFilename));

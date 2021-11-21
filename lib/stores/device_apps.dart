@@ -114,11 +114,14 @@ class DeviceAppsStore extends ChangeNotifier {
     final apkFile = File(package.apkFilePath);
     final id = await nanoid(kIdLength);
 
-    final apkFilename = '${package.appName} ${package.packageName} $id.apk';
+    final apkFilename =
+        '${package.appName}_${package.packageName}_${package.versionCode}_$id.apk';
 
-    await Permission.manageExternalStorage.request();
+    final status = await Permission.storage.status;
 
-    final status = await Permission.storage.request();
+    if (!status.isGranted) {
+      await Permission.storage.request();
+    }
 
     if (status.isDenied || status.isPermanentlyDenied) {
       return const ApkExtraction(null, Result.permissionDenied);
@@ -192,9 +195,9 @@ class DeviceAppsStore extends ChangeNotifier {
   /// This method will disable search if [text] is empty by default
   void search(String text) {
     bool hasMatch(Application app) {
-      final source = [app.appName, app.packageName].join(' ');
+      final source = [app.appName, app.packageName].join(' ').toLowerCase();
 
-      return _hasWildcardMatch(source, text);
+      return _hasWildcardMatch(source, text.toLowerCase());
     }
 
     results = [];

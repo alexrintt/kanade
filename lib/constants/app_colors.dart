@@ -34,7 +34,7 @@ const kBackgroundColor = Color(0xFF25262E);
 
 final kBlack05 = Colors.black.withOpacity(.05);
 final kBlack10 = Colors.black.withOpacity(.1);
-final kBlack100 = Colors.black;
+const kBlack100 = Colors.black;
 
 const kWhite100 = Colors.white;
 final kWhite10 = Colors.white.withOpacity(.1);
@@ -43,4 +43,4 @@ final kWhite50 = Colors.white.withOpacity(.5);
 final kWhite03 = Colors.white.withOpacity(.03);
 final kWhite05 = Colors.white.withOpacity(.05);
 
-final kAccent100 = Colors.blue;
+const kAccent100 = Colors.blue;

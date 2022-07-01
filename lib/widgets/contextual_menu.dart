@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kanade/constants/app_colors.dart';
 import 'package:kanade/constants/strings.dart';
@@ -80,7 +79,7 @@ class _ContextualMenuState extends State<ContextualMenu>
             animation: store,
             builder: (context, child) {
               if (store.isAllSelected) {
-                return Icon(PixelArt.checkbox, color: kAccent100);
+                return const Icon(PixelArt.checkbox, color: kAccent100);
               }
 
               return const Icon(PixelArt.checkbox_on);
@@ -141,7 +140,7 @@ class _ContextualMenuState extends State<ContextualMenu>
       ),
       actions: [
         AppIconButton(
-          onTap: () => launch(kRepositoryUrl),
+          onTap: () => launchUrl(Uri.parse(kRepositoryUrl)),
           icon: const Icon(PixelArt.android),
           tooltip: 'Open-Source Repository',
         ),

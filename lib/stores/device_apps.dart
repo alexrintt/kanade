@@ -4,8 +4,6 @@ import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:kanade/setup.dart';
 import 'package:nanoid/async.dart';
-import 'package:path/path.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_storage/shared_storage.dart';
 
 mixin DeviceAppsStoreConsumer<T extends StatefulWidget> on State<T> {
@@ -126,18 +124,23 @@ class DeviceAppsStore extends ChangeNotifier {
 
     notifyListeners();
 
-    final deviceApps = await DeviceApps.getInstalledApplications(
-      includeSystemApps: true,
+    final appsStream = DeviceApps.streamInstalledApplications(
       includeAppIcons: true,
+      includeSystemApps: true,
     );
 
-    isLoading = false;
+    appsStream.listen(
+      (app) {
+        isLoading = false;
+        apps.add(app);
 
-    apps
-      ..addAll(deviceApps)
-      ..sort((a, b) => a.appName.compareTo(b.appName));
-
-    notifyListeners();
+        notifyListeners();
+      },
+      onDone: () {
+        isLoading = false;
+        notifyListeners();
+      },
+    );
   }
 
   /// Mark all apps as unselected
@@ -170,70 +173,46 @@ class DeviceAppsStore extends ChangeNotifier {
   }
 
   /// Extract Apk of a [package]
-  Future<ApkExtraction> extractApk(Application package,
-      [int tryCount = 0]) async {
+  Future<ApkExtraction> extractApk(Application package, {Uri? folder}) async {
     final apkFile = File(package.apkFilePath);
     final id = await nanoid(kIdLength);
 
     final apkFilename =
-        '${package.appName}_${package.packageName}_${package.versionCode}_$id.apk';
+        '${package.appName}_${package.packageName}_${package.versionCode}_$id';
 
-    var status = await Permission.storage.status;
+    final parentFolder = folder ?? await openDocumentTree();
 
-    if (!status.isGranted) {
-      status = await Permission.storage.request();
-    }
-
-    if (status.isDenied || status.isPermanentlyDenied) {
-      return const ApkExtraction(null, Result.permissionDenied);
-    } else if (status.isRestricted || status.isLimited) {
-      return const ApkExtraction(null, Result.permissionRestricted);
-    } else if (status.isGranted) {
-      const kRootFolder = 'KanadeExtractedApks';
-
-      final appDir = await getExternalStoragePublicDirectory(
-        const EnvironmentDirectory.custom(kRootFolder),
+    if (parentFolder != null) {
+      await createFile(
+        parentFolder,
+        mimeType: 'application/vnd.android.package-archive',
+        displayName: apkFilename,
+        bytes: await apkFile.readAsBytes(),
       );
 
-      if (appDir == null) {
-        throw Exception('Unsupported operation');
-      }
-
-      if (!appDir.existsSync()) {
-        await appDir.create(recursive: true);
-      }
-
-      final exportedApkFile = File(join(appDir.path, apkFilename));
-
-      if (exportedApkFile.existsSync()) {
-        if (tryCount > kMaxTriesCount) {
-          throw Exception('Too many exported Apk\'s');
-        }
-
-        /// Try again, with another id
-        return extractApk(package, tryCount + 1);
-      } else {
-        try {
-          final extractedApk = await apkFile.copy(exportedApkFile.path);
-          return ApkExtraction(extractedApk, Result.extracted);
-        } on FileSystemException {
-          return const ApkExtraction(null, Result.notAllowed);
-        }
-      }
+      return ApkExtraction(apkFile, Result.extracted);
+    } else {
+      return ApkExtraction(apkFile, Result.permissionDenied);
     }
-
-    throw Exception('Invalid permission result: $status');
   }
+
+  Future<Uri?> requestExportLocation() => openDocumentTree();
 
   /// Extract Apk of all [selected] apps
   Future<MultipleApkExtraction> extractSelectedApks() async {
     final extractions = <ApkExtraction>[];
 
-    for (final selected in selected) {
-      extractions.add(await extractApk(selected));
-    }
+    final folder = await requestExportLocation();
 
-    return MultipleApkExtraction(extractions);
+    if (folder != null) {
+      for (final selected in selected) {
+        extractions.add(await extractApk(selected, folder: folder));
+      }
+
+      return MultipleApkExtraction(extractions);
+    } else {
+      return const MultipleApkExtraction([]);
+    }
   }
 
   /// Verify if a given [package] is selected

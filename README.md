@@ -40,9 +40,7 @@
 - [`🔗 device_apps`](https://pub.dev/packages/device_apps) 
 - [`🔗 flutter_launcher_icons`](https://pub.dev/packages/flutter_launcher_icons) 
 - [`🔗 nanoid`](https://pub.dev/packages/nanoid) <br> 
-- [`🔗 path`](https://pub.dev/packages/path)
 - [`🔗 fluttertoast`](https://pub.dev/packages/fluttertoast)
-- [`🔗 permission_handler`](https://pub.dev/packages/permission_handler) 
 - [`🔗 flutter`](https://flutter.dev/)
 
 <hr>
@@ -55,6 +53,8 @@ Please, fill a issue with a printscreen or a small description of the bug, thx.
 
 Any ideas are welcome, please add a issue to further discuss a feature or any improvement, thx.
 
+<samp>
+
 <h2 align="center">
   Open Source
 </h2>
@@ -65,3 +65,5 @@ Any ideas are welcome, please add a issue to further discuss a feature or any im
 <p align="center">
   <img src="https://user-images.githubusercontent.com/51419598/138740064-92e4c38a-e648-41b5-8432-da0962028f62.png" width="50" />
 </p>
+
+</samp>

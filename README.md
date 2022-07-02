@@ -25,20 +25,35 @@
   </div>
 </div>
 
-<hr>
+<br>
 
-### Art
+## What's an Apk Extractor
+
+Installed apps from PlayStore doesn't expose their apk installation files by default. So if you want to share the app you will need to send the PlayStore link. So if you are offline or the app is no longer available on the PlayStore you won't be able to share the app.
+
+So here we are, whatever the reason, if you want to share the app directly through a p2p connection (Bluetooth, Wifi-Direct, etc) you can use apk extractors! These kind of apps allow the user to extract the hidden apk files from almost any installed app to a visible location (e.g Downloads folder).
+
+## How it works
+
+To display all installed apps the [`🔗 device_apps`](https://pub.dev/packages/device_apps) package is used and the apk extraction (that is a simple copy/paste operation between two files) is possible by [`🔗 shared_storage`](https://pub.dev/packages/shared_storage) package.
+
+## Art
+
+Credits for all the illustrations used in the app.
 
 - [`🔗 Kanade Chan by closedworldopenwound`](https://www.deviantart.com/closedworldopenwound/art/Kanade-Chan-660321422)
 - [`🔗 ハムの上で寝てみたい by もちもち`](https://dotpict.net/works/3311931)
 
-### Fonts
+## Fonts
+
+The following fonts and tools were used in the app development.
 
 - [`🔗 FFF Forward`](https://www.1001fonts.com/fff-forward-font.html) 
 - [`🔗 Pixel Art Icons`](https://pixelarticons.com/) 
-- [`🔗 Flutter Icon - Svg to Font Bundler`](https://www.fluttericon.com/)
 
 ### Open Source Libraries
+
+Credits for all Flutter libraries that made it possible.
 
 - [`🔗 url_launcher`](https://pub.dev/packages/url_launcher)
 - [`🔗 shared_storage`](https://pub.dev/packages/shared_storage)

@@ -36,10 +36,14 @@
 
 ### Open Source Libraries
 
-- [`🔗 url_launcher`](https://pub.dev/packages/url_launcher) 
+- [`🔗 url_launcher`](https://pub.dev/packages/url_launcher)
+- [`🔗 shared_storage`](https://pub.dev/packages/shared_storage)
+- [`🔗 get_it`](https://pub.dev/packages/get_it)
+- [`🔗 shared_preferences`](https://pub.dev/packages/shared_preferences)
+- [`🔗 pixelarticons`](https://pub.dev/packages/pixelarticons)
 - [`🔗 device_apps`](https://pub.dev/packages/device_apps) 
 - [`🔗 flutter_launcher_icons`](https://pub.dev/packages/flutter_launcher_icons) 
-- [`🔗 nanoid`](https://pub.dev/packages/nanoid) <br> 
+- [`🔗 nanoid`](https://pub.dev/packages/nanoid)
 - [`🔗 fluttertoast`](https://pub.dev/packages/fluttertoast)
 - [`🔗 flutter`](https://flutter.dev/)
 

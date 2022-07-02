@@ -4,9 +4,9 @@ import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:kanade/constants/app_colors.dart';
 import 'package:kanade/constants/app_spacing.dart';
-import 'package:kanade/icons/pixel_art_icons.dart';
 import 'package:kanade/stores/contextual_menu.dart';
 import 'package:kanade/stores/device_apps.dart';
+import 'package:pixelarticons/pixel.dart';
 
 import 'app_icon_button.dart';
 
@@ -49,7 +49,7 @@ class _PackageTileState extends State<PackageTile>
         onTap: () => store.toggleSelect(widget.package),
         tooltip: 'Toggle Select',
         icon: Icon(
-          _isSelected ? PixelArt.checkbox : PixelArt.checkbox_on,
+          _isSelected ? Pixel.checkbox : Pixel.checkboxon,
         ),
       );
     }
@@ -76,7 +76,7 @@ class _PackageTileState extends State<PackageTile>
       child: Center(
         child: _hasIcon
             ? Image.memory(_icon!, gaplessPlayback: true)
-            : const Icon(PixelArt.android),
+            : const Icon(Pixel.android),
       ),
     );
   }
@@ -112,8 +112,6 @@ class _PackageTileState extends State<PackageTile>
       splashFactory: InkSplash.splashFactory,
       onTap: widget.onPressed,
       onLongPress: widget.onLongPress,
-      splashColor: kWhite03,
-      highlightColor: kWhite03,
       child: DecoratedBox(
         decoration: _createBoxDecoration(),
         child: _buildListTile(),

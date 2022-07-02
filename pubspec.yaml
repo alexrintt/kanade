@@ -18,6 +18,8 @@ dependencies:
   fluttertoast: ^8.0.8
   flutter:
     sdk: flutter
+  shared_preferences: ^2.0.15
+  pixelarticons: ^0.1.0
 
 dev_dependencies:
   flutter_launcher_icons: ^0.9.2
@@ -31,9 +33,6 @@ flutter:
     - assets/images/bottom.png
     - assets/images/pixel_animation.gif
   fonts:
-    - family: PixelArt
-      fonts:
-        - asset: assets/fonts/PixelArt.ttf
     - family: Inconsolata
       fonts:
         - asset: assets/fonts/Inconsolata-Regular.ttf

@@ -12,6 +12,8 @@ final appColors = base.copyWith(
   textTheme: base.textTheme.apply(fontFamily: kInConsolataFont),
   appBarTheme:
       base.appBarTheme.copyWith(backgroundColor: const Color(0xFF25262E)),
+  splashColor: kWhite03,
+  highlightColor: kWhite03,
   tooltipTheme: base.tooltipTheme.copyWith(
     textStyle: const TextStyle(color: kWhite100),
     decoration: BoxDecoration(

@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:kanade/setup.dart';
+import 'package:kanade/stores/settings.dart';
+import 'package:kanade/utils/stringify_uri_location.dart';
 import 'package:nanoid/async.dart';
 import 'package:shared_storage/shared_storage.dart';
 
@@ -115,6 +117,10 @@ class DeviceAppsStore extends ChangeNotifier {
 
   /// Whether loading device applications or not
   bool isLoading = false;
+  int? totalPackagesCount;
+  int? get loadedPackagesCount => isLoading ? apps.length : totalPackagesCount;
+  bool get fullyLoaded =>
+      !isLoading && loadedPackagesCount == totalPackagesCount;
 
   /// Load all device packages
   ///
@@ -124,6 +130,8 @@ class DeviceAppsStore extends ChangeNotifier {
 
     notifyListeners();
 
+    totalPackagesCount = await DeviceApps.getInstalledPackagesCount();
+
     final appsStream = DeviceApps.streamInstalledApplications(
       includeAppIcons: true,
       includeSystemApps: true,
@@ -131,7 +139,6 @@ class DeviceAppsStore extends ChangeNotifier {
 
     appsStream.listen(
       (app) {
-        isLoading = false;
         apps.add(app);
 
         notifyListeners();
@@ -172,6 +179,8 @@ class DeviceAppsStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  static const kApkMimeType = 'application/vnd.android.package-archive';
+
   /// Extract Apk of a [package]
   Future<ApkExtraction> extractApk(Application package, {Uri? folder}) async {
     final apkFile = File(package.apkFilePath);
@@ -180,23 +189,34 @@ class DeviceAppsStore extends ChangeNotifier {
     final apkFilename =
         '${package.appName}_${package.packageName}_${package.versionCode}_$id';
 
-    final parentFolder = folder ?? await openDocumentTree();
+    final parentFolder = folder ?? await requestExportLocation();
 
     if (parentFolder != null) {
-      await createFile(
+      final createdFile = await createFile(
         parentFolder,
-        mimeType: 'application/vnd.android.package-archive',
+        mimeType: kApkMimeType,
         displayName: apkFilename,
         bytes: await apkFile.readAsBytes(),
       );
 
-      return ApkExtraction(apkFile, Result.extracted);
-    } else {
-      return ApkExtraction(apkFile, Result.permissionDenied);
+      if (createdFile != null) {
+        return ApkExtraction(
+          File(stringifyDocumentUri(createdFile.uri)!),
+          Result.extracted,
+        );
+      }
     }
+
+    return ApkExtraction(apkFile, Result.permissionDenied);
   }
 
-  Future<Uri?> requestExportLocation() => openDocumentTree();
+  Future<Uri?> requestExportLocation() async {
+    await _settingsStore.requestExportLocationIfNotSet();
+
+    return _settingsStore.exportLocation;
+  }
+
+  SettingsStore get _settingsStore => getIt<SettingsStore>();
 
   /// Extract Apk of all [selected] apps
   Future<MultipleApkExtraction> extractSelectedApks() async {

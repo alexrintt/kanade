@@ -1,11 +1,15 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kanade/constants/app_colors.dart';
+import 'package:kanade/constants/app_spacing.dart';
 import 'package:kanade/constants/strings.dart';
-import 'package:kanade/icons/pixel_art_icons.dart';
+import 'package:kanade/setup.dart';
+import 'package:kanade/stores/settings.dart';
+import 'package:kanade/utils/stringify_uri_location.dart';
+import 'package:pixelarticons/pixelarticons.dart';
 import 'package:kanade/stores/contextual_menu.dart';
 import 'package:kanade/stores/device_apps.dart';
 import 'package:kanade/widgets/toast.dart';
+import 'package:pixelarticons/pixel.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'app_icon_button.dart';
@@ -21,6 +25,15 @@ class ContextualMenu extends StatefulWidget {
 /// only the [SliverAppBar] and not the entire [CustomScrollView]
 class _ContextualMenuState extends State<ContextualMenu>
     with ContextualMenuStoreConsumer, DeviceAppsStoreConsumer {
+  Future<void> _openSettingsPage() async {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        pageBuilder: (context, _, __) => const SettingsPage(),
+      ),
+    );
+  }
+
   Widget _buildSelectionMenu() {
     return SliverAppBar(
       title: AnimatedBuilder(
@@ -37,7 +50,7 @@ class _ContextualMenuState extends State<ContextualMenu>
           menuStore.showDefaultMenu();
           store.restoreToDefault();
         },
-        icon: const Icon(PixelArt.arrow_left),
+        icon: const Icon(Pixel.arrowleft),
       ),
       actions: [
         AppIconButton(
@@ -65,13 +78,13 @@ class _ContextualMenuState extends State<ContextualMenu>
                     'Some apk\'s are located in ${extractedTo?.absolute} but some apk\'s could not be extracted');
               } else if (result.success) {
                 showToast(context,
-                    'All apk\'s are located in ${extractedTo?.absolute}!');
+                    'All apk\'s are located in ${extractedTo?.absolute}');
               }
             } finally {
               Navigator.pop(context);
             }
           },
-          icon: const Icon(PixelArt.download),
+          icon: const Icon(Pixel.download),
         ),
         AppIconButton(
           tooltip: 'Select/Unselect All',
@@ -80,10 +93,10 @@ class _ContextualMenuState extends State<ContextualMenu>
             animation: store,
             builder: (context, child) {
               if (store.isAllSelected) {
-                return Icon(PixelArt.checkbox, color: kAccent100);
+                return const Icon(Pixel.checkbox, color: kAccent100);
               }
 
-              return const Icon(PixelArt.checkbox_on);
+              return const Icon(Pixel.checkboxon);
             },
           ),
         ),
@@ -109,7 +122,7 @@ class _ContextualMenuState extends State<ContextualMenu>
           menuStore.showDefaultMenu();
           store.restoreToDefault();
         },
-        icon: const Icon(PixelArt.arrow_left),
+        icon: const Icon(Pixel.arrowleft),
         tooltip: 'Back to default view',
       ),
     );
@@ -141,14 +154,19 @@ class _ContextualMenuState extends State<ContextualMenu>
       ),
       actions: [
         AppIconButton(
-          onTap: () => launch(kRepositoryUrl),
-          icon: const Icon(PixelArt.android),
+          onTap: () => launchUrl(Uri.parse(kRepositoryUrl)),
+          icon: const Icon(Pixel.android),
           tooltip: 'Open-Source Repository',
         ),
         AppIconButton(
           onTap: menuStore.showSearchMenu,
-          icon: const Icon(PixelArt.search),
+          icon: const Icon(Pixel.search),
           tooltip: 'Search Packages/Apps',
+        ),
+        AppIconButton(
+          onTap: _openSettingsPage,
+          icon: const Icon(Pixel.sliders),
+          tooltip: 'Configure Your Preferences',
         ),
       ],
       floating: true,
@@ -173,6 +191,90 @@ class _ContextualMenuState extends State<ContextualMenu>
 
         throw Exception('Got invalid menu configuration: $current');
       },
+    );
+  }
+}
+
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({Key? key}) : super(key: key);
+
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  SettingsStore? __settingsStore;
+  SettingsStore get _settingsStore =>
+      __settingsStore ??= getIt<SettingsStore>();
+
+  @override
+  void didUpdateWidget(covariant SettingsPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    __settingsStore = null; // Refresh store instance when updating the widget
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Settings'),
+        actions: [
+          AppIconButton(
+            icon: const Icon(Pixel.reload),
+            tooltip: 'Reset all preferences',
+            onTap: _settingsStore.reset,
+          ),
+        ],
+      ),
+      body: CustomScrollView(
+        slivers: [
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(vertical: k8dp),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate(
+                [
+                  Container(
+                    color: kCardColor,
+                    child: ListView(
+                      shrinkWrap: true,
+                      children: [
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: _settingsStore.requestExportLocation,
+                            child: AnimatedBuilder(
+                              animation: _settingsStore,
+                              builder: (context, child) {
+                                final exportLocation = stringifyTreeUri(
+                                  _settingsStore.exportLocation,
+                                );
+
+                                return ListTile(
+                                  tileColor: Colors.transparent,
+                                  contentPadding: const EdgeInsets.symmetric(
+                                    vertical: k3dp,
+                                    horizontal: k10dp,
+                                  ),
+                                  enableFeedback: true,
+                                  leading: const Icon(Pixel.folder),
+                                  title: const Text('Select export location'),
+                                  subtitle:
+                                      Text(exportLocation ?? 'Not defined'),
+                                  trailing: const Icon(Pixel.chevronright),
+                                );
+                              },
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

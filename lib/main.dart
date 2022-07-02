@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:kanade/pages/home_page.dart';
 import 'package:kanade/setup.dart';
 import 'package:kanade/widgets/no_glow_scroll_behavior.dart';
@@ -7,17 +6,8 @@ import 'package:kanade/widgets/no_glow_scroll_behavior.dart';
 import 'constants/app_colors.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  /// Set System Status Bar Color
-  SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(
-      statusBarColor: appColors.appBarTheme.backgroundColor,
-      statusBarIconBrightness: appColors.brightness,
-    ),
-  );
-
   await setup();
+  await init();
 
   runApp(const App());
 }

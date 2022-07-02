@@ -1,1 +1,1 @@
-const kRepositoryUrl = 'https://github.com/LaksCastro/kanade';
+const kRepositoryUrl = 'https://github.com/lakscastro/kanade';

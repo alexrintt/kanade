@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:kanade/constants/app_colors.dart';
+import 'package:kanade/constants/app_spacing.dart';
 import 'package:kanade/stores/contextual_menu.dart';
 import 'package:kanade/stores/device_apps.dart';
 import 'package:kanade/widgets/loading.dart';
@@ -30,15 +32,56 @@ class _HomePageState extends State<HomePage>
   Widget _buildHomeContent() {
     return MultiAnimatedBuilder(
       animations: [store, menuStore],
-      builder: (context, child) =>
-          store.isLoading ? const Loading() : const PackagesList(),
+      builder: (context, child) => store.isLoading && store.apps.isEmpty
+          ? const Loading()
+          : const PackagesList(),
     );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _buildHomeContent(),
+      body: Stack(
+        children: [
+          Positioned.fill(child: _buildHomeContent()),
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: SafeArea(
+              child: SizedBox(
+                height: k1dp,
+                child: AnimatedBuilder(
+                  animation: store,
+                  builder: (context, child) {
+                    if (store.fullyLoaded) {
+                      return const SizedBox.shrink();
+                    }
+
+                    final isDeterminatedState =
+                        store.totalPackagesCount != null ||
+                            store.loadedPackagesCount != null;
+
+                    double progress() {
+                      final state = store.loadedPackagesCount! /
+                          store.totalPackagesCount!;
+
+                      return state.clamp(0, 1);
+                    }
+
+                    return LinearProgressIndicator(
+                      minHeight: k2dp,
+                      color: kWhite100,
+                      backgroundColor: kWhite20,
+                      value: isDeterminatedState ? progress() : null,
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

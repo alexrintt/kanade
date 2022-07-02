@@ -1,13 +1,17 @@
 <p align="center">
   <img src="https://user-images.githubusercontent.com/51419598/138639694-77dc8fce-82ca-4032-9f95-a2585eaf33d0.png" width="150" />
 </p>
+<samp>
 <p align="center">⭐⭐⭐⭐⭐</p>
+<samp><h6 align="center">#android, #flutter, #apkextractor, #saf</h6></samp>
 <h1 align="center">Kanade - Apk Extractor</h1>
-<p align="center">Dark and Minimal Pixel Art based Apk Extractor for Android 4.1+</p>
+<p align="center">Dark and Minimal Pixel Art based Apk Extractor for Android 4.4+</p>
+</samp>
+
 <p align="center">
-  <img  src="https://img.shields.io/badge/application-apk_extractor-green" alt="Application Type" />
-  <img  src="https://img.shields.io/badge/language-dart-blue" alt="Repo Main Language" />
-  <img  src="https://img.shields.io/badge/android-4.1+-success" alt="Repo API" />
+  <img src="https://img.shields.io/badge/Dart-22272E?&style=for-the-badge&logo=dart&logoColor=2AAEE9">
+  <img src="https://img.shields.io/badge/Android 4.4+-22272E?style=for-the-badge&logo=android&logoColor=3BD580">
+  <img src="https://img.shields.io/badge/Apk Extractor-22272E?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABO1BMVEUkIiolJCs5OD43Njw4Nz0jIik4Nz0nJi0rKzE0Mzo8O0E/PkRCQUdFREo+PUM5OD4tLDM2NTtEQ0lkY2iOjZGnpqmpqKuSkZRpaG1KSU9EQ0hAP0U7OkBSUVempajq6uv////r6+upqateXWJIR00rKjE0MzlPTlS/v8Hz8/Pf3+Dd3d7w8PHEw8VHRks/PkMxMDejo6b9/f3Dw8V7en5hYGV5eHz5+fmrq61PT1Q1NDpfXmPp6epcW2BKSU54d3vi4eL+/v7r6+xtbXFHR0w4Nz6KiY14d3xGRkzT09SVlJfe3t9cXGFnZmv19fasq65NTFI4OD6Kio1HRkxQT1Q1NDttbHH4+PlGRUs2NTzr6uuqqaxIR0xDQkmNjZGmpqmoqKuRkZRpaGxFREk7OkE+PkRERElCQUY6OT/oLrcWAAAAB3RSTlOf+fmf+Z+f8gI33QAAAAFiS0dEILNrPYAAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfmBwIONByxVcQWAAAAzklEQVQY02NgYGTn4OTi5uHl5eHj52diBvIFBIWERUTFxCUkpaRlWBiAfFk5eQUgUFRSVpGWYVBVU9dQUNDU0tZRUNBV1tNnMOAzVDAyNjE10zBXULCwlGKwsrZRMLa1s3dwBOpycnZhcHVT0HT3UPcEmaLg6CXJwGWo4O0j7esHFlDwD8AUCAwCagkOQWgJRTE0LBjJ2nCgtepSDKqclkgOi9AHOj0S6vSoaOUYoNNBnosVjotPSEySTAZ5jpWRXZUzJZUnLTmdLyODhQ0AALcqrqU2+nAAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjItMDctMDJUMTQ6NTI6MTkrMDA6MDCedLOIAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIyLTA3LTAyVDE0OjUyOjE5KzAwOjAw7ykLNAAAAABJRU5ErkJggg==&logoColor=2F74C0">
 </p>
 
 <h3 align="center"></h3>
@@ -21,25 +25,44 @@
   </div>
 </div>
 
-<hr>
+<br>
 
-### Art
+## What's an Apk Extractor
+
+Installed apps from PlayStore doesn't expose their apk installation files by default. So if you want to share the app you will need to send the PlayStore link. So if you are offline or the app is no longer available on the PlayStore you won't be able to share the app.
+
+So here we are, whatever the reason, if you want to share the app directly through a p2p connection (Bluetooth, Wifi-Direct, etc) you can use apk extractors! These kind of apps allow the user to extract the hidden apk files from almost any installed app to a visible location (e.g Downloads folder).
+
+## How it works
+
+To display all installed apps the [`🔗 device_apps`](https://pub.dev/packages/device_apps) package is used and the apk extraction (that is a simple copy/paste operation between two files) is possible by [`🔗 shared_storage`](https://pub.dev/packages/shared_storage) package.
+
+## Art
+
+Credits for all the illustrations used in the app.
 
 - [`🔗 Kanade Chan by closedworldopenwound`](https://www.deviantart.com/closedworldopenwound/art/Kanade-Chan-660321422)
 - [`🔗 ハムの上で寝てみたい by もちもち`](https://dotpict.net/works/3311931)
 
-### Fonts
+## Fonts
+
+The following fonts and tools were used in the app development.
 
 - [`🔗 FFF Forward`](https://www.1001fonts.com/fff-forward-font.html) 
 - [`🔗 Pixel Art Icons`](https://pixelarticons.com/) 
-- [`🔗 Flutter Icon - Svg to Font Bundler`](https://www.fluttericon.com/)
 
 ### Open Source Libraries
 
-- [`🔗 url_launcher`](https://pub.dev/packages/url_launcher) 
+Credits for all Flutter libraries that made it possible.
+
+- [`🔗 url_launcher`](https://pub.dev/packages/url_launcher)
+- [`🔗 shared_storage`](https://pub.dev/packages/shared_storage)
+- [`🔗 get_it`](https://pub.dev/packages/get_it)
+- [`🔗 shared_preferences`](https://pub.dev/packages/shared_preferences)
+- [`🔗 pixelarticons`](https://pub.dev/packages/pixelarticons)
 - [`🔗 device_apps`](https://pub.dev/packages/device_apps) 
 - [`🔗 flutter_launcher_icons`](https://pub.dev/packages/flutter_launcher_icons) 
-- [`🔗 nanoid`](https://pub.dev/packages/nanoid) <br> 
+- [`🔗 nanoid`](https://pub.dev/packages/nanoid)
 - [`🔗 fluttertoast`](https://pub.dev/packages/fluttertoast)
 - [`🔗 flutter`](https://flutter.dev/)
 

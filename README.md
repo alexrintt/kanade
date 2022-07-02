@@ -1,13 +1,17 @@
 <p align="center">
   <img src="https://user-images.githubusercontent.com/51419598/138639694-77dc8fce-82ca-4032-9f95-a2585eaf33d0.png" width="150" />
 </p>
+<samp>
 <p align="center">⭐⭐⭐⭐⭐</p>
+<samp><h6 align="center">#android, #flutter, #apkextractor, #saf</h6></samp>
 <h1 align="center">Kanade - Apk Extractor</h1>
 <p align="center">Dark and Minimal Pixel Art based Apk Extractor for Android 4.4+</p>
+</samp>
+
 <p align="center">
-  <img  src="https://img.shields.io/badge/application-apk_extractor-green" alt="Application Type" />
-  <img  src="https://img.shields.io/badge/language-dart-blue" alt="Repo Main Language" />
-  <img  src="https://img.shields.io/badge/android-4.1+-success" alt="Repo API" />
+  <img src="https://img.shields.io/badge/Dart-22272E?&style=for-the-badge&logo=dart&logoColor=2AAEE9">
+  <img src="https://img.shields.io/badge/Android 4.4+-22272E?style=for-the-badge&logo=android&logoColor=3BD580">
+  <img src="https://img.shields.io/badge/Apk Extractor-22272E?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABO1BMVEUkIiolJCs5OD43Njw4Nz0jIik4Nz0nJi0rKzE0Mzo8O0E/PkRCQUdFREo+PUM5OD4tLDM2NTtEQ0lkY2iOjZGnpqmpqKuSkZRpaG1KSU9EQ0hAP0U7OkBSUVempajq6uv////r6+upqateXWJIR00rKjE0MzlPTlS/v8Hz8/Pf3+Dd3d7w8PHEw8VHRks/PkMxMDejo6b9/f3Dw8V7en5hYGV5eHz5+fmrq61PT1Q1NDpfXmPp6epcW2BKSU54d3vi4eL+/v7r6+xtbXFHR0w4Nz6KiY14d3xGRkzT09SVlJfe3t9cXGFnZmv19fasq65NTFI4OD6Kio1HRkxQT1Q1NDttbHH4+PlGRUs2NTzr6uuqqaxIR0xDQkmNjZGmpqmoqKuRkZRpaGxFREk7OkE+PkRERElCQUY6OT/oLrcWAAAAB3RSTlOf+fmf+Z+f8gI33QAAAAFiS0dEILNrPYAAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfmBwIONByxVcQWAAAAzklEQVQY02NgYGTn4OTi5uHl5eHj52diBvIFBIWERUTFxCUkpaRlWBiAfFk5eQUgUFRSVpGWYVBVU9dQUNDU0tZRUNBV1tNnMOAzVDAyNjE10zBXULCwlGKwsrZRMLa1s3dwBOpycnZhcHVT0HT3UPcEmaLg6CXJwGWo4O0j7esHFlDwD8AUCAwCagkOQWgJRTE0LBjJ2nCgtepSDKqclkgOi9AHOj0S6vSoaOUYoNNBnosVjotPSEySTAZ5jpWRXZUzJZUnLTmdLyODhQ0AALcqrqU2+nAAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjItMDctMDJUMTQ6NTI6MTkrMDA6MDCedLOIAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIyLTA3LTAyVDE0OjUyOjE5KzAwOjAw7ykLNAAAAABJRU5ErkJggg==&logoColor=2F74C0">
 </p>
 
 <h3 align="center"></h3>

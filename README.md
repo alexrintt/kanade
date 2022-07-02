@@ -3,7 +3,7 @@
 </p>
 <p align="center">⭐⭐⭐⭐⭐</p>
 <h1 align="center">Kanade - Apk Extractor</h1>
-<p align="center">Dark and Minimal Pixel Art based Apk Extractor for Android 4.1+</p>
+<p align="center">Dark and Minimal Pixel Art based Apk Extractor for Android 4.4+</p>
 <p align="center">
   <img  src="https://img.shields.io/badge/application-apk_extractor-green" alt="Application Type" />
   <img  src="https://img.shields.io/badge/language-dart-blue" alt="Repo Main Language" />

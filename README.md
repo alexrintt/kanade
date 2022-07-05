@@ -7,7 +7,7 @@
 
 
 <h1 align="center">Kanade - Apk Extractor</h1>
-<p align="center">Dark and Minimal Pixel Art based Apk Extractor for Android 4.4+</p>
+<p align="center"><samp>Dark and Minimal Pixel Art based Apk Extractor for Android 4.4+</samp></p>
 </samp>
 
 <p align="center">

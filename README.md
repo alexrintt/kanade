@@ -99,7 +99,7 @@ Any ideas are welcome, please add a issue to further discuss a feature or any im
   Open Source
 </h2>
 <p align="center">
-  <sub>Copyright © 2020-present, Laks Castro.</sub>
+  <sub>Copyright © 2021-present, Laks Castro.</sub>
 </p>
 <p align="center">Kanade <a href="https://github.com/LaksCastro/kanade/blob/master/LICENSE.md">is MIT licensed 💖</a></p>
 <p align="center">

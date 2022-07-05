@@ -2,11 +2,17 @@
   <img src="https://user-images.githubusercontent.com/51419598/138639694-77dc8fce-82ca-4032-9f95-a2585eaf33d0.png" width="150" />
 </p>
 <samp>
-<p align="center">⭐⭐⭐⭐⭐</p>
+
 <samp><h6 align="center">#android, #flutter, #apkextractor, #saf</h6></samp>
+
+
 <h1 align="center">Kanade - Apk Extractor</h1>
 <p align="center">Dark and Minimal Pixel Art based Apk Extractor for Android 4.4+</p>
 </samp>
+
+<p align="center">
+  <a href="https://play.google.com/store/apps/details?id=io.lakscastro.kanade"><img alt="Get it on Google Play" src="https://user-images.githubusercontent.com/51419598/170156499-fc45733a-2701-4386-be72-f28181c87cf0.png"/></a>
+</p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Dart-22272E?&style=for-the-badge&logo=dart&logoColor=2AAEE9">
@@ -26,6 +32,17 @@
 </div>
 
 <br>
+
+## How to install
+
+You can either download the apk from releases tab or check out on Play Store.
+
+- Download the fat apk through [releases tab](https://github.com/lakscastro/kanade/releases).
+- Install the app from Play Store at [io.lakscastro.kanade](https://play.google.com/store/apps/details?id=io.lakscastro.kanade).
+
+<p>
+  <a href="https://play.google.com/store/apps/details?id=io.lakscastro.kanade"><img alt="Get it on Google Play" src="https://user-images.githubusercontent.com/51419598/170156499-fc45733a-2701-4386-be72-f28181c87cf0.png"/></a>
+</p>
 
 ## What's an Apk Extractor
 

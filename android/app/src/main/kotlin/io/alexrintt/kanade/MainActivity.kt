@@ -1,4 +1,4 @@
-package io.lakscastro.kanade
+package io.alexrintt.kanade
 
 import io.flutter.embedding.android.FlutterActivity
 

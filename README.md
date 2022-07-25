@@ -5,13 +5,12 @@
 
 <samp><h6 align="center">#android, #flutter, #apkextractor, #saf</h6></samp>
 
-
 <h1 align="center">Kanade - Apk Extractor</h1>
 <p align="center"><samp>Dark and Minimal Pixel Art based Apk Extractor for Android 4.4+</samp></p>
 </samp>
 
 <p align="center">
-  <a href="https://play.google.com/store/apps/details?id=io.lakscastro.kanade"><img alt="Get it on Google Play" src="https://user-images.githubusercontent.com/51419598/170156499-fc45733a-2701-4386-be72-f28181c87cf0.png"/></a>
+  <a href="https://play.google.com/store/apps/details?id=io.alexrintt.kanade"><img alt="Get it on Google Play" src="https://user-images.githubusercontent.com/51419598/170156499-fc45733a-2701-4386-be72-f28181c87cf0.png"/></a>
 </p>
 
 <p align="center">
@@ -37,11 +36,11 @@
 
 You can either download the apk from releases tab or check out on Play Store.
 
-- Download the fat apk through [releases tab](https://github.com/lakscastro/kanade/releases).
-- Install the app from Play Store at [io.lakscastro.kanade](https://play.google.com/store/apps/details?id=io.lakscastro.kanade).
+- Download the fat apk through [releases tab](https://github.com/alexrintt/kanade/releases).
+- Install the app from Play Store at [io.alexrintt.kanade](https://play.google.com/store/apps/details?id=io.alexrintt.kanade).
 
 <p>
-  <a href="https://play.google.com/store/apps/details?id=io.lakscastro.kanade"><img alt="Get it on Google Play" src="https://user-images.githubusercontent.com/51419598/170156499-fc45733a-2701-4386-be72-f28181c87cf0.png"/></a>
+  <a href="https://play.google.com/store/apps/details?id=io.alexrintt.kanade"><img alt="Get it on Google Play" src="https://user-images.githubusercontent.com/51419598/170156499-fc45733a-2701-4386-be72-f28181c87cf0.png"/></a>
 </p>
 
 ## What's an Apk Extractor
@@ -65,8 +64,8 @@ Credits for all the illustrations used in the app.
 
 The following fonts and tools were used in the app development.
 
-- [`🔗 FFF Forward`](https://www.1001fonts.com/fff-forward-font.html) 
-- [`🔗 Pixel Art Icons`](https://pixelarticons.com/) 
+- [`🔗 FFF Forward`](https://www.1001fonts.com/fff-forward-font.html)
+- [`🔗 Pixel Art Icons`](https://pixelarticons.com/)
 
 ### Open Source Libraries
 
@@ -77,8 +76,8 @@ Credits for all Flutter libraries that made it possible.
 - [`🔗 get_it`](https://pub.dev/packages/get_it)
 - [`🔗 shared_preferences`](https://pub.dev/packages/shared_preferences)
 - [`🔗 pixelarticons`](https://pub.dev/packages/pixelarticons)
-- [`🔗 device_apps`](https://pub.dev/packages/device_apps) 
-- [`🔗 flutter_launcher_icons`](https://pub.dev/packages/flutter_launcher_icons) 
+- [`🔗 device_apps`](https://pub.dev/packages/device_apps)
+- [`🔗 flutter_launcher_icons`](https://pub.dev/packages/flutter_launcher_icons)
 - [`🔗 nanoid`](https://pub.dev/packages/nanoid)
 - [`🔗 fluttertoast`](https://pub.dev/packages/fluttertoast)
 - [`🔗 flutter`](https://flutter.dev/)
@@ -99,9 +98,9 @@ Any ideas are welcome, please add a issue to further discuss a feature or any im
   Open Source
 </h2>
 <p align="center">
-  <sub>Copyright © 2021-present, Laks Castro.</sub>
+  <sub>Copyright © 2021-present, Alex Rintt.</sub>
 </p>
-<p align="center">Kanade <a href="https://github.com/LaksCastro/kanade/blob/master/LICENSE.md">is MIT licensed 💖</a></p>
+<p align="center">Kanade <a href="https://github.com/alexrintt/kanade/blob/master/LICENSE.md">is MIT licensed 💖</a></p>
 <p align="center">
   <img src="https://user-images.githubusercontent.com/51419598/138740064-92e4c38a-e648-41b5-8432-da0962028f62.png" width="50" />
 </p>

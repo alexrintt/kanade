@@ -10,7 +10,7 @@ dependencies:
   shared_storage: ^0.4.0
   device_apps:
     git:
-      url: https://github.com/lakscastro/flutter_plugin_device_apps
+      url: https://github.com/alexrintt/flutter_plugin_device_apps
       ref: 6051e51fd78778f848eca870ec51a0367b5d2fd9
   get_it: ^7.2.0
   url_launcher: ^6.0.12

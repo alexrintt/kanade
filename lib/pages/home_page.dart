@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage>
     super.initState();
 
     SchedulerBinding.instance
-        ?.addPostFrameCallback((timeStamp) => _loadDevicePackages());
+        .addPostFrameCallback((timestamp) => _loadDevicePackages());
   }
 
   void _loadDevicePackages() async {

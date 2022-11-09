@@ -1,3 +1,8 @@
+## 0.2.1
+
+- Update app version ID to `versionCode: 2`.
+- Remove legacy app id and use the new one, so the app will be installed as duplicated, you can just uninstall the old one.
+
 ## 0.2.0-alpha
 
 Privacy and performance were improved:

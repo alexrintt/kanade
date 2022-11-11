@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage>
                     }
 
                     final isDeterminatedState =
-                        store.totalPackagesCount != null ||
+                        store.totalPackagesCount != null &&
                             store.loadedPackagesCount != null;
 
                     double progress() {

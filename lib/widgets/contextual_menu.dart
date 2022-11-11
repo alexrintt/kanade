@@ -10,7 +10,6 @@ import 'package:kanade/stores/contextual_menu.dart';
 import 'package:kanade/stores/device_apps.dart';
 import 'package:kanade/widgets/toast.dart';
 import 'package:pixelarticons/pixel.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import 'app_icon_button.dart';
 
@@ -153,11 +152,6 @@ class _ContextualMenuState extends State<ContextualMenu>
         ),
       ),
       actions: [
-        AppIconButton(
-          onTap: () => launchUrl(Uri.parse(kRepositoryUrl)),
-          icon: const Icon(Pixel.android),
-          tooltip: 'Open-Source Repository',
-        ),
         AppIconButton(
           onTap: menuStore.showSearchMenu,
           icon: const Icon(Pixel.search),

@@ -13,7 +13,6 @@ dependencies:
       url: https://github.com/alexrintt/flutter_plugin_device_apps
       ref: 6051e51fd78778f848eca870ec51a0367b5d2fd9
   get_it: ^7.2.0
-  url_launcher: ^6.0.12
   nanoid: ^1.0.0
   fluttertoast: ^8.0.8
   flutter:

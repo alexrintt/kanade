@@ -195,7 +195,7 @@ class ThemeStore extends ChangeNotifier {
       secondaryColor: kSecondaryColor,
       textColor: Colors.white70,
       headlineColor: Colors.white,
-      disabledColor: Color.fromARGB(255, 78, 78, 78),
+      disabledColor: const Color.fromARGB(255, 78, 78, 78),
       base: ThemeData.dark(),
       fontFamily: _currentFontFamily,
     );

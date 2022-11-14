@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/extensions/extensions.dart';
-import 'package:kanade/pages/settings_page.dart';
 import 'package:kanade/setup.dart';
 import 'package:kanade/stores/theme.dart';
 import 'package:kanade/widgets/multi_animated_builder.dart';

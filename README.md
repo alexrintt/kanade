@@ -35,8 +35,6 @@ PlayStore link, add again when the new version is available.
 <details>
   <summary>See full screenshots</summary>
 
-<p>
-
 <div align="center">
   <kbd><img src="https://user-images.githubusercontent.com/51419598/201553717-5bd941db-4320-4301-bfdf-dbde2b890f4f.jpg" width="200"></kbd>
   <kbd><img src="https://user-images.githubusercontent.com/51419598/201553719-0237de04-0307-425d-bd8f-eb9ac3ef3dcb.jpg" width="200"></kbd>
@@ -65,20 +63,42 @@ PlayStore link, add again when the new version is available.
   <kbd><img src="https://user-images.githubusercontent.com/51419598/201552689-95bbfd82-8f26-41cd-98c2-46986a6affa6.jpg" width="200" /></kbd>
 </div>
   
-</p>
 </details>
 
 <br>
 
 ## How to install
 
-Download the apk from the [releases tab](https://github.com/alexrintt/kanade/releases).
+Download the latest apk on [releases tab](https://github.com/alexrintt/kanade/releases).
 
 ## What's an Apk Extractor
 
 Installed apps from PlayStore doesn't expose their apk installation files by default. So if you want to share the app you will need to send the PlayStore link. So if you are offline or the app is no longer available on the PlayStore you won't be able to share the app.
 
-So here we are, whatever the reason, if you want to share the app directly through a p2p connection (Bluetooth, Wifi-Direct, etc) you can use apk extractors! These kind of apps allow the user to extract the hidden apk files from almost any installed app to a visible location (e.g Downloads folder).
+So here we are, whatever the reason, if you want to share the app directly through a p2p connection (Bluetooth, Wifi-Direct, etc.) you can use apk extractors! These kind of apps allow the user to extract the hidden apk files from almost any installed app to a visible location (e.g Downloads folder).
+
+## Features
+
+This is what we offer
+
+- Apk extraction, I'm sure you are not expecting that.
+- Multiple apk extraction at once.
+- Select/deselect all.
+- List and search device apps (and internal packages).
+- Extract to a desired location, lost my fear of `MANAGE_EXTERNAL_STORAGE` and `File('/emulated/0').delete()`.
+- Multiple color themes and font families.
+- ~~Bad designer~~ Minimalist UI.
+- No ads or tracking, this app doesn't even has `INTERNET` permission.
+
+## Missing features
+
+Listed by priority:
+
+- List extracted apks files inside the app (A).
+- Uninstall app (B).
+- Share listed apk through bluetooth or wifi-direct (C, requires A).
+- Analyze apk metainfo (name, version, package, etc.) (D).
+- Sign-in apk (E).
 
 ## How it works
 

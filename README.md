@@ -88,17 +88,15 @@ To display all installed apps the [`🔗 device_apps`](https://pub.dev/packages/
 
 To report a bug, create a new issue with an screenshot or a small description of the bug, thanks.
 
-To request a feature answer please add an issue to further discuss a feature or any improvement, thx.
-
-To request some content removal, please, ping me on my email [reach@alexrintt.io](mailto:reach@alexrintt.io).
+To request a feature please add an issue to further discuss, thx.
 
 ## Credits
 
-Feel free to generate all open-source libraries licenses using [`flutter_oss_licenses`](https://pub.dev/packages/flutter_oss_licenses) package.
+- Credits to all open-source libraries used in this app, see full list on [pubspec.yaml](/pubspec.yaml).
+- All fonts in this repository are subject to copyright of it's respective owners.
+- All images in this repository are subject to copyright of it's respective owners.
 
-All images goes to their original authors (Kanade icon).
-
-Original image subject to copyright.
+For content removal, please, ping me on my email [reach@alexrintt.io](mailto:reach@alexrintt.io).
 
 <br />
 
@@ -110,7 +108,7 @@ Original image subject to copyright.
 <p align="center">
   <sub>Copyright © 2021-present, Alex Rintt.</sub>
 </p>
-<p align="center">Kanade <a href="https://github.com/alexrintt/kanade/blob/master/LICENSE.md">is MIT licensed 💖</a></p>
+<p align="center">Kanade <a href="https://github.com/alexrintt/kanade/blob/master/LICENSE">is MIT licensed 💖</a></p>
 <p align="center">
   <img src="https://user-images.githubusercontent.com/51419598/138740064-92e4c38a-e648-41b5-8432-da0962028f62.png" width="50" />
 </p>

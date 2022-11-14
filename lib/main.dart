@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kanade/pages/home_page.dart';
 import 'package:kanade/setup.dart';
+import 'package:kanade/stores/theme.dart';
 import 'package:kanade/widgets/no_glow_scroll_behavior.dart';
-
-import 'constants/app_colors.dart';
 
 Future<void> main() async {
   await setup();
@@ -17,16 +16,21 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: appColors,
+    return AnimatedBuilder(
+      animation: getIt<ThemeStore>(),
       builder: (context, child) {
-        return ScrollConfiguration(
-          behavior: NoGlowScrollBehavior(),
-          child: child!,
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: getIt<ThemeStore>().currentThemeData,
+          builder: (context, child) {
+            return ScrollConfiguration(
+              behavior: NoGlowScrollBehavior(),
+              child: child!,
+            );
+          },
+          home: const HomePage(),
         );
       },
-      home: const HomePage(),
     );
   }
 }

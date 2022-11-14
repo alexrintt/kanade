@@ -1,28 +1,34 @@
 name: kanade
 description: "🌾 Minimal Dark and Monochrome Apk Extractor App available for Android 4.4+"
 publish_to: "none"
-version: 0.2.1+2
+version: 0.3.0+3
 
 environment:
   sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
-  shared_storage: ^0.4.0
+  shared_storage: ^0.6.0
   device_apps:
     git:
       url: https://github.com/alexrintt/flutter_plugin_device_apps
       ref: 6051e51fd78778f848eca870ec51a0367b5d2fd9
+  flutter_shared_tools:
+    git:
+      url: https://github.com/alexrintt/flutter-shared-tools
+      ref: master
   get_it: ^7.2.0
   nanoid: ^1.0.0
   fluttertoast: ^8.0.8
   flutter:
     sdk: flutter
   shared_preferences: ^2.0.15
-  pixelarticons: ^0.1.0
+  pixelarticons: ^0.4.0
+  url_launcher: ^6.1.6
+  package_info_plus: ^3.0.1
 
 dev_dependencies:
   flutter_launcher_icons: ^0.9.2
-  flutter_lints: ^1.0.0
+  flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
 
@@ -30,12 +36,14 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/bottom.png
-    - assets/images/pixel_animation.gif
   fonts:
     - family: Inconsolata
       fonts:
         - asset: assets/fonts/Inconsolata-Regular.ttf
-        - asset: assets/fonts/Inconsolata-Bold.ttf
+          weight: 700
+    - family: Roboto Mono
+      fonts:
+        - asset: assets/fonts/RobotoMono-Regular.ttf
           weight: 700
     - family: Forward
       fonts:

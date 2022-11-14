@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:kanade/constants/app_colors.dart';
-import 'package:kanade/constants/app_spacing.dart';
+import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:kanade/stores/contextual_menu.dart';
 import 'package:kanade/stores/device_apps.dart';
 import 'package:kanade/widgets/loading.dart';
@@ -25,7 +24,7 @@ class _HomePageState extends State<HomePage>
         .addPostFrameCallback((timestamp) => _loadDevicePackages());
   }
 
-  void _loadDevicePackages() async {
+  Future<void> _loadDevicePackages() async {
     await store.loadPackages();
   }
 
@@ -35,6 +34,28 @@ class _HomePageState extends State<HomePage>
       builder: (context, child) => store.isLoading && store.apps.isEmpty
           ? const Loading()
           : const PackagesList(),
+    );
+  }
+
+  Widget _loadingIndicatorBuilder(BuildContext context, Widget? child) {
+    if (store.fullyLoaded) {
+      return const SizedBox.shrink();
+    }
+
+    final isDeterminatedState =
+        store.totalPackagesCount != null && store.loadedPackagesCount != null;
+
+    double progress() {
+      final state = store.loadedPackagesCount! / store.totalPackagesCount!;
+
+      return state.clamp(0, 1);
+    }
+
+    return LinearProgressIndicator(
+      minHeight: k2dp,
+      color: context.theme.primaryColor,
+      backgroundColor: context.theme.cardColor,
+      value: isDeterminatedState ? progress() : null,
     );
   }
 
@@ -50,32 +71,10 @@ class _HomePageState extends State<HomePage>
             right: 0,
             child: SafeArea(
               child: SizedBox(
-                height: k1dp,
+                height: k2dp,
                 child: AnimatedBuilder(
                   animation: store,
-                  builder: (context, child) {
-                    if (store.fullyLoaded) {
-                      return const SizedBox.shrink();
-                    }
-
-                    final isDeterminatedState =
-                        store.totalPackagesCount != null &&
-                            store.loadedPackagesCount != null;
-
-                    double progress() {
-                      final state = store.loadedPackagesCount! /
-                          store.totalPackagesCount!;
-
-                      return state.clamp(0, 1);
-                    }
-
-                    return LinearProgressIndicator(
-                      minHeight: k2dp,
-                      color: kWhite100,
-                      backgroundColor: kWhite20,
-                      value: isDeterminatedState ? progress() : null,
-                    );
-                  },
+                  builder: _loadingIndicatorBuilder,
                 ),
               ),
             ),

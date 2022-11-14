@@ -9,7 +9,6 @@ class AnimatedAppName extends StatefulWidget {
 
   final Color? dimmedColor;
   final Color? highlightColor;
-  final Color? backgroundColor;
   final String? fontFamily;
   final String? text;
 
@@ -18,7 +17,6 @@ class AnimatedAppName extends StatefulWidget {
     this.size,
     this.dimmedColor,
     this.highlightColor,
-    this.backgroundColor,
     this.fontFamily,
     this.text,
   }) : super(key: key);
@@ -43,7 +41,7 @@ class _AnimatedAppNameState extends State<AnimatedAppName>
       ),
     )..repeat();
 
-    _curve = CurvedAnimation(parent: _controller, curve: Curves.easeOutSine);
+    _curve = CurvedAnimation(parent: _controller, curve: Curves.linear);
   }
 
   @override
@@ -52,19 +50,14 @@ class _AnimatedAppNameState extends State<AnimatedAppName>
     super.dispose();
   }
 
-  Color get defaultBackgroundColor =>
-      context.theme.appBarTheme.backgroundColor!;
   Color get defaultDimmedColor => context.theme.disabledColor;
-  Color get defaultHighlightColor =>
-      themeStore.currentThemeBrightness == Brightness.light
-          ? Colors.transparent
-          : context.theme.primaryColor.withOpacity(.25);
+  Color get defaultHighlightColor => context.primaryColor.withOpacity(.5);
+
+  String get _text => widget.text ?? packageInfo.appName;
 
   @override
   Widget build(BuildContext context) {
-    final text = widget.text ?? packageInfo.appName;
-
-    final textPainter = AnimatedAppNameLetterPainter.createTextPainter(text);
+    final textPainter = AnimatedAppNamePainter.createTextPainter(_text);
 
     return ClipRRect(
       clipBehavior: Clip.hardEdge,
@@ -72,19 +65,14 @@ class _AnimatedAppNameState extends State<AnimatedAppName>
         animations: [_controller, themeStore],
         builder: (context, child) {
           return CustomPaint(
-            painter: AnimatedAppNameLightPainter(
-              text: text,
+            painter: AnimatedAppNamePainter(
+              text: _text,
               fontFamily: widget.fontFamily,
               dimmedColor: widget.dimmedColor ?? defaultDimmedColor,
               highlightColor: widget.highlightColor ?? defaultHighlightColor,
-              backgroundColor: widget.backgroundColor ?? defaultBackgroundColor,
-              value: _curve.value,
-            ),
-            foregroundPainter: AnimatedAppNameLetterPainter(
-              dimmedColor: widget.dimmedColor ?? defaultDimmedColor,
-              highlightColor: widget.highlightColor ?? defaultHighlightColor,
-              backgroundColor: widget.backgroundColor ?? defaultBackgroundColor,
-              text: packageInfo.appName,
+              value: themeStore.currentThemeBrightness == Brightness.light
+                  ? 0
+                  : _curve.value,
             ),
             willChange: true,
             size: widget.size ?? Size(textPainter.width, textPainter.height),
@@ -95,10 +83,9 @@ class _AnimatedAppNameState extends State<AnimatedAppName>
   }
 }
 
-class AnimatedAppNameLightPainter extends CustomPainter {
+class AnimatedAppNamePainter extends CustomPainter {
   final Color dimmedColor;
   final Color highlightColor;
-  final Color backgroundColor;
   final double value;
 
   late TextPainter _textPainter;
@@ -106,95 +93,24 @@ class AnimatedAppNameLightPainter extends CustomPainter {
   Offset _textOffsetFrom(Size size) =>
       Offset(0, size.height / 2 - _textPainter.size.height / 2);
 
-  AnimatedAppNameLightPainter({
+  AnimatedAppNamePainter({
     required this.dimmedColor,
     required this.highlightColor,
-    required this.backgroundColor,
     required this.value,
     required String text,
     String? fontFamily,
   }) {
-    _textPainter = AnimatedAppNameLetterPainter.createTextPainter(
+    _textPainter = createTextPainter(
       text,
       fontFamily: fontFamily ?? 'Forward',
+      color: dimmedColor,
     );
-  }
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final textOffset = _textOffsetFrom(size);
-
-    final startX = textOffset.dx - _textPainter.width;
-    final finalX = textOffset.dx + _textPainter.width * 2;
-
-    final startY = textOffset.dx + _textPainter.height * 2;
-    final finalY = textOffset.dx - _textPainter.height * 2;
-
-    final clipRect = Rect.fromLTWH(
-      textOffset.dx,
-      textOffset.dy,
-      _textPainter.width,
-      _textPainter.height,
-    );
-
-    final backgroundRect = Rect.fromLTWH(
-      textOffset.dx,
-      textOffset.dy,
-      finalX - startX,
-      _textPainter.height,
-    );
-
-    canvas.clipRect(clipRect);
-    canvas.drawRect(backgroundRect, Paint()..color = dimmedColor);
-
-    final radius = _textPainter.height;
-
-    final progressX = startX + (finalX - startX) * value;
-    final progressY = startY - (finalY - startY).abs() * value;
-
-    canvas.drawCircle(
-      Offset(progressX, progressY),
-      radius,
-      Paint()
-        ..color = highlightColor
-        ..maskFilter = MaskFilter.blur(
-          BlurStyle.normal,
-          _convertRadiusToSigma(radius),
-        ),
-    );
-  }
-
-  static double _convertRadiusToSigma(double radius) {
-    return radius * 0.57735 + 0.5;
-  }
-
-  @override
-  bool shouldRepaint(covariant AnimatedAppNameLightPainter oldDelegate) => true;
-}
-
-class AnimatedAppNameLetterPainter extends CustomPainter {
-  final Color dimmedColor;
-  final Color highlightColor;
-  final Color backgroundColor;
-
-  late TextPainter _textPainter;
-
-  Offset _textOffsetFrom(Size size) =>
-      Offset(0, size.height / 2 - _textPainter.size.height / 2);
-
-  AnimatedAppNameLetterPainter({
-    required this.dimmedColor,
-    required this.highlightColor,
-    required this.backgroundColor,
-    required String text,
-    String fontFamily = 'Forward',
-  }) {
-    _textPainter = createTextPainter(text, fontFamily: fontFamily);
   }
 
   static TextPainter createTextPainter(
     String text, {
     String fontFamily = 'Forward',
+    Color? color,
   }) {
     return TextPainter(
       text: TextSpan(
@@ -202,6 +118,7 @@ class AnimatedAppNameLetterPainter extends CustomPainter {
         style: TextStyle(
           fontFamily: fontFamily,
           height: 2,
+          color: color,
         ),
       ),
       textDirection: TextDirection.ltr,
@@ -212,31 +129,52 @@ class AnimatedAppNameLetterPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     canvas.saveLayer(
       Rect.fromLTWH(0, 0, size.width, size.height),
-      Paint(),
+      Paint()..color = Colors.black,
     );
 
     final textOffset = _textOffsetFrom(size);
+
+    final baseRadius = _textPainter.height;
+
+    final sigma = _convertRadiusToSigma(baseRadius);
+
+    // Times 2 to add a natural delay between each "highlight" effect.
+    final radius = baseRadius + sigma * 2;
+
+    // Sigma increases the "highlight" effect radius, so we need to consider it
+    // when compututing our circle X position.
+    final startX = textOffset.dx - radius;
+    final finalX = startX + radius + _textPainter.width + radius;
+
+    final progressX = startX + (finalX - startX) * value;
 
     _textPainter.paint(
       canvas,
       Offset.zero + textOffset,
     );
 
-    canvas.drawRect(
-      Rect.fromLTWH(
-        textOffset.dx,
-        textOffset.dy,
-        _textPainter.size.width,
-        _textPainter.size.height,
-      ),
+    canvas.drawCircle(
+      Offset(progressX, textOffset.dy + _textPainter.height / 2),
+      baseRadius,
       Paint()
-        ..blendMode = BlendMode.srcOut
-        ..color = backgroundColor,
+        ..color = highlightColor
+        ..maskFilter = MaskFilter.blur(
+          BlurStyle.normal,
+          sigma,
+        )
+        ..blendMode = BlendMode.srcIn,
     );
+
     canvas.restore();
   }
 
+  static double _convertRadiusToSigma(double radius) {
+    return radius * 0.57735 + 0.5;
+  }
+
   @override
-  bool shouldRepaint(covariant AnimatedAppNameLetterPainter oldDelegate) =>
-      true;
+  bool shouldRepaint(covariant AnimatedAppNamePainter oldDelegate) =>
+      oldDelegate.dimmedColor != dimmedColor ||
+      oldDelegate.highlightColor != highlightColor ||
+      oldDelegate.value != value;
 }

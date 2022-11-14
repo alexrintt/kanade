@@ -85,9 +85,6 @@ class _PackageTileState extends State<PackageTile>
       widget.package.packageName,
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
-      style: TextStyle(
-        color: context.theme.disabledColor.withOpacity(0.6),
-      ),
     );
   }
 

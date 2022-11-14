@@ -36,9 +36,9 @@ extension AppThemeLabel on AppTheme {
 }
 
 extension BrightnessInverse on Brightness {
-  Brightness get inverse {
-    return this == Brightness.dark ? Brightness.light : Brightness.dark;
-  }
+  Brightness get inverse => isDark ? Brightness.light : Brightness.dark;
+  bool get isDark => this == Brightness.dark;
+  bool get isLight => this == Brightness.light;
 }
 
 AppTheme parseCurrentThemeFromString(String appThemeString) {
@@ -142,8 +142,8 @@ class ThemeStore extends ChangeNotifier {
     const kCardColor = Color(0xFF25262E);
     const kBackgroundColor = Color(0xFF25262E);
     const kCanvasColor = Color(0xff282931);
-    const kPrimaryColor = Colors.white;
-    const kSecondaryColor = Colors.blue;
+    const kPrimaryColor = Color(0xffb8b9c5);
+    const kSecondaryColor = kPrimaryColor;
 
     return createThemeData(
       canvasColor: kCanvasColor,
@@ -151,9 +151,9 @@ class ThemeStore extends ChangeNotifier {
       cardColor: kCardColor,
       primaryColor: kPrimaryColor,
       secondaryColor: kSecondaryColor,
-      textColor: Colors.white70,
+      textColor: const Color(0xff84859B),
       headlineColor: Colors.white,
-      disabledColor: Colors.white24,
+      disabledColor: const Color(0xff535466),
       base: ThemeData.dark(),
       fontFamily: _currentFontFamily,
     );
@@ -184,7 +184,7 @@ class ThemeStore extends ChangeNotifier {
     const kBackgroundColor = Color.fromARGB(255, 8, 8, 8);
     const kCardColor = kBackgroundColor;
     const kCanvasColor = Color(0xff0B0B0B);
-    const kPrimaryColor = Colors.white;
+    const kPrimaryColor = Color(0xFFFFFFFF);
     const kSecondaryColor = Colors.white;
 
     return createThemeData(
@@ -195,7 +195,7 @@ class ThemeStore extends ChangeNotifier {
       secondaryColor: kSecondaryColor,
       textColor: Colors.white70,
       headlineColor: Colors.white,
-      disabledColor: Colors.white24,
+      disabledColor: Color.fromARGB(255, 78, 78, 78),
       base: ThemeData.dark(),
       fontFamily: _currentFontFamily,
     );
@@ -205,7 +205,7 @@ class ThemeStore extends ChangeNotifier {
     const kBackgroundColor = Color.fromARGB(255, 8, 8, 8);
     const kCardColor = kBackgroundColor;
     const kCanvasColor = Color(0xff0B0B0B);
-    const kPrimaryColor = Colors.greenAccent;
+    const kPrimaryColor = Color(0xFF69F0AE);
     const kSecondaryColor = Colors.green;
 
     return createThemeData(
@@ -216,7 +216,7 @@ class ThemeStore extends ChangeNotifier {
       secondaryColor: kSecondaryColor,
       textColor: kPrimaryColor.withOpacity(0.7),
       headlineColor: kPrimaryColor,
-      disabledColor: kPrimaryColor.withOpacity(0.24),
+      disabledColor: const Color.fromARGB(255, 44, 75, 59),
       base: ThemeData.dark(),
       fontFamily: _currentFontFamily,
     );
@@ -226,8 +226,8 @@ class ThemeStore extends ChangeNotifier {
     const kBackgroundColor = Color.fromARGB(255, 8, 8, 8);
     const kCardColor = kBackgroundColor;
     const kCanvasColor = Color(0xff0B0B0B);
-    const kPrimaryColor = Colors.red;
-    const kSecondaryColor = Colors.red;
+    const kPrimaryColor = Color(0xFFFF5252);
+    const kSecondaryColor = kPrimaryColor;
 
     return createThemeData(
       canvasColor: kCanvasColor,
@@ -237,7 +237,7 @@ class ThemeStore extends ChangeNotifier {
       secondaryColor: kSecondaryColor,
       textColor: kPrimaryColor.withOpacity(0.7),
       headlineColor: kPrimaryColor,
-      disabledColor: kPrimaryColor.withOpacity(0.24),
+      disabledColor: const Color.fromARGB(255, 87, 36, 36),
       base: ThemeData.dark(),
       fontFamily: _currentFontFamily,
     );
@@ -385,13 +385,13 @@ ThemeData createThemeData({
       iconColor: textColor.withOpacity(0.5),
       textColor: textColor,
     ),
-    splashColor: primaryColor.withOpacity(0.05),
+    splashColor: primaryColor.withOpacity(0.025),
+    highlightColor: primaryColor.withOpacity(0.025),
     radioTheme: base.radioTheme.copyWith(
       fillColor: MaterialStateProperty.all(primaryColor),
     ),
     canvasColor: canvasColor,
     cardColor: cardColor,
-    highlightColor: primaryColor.withOpacity(0.05),
     tooltipTheme: base.tooltipTheme.copyWith(
       textStyle: TextStyle(color: backgroundColor),
       decoration: BoxDecoration(

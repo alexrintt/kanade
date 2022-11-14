@@ -17,7 +17,7 @@ class AppVersionInfo extends StatefulWidget {
 class _AppVersionInfoState extends State<AppVersionInfo> {
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = context.theme.canvasColor;
+    final backgroundColor = context.theme.primaryColor.withOpacity(.02);
 
     return Padding(
       padding: const EdgeInsets.only(top: k40dp),
@@ -47,16 +47,16 @@ class _AppVersionInfoState extends State<AppVersionInfo> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Center(
-                      child: AnimatedAppName(
-                        backgroundColor: backgroundColor,
-                      ),
-                    ),
+                    const Center(child: AnimatedAppName()),
                     Text.rich(
                       TextSpan(
                         children: [
                           TextSpan(
-                            text: packageInfo.packageName,
+                            text:
+                                'v${packageInfo.version}+${packageInfo.buildNumber}',
+                          ),
+                          TextSpan(
+                            text: '\n${packageInfo.packageName}',
                             style: TextStyle(
                               color: context.theme.disabledColor,
                               decoration: TextDecoration.underline,
@@ -66,10 +66,6 @@ class _AppVersionInfoState extends State<AppVersionInfo> {
                                     kRepositoryUrl,
                                     mode: LaunchMode.externalApplication,
                                   ),
-                          ),
-                          TextSpan(
-                            text:
-                                '\nv${packageInfo.version}+${packageInfo.buildNumber}',
                           ),
                         ],
                       ),

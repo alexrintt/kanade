@@ -138,6 +138,14 @@ class _ContextualMenuState extends State<ContextualMenu>
       ),
       actions: [
         AppIconButton(
+          onTap: () => showDialog(
+            context: context,
+            builder: (context) => const ChangeThemeDialog(),
+          ),
+          icon: const Icon(Pixel.sun),
+          tooltip: 'Change Theme',
+        ),
+        AppIconButton(
           onTap: menuStore.pushSearchMenu,
           icon: const Icon(Pixel.search),
           tooltip: 'Search Packages/Apps',

@@ -9,9 +9,15 @@
 <p align="center"><samp>Dark and Minimal Pixel Art based Apk Extractor for Android 4.4+</samp></p>
 </samp>
 
+<!--
+
+PlayStore link, add again when the new version is available.
+
 <p align="center">
   <a href="https://play.google.com/store/apps/details?id=io.alexrintt.kanade"><img alt="Get it on Google Play" src="https://user-images.githubusercontent.com/51419598/170156499-fc45733a-2701-4386-be72-f28181c87cf0.png"/></a>
 </p>
+
+-->
 
 <p align="center">
   <img src="https://img.shields.io/badge/Dart-22272E?&style=for-the-badge&logo=dart&logoColor=2AAEE9">
@@ -19,29 +25,54 @@
   <img src="https://img.shields.io/badge/Apk Extractor-22272E?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABO1BMVEUkIiolJCs5OD43Njw4Nz0jIik4Nz0nJi0rKzE0Mzo8O0E/PkRCQUdFREo+PUM5OD4tLDM2NTtEQ0lkY2iOjZGnpqmpqKuSkZRpaG1KSU9EQ0hAP0U7OkBSUVempajq6uv////r6+upqateXWJIR00rKjE0MzlPTlS/v8Hz8/Pf3+Dd3d7w8PHEw8VHRks/PkMxMDejo6b9/f3Dw8V7en5hYGV5eHz5+fmrq61PT1Q1NDpfXmPp6epcW2BKSU54d3vi4eL+/v7r6+xtbXFHR0w4Nz6KiY14d3xGRkzT09SVlJfe3t9cXGFnZmv19fasq65NTFI4OD6Kio1HRkxQT1Q1NDttbHH4+PlGRUs2NTzr6uuqqaxIR0xDQkmNjZGmpqmoqKuRkZRpaGxFREk7OkE+PkRERElCQUY6OT/oLrcWAAAAB3RSTlOf+fmf+Z+f8gI33QAAAAFiS0dEILNrPYAAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfmBwIONByxVcQWAAAAzklEQVQY02NgYGTn4OTi5uHl5eHj52diBvIFBIWERUTFxCUkpaRlWBiAfFk5eQUgUFRSVpGWYVBVU9dQUNDU0tZRUNBV1tNnMOAzVDAyNjE10zBXULCwlGKwsrZRMLa1s3dwBOpycnZhcHVT0HT3UPcEmaLg6CXJwGWo4O0j7esHFlDwD8AUCAwCagkOQWgJRTE0LBjJ2nCgtepSDKqclkgOi9AHOj0S6vSoaOUYoNNBnosVjotPSEySTAZ5jpWRXZUzJZUnLTmdLyODhQ0AALcqrqU2+nAAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjItMDctMDJUMTQ6NTI6MTkrMDA6MDCedLOIAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIyLTA3LTAyVDE0OjUyOjE5KzAwOjAw7ykLNAAAAABJRU5ErkJggg==&logoColor=2F74C0">
 </p>
 
-<h3 align="center"></h3>
-<p align="center"><b></b></p>
+<div align="center">
+  <kbd><img src="https://user-images.githubusercontent.com/51419598/201553717-5bd941db-4320-4301-bfdf-dbde2b890f4f.jpg" width="200"></kbd>
+  <kbd><img src="https://user-images.githubusercontent.com/51419598/201553570-88614248-6fb4-42e2-9c0f-f43b771011bf.jpg" width="200"></kbd>
+  <kbd><img src="https://user-images.githubusercontent.com/51419598/201553663-07ad5cb4-6745-4b40-bbf4-cbd0998fdea2.jpg" width="200"></kbd>
+  <kbd><img src="https://user-images.githubusercontent.com/51419598/201552690-cd442f03-c924-4a31-a776-5f9a84d1bf61.jpg" width="200" /></kbd>
+</div>
+
+<details>
+  <summary>See full screenshots</summary>
+
+<p>
 
 <div align="center">
-  <div style="display: flex;">
-    <kbd><img src="https://user-images.githubusercontent.com/51419598/138739155-1b0d5d5f-8f4b-4106-b8cc-b68fb1f1b109.png" width="250"></kbd>
-    <kbd><img src="https://user-images.githubusercontent.com/51419598/138739165-1db2ecd7-8eaa-4526-8502-61b149d314c9.png" width="250"></kbd>
-    <kbd><img src="https://user-images.githubusercontent.com/51419598/138739171-68272488-a1b9-49f1-bc21-dc11452e1dfe.png" width="250"></kbd>
-  </div>
+  <kbd><img src="https://user-images.githubusercontent.com/51419598/201553717-5bd941db-4320-4301-bfdf-dbde2b890f4f.jpg" width="200"></kbd>
+  <kbd><img src="https://user-images.githubusercontent.com/51419598/201553719-0237de04-0307-425d-bd8f-eb9ac3ef3dcb.jpg" width="200"></kbd>
+  <kbd><img src="https://user-images.githubusercontent.com/51419598/201553716-6669955e-5e5b-4955-9536-2e63eb379448.jpg" width="200"></kbd>
+  <kbd><img src="https://user-images.githubusercontent.com/51419598/201553714-a9af76c4-7e18-4279-9627-5d367ac2b7e8.jpg" width="200"></kbd>
 </div>
+
+<div align="center">
+  <kbd><img src="https://user-images.githubusercontent.com/51419598/201553570-88614248-6fb4-42e2-9c0f-f43b771011bf.jpg" width="200"></kbd>
+  <kbd><img src="https://user-images.githubusercontent.com/51419598/201553562-a07ff75b-e3d4-4a94-9340-9f1ffae3f4f4.jpg" width="200"></kbd>
+  <kbd><img src="https://user-images.githubusercontent.com/51419598/201553568-7f928924-5840-4a3b-8b45-54c8984b6b84.jpg" width="200"></kbd>
+  <kbd><img src="https://user-images.githubusercontent.com/51419598/201553565-a37fbd94-823b-4a06-83a6-487f99af812d.jpg" width="200"></kbd>
+</div>
+
+<div align="center">
+  <kbd><img src="https://user-images.githubusercontent.com/51419598/201553663-07ad5cb4-6745-4b40-bbf4-cbd0998fdea2.jpg" width="200"></kbd>
+  <kbd><img src="https://user-images.githubusercontent.com/51419598/201553659-bd05160f-a869-4387-8b9c-150672dbebb8.jpg" width="200"></kbd>
+  <kbd><img src="https://user-images.githubusercontent.com/51419598/201553667-f20e6ee3-df40-4ff7-b409-00b8f58a46eb.jpg" width="200"></kbd>
+  <kbd><img src="https://user-images.githubusercontent.com/51419598/201553669-44120285-7f3a-4cb8-a85e-3c5beb2b16c4.jpg" width="200"></kbd>
+</div>
+
+<div align="center">
+  <kbd><img src="https://user-images.githubusercontent.com/51419598/201552690-cd442f03-c924-4a31-a776-5f9a84d1bf61.jpg" width="200" /></kbd>
+  <kbd><img src="https://user-images.githubusercontent.com/51419598/201552685-44fb916e-c863-41da-9f9c-7eeb8cda70d4.jpg" width="200" /></kbd>
+  <kbd><img src="https://user-images.githubusercontent.com/51419598/201552687-46b71a62-6b89-492e-8280-371ae879eb00.jpg" width="200" /></kbd>
+  <kbd><img src="https://user-images.githubusercontent.com/51419598/201552689-95bbfd82-8f26-41cd-98c2-46986a6affa6.jpg" width="200" /></kbd>
+</div>
+  
+</p>
+</details>
 
 <br>
 
 ## How to install
 
-You can either download the apk from releases tab or check out on Play Store.
-
-- Download the fat apk through [releases tab](https://github.com/alexrintt/kanade/releases).
-- Install the app from Play Store at [io.alexrintt.kanade](https://play.google.com/store/apps/details?id=io.alexrintt.kanade).
-
-<p>
-  <a href="https://play.google.com/store/apps/details?id=io.alexrintt.kanade"><img alt="Get it on Google Play" src="https://user-images.githubusercontent.com/51419598/170156499-fc45733a-2701-4386-be72-f28181c87cf0.png"/></a>
-</p>
+Download the apk from the [releases tab](https://github.com/alexrintt/kanade/releases).
 
 ## What's an Apk Extractor
 
@@ -53,44 +84,23 @@ So here we are, whatever the reason, if you want to share the app directly throu
 
 To display all installed apps the [`🔗 device_apps`](https://pub.dev/packages/device_apps) package is used and the apk extraction (that is a simple copy/paste operation between two files) is possible by [`🔗 shared_storage`](https://pub.dev/packages/shared_storage) package.
 
-## Art
+## Contributing
 
-Credits for all the illustrations used in the app.
+To report a bug, create a new issue with an screenshot or a small description of the bug, thanks.
 
-- [`🔗 Kanade Chan by closedworldopenwound`](https://www.deviantart.com/closedworldopenwound/art/Kanade-Chan-660321422)
-- [`🔗 ハムの上で寝てみたい by もちもち`](https://dotpict.net/works/3311931)
+To request a feature answer please add an issue to further discuss a feature or any improvement, thx.
 
-## Fonts
+To request some content removal, please, ping me on my email [reach@alexrintt.io](mailto:reach@alexrintt.io).
 
-The following fonts and tools were used in the app development.
+## Credits
 
-- [`🔗 FFF Forward`](https://www.1001fonts.com/fff-forward-font.html)
-- [`🔗 Pixel Art Icons`](https://pixelarticons.com/)
+Feel free to generate all open-source libraries licenses using [`flutter_oss_licenses`](https://pub.dev/packages/flutter_oss_licenses) package.
 
-### Open Source Libraries
+All images goes to their original authors (Kanade icon).
 
-Credits for all Flutter libraries that made it possible.
+Original image subject to copyright.
 
-- [`🔗 url_launcher`](https://pub.dev/packages/url_launcher)
-- [`🔗 shared_storage`](https://pub.dev/packages/shared_storage)
-- [`🔗 get_it`](https://pub.dev/packages/get_it)
-- [`🔗 shared_preferences`](https://pub.dev/packages/shared_preferences)
-- [`🔗 pixelarticons`](https://pub.dev/packages/pixelarticons)
-- [`🔗 device_apps`](https://pub.dev/packages/device_apps)
-- [`🔗 flutter_launcher_icons`](https://pub.dev/packages/flutter_launcher_icons)
-- [`🔗 nanoid`](https://pub.dev/packages/nanoid)
-- [`🔗 fluttertoast`](https://pub.dev/packages/fluttertoast)
-- [`🔗 flutter`](https://flutter.dev/)
-
-<hr>
-
-### Report a bug
-
-Please, fill a issue with a printscreen or a small description of the bug, thx.
-
-### Improvements
-
-Any ideas are welcome, please add a issue to further discuss a feature or any improvement, thx.
+<br />
 
 <samp>
 

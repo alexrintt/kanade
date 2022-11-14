@@ -156,17 +156,6 @@ class ChangeThemeDialog extends StatefulWidget {
   State<ChangeThemeDialog> createState() => _ChangeThemeDialogState();
 }
 
-mixin ThemeStoreMixin<T extends StatefulWidget> on State<T> {
-  ThemeStore? _themeStore;
-  ThemeStore get themeStore => _themeStore ??= getIt<ThemeStore>();
-
-  @override
-  void didUpdateWidget(covariant T oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _themeStore = null; // Refresh store instance when updating the widget
-  }
-}
-
 class _ChangeThemeDialogState extends State<ChangeThemeDialog>
     with ThemeStoreMixin {
   @override

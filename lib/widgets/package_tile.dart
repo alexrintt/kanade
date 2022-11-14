@@ -2,8 +2,7 @@ import 'dart:typed_data';
 
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
-import 'package:kanade/constants/app_colors.dart';
-import 'package:kanade/constants/app_spacing.dart';
+import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:kanade/stores/contextual_menu.dart';
 import 'package:kanade/stores/device_apps.dart';
 import 'package:pixelarticons/pixel.dart';
@@ -97,7 +96,7 @@ class _PackageTileState extends State<PackageTile>
       ),
       trailing: _buildTrailing(),
       selected: _isSelected,
-      selectedTileColor: kWhite03,
+      selectedTileColor: context.theme.cardColor,
       dense: false,
       enableFeedback: false,
       visualDensity: VisualDensity.compact,
@@ -121,9 +120,10 @@ class _PackageTileState extends State<PackageTile>
 
   BoxDecoration _createBoxDecoration() {
     return BoxDecoration(
+      color: _isSelected ? context.theme.splashColor : Colors.transparent,
       border: Border(
         left: BorderSide(
-          color: _isSelected ? kAccent100 : Colors.transparent,
+          color: _isSelected ? context.primaryColor : Colors.transparent,
           width: k2dp,
         ),
       ),
@@ -132,17 +132,17 @@ class _PackageTileState extends State<PackageTile>
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: k2dp,
-        horizontal: k5dp,
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: context.theme.cardColor,
+        border: Border(
+          bottom: BorderSide(color: context.theme.backgroundColor),
+        ),
       ),
       child: Material(
-        borderRadius: BorderRadius.circular(k2dp),
-        clipBehavior: Clip.hardEdge,
-        color: kCardColor,
-        elevation: k1dp,
-        shadowColor: Theme.of(context).scaffoldBackgroundColor,
+        borderRadius: BorderRadius.circular(0),
+        elevation: 0,
+        color: Colors.transparent,
         child: _buildInkEffectWrapper(),
       ),
     );

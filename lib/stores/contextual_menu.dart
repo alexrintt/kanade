@@ -11,31 +11,49 @@ class MenuContext {
   static const search = MenuContext._(2);
 
   bool get isNormal => value == 0;
-
   bool get isSelection => value == 1;
-
   bool get isSearch => value == 2;
 }
 
 mixin ContextualMenuStoreConsumer<T extends StatefulWidget> on State<T> {
-  final menuStore = getIt<ContextualMenuStore>();
+  ContextualMenuStore? _menuStore;
+  ContextualMenuStore get menuStore =>
+      _menuStore ??= getIt<ContextualMenuStore>();
 }
 
-/// Store to manage the current active menu
+/// Store to manage the current active menu.
 class ContextualMenuStore extends ChangeNotifier {
-  MenuContext context = MenuContext.normal;
+  MenuContext get context => _stack.last;
 
-  void showDefaultMenu() => _showMenuAs(MenuContext.normal);
+  final List<MenuContext> _stack = [MenuContext.normal];
 
-  void showSearchMenu() => _showMenuAs(MenuContext.search);
+  void _pushMenu(MenuContext context) {
+    if (_stack.last == context) return;
+    _stack.add(context);
+    notifyListeners();
+  }
 
-  void showSelectionMenu() => _showMenuAs(MenuContext.selection);
+  void pushSelectionMenu() {
+    return _pushMenu(MenuContext.selection);
+  }
 
-  void _showMenuAs(MenuContext target) {
-    if (context == target) return;
+  void pushSearchMenu() {
+    return _pushMenu(MenuContext.search);
+  }
 
-    context = target;
+  void pushDefaultMenu() {
+    return _pushMenu(MenuContext.normal);
+  }
 
+  void popMenu() {
+    _stack.removeLast();
+    notifyListeners();
+  }
+
+  void clearStack() {
+    _stack
+      ..clear()
+      ..add(MenuContext.normal);
     notifyListeners();
   }
 }

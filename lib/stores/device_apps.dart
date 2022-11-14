@@ -189,7 +189,12 @@ class DeviceAppsStore extends ChangeNotifier {
     final apkFilename =
         '${package.appName}_${package.packageName}_${package.versionCode}_$id';
 
-    final parentFolder = folder ?? await requestExportLocation();
+    if (folder == null) {
+      await _settingsStore.requestExportLocationIfNotSet();
+    }
+
+    final parentFolder =
+        folder ?? await _settingsStore.getAndSetExportLocationIfItExists();
 
     if (parentFolder != null) {
       final createdFile = await createFile(

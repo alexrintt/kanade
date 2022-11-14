@@ -79,7 +79,7 @@ So here we are, whatever the reason, if you want to share the app directly throu
 
 ## Features
 
-This is what we offer
+This is what is currently implemented:
 
 - Apk extraction, I'm sure you are not expecting that.
 - Multiple apk extraction at once.

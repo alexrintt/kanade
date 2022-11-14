@@ -1,6 +1,6 @@
 ## 0.3.0
 
-Most release changes are realted to UI and design stuff, minimal changes to core behavior of the apk extraction process.
+Most release changes are related to UI and design stuff, minimal changes to core behavior of the apk extraction process.
 
 UI/UX improvements:
 

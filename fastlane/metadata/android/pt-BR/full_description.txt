@@ -1,0 +1,7 @@
+Kanade é um simples aplicativo que permite extrair o apk da sua lista de aplicativos. Totalmente open-source and sem propagandas. Compatível com Android 4.4 ou superior.
+
+Aplicativos instalados pela PlayStore não expõem seus apks por padrão. Então se você precisar compartilhar algum aplicativo você precisará enviar o link da PlayStore. 
+
+Installed apps from PlayStore doesn't expose their apk installation files by default. So if you want to share some app you will need to send the PlayStore link. E se você estiver offline ou o aplicativo não estiver mais disponível na PlayStore você não vai conseguir compartilhar o app.
+
+Então aqui estamos, não importa a razão, se você precisa compartilhar algum aplicativo diretamente através de uma conexão p2p (Bluettoth, Wifi-Direct, etc.) você pode usar Apk Extractors! Este tipo de aplicativos permitem o usuário extrair o arquivo apk escondido de praticamente qualquer aplicativo instalado para uma localização visível (e.g a pasta Downloads).

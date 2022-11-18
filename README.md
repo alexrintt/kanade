@@ -74,9 +74,9 @@ PlayStore link, add again when the new version is available.
 
 ## What's an apk extractor
 
-Installed apps from PlayStore doesn't expose their apk installation files by default. So if you want to share the app you will need to send the PlayStore link. And if you are offline or the app is no longer available on the PlayStore you won't be able to share the app.
+Installed apps from PlayStore doesn't expose their apk installation files by default. So if you want to share some app you will need to send the PlayStore link. And if you are offline or the app is no longer available on the PlayStore you won't be able to share the app.
 
-So here we are, whatever the reason, if you want to share the app directly through a p2p connection (Bluetooth, Wifi-Direct, etc.) you can use apk extractors! These kind of apps allow the user to extract the hidden apk files from almost any installed app to a visible location (e.g Downloads folder).
+So here we are, whatever the reason, if you want to share some app directly through a p2p connection (Bluetooth, Wifi-Direct, etc.) you can use apk extractors! These kind of apps allow the user to extract the hidden apk files from almost any installed app to a visible location (e.g Downloads folder).
 
 ## Installation (Universal apk)
 
@@ -131,6 +131,10 @@ To display all installed apps the [`🔗 device_apps`](https://pub.dev/packages/
 To report a bug, create a new issue with an screenshot or a small description of the bug, thanks.
 
 To request a feature please add an issue to further discuss, thx.
+
+## Contributors
+
+- I wish thanks [IzzySoft](https://gitlab.com/IzzySoft) for taking time to point the [version code issue #13](https://github.com/alexrintt/kanade/issues/13), indexing this app to the [IzzyOnDroid app repository](https://gitlab.com/IzzyOnDroid/repo) and [helping with fastlane docs #15](https://github.com/alexrintt/kanade/pull/15), thanks man!
 
 ## Credits
 

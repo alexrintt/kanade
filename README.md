@@ -84,7 +84,7 @@ The app universal apk (20MB) is delivered on these fonts:
 
 - ([Repository Releases](https://github.com/alexrintt/kanade/releases)) Most easy one-time way to install: download the universal apk (20MB) directly at [github.com/alexrintt/kanade/releases](https://github.com/alexrintt/kanade/releases).
 
-- ([IzzyOnDroid](https://f-droid.org/packages/io.alexrintt.kanade)) You can also download the apk directly at [apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade](https://apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade) (F-Droid based repositoy).
+- ([IzzyOnDroid](https://f-droid.org/packages/io.alexrintt.kanade)) You can also download the apk directly at [apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade](https://apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade) (F-Droid based repository).
 
 - ([F-Droid + IzzyOnDroid](https://f-droid.org/packages/io.alexrintt.kanade)) Most easy way to install and get updates. This is app available on [IzzyOnDroid](https://gitlab.com/IzzyOnDroid/repo) repo (F-Droid based repositoy). **If it's your first time using IzzyOnDroid or F-Droid, you will need to follow these instructions:**
 

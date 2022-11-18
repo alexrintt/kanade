@@ -95,7 +95,7 @@ The app universal apk (20MB) is delivered on these fonts:
 
 ## Installation (x86-64, armeabi-v7 and arm64-v8)
 
-Specific-abi apks are compatible only with a subset of devices but they are substantially lighter than the universal apk. So If you are the kind of geek who is staring at green letters all day and know your device CPU architecture (abi) you can download it (8MB) at:
+Specific-abi apks are compatible only with a subset of devices but they are substantially lighter than the universal apk. So If you are that guy from The Matrix who stares at falling green cliffs all day and know your device CPU architecture you can download it (8MB) at:
 
 - ([Repository Releases](https://github.com/alexrintt/kanade/releases)) Most easy one-time way to install: [github.com/alexrintt/kanade/releases](https://github.com/alexrintt/kanade/releases).
 

@@ -84,9 +84,9 @@ The app universal apk (20MB) is delivered on these fonts:
 
 - ([Repository Releases](https://github.com/alexrintt/kanade/releases)) Most easy one-time way to install: download the universal apk (20MB) directly at [github.com/alexrintt/kanade/releases](https://github.com/alexrintt/kanade/releases).
 
-- ([IzzyOnDroid](https://f-droid.org/packages/io.alexrintt.kanade)) You can also download the apk directly at [apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade](https://apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade) (F-Droid based repositoy).
+- ([IzzyOnDroid](https://f-droid.org/packages/io.alexrintt.kanade)) You can also download the apk directly at [apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade](https://apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade) (F-Droid based repository).
 
-- ([F-Droid + IzzyOnDroid](https://f-droid.org/packages/io.alexrintt.kanade)) Most easy way to install and get updates. This is app available on [IzzyOnDroid](https://gitlab.com/IzzyOnDroid/repo) repo (F-Droid based repositoy). **If it's your first time using IzzyOnDroid or F-Droid, you will need to follow these instructions:**
+- ([F-Droid + IzzyOnDroid](https://f-droid.org/packages/io.alexrintt.kanade)) Most easy way to install and get updates: [f-droid.org/packages/io.alexrintt.kanade](https://f-droid.org/packages/io.alexrintt.kanade). This app is indexed by [IzzyOnDroid repository](https://gitlab.com/IzzyOnDroid/repo) (F-Droid subrepository). **If it's your first time using IzzyOnDroid or F-Droid, you will need to follow these instructions:**
 
   - Install [F-Droid client](https://f-droid.org/F-Droid.apk).
   - On F-Droid client go to **Settings** -> **Repositories** -> **Add new repository** (Plus icon at top right).
@@ -95,7 +95,7 @@ The app universal apk (20MB) is delivered on these fonts:
 
 ## Installation (x86-64, armeabi-v7 and arm64-v8)
 
-Specific-abi apks are compatible only with a subset of devices but they are substantially lighter than the universal apk. So If you are the kind of geek who is staring at green letters all day and know your device CPU architecture (abi) you can download it (8MB) at:
+Specific-abi apks are compatible only with a subset of devices but they are substantially lighter than the universal apk. So, if you are that guy from _The Matrix_ who stares at falling green cliffs all day, feel free to download and install your specific-apk (8MB) at:
 
 - ([Repository Releases](https://github.com/alexrintt/kanade/releases)) Most easy one-time way to install: [github.com/alexrintt/kanade/releases](https://github.com/alexrintt/kanade/releases).
 

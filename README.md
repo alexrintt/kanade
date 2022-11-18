@@ -6,7 +6,7 @@
 <samp><h6 align="center">#android, #flutter, #apkextractor, #saf</h6></samp>
 
 <h1 align="center">Kanade - Apk Extractor</h1>
-<p align="center"><samp>Dark and Minimal Pixel Art based Apk Extractor for Android 4.4+</samp></p>
+<p align="center"><samp>Kanade is a simple app that allows you to extract apk from your apps list. Fully open-source and zero-ads.</samp></p>
 </samp>
 
 <!--
@@ -14,10 +14,15 @@
 PlayStore link, add again when the new version is available.
 
 <p align="center">
-  <a href="https://play.google.com/store/apps/details?id=io.alexrintt.kanade"><img alt="Get it on Google Play" src="https://user-images.githubusercontent.com/51419598/170156499-fc45733a-2701-4386-be72-f28181c87cf0.png"/></a>
+  <a href="https://play.google.com/store/apps/details?id=io.alexrintt.kanade"><img height="80" alt="Get it on Google Play" src="https://user-images.githubusercontent.com/51419598/170156499-fc45733a-2701-4386-be72-f28181c87cf0.png"/></a>
 </p>
 
 -->
+
+<p align="center">
+  <a href="https://apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" height="80">
+  </a>
+</p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/Dart-22272E?&style=for-the-badge&logo=dart&logoColor=2AAEE9">
@@ -67,26 +72,43 @@ PlayStore link, add again when the new version is available.
 
 <br>
 
-## How to install
+## What's an apk extractor
 
-Download the latest apk on [releases tab](https://github.com/alexrintt/kanade/releases).
-
-## What's an Apk Extractor
-
-Installed apps from PlayStore doesn't expose their apk installation files by default. So if you want to share the app you will need to send the PlayStore link. So if you are offline or the app is no longer available on the PlayStore you won't be able to share the app.
+Installed apps from PlayStore doesn't expose their apk installation files by default. So if you want to share the app you will need to send the PlayStore link. And if you are offline or the app is no longer available on the PlayStore you won't be able to share the app.
 
 So here we are, whatever the reason, if you want to share the app directly through a p2p connection (Bluetooth, Wifi-Direct, etc.) you can use apk extractors! These kind of apps allow the user to extract the hidden apk files from almost any installed app to a visible location (e.g Downloads folder).
 
+## Installation (Universal apk)
+
+The app universal apk (20MB) is delivered on these fonts:
+
+- ([Repository Releases](https://github.com/alexrintt/kanade/releases)) Most easy one-time way to install: download the universal apk (20MB) directly at [github.com/alexrintt/kanade/releases](https://github.com/alexrintt/kanade/releases).
+
+- ([IzzyOnDroid](https://f-droid.org/packages/io.alexrintt.kanade)) You can also download the apk directly at [apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade](https://apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade) (F-Droid based repositoy).
+
+- ([F-Droid + IzzyOnDroid](https://f-droid.org/packages/io.alexrintt.kanade)) Most easy way to install and get updates. This is app available on [IzzyOnDroid](https://gitlab.com/IzzyOnDroid/repo) repo (F-Droid based repositoy). **If it's your first time using IzzyOnDroid or F-Droid, you will need to follow these instructions:**
+
+  - Install [F-Droid client](https://f-droid.org/F-Droid.apk).
+  - On F-Droid client go to **Settings** -> **Repositories** -> **Add new repository** (Plus icon at top right).
+  - Type `https://apt.izzysoft.de/fdroid/repo` then click **Add**.
+  - You can now click on this link to directly go to the app installation page: [f-droid.org/packages/io.alexrintt.kanade](https://f-droid.org/packages/io.alexrintt.kanade).
+
+## Installation (x86-64, armeabi-v7 and arm64-v8)
+
+Specific-abi apks are compatible only with a subset of devices but they are substantially lighter than the universal apk. So If you are the kind of geek who is staring at green letters all day and know your device CPU architecture (abi) you can download it (8MB) at:
+
+- ([Repository Releases](https://github.com/alexrintt/kanade/releases)) Most easy one-time way to install: [github.com/alexrintt/kanade/releases](https://github.com/alexrintt/kanade/releases).
+
 ## Features
 
-This is what is currently implemented:
+This is what is currently available:
 
 - Apk extraction, I'm sure you are not expecting that.
 - Multiple apk extraction at once.
 - Select/deselect all.
 - List and search device apps (and internal packages).
-- Extract to a desired location, lost my fear of `MANAGE_EXTERNAL_STORAGE` and `File('/emulated/0').delete()`.
-- Multiple color themes and font families.
+- Extract to a desired location, no security or privacy issues brought by `MANAGE_EXTERNAL_STORAGE`.
+- Multiple color themes and fonts.
 - ~~Bad designer~~ Minimalist UI.
 - No ads or tracking, this app doesn't even has `INTERNET` permission.
 
@@ -95,7 +117,7 @@ This is what is currently implemented:
 Listed by priority:
 
 - List extracted apks files inside the app (A).
-- Uninstall app (B).
+- Allow uninstall apps (B).
 - Share listed apk through bluetooth or wifi-direct (C, requires A).
 - Analyze apk metainfo (name, version, package, etc.) (D).
 - Sign-in apk (E).

@@ -1,3 +1,20 @@
+## 0.3.1
+
+This released was focused in adding internationalization features to the app, following languages were added:
+
+- German (de).
+- Portuguese (pt-BR).
+- Japanese (ja).
+- Spanish (es).
+- (Previously supported) English (en).
+
+## New
+
+- Settings:
+  - Added location settings tile.
+  - Added Zen Kaku Gothic Antique (Yoshimichi Ohira) font.
+  - Minimal UI changes (Section title and horizontal rule).
+
 ## 0.3.0
 
 Most release changes are related to UI and design stuff, minimal changes to core behavior of the apk extraction process.

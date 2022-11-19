@@ -1,0 +1,5 @@
+<i>Kanade</i> ist eine einfache App, mit der Sie apk aus Ihrer App-Liste extrahieren können. Vollständig Open-Source und keine Werbung. Funktioniert für Android 4.4 oder höher.
+
+Installierte Apps aus dem PlayStore zeigen ihre APK-Installationsdateien standardmäßig nicht an. Wenn Sie also eine App teilen möchten, müssen Sie den PlayStore-Link senden. Wenn Sie also offline sind oder die App nicht mehr im PlayStore verfügbar ist, können Sie die App nicht teilen.
+
+Hier sind wir also, aus welchen Gründen auch immer, wenn Sie eine App direkt über eine P2P-Verbindung (Bluetooth, Wifi-Direct usw.) teilen möchten, können Sie apk-Extraktoren verwenden! Diese Art von Apps ermöglicht es dem Benutzer, die versteckten APK-Dateien von fast jeder installierten App an einen sichtbaren Ort (z. B. den Download-Ordner) zu extrahieren.

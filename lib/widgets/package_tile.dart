@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:kanade/stores/contextual_menu.dart';
 import 'package:kanade/stores/device_apps.dart';
+import 'package:kanade/utils/app_localization_strings.dart';
 import 'package:pixelarticons/pixel.dart';
 
 import 'app_icon_button.dart';
@@ -46,7 +47,7 @@ class _PackageTileState extends State<PackageTile>
     if (widget.showCheckbox) {
       child = AppIconButton(
         onTap: () => store.toggleSelect(widget.package),
-        tooltip: 'Toggle Select',
+        tooltip: context.strings.toggleSelect,
         icon: Icon(
           _isSelected ? Pixel.checkbox : Pixel.checkboxon,
         ),

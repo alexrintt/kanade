@@ -9,7 +9,14 @@ import 'package:nanoid/async.dart';
 import 'package:shared_storage/shared_storage.dart';
 
 mixin DeviceAppsStoreConsumer<T extends StatefulWidget> on State<T> {
-  final store = getIt<DeviceAppsStore>();
+  DeviceAppsStore? _store;
+  DeviceAppsStore get store => _store ??= getIt<DeviceAppsStore>();
+
+  @override
+  void didUpdateWidget(covariant T oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _store = null; // Refresh store instance when updating the widget
+  }
 }
 
 class ApkExtraction {

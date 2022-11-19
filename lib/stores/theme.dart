@@ -4,8 +4,9 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_shared_tools/constant/constant.dart';
 import 'package:kanade/setup.dart';
-import 'package:kanade/stores/persistent_hash_map.dart';
+import 'package:kanade/stores/key_value_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum AppTheme {
   darkLightsOut,
@@ -17,20 +18,20 @@ enum AppTheme {
 }
 
 extension AppThemeLabel on AppTheme {
-  String get label {
+  String getNameString(AppLocalizations strings) {
     switch (this) {
       case AppTheme.darkDimmed:
-        return 'Dark dimmed';
+        return strings.darkDimmed;
       case AppTheme.lightDefault:
-        return 'Light';
+        return strings.light;
       case AppTheme.followSystem:
-        return 'Follow the system';
+        return strings.followTheSystem;
       case AppTheme.darkLightsOut:
-        return 'Dark lights out';
+        return strings.darkLightsOut;
       case AppTheme.darkHacker:
-        return 'Dark hacker';
+        return strings.darkHacker;
       case AppTheme.darkBlood:
-        return 'Dark blood';
+        return strings.darkBlood;
     }
   }
 }
@@ -304,6 +305,7 @@ enum AppFontFamily {
   inconsolata,
   robotoMono,
   forward,
+  zenKakuGothicAntique,
 }
 
 extension AppFontFamilyName on AppFontFamily {
@@ -316,6 +318,8 @@ extension AppFontFamilyName on AppFontFamily {
         return 'Forward';
       case AppFontFamily.robotoMono:
         return 'Roboto Mono';
+      case AppFontFamily.zenKakuGothicAntique:
+        return 'Zen Kaku Gothic Antique';
     }
   }
 }
@@ -329,6 +333,8 @@ extension DisplayAppFontFamily on AppFontFamily {
       case AppFontFamily.forward:
         return false;
       case AppFontFamily.robotoMono:
+        return true;
+      case AppFontFamily.zenKakuGothicAntique:
         return true;
     }
   }
@@ -365,6 +371,7 @@ ThemeData createThemeData({
       primary: primaryColor,
       secondary: secondaryColor,
     ),
+    dividerColor: disabledColor.withOpacity(.1),
     appBarTheme: base.appBarTheme.copyWith(
       backgroundColor: cardColor,
       elevation: 0,

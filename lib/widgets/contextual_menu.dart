@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:kanade/pages/settings_page.dart';
+import 'package:kanade/utils/app_localization_strings.dart';
 import 'package:kanade/widgets/animated_app_name.dart';
 import 'package:pixelarticons/pixelarticons.dart';
 import 'package:kanade/stores/contextual_menu.dart';
@@ -36,7 +37,8 @@ class _ContextualMenuState extends State<ContextualMenu>
         animation: store,
         builder: (context, child) {
           return Text(
-              '${store.selected.length} of ${store.displayableApps.length}');
+            '${store.selected.length} ${context.strings.ofN} ${store.displayableApps.length}',
+          );
         },
       ),
       floating: true,
@@ -50,10 +52,13 @@ class _ContextualMenuState extends State<ContextualMenu>
       ),
       actions: [
         AppIconButton(
-          tooltip: 'Extract All Selected',
+          tooltip: context.strings.extractAllSelected,
           onTap: () async {
             try {
-              showLoadingDialog(context, 'Extracting Apk\'s...');
+              showLoadingDialog(
+                context,
+                '${context.strings.extractingApks}...',
+              );
 
               final extractedApks = await store.extractSelectedApks();
 
@@ -66,17 +71,44 @@ class _ContextualMenuState extends State<ContextualMenu>
               if (!mounted) return;
 
               if (result.failed) {
-                showToast(context,
-                    'Sorry, we can\'t export any of these apks because they are restricted by the OS.');
+                showToast(
+                  context,
+                  context.strings
+                      .sorryWeCouldNotExportAnyApkBecauseTheyAreRestrictedByTheOS,
+                );
               } else if (result.permissionWasDenied) {
-                showToast(context,
-                    'To export the apk we need permission to write to your storage.');
+                showToast(
+                  context,
+                  context.strings.permissionDenied,
+                );
               } else if (result.someMayFailed) {
-                showToast(context,
-                    'Some apk\'s are located in ${extractedTo?.absolute} but some could not be extracted.');
+                if (extractedTo != null) {
+                  showToast(
+                    context,
+                    context.strings.someApkWereNotExtracted.withArgs(
+                      [extractedTo.absolute.toString()],
+                    ),
+                  );
+                } else {
+                  showToast(
+                    context,
+                    context.strings.someApkWereNotExtractedPlain,
+                  );
+                }
               } else if (result.success) {
-                showToast(context,
-                    'All apks were extracted to ${extractedTo?.absolute}');
+                if (extractedTo != null) {
+                  showToast(
+                    context,
+                    context.strings.allApksWereSuccessfullyExtracted.withArgs(
+                      [extractedTo.absolute.toString()],
+                    ),
+                  );
+                } else {
+                  showToast(
+                    context,
+                    context.strings.allApksWereSuccessfullyExtractedPlain,
+                  );
+                }
               }
             } finally {
               Navigator.pop(context);
@@ -85,7 +117,7 @@ class _ContextualMenuState extends State<ContextualMenu>
           icon: const Icon(Pixel.download),
         ),
         AppIconButton(
-          tooltip: 'Select/Unselect All',
+          tooltip: context.strings.selectUnselectAll,
           onTap: store.toggleSelectAll,
           icon: AnimatedBuilder(
             animation: store,
@@ -121,7 +153,7 @@ class _ContextualMenuState extends State<ContextualMenu>
           store.disableSearch();
         },
         icon: const Icon(Pixel.arrowleft),
-        tooltip: 'Back to default view',
+        tooltip: context.strings.exitSearch,
       ),
     );
   }
@@ -143,17 +175,17 @@ class _ContextualMenuState extends State<ContextualMenu>
             builder: (context) => const ChangeThemeDialog(),
           ),
           icon: const Icon(Pixel.sun),
-          tooltip: 'Change Theme',
+          tooltip: context.strings.changeTheme,
         ),
         AppIconButton(
           onTap: menuStore.pushSearchMenu,
           icon: const Icon(Pixel.search),
-          tooltip: 'Search Packages/Apps',
+          tooltip: context.strings.searchPackagesAndApps,
         ),
         AppIconButton(
           onTap: _openSettingsPage,
           icon: const Icon(Pixel.sliders),
-          tooltip: 'Configure Your Preferences',
+          tooltip: context.strings.openSettingsPage,
         ),
       ],
       floating: true,
@@ -168,15 +200,14 @@ class _ContextualMenuState extends State<ContextualMenu>
       builder: (context, child) {
         final current = menuStore.context;
 
-        if (current.isNormal) {
-          return _buildNormalMenu();
-        } else if (current.isSelection) {
-          return _buildSelectionMenu();
-        } else if (current.isSearch) {
-          return _buildSearchMenu();
+        switch (current) {
+          case MenuContext.selection:
+            return _buildSelectionMenu();
+          case MenuContext.search:
+            return _buildSearchMenu();
+          case MenuContext.normal:
+            return _buildNormalMenu();
         }
-
-        throw Exception('Got invalid menu configuration: $current');
       },
     );
   }

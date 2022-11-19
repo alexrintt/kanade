@@ -1,9 +1,9 @@
 import 'package:device_apps/device_apps.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:kanade/stores/contextual_menu.dart';
 import 'package:kanade/stores/device_apps.dart';
+import 'package:kanade/utils/app_localization_strings.dart';
 import 'package:kanade/widgets/app_version_info.dart';
 import 'package:kanade/widgets/package_tile.dart';
 import 'package:kanade/widgets/toast.dart';
@@ -30,22 +30,23 @@ class _PackagesListState extends State<PackagesList>
       store.toggleSelect(package);
     } else {
       try {
-        showLoadingDialog(context, 'Extracting Apk...');
+        showLoadingDialog(context, context.strings.extractingApks);
 
         final extraction = await store.extractApk(package);
 
         if (!mounted) return;
 
         if (extraction.result.success) {
-          showToast(context, 'Extracted to ${extraction.apk!.path}');
+          showToast(context,
+              '${context.strings.extractedTo} ${extraction.apk!.path}');
         } else if (extraction.result.permissionWasDenied) {
-          showToast(context, 'Permission denied');
+          showToast(context, context.strings.permissionDenied);
         } else if (extraction.result.restrictedPermission) {
-          showToast(context, 'Permission restricted by Android');
+          showToast(context, context.strings.permissionRestrictedByAndroid);
         } else if (extraction.result.extractionNotAllowed) {
           showToast(
             context,
-            'Operation not allowed, probably this is a protected package',
+            context.strings.operationNotAllowedMayBeProtectedPackage,
           );
         }
       } finally {

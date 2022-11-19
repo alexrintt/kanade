@@ -1,0 +1,1 @@
+Kanade is a simple app that allows you to extract apk from your apps list. Fully open-source and zero-ads. Works for Android 4.4 or above.

@@ -130,5 +130,9 @@
   "toggleSelect": "Toggle select",
   "@toggleSelect": {
     "description": "Tooltip label of the select/unselect tile icon button."
+  },
+  "isNotSupportedYet": "is not supported yet",
+  "@isNotSupportedYet": {
+    "description": "Warning label showed when the native system language is not supported."
   }
 }

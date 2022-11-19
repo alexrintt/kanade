@@ -13,8 +13,12 @@ mixin LocalizationStoreMixin<T extends StatefulWidget> on State<T> {
 
 /// Store to manage the current active menu.
 class LocalizationStore extends ChangeNotifier
-    with KeyValueStorageConsumer<String, String?> {
-  late Locale locale;
+    with KeyValueStorageConsumer<String, String?>, WidgetsBindingObserver {
+  Locale? _locale;
+  Locale get locale => _locale ?? defaultLocale;
+
+  /// Returns the locale manually defined by the user (if any), [null] otherwise.
+  Locale? get fixedLocale => _locale;
 
   static const _kLocaleLangCodeStorageKey = 'app.locale.langcode';
   static const _kLocaleCountryCodeStorageKey = 'app.locale.countrycode';
@@ -27,13 +31,30 @@ class LocalizationStore extends ChangeNotifier
   // String get _deviceCountryCode => _deviceLangAndCountryCode[1];
   Locale get deviceLocale => Locale(_deviceLangCode);
 
-  bool get isSystemLocalizationSupported {
+  bool isSupported(Locale locale) {
     return AppLocalizations.supportedLocales
         .map((e) => e.languageCode)
-        .contains(deviceLocale.languageCode);
+        .contains(locale.languageCode);
+  }
+
+  bool get isSystemLocalizationSupported {
+    return isSupported(deviceLocale);
   }
 
   static const _kDefaultLangCode = 'en';
+
+  @override
+  void didChangeLocales(List<Locale>? locales) async {
+    if (locales == null || locales.isEmpty) return;
+
+    if (_locale != null) {
+      // The user choose this language manually, so we will not follow the system.
+      return;
+    } else {
+      // Notify it changed!
+      notifyListeners();
+    }
+  }
 
   Locale get defaultLocale {
     if (isSystemLocalizationSupported) {
@@ -68,18 +89,32 @@ class LocalizationStore extends ChangeNotifier
     } else {
       await setLocale(localeFromCache);
     }
+
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   Future<void> reset() async {
-    await setLocale(defaultLocale);
+    await setLocale(null);
   }
 
-  Future<void> setLocale(Locale newLocale) async {
-    locale = newLocale;
+  /// If [newLocale] is [null] then it will follow the system default language
+  /// if supported, English otherwise.
+  Future<void> setLocale(Locale? newLocale) async {
+    // If the user changed it's language to a new supported language,
+    // then just ignore it.
+    if (newLocale != null && !isSupported(newLocale)) return;
+
+    _locale = newLocale;
 
     keyValueStorage
-      ..set(_kLocaleLangCodeStorageKey, newLocale.languageCode)
-      ..set(_kLocaleCountryCodeStorageKey, newLocale.countryCode);
+      ..set(_kLocaleLangCodeStorageKey, newLocale?.languageCode)
+      ..set(_kLocaleCountryCodeStorageKey, newLocale?.countryCode);
 
     notifyListeners();
   }

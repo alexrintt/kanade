@@ -31,5 +31,6 @@
   "someApkWereNotExtractedPlain": "Alguns apks foram extraídos com sucesso, mas alguns não puderam ser extraídos",
   "allApksWereSuccessfullyExtracted": "Todos os apks foram extraídos para {{ APK_LOCATION }}",
   "allApksWereSuccessfullyExtractedPlain": "Todos os apks foram extraídos",
-  "toggleSelect": "Alternar seleção"
+  "toggleSelect": "Alternar seleção",
+  "isNotSupportedYet": "ainda não é suportado"
 }

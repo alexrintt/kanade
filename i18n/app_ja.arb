@@ -31,5 +31,6 @@
   "someApkWereNotExtractedPlain": "一部の apk は正常に抽出されましたが、一部は抽出できませんでした",
   "allApksWereSuccessfullyExtracted": "すべての apk が {{ APK_LOCATION }} に抽出されました",
   "allApksWereSuccessfullyExtractedPlain": "すべての apk が抽出されました",
-  "toggleSelect": "トグル選択"
+  "toggleSelect": "トグル選択",
+  "isNotSupportedYet": "はまだサポートされていません"
 }

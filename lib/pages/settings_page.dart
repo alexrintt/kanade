@@ -305,7 +305,19 @@ class _AppLocalizationSettingsTileState
         subtitle: AnimatedBuilder(
           animation: localizationStore,
           builder: (context, child) {
-            return Text(localizationStore.locale.fullName);
+            if (localizationStore.fixedLocale == null) {
+              String systemLanguageNotSupportedWarn = '';
+
+              if (!localizationStore.isSystemLocalizationSupported) {
+                systemLanguageNotSupportedWarn =
+                    ', ${localizationStore.deviceLocale.fullName} ${context.strings.isNotSupportedYet}';
+              }
+
+              return Text(
+                '${context.strings.followTheSystem} (${localizationStore.locale.fullName}$systemLanguageNotSupportedWarn)',
+              );
+            }
+            return Text(localizationStore.fixedLocale!.fullName);
           },
         ),
       ),
@@ -333,12 +345,18 @@ class _ChangeAppLocalizationDialogState
           title: Text(context.strings.language),
           children: [
             for (final localization in AppLocalizations.supportedLocales)
-              RadioListTile<Locale>(
-                groupValue: localizationStore.locale,
+              RadioListTile<Locale?>(
+                groupValue: localizationStore.fixedLocale,
                 value: localization,
                 title: Text(localization.fullName),
                 onChanged: (value) => localizationStore.setLocale(value!),
               ),
+            RadioListTile<Locale?>(
+              groupValue: localizationStore.fixedLocale,
+              value: null,
+              title: Text(context.strings.followTheSystem),
+              onChanged: (value) => localizationStore.setLocale(value),
+            ),
           ],
         );
       },

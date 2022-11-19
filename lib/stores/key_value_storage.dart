@@ -1,4 +1,16 @@
+import 'package:kanade/setup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+/// Helper mixin to avoid code repetition through stores.
+///
+/// Do not use this directly on UI classes (e.g that extends from [State<T>]).
+///
+/// Instead create a store that uses this mixin and then depend on it in the UI.
+mixin KeyValueStorageConsumer<K, V> {
+  KeyValueStorage<K, V?> get keyValueStorage =>
+      _keyValueStorage ??= getIt<KeyValueStorage<K, V>>();
+  KeyValueStorage<K, V>? _keyValueStorage;
+}
 
 /// The changes made in [this] will be available even after the device/app restart.
 abstract class KeyValueStorage<K, V> {

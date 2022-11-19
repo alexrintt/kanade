@@ -1,24 +1,28 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:kanade/setup.dart';
 
-class MenuContext {
-  final int value;
+enum MenuContext {
+  normal,
+  selection,
+  search,
+}
 
-  const MenuContext._(this.value);
-
-  static const normal = MenuContext._(0);
-  static const selection = MenuContext._(1);
-  static const search = MenuContext._(2);
-
-  bool get isNormal => value == 0;
-  bool get isSelection => value == 1;
-  bool get isSearch => value == 2;
+extension MenuContextAlias on MenuContext {
+  bool get isNormal => this == MenuContext.normal;
+  bool get isSelection => this == MenuContext.selection;
+  bool get isSearch => this == MenuContext.search;
 }
 
 mixin ContextualMenuStoreConsumer<T extends StatefulWidget> on State<T> {
   ContextualMenuStore? _menuStore;
   ContextualMenuStore get menuStore =>
       _menuStore ??= getIt<ContextualMenuStore>();
+
+  @override
+  void didUpdateWidget(covariant T oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _menuStore = null; // Refresh store instance when updating the widget
+  }
 }
 
 /// Store to manage the current active menu.

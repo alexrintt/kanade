@@ -1,0 +1,134 @@
+{
+  "settings": "Settings",
+  "@settings": {
+    "description": "Label for the settings page."
+  },
+  "selectOutputFolder": "Select output folder",
+  "@selectOutputFolder": {
+    "description": "String used to ask the user for a folder/path/location to save the extracted apk."
+  },
+  "notDefined": "Not defined",
+  "@notDefined": {
+    "description": "String used to warn the user when there's no output folder defined."
+  },
+  "fontFamily": "Font family",
+  "@fontFamily": {
+    "description": "Label displayed as title of the font family picker dialog."
+  },
+  "theme": "Theme",
+  "@theme": {
+    "description": "Label displayed as title of the theme picker dialog."
+  },
+  "ofN": "of",
+  "@ofN": {
+    "description": "String to be used as preposition."
+  },
+  "extractAllSelected": "Extract all selected",
+  "@extractAllSelected": {
+    "description": "String that describes the action of exporting all the current selected apks."
+  },
+  "extractingApks": "Extracting Apks",
+  "@extractingApks": {
+    "description": "String that is displayed in a dialog when the app starting working in background to extract the selected apks."
+  },
+  "permissionDenied": "Permission denied",
+  "@permissionDenied": {
+    "description": "String that is displayed when an extraction process fails due missing permission, often because the user declined to select an output folder."
+  },
+  "language": "Language",
+  "@language": {
+    "description": "Label displayed as title of the language picker dialog."
+  },
+  "resetAllPreferences": "Reset all preferences",
+  "@resetAllPreferences": {
+    "description": "Label displayed as tooltip for reset settings button."
+  },
+  "extractedTo": "Extracted to",
+  "@extractedTo": {
+    "description": "String that is used when the extraction process was a success as part of the toast to show the extracted apk path."
+  },
+  "permissionRestrictedByAndroid": "Permission restricted by Android",
+  "@permissionRestrictedByAndroid": {
+    "description": "String that is displayed in a toast when the extraction process results in an error of permission restricted by the OS (Android)."
+  },
+  "operationNotAllowedMayBeProtectedPackage": "Operation not allowed, probably this is a protected package",
+  "@operationNotAllowedMayBeProtectedPackage": {
+    "description": "String that is displayed in a toast when the extraction process results in an unknown error that often caused by trying to extract some protected package."
+  },
+  "exitSearch": "Exit search",
+  "@backToPreviousViewMode": {
+    "description": "String that is displayed as tooltip for the search arrow back app bar."
+  },
+  "openSettingsPage": "Open settings page",
+  "@openSettingsPage": {
+    "description": "String that is displayed as tooltip for the settings page button at homepage appbar."
+  },
+  "searchPackagesAndApps": "Search packages and apps",
+  "@searchForPackagesAndApps": {
+    "description": "String that is displayed as tooltip for the search button at homepage appbar."
+  },
+  "changeTheme": "Change theme",
+  "@changeTheme": {
+    "description": "String that is displayed as tooltip for the theme button at homepage appbar."
+  },
+  "selectUnselectAll": "Select/Unselect all",
+  "@selectUnselectAll": {
+    "description": "String that is displayed as tooltip for the toggle selection button at homepage appbar on selection mode."
+  },
+  "sorryWeCouldNotExportAnyApkBecauseTheyAreRestrictedByTheOS": "Sorry, we could not export any of these apks because they are restricted by the OS",
+  "@sorryWeCouldNotExportAnyApkBecauseTheyAreRestrictedByTheOS": {
+    "description": "Friendly error message that shows up when the user tries to extract multiple restricted apks."
+  },
+  "export": "Export",
+  "@export": {
+    "description": "String that is displayed as a settings tile title."
+  },
+  "display": "Display",
+  "@display": {
+    "description": "String that is displayed as a settings tile title."
+  },
+  "darkDimmed": "Dark dimmed",
+  "@darkDimmed": {
+    "description": "One of the available themes representing a dark yet not too dark theme."
+  },
+  "light": "Light",
+  "@light": {
+    "description": "One of the available themes representing a basic light theme."
+  },
+  "darkLightsOut": "Dark lights out",
+  "@darkLightsOut": {
+    "description": "One of the available themes representing a darker black high-contrast theme."
+  },
+  "followTheSystem": "Follow the system",
+  "@followTheSystem": {
+    "description": "One of the available themes representing a theme that follows the device/system theme."
+  },
+  "darkHacker": "Dark hacker",
+  "@darkHacker": {
+    "description": "One of the available themes representing a dark lights out with green as primary color."
+  },
+  "darkBlood": "Dark blood",
+  "@darkBlood": {
+    "description": "One of the available themes representing a dark lights out with red as primary color."
+  },
+  "someApkWereNotExtracted": "Some apks are located in {{ APK_LOCATION }} but some could not be extracted",
+  "@someApkWereNotExtracted": {
+    "description": "Message that explains that the multiple apk extraction process had partial success."
+  },
+  "someApkWereNotExtractedPlain": "Some apks are were successfully extracted but some could not be extracted",
+  "@someApkWereNotExtractedPlain": {
+    "description": "Message that explains that the multiple apk extraction process had partial success without any variable/param."
+  },
+  "allApksWereSuccessfullyExtracted": "All apks were extracted to {{ APK_LOCATION }}",
+  "@allApksWereSuccessfullyExtracted": {
+    "description": "Message that explains that the multiple apk extraction process had partial success."
+  },
+  "allApksWereSuccessfullyExtractedPlain": "All apks were extracted",
+  "@allApksWereSuccessfullyExtractedPlain": {
+    "description": "Message that explains that the multiple apk extraction process done successfully without variable/param."
+  },
+  "toggleSelect": "Toggle select",
+  "@toggleSelect": {
+    "description": "Tooltip label of the select/unselect tile icon button."
+  }
+}

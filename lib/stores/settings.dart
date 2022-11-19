@@ -1,7 +1,19 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:kanade/setup.dart';
 import 'package:kanade/utils/apply_if_not_null.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_storage/saf.dart';
+
+mixin SettingsStoreMixin<T extends StatefulWidget> on State<T> {
+  SettingsStore? _settingsStore;
+  SettingsStore get settingsStore => _settingsStore ??= getIt<SettingsStore>();
+
+  @override
+  void didUpdateWidget(covariant T oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    _settingsStore = null; // Refresh store instance when updating the widget
+  }
+}
 
 class SettingsStore extends ChangeNotifier {
   /// Use it for display only features, do not rely on it to create files

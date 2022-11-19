@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:kanade/widgets/animated_app_name.dart';
 
 class Loading extends StatefulWidget {

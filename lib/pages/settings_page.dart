@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/constant/constant.dart';
 import 'package:flutter_shared_tools/extensions/extensions.dart';
-import 'package:kanade/setup.dart';
+import 'package:kanade/stores/localization_store.dart';
 import 'package:kanade/stores/settings.dart';
+import 'package:kanade/utils/app_localization_strings.dart';
 import 'package:kanade/utils/stringify_uri_location.dart';
 import 'package:kanade/widgets/app_icon_button.dart';
 import 'package:kanade/widgets/app_version_info.dart';
+import 'package:kanade/widgets/horizontal_rule.dart';
 import 'package:pixelarticons/pixel.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 import '../stores/theme.dart';
 
@@ -17,19 +20,8 @@ class SettingsPage extends StatefulWidget {
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
-mixin SettingsStoreMixin<T extends StatefulWidget> on State<T> {
-  SettingsStore? _settingsStore;
-  SettingsStore get settingsStore => _settingsStore ??= getIt<SettingsStore>();
-
-  @override
-  void didUpdateWidget(covariant T oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _settingsStore = null; // Refresh store instance when updating the widget
-  }
-}
-
 class _SettingsPageState extends State<SettingsPage>
-    with SettingsStoreMixin, ThemeStoreMixin {
+    with SettingsStoreMixin, ThemeStoreMixin, LocalizationStoreMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,14 +38,15 @@ class _SettingsPageState extends State<SettingsPage>
                     icon: const Icon(Pixel.arrowleft),
                     onPressed: () => Navigator.pop(context),
                   ),
-            title: const Text('Settings'),
+            title: Text(context.strings.settings),
             actions: [
               AppIconButton(
                 icon: const Icon(Pixel.reload),
-                tooltip: 'Reset all preferences',
+                tooltip: context.strings.resetAllPreferences,
                 onTap: () {
                   settingsStore.reset();
                   themeStore.reset();
+                  localizationStore.reset();
                 },
               ),
             ],
@@ -61,14 +54,41 @@ class _SettingsPageState extends State<SettingsPage>
           SliverList(
             delegate: SliverChildListDelegate(
               [
+                SettingsTileTitle(context.strings.export),
                 const ExportLocationSettingsTile(),
+                const HorizontalRule(),
+                SettingsTileTitle(context.strings.display),
                 const AppThemeSettingsTile(),
                 const AppFontFamilySettingsTile(),
+                const AppLocalizationSettingsTile(),
+                const HorizontalRule(),
                 const AppVersionInfo(),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class SettingsTileTitle extends StatelessWidget {
+  final String title;
+
+  const SettingsTileTitle(this.title, {Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: k12dp,
+        vertical: k6dp,
+      ).copyWith(top: k12dp),
+      child: Text(
+        title,
+        style: TextStyle(
+          color: context.theme.disabledColor,
+        ),
       ),
     );
   }
@@ -102,8 +122,8 @@ class _ExportLocationSettingsTileState extends State<ExportLocationSettingsTile>
             ),
             enableFeedback: true,
             leading: const Icon(Pixel.folder),
-            title: const Text('Select export location'),
-            subtitle: Text(exportLocation ?? 'Not defined'),
+            title: Text(context.strings.selectOutputFolder),
+            subtitle: Text(exportLocation ?? context.strings.notDefined),
             trailing: const Icon(Pixel.chevronright),
           );
         },
@@ -137,11 +157,13 @@ class _AppThemeSettingsTileState extends State<AppThemeSettingsTile>
         ),
         enableFeedback: true,
         leading: const Icon(Pixel.sun),
-        title: const Text('Display theme'),
+        title: Text(context.strings.theme),
         subtitle: AnimatedBuilder(
           animation: themeStore,
           builder: (context, child) {
-            return Text(themeStore.currentTheme.label);
+            return Text(
+              themeStore.currentTheme.getNameString(context.strings),
+            );
           },
         ),
       ),
@@ -165,13 +187,13 @@ class _ChangeThemeDialogState extends State<ChangeThemeDialog>
       builder: (context, child) {
         return SimpleDialog(
           backgroundColor: context.theme.backgroundColor,
-          title: const Text('Theme'),
+          title: Text(context.strings.theme),
           children: [
             for (final theme in AppTheme.values)
               RadioListTile<AppTheme>(
                 groupValue: themeStore.currentTheme,
                 value: theme,
-                title: Text(theme.label),
+                title: Text(theme.getNameString(context.strings)),
                 onChanged: (value) => themeStore.setTheme(value!),
               ),
           ],
@@ -207,7 +229,7 @@ class _AppFontFamilySettingsTileState extends State<AppFontFamilySettingsTile>
         ),
         enableFeedback: true,
         leading: const Icon(Pixel.sortalpabetic),
-        title: const Text('Font family'),
+        title: Text(context.strings.fontFamily),
         subtitle: AnimatedBuilder(
           animation: themeStore,
           builder: (context, child) {
@@ -236,7 +258,7 @@ class _ChangeThemeFontFamilyDialogState
       builder: (context, child) {
         return SimpleDialog(
           backgroundColor: context.theme.backgroundColor,
-          title: const Text('Font'),
+          title: Text(context.strings.fontFamily),
           children: [
             for (final fontFamily
                 in AppFontFamily.values.where((e) => e.displayable))
@@ -245,6 +267,77 @@ class _ChangeThemeFontFamilyDialogState
                 value: fontFamily,
                 title: Text(fontFamily.name),
                 onChanged: (value) => themeStore.setFontFamily(value!),
+              ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class AppLocalizationSettingsTile extends StatefulWidget {
+  const AppLocalizationSettingsTile({Key? key}) : super(key: key);
+
+  @override
+  State<AppLocalizationSettingsTile> createState() =>
+      _AppLocalizationSettingsTileState();
+}
+
+class _AppLocalizationSettingsTileState
+    extends State<AppLocalizationSettingsTile> with LocalizationStoreMixin {
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (context) => const ChangeAppLocalizationDialog(),
+        );
+      },
+      child: ListTile(
+        tileColor: Colors.transparent,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: k10dp,
+        ),
+        enableFeedback: true,
+        leading: const Icon(Pixel.circle),
+        title: Text(context.strings.language),
+        subtitle: AnimatedBuilder(
+          animation: localizationStore,
+          builder: (context, child) {
+            return Text(localizationStore.locale.fullName);
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class ChangeAppLocalizationDialog extends StatefulWidget {
+  const ChangeAppLocalizationDialog({Key? key}) : super(key: key);
+
+  @override
+  State<ChangeAppLocalizationDialog> createState() =>
+      _ChangeAppLocalizationDialogState();
+}
+
+class _ChangeAppLocalizationDialogState
+    extends State<ChangeAppLocalizationDialog> with LocalizationStoreMixin {
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: localizationStore,
+      builder: (context, child) {
+        return SimpleDialog(
+          backgroundColor: context.theme.backgroundColor,
+          title: Text(context.strings.language),
+          children: [
+            for (final localization in AppLocalizations.supportedLocales)
+              RadioListTile<Locale>(
+                groupValue: localizationStore.locale,
+                value: localization,
+                title: Text(localization.fullName),
+                onChanged: (value) => localizationStore.setLocale(value!),
               ),
           ],
         );

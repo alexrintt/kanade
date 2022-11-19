@@ -106,8 +106,8 @@ class LocalizationStore extends ChangeNotifier
   /// If [newLocale] is [null] then it will follow the system default language
   /// if supported, English otherwise.
   Future<void> setLocale(Locale? newLocale) async {
-    // If the user changed it's language to a new supported language,
-    // then just ignore it.
+    // If the user changed it's language to a new
+    // unsupported language, then just ignore it.
     if (newLocale != null && !isSupported(newLocale)) return;
 
     _locale = newLocale;

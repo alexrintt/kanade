@@ -128,9 +128,13 @@ To display all installed apps the [`🔗 device_apps`](https://pub.dev/packages/
 
 ## Contributing
 
-To report a bug, create a new issue with an screenshot or a small description of the bug, thanks.
+There are several ways to contribute:
 
-To request a feature please add an issue to further discuss, thx.
+- To improve the translation, open the `/i18n` folder create a file `app_<thelangcodeyouwanttoaddorimprove>.arb` and translate the keys, then open a PR, that's it.
+
+- To report a bug, create a new issue with an screenshot or a small description of the bug, thanks.
+
+- To request a feature please add an issue to further discuss, thx.
 
 ## Contributors
 

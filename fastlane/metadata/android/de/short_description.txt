@@ -1,1 +1,0 @@
-Kanade ist eine einfache App, mit der Sie apk aus Ihrer App-Liste extrahieren können. Vollständig Open-Source und keine Werbung. Funktioniert für Android 4.4 oder höher.

@@ -4,6 +4,7 @@ import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:kanade/stores/contextual_menu.dart';
 import 'package:kanade/stores/device_apps.dart';
 import 'package:kanade/utils/app_localization_strings.dart';
+import 'package:kanade/widgets/animated_app_name.dart';
 import 'package:kanade/widgets/app_version_info.dart';
 import 'package:kanade/widgets/package_tile.dart';
 import 'package:kanade/widgets/toast.dart';
@@ -79,32 +80,48 @@ class _PackagesListState extends State<PackagesList>
         builder: (context, child) => CustomScrollView(
           slivers: [
             const ContextualMenu(),
-            SliverPadding(
-              padding: const EdgeInsets.symmetric(vertical: k3dp),
-              sliver: SliverList(
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    final current = store.displayableApps[index];
+            MultiAnimatedBuilder(
+              animations: [store, menuStore],
+              builder: (context, child) {
+                return SliverPadding(
+                  padding: const EdgeInsets.symmetric(vertical: k3dp),
+                  sliver: SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final current = store.displayableApps[index];
 
-                    return PackageTile(
-                      current,
-                      showCheckbox: menuStore.context.isSelection,
-                      onLongPress: () => _onLongPress(current),
-                      onPressed: () => _onPressed(current),
-                      isSelected: menuStore.context.isSelection &&
-                          store.isSelected(current),
-                    );
-                  },
-                  childCount: store.displayableApps.length,
-                ),
-              ),
+                        return PackageTile(
+                          current,
+                          showCheckbox: menuStore.context.isSelection,
+                          onLongPress: () => _onLongPress(current),
+                          onPressed: () => _onPressed(current),
+                          isSelected: menuStore.context.isSelection &&
+                              store.isSelected(current),
+                        );
+                      },
+                      childCount: store.displayableApps.length,
+                    ),
+                  ),
+                );
+              },
             ),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  const AppVersionInfo(),
-                ],
-              ),
+            MultiAnimatedBuilder(
+              animations: [store],
+              builder: (context, child) {
+                return SliverList(
+                  delegate: SliverChildListDelegate(
+                    [
+                      if (store.fullyLoaded)
+                        const AppVersionInfo()
+                      else
+                        const Padding(
+                          padding: EdgeInsets.all(k12dp),
+                          child: Center(child: AnimatedAppName()),
+                        ),
+                    ],
+                  ),
+                );
+              },
             ),
           ],
         ),

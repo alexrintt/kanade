@@ -4,9 +4,13 @@ import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:kanade/setup.dart';
 import 'package:kanade/stores/settings.dart';
+import 'package:kanade/utils/debounce.dart';
+import 'package:kanade/utils/is_disposed_mixin.dart';
 import 'package:kanade/utils/stringify_uri_location.dart';
+import 'package:kanade/utils/throttle.dart';
 import 'package:nanoid/async.dart';
 import 'package:shared_storage/shared_storage.dart';
+import 'package:string_similarity/string_similarity.dart';
 
 mixin DeviceAppsStoreConsumer<T extends StatefulWidget> on State<T> {
   DeviceAppsStore? _store;
@@ -101,7 +105,59 @@ class MultipleResult {
   bool get permissionWasDenied => value == 3;
 }
 
-class DeviceAppsStore extends ChangeNotifier {
+class ApplicationSearchResult implements Comparable<ApplicationSearchResult> {
+  const ApplicationSearchResult({required this.app, required this.text});
+
+  final String text;
+  final Application app;
+
+  String get _rawRegex {
+    final matcher = text.substring(0, text.length - 1).split('').join('.*');
+    final ending = text[text.length - 1];
+
+    return matcher + ending;
+  }
+
+  RegExp get _regex => RegExp(_rawRegex, caseSensitive: false);
+
+  /// Checks if [source] contains all the characters of [text] in the correct order
+  ///
+  /// Example:
+  /// ```
+  /// hasMatch('abcdef', 'adf') // true
+  /// hasMatch('dbcaef', 'adf') // false
+  /// ```
+  bool _hasWildcardMatch() {
+    return _regex.hasMatch(source);
+  }
+
+  bool hasMatch() {
+    return _hasWildcardMatch();
+  }
+
+  String get source {
+    return [app.appName, app.packageName].join(' ').toLowerCase();
+  }
+
+  double get similarity {
+    return text.similarityTo(source);
+  }
+
+  @override
+  int compareTo(ApplicationSearchResult other) {
+    if (text != other.text) return 0;
+
+    if (similarity == other.similarity) {
+      return 0;
+    } else if (similarity > other.similarity) {
+      return 1;
+    } else {
+      return -1;
+    }
+  }
+}
+
+class DeviceAppsStore extends ChangeNotifier with IsDisposedMixin {
   /// Id length to avoid filename conflict on extract Apk
   static const kIdLength = 5;
 
@@ -116,18 +172,14 @@ class DeviceAppsStore extends ChangeNotifier {
   /// List of all selected applications
   final selected = <Application>{};
 
-  /// List of all search results
-  /// If null, has no query
-  /// If empty, has no results
-  /// Otherwise hold all results
-  List<Application>? results;
-
   /// Whether loading device applications or not
   bool isLoading = false;
   int? totalPackagesCount;
   int? get loadedPackagesCount => isLoading ? apps.length : totalPackagesCount;
   bool get fullyLoaded =>
       !isLoading && loadedPackagesCount == totalPackagesCount;
+
+  void Function(void Function()) throttle = throttleIt1s();
 
   /// Load all device packages
   ///
@@ -148,7 +200,11 @@ class DeviceAppsStore extends ChangeNotifier {
       (app) {
         apps.add(app);
 
-        notifyListeners();
+        throttle(() {
+          if (!isDisposed) {
+            notifyListeners();
+          }
+        });
       },
       onDone: () {
         isLoading = false;
@@ -170,7 +226,8 @@ class DeviceAppsStore extends ChangeNotifier {
   }
 
   /// Packages to be rendered on the screen
-  List<Application> get displayableApps => results != null ? results! : apps;
+  List<Application> get displayableApps =>
+      _searchText != null ? results.map((e) => e.app).toList() : apps;
 
   /// Return [true] if all [displayableApps] are selected
   bool get isAllSelected => displayableApps.length == selected.length;
@@ -250,9 +307,8 @@ class DeviceAppsStore extends ChangeNotifier {
   /// Verify if a given [package] is selected
   bool isSelected(Application package) => selected.contains(package);
 
-  /// Set [results] as [null] and show all [apps] as [displayableApps]
   void disableSearch() {
-    results = null;
+    _searchText = null;
     notifyListeners();
   }
 
@@ -269,37 +325,34 @@ class DeviceAppsStore extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool get isSearchMode => _searchText != null;
+
+  List<ApplicationSearchResult> get results {
+    if (_searchText == null) return [];
+
+    final filtered = apps
+        .map((app) => ApplicationSearchResult(app: app, text: _searchText!))
+        .where((result) => result.hasMatch())
+        .toList()
+      ..sort((a, z) => z.compareTo(a));
+
+    return filtered;
+  }
+
+  String? _searchText;
+
+  final debounceSearch = debounceIt200ms();
+
   /// Add all matched apps to [results] array if any
   ///
   /// This method will disable search if [text] is empty by default
   void search(String text) {
-    bool hasMatch(Application app) {
-      final source = [app.appName, app.packageName].join(' ').toLowerCase();
-
-      return _hasWildcardMatch(source, text.toLowerCase());
-    }
-
-    results = [];
+    _searchText = text;
 
     if (text.isEmpty) {
-      disableSearch();
-    } else {
-      results = apps.where(hasMatch).toList();
+      _searchText = null;
     }
 
-    notifyListeners();
-  }
-
-  /// Checks if [source] contains all the characters of [text] in the correct order
-  ///
-  /// Example:
-  /// ```
-  /// hasMatch('abcdef', 'adf') // true
-  /// hasMatch('dbcaef', 'adf') // false
-  /// ```
-  bool _hasWildcardMatch(String source, String text) {
-    final regexp = text.split('').join('.*');
-
-    return RegExp(regexp).hasMatch(source);
+    debounceSearch(() => notifyListeners());
   }
 }

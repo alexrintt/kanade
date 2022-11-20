@@ -7,8 +7,8 @@ void showToast(BuildContext context, String message) {
     msg: message,
     toastLength: Toast.LENGTH_LONG,
     gravity: ToastGravity.BOTTOM,
-    backgroundColor: context.theme.backgroundColor,
-    textColor: context.onBackground,
+    backgroundColor: context.theme.textTheme.bodyText1!.color,
+    textColor: context.theme.backgroundColor,
     fontSize: 12.0,
   );
 }

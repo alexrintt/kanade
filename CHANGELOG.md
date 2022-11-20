@@ -1,3 +1,13 @@
+## 0.3.2
+
+Behavior changes on home and search page.
+
+### Behavior changes
+
+- On start the app there is a throttling being applied to the render process which makes the app fps smoothier.
+- Search page has now a debounce applied (of 50ms) to improve performance.
+- The search algorithm is now using a [string_similarity](https://pub.dev/packages/string_similarity) algorithm to rank and display best results.
+
 ## 0.3.1
 
 This released was focused in adding internationalization features to the app, following languages were added:

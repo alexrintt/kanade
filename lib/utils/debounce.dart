@@ -4,6 +4,10 @@ void Function(void Function()) debounceIt200ms() {
   return debounceIt(const Duration(milliseconds: 200));
 }
 
+void Function(void Function()) debounceIt50ms() {
+  return debounceIt(const Duration(milliseconds: 50));
+}
+
 void Function(void Function()) debounceIt(Duration duration) {
   Timer? debounce;
 

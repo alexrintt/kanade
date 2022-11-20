@@ -179,7 +179,7 @@ class DeviceAppsStore extends ChangeNotifier with IsDisposedMixin {
   bool get fullyLoaded =>
       !isLoading && loadedPackagesCount == totalPackagesCount;
 
-  void Function(void Function()) throttle = throttleIt1s();
+  void Function(void Function()) throttle = throttleIt500ms();
 
   /// Load all device packages
   ///
@@ -341,7 +341,7 @@ class DeviceAppsStore extends ChangeNotifier with IsDisposedMixin {
 
   String? _searchText;
 
-  final debounceSearch = debounceIt200ms();
+  final debounceSearch = debounceIt50ms();
 
   /// Add all matched apps to [results] array if any
   ///

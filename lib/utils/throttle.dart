@@ -9,6 +9,10 @@ void Function(void Function()) throttleIt1s() {
   return throttleIt(const Duration(seconds: 1));
 }
 
+void Function(void Function()) throttleIt500ms() {
+  return throttleIt(const Duration(milliseconds: 500));
+}
+
 void Function(void Function()) throttleIt(Duration duration) {
   Timer? throttle;
 

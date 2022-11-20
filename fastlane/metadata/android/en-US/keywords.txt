@@ -1,0 +1,10 @@
+extract
+apk
+extractor
+android
+app
+kanade
+installation
+get
+binary
+package

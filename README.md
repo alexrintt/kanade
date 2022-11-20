@@ -130,11 +130,15 @@ To display all installed apps the [`🔗 device_apps`](https://pub.dev/packages/
 
 There are several ways to contribute:
 
-- To improve the translation, open the `/i18n` folder create a file `app_<thelangcodeyouwanttoaddorimprove>.arb` and translate the keys, then open a PR, that's it.
+- To improve the translation: 1. open the `/i18n` folder, 2. create a file `app_<thelangcodeyouwanttoaddorimprove>.arb` and 3. translate the keys 4. then open a PR, that's it.
 
-- To report a bug, create a new issue with an screenshot or a small description of the bug, thanks.
+- To report a bug, create a new issue with an screenshot or a small description of the bug.
 
-- To request a feature please add an issue to further discuss, thx.
+- To request a feature please add an issue to further discuss.
+
+If you wanna contribute in private, you can also ping me on my email [reach@alexrintt.io](mailto://reach@alexrintt.io) to discuss any of the points above.
+
+Thanks in advance.
 
 ## Contributors
 

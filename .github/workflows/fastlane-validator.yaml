@@ -1,5 +1,4 @@
 name: Validate fastlane actions
-run-name: Validation triggered by @${{ github.actor }}
 
 on:
   push:

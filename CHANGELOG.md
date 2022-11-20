@@ -1,3 +1,13 @@
+## 0.3.2
+
+Behavior changes on home and search page.
+
+### Behavior changes
+
+- On start the app there is a throttling being applied to the render process which makes the app fps smoothier.
+- Search page has now a debounce applied (of 50ms) to improve performance.
+- The search algorithm is now using a [string_similarity](https://pub.dev/packages/string_similarity) algorithm to rank and display best results.
+
 ## 0.3.1
 
 This released was focused in adding internationalization features to the app, following languages were added:
@@ -8,7 +18,7 @@ This released was focused in adding internationalization features to the app, fo
 - Spanish (es).
 - (Previously supported) English (en).
 
-## New
+### New
 
 - Settings:
   - Added location settings tile.
@@ -21,7 +31,7 @@ Most release changes are related to UI and design stuff, minimal changes to core
 
 UI/UX improvements:
 
-## New
+### New
 
 - Settings:
 
@@ -51,11 +61,11 @@ UI/UX improvements:
 
   - Replaced gif and app bar with a minimal logo animation written using `FFF Forward` font.
 
-## Behavior changes
+### Behavior changes
 
 - When in selection or search mode, on tap back (through arrow back or native device buttons) it now redirects to the previous state instead popping to the homepage directly.
 
-## Bug fixes
+### Bug fixes
 
 - Fix crash when trying to export to a folder that no longer exists (probably was deleted through the system file manager or a third-party app). It now prompt the user to select a new location.
 

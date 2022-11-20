@@ -51,11 +51,19 @@ class _HomePageState extends State<HomePage>
       return state.clamp(0, 1);
     }
 
-    return LinearProgressIndicator(
-      minHeight: k2dp,
-      color: context.theme.primaryColor,
-      backgroundColor: context.theme.cardColor,
-      value: isDeterminatedState ? progress() : null,
+    return TweenAnimationBuilder<double>(
+      duration: const Duration(milliseconds: 1000),
+      curve: Curves.easeInOut,
+      tween: Tween<double>(
+        begin: 0,
+        end: isDeterminatedState ? progress() : 0,
+      ),
+      builder: (context, value, _) => LinearProgressIndicator(
+        minHeight: k2dp,
+        color: context.theme.primaryColor,
+        backgroundColor: context.theme.cardColor,
+        value: value,
+      ),
     );
   }
 

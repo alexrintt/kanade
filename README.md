@@ -74,7 +74,7 @@ PlayStore link, add again when the new version is available.
 
 ## What's an apk extractor
 
-Installed apps from PlayStore doesn't expose their apk installation files by default. So if you want to share some app you will need to send the PlayStore link. And if you are offline or the app is no longer available on the PlayStore you won't be able to share the app.
+Installed apps from PlayStore doesn't expose their apk installation files by default. So if you want to share some app you will need to send the PlayStore link, and if you are offline or the app is no longer available on the PlayStore you won't be able to do so.
 
 So here we are, whatever the reason, if you want to share some app directly through a p2p connection (Bluetooth, Wifi-Direct, etc.) you can use apk extractors! These kind of apps allow the user to extract the hidden apk files from almost any installed app to a visible location (e.g Downloads folder).
 
@@ -130,11 +130,15 @@ To display all installed apps the [`🔗 device_apps`](https://pub.dev/packages/
 
 There are several ways to contribute:
 
-- To improve the translation, open the `/i18n` folder create a file `app_<thelangcodeyouwanttoaddorimprove>.arb` and translate the keys, then open a PR, that's it.
+- To improve the translation: 1. open the `/i18n` folder, 2. create a file `app_<thelangcodeyouwanttoaddorimprove>.arb` and 3. translate the keys 4. then open a PR, that's it.
 
-- To report a bug, create a new issue with an screenshot or a small description of the bug, thanks.
+- To report a bug, create a new issue with an screenshot or a small description of the bug.
 
-- To request a feature please add an issue to further discuss, thx.
+- To request a feature please add an issue to further discuss.
+
+If you wanna contribute in private, you can also ping me on my email [reach@alexrintt.io](mailto://reach@alexrintt.io) to discuss any of the points above.
+
+Thanks in advance.
 
 ## Contributors
 

@@ -74,7 +74,7 @@ PlayStore link, add again when the new version is available.
 
 ## What's an apk extractor
 
-Installed apps from PlayStore doesn't expose their apk installation files by default. So if you want to share some app you will need to send the PlayStore link. And if you are offline or the app is no longer available on the PlayStore you won't be able to share the app.
+Installed apps from PlayStore doesn't expose their apk installation files by default. So if you want to share some app you will need to send the PlayStore link, and if you are offline or the app is no longer available on the PlayStore you won't be able to do so.
 
 So here we are, whatever the reason, if you want to share some app directly through a p2p connection (Bluetooth, Wifi-Direct, etc.) you can use apk extractors! These kind of apps allow the user to extract the hidden apk files from almost any installed app to a visible location (e.g Downloads folder).
 

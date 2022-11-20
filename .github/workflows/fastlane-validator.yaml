@@ -10,10 +10,11 @@ on:
     - master
 
 jobs:
-  # required to run on Linux because this is a docker container action
-  runs-on: ubuntu-latest
-  steps:
-    - uses: actions/checkout@v3
-    - uses: ashutoshgngwr/validate-fastlane-supply-metadata@v2
-      with:
-        usePlayStoreLocales: true
+  validate-fastlane:
+    # required to run on Linux because this is a docker container action
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ashutoshgngwr/validate-fastlane-supply-metadata@v2
+        with:
+          usePlayStoreLocales: true

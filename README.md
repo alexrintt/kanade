@@ -36,7 +36,6 @@ PlayStore link, add again when the new version is available.
   <kbd><img src="https://user-images.githubusercontent.com/51419598/201553663-07ad5cb4-6745-4b40-bbf4-cbd0998fdea2.jpg" width="200"></kbd>
   <kbd><img src="https://user-images.githubusercontent.com/51419598/201553659-bd05160f-a869-4387-8b9c-150672dbebb8.jpg" width="200"></kbd>
   <kbd><img src="https://user-images.githubusercontent.com/51419598/201553667-f20e6ee3-df40-4ff7-b409-00b8f58a46eb.jpg" width="200"></kbd>
-  <kbd><img src="https://user-images.githubusercontent.com/51419598/201553669-44120285-7f3a-4cb8-a85e-3c5beb2b16c4.jpg" width="200"></kbd>
 </div>
 
 <br />

@@ -15,7 +15,7 @@
 
 Kanade is a simple app that allows you to extract apk from your apps list. Fully open-source, zero-ads and no-tracking.
 
-## How it looks like
+## How it looks
 
 - Multiple themes.
 - Multiple fonts.

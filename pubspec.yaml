@@ -31,14 +31,9 @@ dependencies:
   string_similarity: ^2.0.0
 
 dev_dependencies:
-  flutter_launcher_icons:
-    git:
-      url: https://github.com/nvi9/flutter_launcher_icons
-      ref: e045d40c73847285c0e3efdd2a3e2f276529ca75
   flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
-  flutter_native_splash: ^2.2.15
 
 flutter:
   generate: true
@@ -60,26 +55,3 @@ flutter:
     - family: Zen Kaku Gothic Antique
       fonts:
         - asset: assets/fonts/ZenKakuGothicAntique-Regular.ttf
-
-flutter_icons:
-  android: "launcher_icon"
-  ios: false
-  min_sdk_android: 19
-  image_path: "assets/icons/padded_legacy.png"
-  adaptive_icon_background: "assets/icons/padded_bg.png"
-  adaptive_icon_foreground: "assets/icons/padded_fg.png"
-  adaptive_icon_monochrome: "assets/icons/padded_mono.png"
-
-flutter_native_splash:
-  android_12:
-    image: assets/icons/splash.png
-    color: "#25262E"
-    icon_background_color_dark: "#25262E"
-  ios: false
-  web: false
-  color_android: "#25262E"
-  color_dark_android: "#25262E"
-  android_gravity: center
-
-  image_android: assets/icons/splash.png
-  image_dark_android: assets/icons/splash.png

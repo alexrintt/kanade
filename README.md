@@ -1,13 +1,26 @@
-<p align="center">
-  <img src="https://user-images.githubusercontent.com/51419598/138639694-77dc8fce-82ca-4032-9f95-a2585eaf33d0.png" width="150" />
-</p>
-<samp>
+<img src="https://user-images.githubusercontent.com/51419598/202943201-f15a7fb0-4195-4723-9bad-3e13ac0d26ea.svg" />
 
-<samp><h6 align="center">#android, #flutter, #apkextractor, #saf</h6></samp>
+<sup>Banner and icon by [@WSTxda](https://linktr.ee/wstxda).</sup>
 
-<h1 align="center">Kanade - Apk Extractor</h1>
-<p align="center"><samp>Kanade is a simple app that allows you to extract apk from your apps list. Fully open-source and zero-ads.</samp></p>
-</samp>
+## Kanade Apk Extractor
+
+<a href="https://github.com/alexrintt/kanade/releases">
+  <p>
+    <img src="https://img.shields.io/github/v/release/alexrintt/kanade?label=latest&style=flat-square">
+    <img src="https://img.shields.io/github/downloads/alexrintt/kanade/total?color=000t&style=flat-square">
+    <img src="https://img.shields.io/badge/compatibility-4.4+-orange?style=flat-square">
+    <img src="https://img.shields.io/badge/API-19+-green?style=flat-square">
+  </p>
+</a>
+
+Kanade is a simple app that allows you to extract apk from your apps list. Fully open-source, zero-ads and no-tracking.
+
+## How it looks
+
+- Multiple themes.
+- Multiple fonts.
+- English, Japanese, Portuguese, German and Spanish supported.
+- Minimal UI.
 
 <!--
 
@@ -19,23 +32,13 @@ PlayStore link, add again when the new version is available.
 
 -->
 
-<p align="center">
-  <a href="https://apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" height="80">
-  </a>
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Dart-22272E?&style=for-the-badge&logo=dart&logoColor=2AAEE9">
-  <img src="https://img.shields.io/badge/Android 4.4+-22272E?style=for-the-badge&logo=android&logoColor=3BD580">
-  <img src="https://img.shields.io/badge/Apk Extractor-22272E?style=for-the-badge&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAMAAAAoLQ9TAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAABO1BMVEUkIiolJCs5OD43Njw4Nz0jIik4Nz0nJi0rKzE0Mzo8O0E/PkRCQUdFREo+PUM5OD4tLDM2NTtEQ0lkY2iOjZGnpqmpqKuSkZRpaG1KSU9EQ0hAP0U7OkBSUVempajq6uv////r6+upqateXWJIR00rKjE0MzlPTlS/v8Hz8/Pf3+Dd3d7w8PHEw8VHRks/PkMxMDejo6b9/f3Dw8V7en5hYGV5eHz5+fmrq61PT1Q1NDpfXmPp6epcW2BKSU54d3vi4eL+/v7r6+xtbXFHR0w4Nz6KiY14d3xGRkzT09SVlJfe3t9cXGFnZmv19fasq65NTFI4OD6Kio1HRkxQT1Q1NDttbHH4+PlGRUs2NTzr6uuqqaxIR0xDQkmNjZGmpqmoqKuRkZRpaGxFREk7OkE+PkRERElCQUY6OT/oLrcWAAAAB3RSTlOf+fmf+Z+f8gI33QAAAAFiS0dEILNrPYAAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfmBwIONByxVcQWAAAAzklEQVQY02NgYGTn4OTi5uHl5eHj52diBvIFBIWERUTFxCUkpaRlWBiAfFk5eQUgUFRSVpGWYVBVU9dQUNDU0tZRUNBV1tNnMOAzVDAyNjE10zBXULCwlGKwsrZRMLa1s3dwBOpycnZhcHVT0HT3UPcEmaLg6CXJwGWo4O0j7esHFlDwD8AUCAwCagkOQWgJRTE0LBjJ2nCgtepSDKqclkgOi9AHOj0S6vSoaOUYoNNBnosVjotPSEySTAZ5jpWRXZUzJZUnLTmdLyODhQ0AALcqrqU2+nAAAAAldEVYdGRhdGU6Y3JlYXRlADIwMjItMDctMDJUMTQ6NTI6MTkrMDA6MDCedLOIAAAAJXRFWHRkYXRlOm1vZGlmeQAyMDIyLTA3LTAyVDE0OjUyOjE5KzAwOjAw7ykLNAAAAABJRU5ErkJggg==&logoColor=2F74C0">
-</p>
-
-<div align="center">
-  <kbd><img src="https://user-images.githubusercontent.com/51419598/201553717-5bd941db-4320-4301-bfdf-dbde2b890f4f.jpg" width="200"></kbd>
-  <kbd><img src="https://user-images.githubusercontent.com/51419598/201553570-88614248-6fb4-42e2-9c0f-f43b771011bf.jpg" width="200"></kbd>
+<div>
   <kbd><img src="https://user-images.githubusercontent.com/51419598/201553663-07ad5cb4-6745-4b40-bbf4-cbd0998fdea2.jpg" width="200"></kbd>
-  <kbd><img src="https://user-images.githubusercontent.com/51419598/201552690-cd442f03-c924-4a31-a776-5f9a84d1bf61.jpg" width="200" /></kbd>
+  <kbd><img src="https://user-images.githubusercontent.com/51419598/201553659-bd05160f-a869-4387-8b9c-150672dbebb8.jpg" width="200"></kbd>
+  <kbd><img src="https://user-images.githubusercontent.com/51419598/201553667-f20e6ee3-df40-4ff7-b409-00b8f58a46eb.jpg" width="200"></kbd>
 </div>
+
+<br />
 
 <details>
   <summary>See full screenshots</summary>
@@ -70,34 +73,22 @@ PlayStore link, add again when the new version is available.
   
 </details>
 
-<br>
+---
+
+<div>
+  <a href="https://apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade">
+    <img height="80" src="https://user-images.githubusercontent.com/51419598/202963424-371af9f5-e433-4f23-8cd0-537fe6fc013f.png">
+  </a>
+  <a href="https://github.com/alexrintt/kanade/releases">
+    <img height="80" src="https://user-images.githubusercontent.com/51419598/202963419-6095ee98-88a5-486f-9c84-a0bd2d8c700e.png">
+  </a>
+</div>
 
 ## What's an apk extractor
 
 Installed apps from PlayStore doesn't expose their apk installation files by default. So if you want to share some app you will need to send the PlayStore link, and if you are offline or the app is no longer available on the PlayStore you won't be able to do so.
 
 So here we are, whatever the reason, if you want to share some app directly through a p2p connection (Bluetooth, Wifi-Direct, etc.) you can use apk extractors! These kind of apps allow the user to extract the hidden apk files from almost any installed app to a visible location (e.g Downloads folder).
-
-## Installation (Universal apk)
-
-The app universal apk (20MB) is delivered on these fonts:
-
-- ([Repository Releases](https://github.com/alexrintt/kanade/releases)) Most easy one-time way to install: download the universal apk (20MB) directly at [github.com/alexrintt/kanade/releases](https://github.com/alexrintt/kanade/releases).
-
-- ([IzzyOnDroid](https://apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade)) You can also download the apk directly at [apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade](https://apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade) (F-Droid based repository).
-
-- ([F-Droid + IzzyOnDroid](https://f-droid.org/packages/io.alexrintt.kanade)) Most easy way to install and get updates: [f-droid.org/packages/io.alexrintt.kanade](https://f-droid.org/packages/io.alexrintt.kanade). This app is indexed by [IzzyOnDroid repository](https://gitlab.com/IzzyOnDroid/repo) (F-Droid subrepository). **If it's your first time using IzzyOnDroid or F-Droid, you will need to follow these instructions:**
-
-  - Install [F-Droid client](https://f-droid.org/F-Droid.apk).
-  - On F-Droid client go to **Settings** -> **Repositories** -> **Add new repository** (Plus icon at top right).
-  - Type `https://apt.izzysoft.de/fdroid/repo` then click **Add**.
-  - You can now click on this link to directly go to the app installation page: [f-droid.org/packages/io.alexrintt.kanade](https://f-droid.org/packages/io.alexrintt.kanade).
-
-## Installation (x86-64, armeabi-v7 and arm64-v8)
-
-Specific-abi apks are compatible only with a subset of devices but they are substantially lighter than the universal apk. So, if you are that guy from _The Matrix_ who stares at falling green cliffs all day, feel free to download and install your specific-apk (8MB) at:
-
-- ([Repository Releases](https://github.com/alexrintt/kanade/releases)) Most easy one-time way to install: [github.com/alexrintt/kanade/releases](https://github.com/alexrintt/kanade/releases).
 
 ## Features
 
@@ -122,9 +113,64 @@ Listed by priority:
 - Analyze apk metainfo (name, version, package, etc.) (D).
 - Sign-in apk (E).
 
+## Installation (Universal apk)
+
+The app universal apk (20MB) is delivered on these fonts:
+
+- ([Repository Releases](https://github.com/alexrintt/kanade/releases)) Most easy one-time way to install: download the universal apk (20MB) directly at [github.com/alexrintt/kanade/releases](https://github.com/alexrintt/kanade/releases).
+
+- ([IzzyOnDroid](https://apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade)) You can also download the apk directly at [apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade](https://apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade) (F-Droid based repository).
+
+- ([F-Droid + IzzyOnDroid](https://f-droid.org/packages/io.alexrintt.kanade)) Most easy way to install and get updates: [f-droid.org/packages/io.alexrintt.kanade](https://f-droid.org/packages/io.alexrintt.kanade). This app is indexed by [IzzyOnDroid repository](https://gitlab.com/IzzyOnDroid/repo) (F-Droid subrepository). **If it's your first time using IzzyOnDroid or F-Droid, you will need to follow these instructions:**
+
+  - Install [F-Droid client](https://f-droid.org/F-Droid.apk).
+  - On F-Droid client go to **Settings** -> **Repositories** -> **Add new repository** (Plus icon at top right).
+  - Type `https://apt.izzysoft.de/fdroid/repo` then click **Add**.
+  - You can now click on this link to directly go to the app installation page: [f-droid.org/packages/io.alexrintt.kanade](https://f-droid.org/packages/io.alexrintt.kanade).
+
+## Installation (x86-64, armeabi-v7 and arm64-v8)
+
+Specific-abi apks are compatible only with a subset of devices but they are substantially lighter than the universal apk. So, if you are that guy from _The Matrix_ who stares at falling green cliffs all day, feel free to download and install your specific-apk (8MB) at:
+
+- ([Repository Releases](https://github.com/alexrintt/kanade/releases)) Most easy one-time way to install: [github.com/alexrintt/kanade/releases](https://github.com/alexrintt/kanade/releases).
+
 ## How it works
 
 To display all installed apps the [`🔗 device_apps`](https://pub.dev/packages/device_apps) package is used and the apk extraction (that is a simple copy/paste operation between two files) is possible by [`🔗 shared_storage`](https://pub.dev/packages/shared_storage) package.
+
+## Build by your own
+
+Flutter has a [great documentation](https://docs.flutter.dev/get-started/install) in case you don't have a configured Flutter environment yet.
+
+### 1. Get deps and generate l10n local library
+
+To get app dependencies:
+
+```shell
+flutter pub get
+```
+
+To run the code generation (that generates the `flutter_gen` library used for i18n features):
+
+```shell
+flutter gen-l10n
+```
+
+### 2. Generate binaries
+
+If you're looking for the apk:
+
+```shell
+flutter build apk
+# or specific-abis
+flutter build apk --split-per-abi
+```
+
+You can also generate the app bundle:
+
+```shell
+flutter build appbundle
+```
 
 ## Contributing
 
@@ -142,7 +188,9 @@ Thanks in advance.
 
 ## Contributors
 
-- I wish thanks [IzzySoft](https://gitlab.com/IzzySoft) for taking time to point the [version code issue #13](https://github.com/alexrintt/kanade/issues/13), indexing this app to the [IzzyOnDroid app repository](https://gitlab.com/IzzyOnDroid/repo) and [helping with fastlane docs #15](https://github.com/alexrintt/kanade/pull/15), thanks man!
+- Glad to have your work here [@WSTxda](https://linktr.ee/wstxda)! Thanks for your efforts on the [app icon](https://t.me/WSTprojects/1401), banner and the download badges.
+
+- I wanna thanks [IzzySoft](https://gitlab.com/IzzySoft) for taking time to point the [version code issue #13](https://github.com/alexrintt/kanade/issues/13), indexing this app to the [IzzyOnDroid app repository](https://gitlab.com/IzzyOnDroid/repo) and [helping with fastlane docs #15](https://github.com/alexrintt/kanade/pull/15), thanks man!
 
 ## Credits
 

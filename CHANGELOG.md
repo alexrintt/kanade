@@ -1,3 +1,17 @@
+## 0.4.0
+
+Update app launcher icon.
+
+### New
+
+- Completely change the icon to a new one desined by @wstxda.
+
+- The new icon is also [compatible with Android 13 adaptive icons feature](https://developer.android.com/develop/ui/views/launch/icon_design_adaptive#design-adaptive-icons).
+
+### Docs
+
+- Update `README.md` to include project build steps.
+
 ## 0.3.2
 
 Behavior changes on home and search page.

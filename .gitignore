@@ -20,6 +20,7 @@ pubspec.lock
 */**/pubspec.lock
 */**/.metadata
 .metadata
+.vscode
 
 
 # The .vscode folder contains launch configuration and tasks you configure in

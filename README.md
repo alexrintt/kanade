@@ -1,3 +1,7 @@
+## App Icon Feedback
+
+The app icon changed recently and now there's an open pool to collect feedback about this change [github.com/alexrintt/kanade/discussions/26](https://github.com/alexrintt/kanade/discussions/26), it can impact future releases, it's a one-click pool.
+
 <img src="https://user-images.githubusercontent.com/51419598/202943201-f15a7fb0-4195-4723-9bad-3e13ac0d26ea.svg" />
 
 <sup>Banner and icon by [@WSTxda](https://linktr.ee/wstxda).</sup>

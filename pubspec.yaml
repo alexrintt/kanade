@@ -4,36 +4,36 @@ publish_to: "none"
 version: 0.4.0+6
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: ">=2.18.0 <3.0.0"
 
 dependencies:
-  shared_storage: ^0.6.0
   device_apps:
     git:
       url: https://github.com/alexrintt/flutter_plugin_device_apps
       ref: 6051e51fd78778f848eca870ec51a0367b5d2fd9
-  flutter_shared_tools:
-    git:
-      url: https://github.com/alexrintt/flutter-shared-tools
-      ref: master
-  get_it: ^7.2.0
-  nanoid: ^1.0.0
-  fluttertoast: ^8.0.8
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  shared_preferences: ^2.0.15
-  pixelarticons: ^0.4.0
-  url_launcher: ^6.1.6
-  package_info_plus: ^3.0.1
+  flutter_shared_tools:
+    git:
+      url: https://github.com/alexrintt/flutter-shared-tools
+      ref: master
+  fluttertoast: ^8.0.8
+  get_it: ^7.2.0
   intl: ^0.17.0
+  nanoid: ^1.0.0
+  package_info_plus: ^3.0.1
+  pixelarticons: ^0.4.0
+  shared_preferences: ^2.0.15
+  shared_storage: ^0.6.0
   string_similarity: ^2.0.0
+  url_launcher: ^6.1.6
 
 dev_dependencies:
-  flutter_lints: ^2.0.0
   flutter_test:
     sdk: flutter
+  lint: ^2.0.1
 
 flutter:
   generate: true

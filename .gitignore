@@ -16,8 +16,6 @@
 .idea/
 key.properties
 */**/key.properties
-pubspec.lock
-*/**/pubspec.lock
 */**/.metadata
 .metadata
 .vscode

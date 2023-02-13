@@ -2,17 +2,18 @@ import 'dart:io';
 
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
-import 'package:kanade/setup.dart';
-import 'package:kanade/stores/settings.dart';
-import 'package:kanade/utils/debounce.dart';
-import 'package:kanade/utils/is_disposed_mixin.dart';
-import 'package:kanade/utils/stringify_uri_location.dart';
-import 'package:kanade/utils/throttle.dart';
 import 'package:nanoid/async.dart';
 import 'package:shared_storage/shared_storage.dart';
 import 'package:string_similarity/string_similarity.dart';
 
-mixin DeviceAppsStoreConsumer<T extends StatefulWidget> on State<T> {
+import '../setup.dart';
+import '../utils/debounce.dart';
+import '../utils/is_disposed_mixin.dart';
+import '../utils/stringify_uri_location.dart';
+import '../utils/throttle.dart';
+import 'settings.dart';
+
+mixin DeviceAppsStoreMixin<T extends StatefulWidget> on State<T> {
   DeviceAppsStore? _store;
   DeviceAppsStore get store => _store ??= getIt<DeviceAppsStore>();
 
@@ -24,25 +25,29 @@ mixin DeviceAppsStoreConsumer<T extends StatefulWidget> on State<T> {
 }
 
 class ApkExtraction {
+  const ApkExtraction(this.apk, this.result);
+
   final File? apk;
   final Result result;
-
-  const ApkExtraction(this.apk, this.result);
 }
 
 class MultipleApkExtraction {
+  const MultipleApkExtraction(this.extractions);
+
   /// You can analyze each extraction individually
   final List<ApkExtraction> extractions;
 
   /// Overall result based on [extractions] results
   MultipleResult get result {
-    final permissionWasDenied =
-        extractions.any((extraction) => extraction.result.permissionWasDenied);
+    final bool permissionWasDenied = extractions.any(
+      (ApkExtraction extraction) => extraction.result.permissionWasDenied,
+    );
 
     if (permissionWasDenied) return MultipleResult.permissionDenied;
 
-    final successfulExtractionsCount =
-        extractions.where((extraction) => extraction.result.success).length;
+    final int successfulExtractionsCount = extractions
+        .where((ApkExtraction extraction) => extraction.result.success)
+        .length;
 
     if (successfulExtractionsCount == 0) {
       return MultipleResult.allFailed;
@@ -54,43 +59,40 @@ class MultipleApkExtraction {
 
     return MultipleResult.someFailed;
   }
-
-  const MultipleApkExtraction(this.extractions);
 }
 
-class Result {
-  final int value;
-
-  const Result(this.value);
-
-  static const extracted = Result(0);
-  static const permissionDenied = Result(1);
-  static const permissionRestricted = Result(2);
-  static const notAllowed = Result(3);
+enum Result {
+  extracted,
+  permissionDenied,
+  permissionRestricted,
+  notAllowed,
+  notFound;
 
   /// Happy end, apk extracted successfully
-  bool get success => value == 0;
+  bool get success => this == extracted;
 
   /// User denied permission
-  bool get permissionWasDenied => value == 1;
+  bool get permissionWasDenied => this == permissionDenied;
 
   /// Permission restricted, usually by parent control OS feature
-  bool get restrictedPermission => value == 2;
+  bool get restrictedPermission => this == permissionRestricted;
 
   /// Extraction not permitted,
   /// usually restricted by OS or some protected package
-  bool get extractionNotAllowed => value == 3;
+  bool get extractionNotAllowed => this == notAllowed;
+
+  /// Tried to extract either an invalid or an uninstalled app.
+  bool get wasNotFound => this == notFound;
 }
 
 class MultipleResult {
+  const MultipleResult(this.value);
   final int value;
 
-  const MultipleResult(this.value);
-
-  static const allExtracted = MultipleResult(0);
-  static const allFailed = MultipleResult(1);
-  static const someFailed = MultipleResult(2);
-  static const permissionDenied = MultipleResult(3);
+  static const MultipleResult allExtracted = MultipleResult(0);
+  static const MultipleResult allFailed = MultipleResult(1);
+  static const MultipleResult someFailed = MultipleResult(2);
+  static const MultipleResult permissionDenied = MultipleResult(3);
 
   /// Happy end, all apk's extracted successfully
   bool get success => value == 0;
@@ -112,8 +114,9 @@ class ApplicationSearchResult implements Comparable<ApplicationSearchResult> {
   final Application app;
 
   String get _rawRegex {
-    final matcher = text.substring(0, text.length - 1).split('').join('.*');
-    final ending = text[text.length - 1];
+    final String matcher =
+        text.substring(0, text.length - 1).split('').join('.*');
+    final String ending = text[text.length - 1];
 
     return matcher + ending;
   }
@@ -136,7 +139,7 @@ class ApplicationSearchResult implements Comparable<ApplicationSearchResult> {
   }
 
   String get source {
-    return [app.appName, app.packageName].join(' ').toLowerCase();
+    return <String>[app.appName, app.packageName].join(' ').toLowerCase();
   }
 
   double get similarity {
@@ -159,18 +162,18 @@ class ApplicationSearchResult implements Comparable<ApplicationSearchResult> {
 
 class DeviceAppsStore extends ChangeNotifier with IsDisposedMixin {
   /// Id length to avoid filename conflict on extract Apk
-  static const kIdLength = 5;
+  static const int kIdLength = 5;
 
   /// Max tries count to export Apk
-  static const kMaxTriesCount = 10;
+  static const int kMaxTriesCount = 10;
 
   /// List of all device applications
   /// - Include system apps
   /// - Include app icons
-  final apps = <Application>[];
+  final List<Application> apps = <Application>[];
 
   /// List of all selected applications
-  final selected = <Application>{};
+  final Set<Application> selected = <Application>{};
 
   /// Whether loading device applications or not
   bool isLoading = false;
@@ -191,13 +194,14 @@ class DeviceAppsStore extends ChangeNotifier with IsDisposedMixin {
 
     totalPackagesCount = await DeviceApps.getInstalledPackagesCount();
 
-    final appsStream = DeviceApps.streamInstalledApplications(
+    final Stream<Application> appsStream =
+        DeviceApps.streamInstalledApplications(
       includeAppIcons: true,
       includeSystemApps: true,
     );
 
     appsStream.listen(
-      (app) {
+      (Application app) {
         apps.add(app);
 
         throttle(() {
@@ -226,8 +230,9 @@ class DeviceAppsStore extends ChangeNotifier with IsDisposedMixin {
   }
 
   /// Packages to be rendered on the screen
-  List<Application> get displayableApps =>
-      _searchText != null ? results.map((e) => e.app).toList() : apps;
+  List<Application> get displayableApps => _searchText != null
+      ? results.map((ApplicationSearchResult e) => e.app).toList()
+      : apps;
 
   /// Return [true] if all [displayableApps] are selected
   bool get isAllSelected => displayableApps.length == selected.length;
@@ -243,25 +248,29 @@ class DeviceAppsStore extends ChangeNotifier with IsDisposedMixin {
     notifyListeners();
   }
 
-  static const kApkMimeType = 'application/vnd.android.package-archive';
+  static const String kApkMimeType = 'application/vnd.android.package-archive';
 
   /// Extract Apk of a [package]
   Future<ApkExtraction> extractApk(Application package, {Uri? folder}) async {
-    final apkFile = File(package.apkFilePath);
-    final id = await nanoid(kIdLength);
+    final File apkFile = File(package.apkFilePath);
+    final String id = await nanoid(kIdLength);
 
-    final apkFilename =
+    if (!apkFile.existsSync()) {
+      return ApkExtraction(apkFile, Result.notFound);
+    }
+
+    final String apkFilename =
         '${package.appName}_${package.packageName}_${package.versionCode}_$id';
 
     if (folder == null) {
       await _settingsStore.requestExportLocationIfNotSet();
     }
 
-    final parentFolder =
+    final Uri? parentFolder =
         folder ?? await _settingsStore.getAndSetExportLocationIfItExists();
 
     if (parentFolder != null) {
-      final createdFile = await createFile(
+      final DocumentFile? createdFile = await createFile(
         parentFolder,
         mimeType: kApkMimeType,
         displayName: apkFilename,
@@ -289,18 +298,18 @@ class DeviceAppsStore extends ChangeNotifier with IsDisposedMixin {
 
   /// Extract Apk of all [selected] apps
   Future<MultipleApkExtraction> extractSelectedApks() async {
-    final extractions = <ApkExtraction>[];
+    final List<ApkExtraction> extractions = <ApkExtraction>[];
 
-    final folder = await requestExportLocation();
+    final Uri? folder = await requestExportLocation();
 
     if (folder != null) {
-      for (final selected in selected) {
+      for (final Application selected in selected) {
         extractions.add(await extractApk(selected, folder: folder));
       }
 
       return MultipleApkExtraction(extractions);
     } else {
-      return const MultipleApkExtraction([]);
+      return const MultipleApkExtraction(<ApkExtraction>[]);
     }
   }
 
@@ -328,20 +337,26 @@ class DeviceAppsStore extends ChangeNotifier with IsDisposedMixin {
   bool get isSearchMode => _searchText != null;
 
   List<ApplicationSearchResult> get results {
-    if (_searchText == null) return [];
+    if (_searchText == null) return <ApplicationSearchResult>[];
 
-    final filtered = apps
-        .map((app) => ApplicationSearchResult(app: app, text: _searchText!))
-        .where((result) => result.hasMatch())
+    final List<ApplicationSearchResult> filtered = apps
+        .map(
+          (Application app) =>
+              ApplicationSearchResult(app: app, text: _searchText!),
+        )
+        .where((ApplicationSearchResult result) => result.hasMatch())
         .toList()
-      ..sort((a, z) => z.compareTo(a));
+      ..sort(
+        (ApplicationSearchResult a, ApplicationSearchResult z) =>
+            z.compareTo(a),
+      );
 
     return filtered;
   }
 
   String? _searchText;
 
-  final debounceSearch = debounceIt50ms();
+  final void Function(void Function() p1) debounceSearch = debounceIt50ms();
 
   /// Add all matched apps to [results] array if any
   ///

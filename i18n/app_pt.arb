@@ -27,9 +27,9 @@
   "followTheSystem": "Follow the system",
   "darkHacker": "Hacker escuro",
   "darkBlood": "Sangue escuro",
-  "someApkWereNotExtracted": "Alguns apks estão localizados em {{ APK_LOCATION }}, mas alguns não puderam ser extraídos",
+  "someApkWereNotExtracted": "Alguns apks estão localizados em {apkLocation}, mas alguns não puderam ser extraídos",
   "someApkWereNotExtractedPlain": "Alguns apks foram extraídos com sucesso, mas alguns não puderam ser extraídos",
-  "allApksWereSuccessfullyExtracted": "Todos os apks foram extraídos para {{ APK_LOCATION }}",
+  "allApksWereSuccessfullyExtracted": "Todos os apks foram extraídos para {apkLocation}",
   "allApksWereSuccessfullyExtractedPlain": "Todos os apks foram extraídos",
   "toggleSelect": "Alternar seleção",
   "isNotSupportedYet": "ainda não é suportado"

@@ -111,17 +111,29 @@
   "@darkBlood": {
     "description": "One of the available themes representing a dark lights out with red as primary color."
   },
-  "someApkWereNotExtracted": "Some apks are located in {{ APK_LOCATION }} but some could not be extracted",
+  "someApkWereNotExtracted": "Some apks are located in {apkLocation} but some could not be extracted",
   "@someApkWereNotExtracted": {
-    "description": "Message that explains that the multiple apk extraction process had partial success."
+    "description": "Message that explains that the multiple apk extraction process had partial success.",
+    "placeholders": {
+      "apkLocation": {
+        "type": "String",
+        "example": "0/Downloads/Apks/Extracted.apk"
+      }
+    }
   },
   "someApkWereNotExtractedPlain": "Some apks are were successfully extracted but some could not be extracted",
   "@someApkWereNotExtractedPlain": {
     "description": "Message that explains that the multiple apk extraction process had partial success without any variable/param."
   },
-  "allApksWereSuccessfullyExtracted": "All apks were extracted to {{ APK_LOCATION }}",
+  "allApksWereSuccessfullyExtracted": "All apks were extracted to {apkLocation}",
   "@allApksWereSuccessfullyExtracted": {
-    "description": "Message that explains that the multiple apk extraction process had partial success."
+    "description": "Message that explains that the multiple apk extraction process had partial success.",
+    "placeholders": {
+      "apkLocation": {
+        "type": "String",
+        "example": "0/Downloads/Apks/Extracted.apk"
+      }
+    }
   },
   "allApksWereSuccessfullyExtractedPlain": "All apks were extracted",
   "@allApksWereSuccessfullyExtractedPlain": {

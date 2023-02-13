@@ -1,12 +1,13 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_shared_tools/constant/constant.dart';
-import 'package:kanade/setup.dart';
-import 'package:kanade/stores/key_value_storage.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_shared_tools/constant/constant.dart';
+
+import '../setup.dart';
+import 'key_value_storage.dart';
 
 enum AppTheme {
   darkLightsOut,
@@ -14,10 +15,8 @@ enum AppTheme {
   lightDefault,
   darkHacker,
   darkBlood,
-  followSystem,
-}
+  followSystem;
 
-extension AppThemeLabel on AppTheme {
   String getNameString(AppLocalizations strings) {
     switch (this) {
       case AppTheme.darkDimmed:
@@ -33,35 +32,28 @@ extension AppThemeLabel on AppTheme {
       case AppTheme.darkBlood:
         return strings.darkBlood;
     }
+
+    throw Exception(
+      'For some reason when compiling the Flutter SDK claims we cannot left this "null" case, so lets just throw an exception here to prevent this ghost bug, this may be fixed in the next releases.',
+    );
   }
+
+  static AppTheme parseCurrentThemeFromString(String appThemeString) {
+    for (final AppTheme theme in AppTheme.values) {
+      if (theme.toString() == appThemeString) {
+        return theme;
+      }
+    }
+    return kDefaultAppTheme;
+  }
+
+  static const AppTheme kDefaultAppTheme = AppTheme.followSystem;
 }
 
 extension BrightnessInverse on Brightness {
   Brightness get inverse => isDark ? Brightness.light : Brightness.dark;
   bool get isDark => this == Brightness.dark;
   bool get isLight => this == Brightness.light;
-}
-
-AppTheme parseCurrentThemeFromString(String appThemeString) {
-  for (final theme in AppTheme.values) {
-    if (theme.toString() == appThemeString) {
-      return theme;
-    }
-  }
-  return defaultAppTheme();
-}
-
-AppTheme defaultAppTheme() {
-  return AppTheme.followSystem;
-}
-
-AppFontFamily parseCurrentFontFamilyFromString(String fontFamilyString) {
-  for (final theme in AppFontFamily.values.where((e) => e.displayable)) {
-    if (theme.toString() == fontFamilyString) {
-      return theme;
-    }
-  }
-  return defaultAppFontFamily();
 }
 
 AppFontFamily defaultAppFontFamily() {
@@ -85,8 +77,8 @@ class ThemeStore extends ChangeNotifier {
   late AppTheme _currentTheme;
   late AppFontFamily _currentFontFamily;
 
-  static const _kAppThemeStorageKey = 'app.theme';
-  static const _kAppFontFamilyStorageKey = 'app.fontfamily';
+  static const String _kAppThemeStorageKey = 'app.theme';
+  static const String _kAppFontFamilyStorageKey = 'app.fontfamily';
 
   KeyValueStorage<String, String?> get _keyValueStorage =>
       __keyValueStorage ??= getIt<KeyValueStorage<String, String?>>();
@@ -98,24 +90,27 @@ class ThemeStore extends ChangeNotifier {
   }
 
   Future<void> _loadAppFontFamily() async {
-    final previousFontFamily = await _keyValueStorage.get(_kAppThemeStorageKey);
+    final String? previousFontFamily =
+        await _keyValueStorage.get(_kAppThemeStorageKey);
 
     if (previousFontFamily == null) {
       _currentFontFamily = defaultAppFontFamily();
     } else {
-      _currentFontFamily = parseCurrentFontFamilyFromString(previousFontFamily);
+      _currentFontFamily =
+          AppFontFamily.parseCurrentFontFamilyFromString(previousFontFamily);
     }
   }
 
   Future<void> _loadAppTheme() async {
     addListener(() => setSystemUIOverlayStyle());
 
-    final previousTheme = await _keyValueStorage.get(_kAppThemeStorageKey);
+    final String? previousTheme =
+        await _keyValueStorage.get(_kAppThemeStorageKey);
 
     if (previousTheme == null) {
-      _currentTheme = defaultAppTheme();
+      _currentTheme = AppTheme.kDefaultAppTheme;
     } else {
-      _currentTheme = parseCurrentThemeFromString(previousTheme);
+      _currentTheme = AppTheme.parseCurrentThemeFromString(previousTheme);
     }
 
     window.onPlatformBrightnessChanged = () {
@@ -140,11 +135,11 @@ class ThemeStore extends ChangeNotifier {
   }
 
   ThemeData _darkDimmedThemeData() {
-    const kCardColor = Color(0xFF25262E);
-    const kBackgroundColor = Color(0xFF25262E);
-    const kCanvasColor = Color(0xff282931);
-    const kPrimaryColor = Color(0xffb8b9c5);
-    const kSecondaryColor = kPrimaryColor;
+    const Color kCardColor = Color(0xFF25262E);
+    const Color kBackgroundColor = Color(0xFF25262E);
+    const Color kCanvasColor = Color(0xff282931);
+    const Color kPrimaryColor = Color(0xffb8b9c5);
+    const Color kSecondaryColor = kPrimaryColor;
 
     return createThemeData(
       canvasColor: kCanvasColor,
@@ -161,11 +156,11 @@ class ThemeStore extends ChangeNotifier {
   }
 
   ThemeData _lightDefaultThemeData() {
-    const kBackgroundColor = Color.fromARGB(255, 240, 240, 240);
-    const kCardColor = kBackgroundColor;
-    const kCanvasColor = Color(0xffEBEBEB);
-    const kPrimaryColor = Colors.blue;
-    const kSecondaryColor = Colors.blue;
+    const Color kBackgroundColor = Color.fromARGB(255, 240, 240, 240);
+    const Color kCardColor = kBackgroundColor;
+    const Color kCanvasColor = Color(0xffEBEBEB);
+    const MaterialColor kPrimaryColor = Colors.blue;
+    const MaterialColor kSecondaryColor = Colors.blue;
 
     return createThemeData(
       canvasColor: kCanvasColor,
@@ -182,11 +177,11 @@ class ThemeStore extends ChangeNotifier {
   }
 
   ThemeData _darkLightsOutThemeData() {
-    const kBackgroundColor = Color.fromARGB(255, 8, 8, 8);
-    const kCardColor = kBackgroundColor;
-    const kCanvasColor = Color(0xff0B0B0B);
-    const kPrimaryColor = Color(0xFFFFFFFF);
-    const kSecondaryColor = Colors.white;
+    const Color kBackgroundColor = Color.fromARGB(255, 8, 8, 8);
+    const Color kCardColor = kBackgroundColor;
+    const Color kCanvasColor = Color(0xff0B0B0B);
+    const Color kPrimaryColor = Color(0xFFFFFFFF);
+    const Color kSecondaryColor = Colors.white;
 
     return createThemeData(
       canvasColor: kCanvasColor,
@@ -203,11 +198,11 @@ class ThemeStore extends ChangeNotifier {
   }
 
   ThemeData _darkHackerThemeData() {
-    const kBackgroundColor = Color.fromARGB(255, 8, 8, 8);
-    const kCardColor = kBackgroundColor;
-    const kCanvasColor = Color(0xff0B0B0B);
-    const kPrimaryColor = Color(0xFF69F0AE);
-    const kSecondaryColor = Colors.green;
+    const Color kBackgroundColor = Color.fromARGB(255, 8, 8, 8);
+    const Color kCardColor = kBackgroundColor;
+    const Color kCanvasColor = Color(0xff0B0B0B);
+    const Color kPrimaryColor = Color(0xFF69F0AE);
+    const MaterialColor kSecondaryColor = Colors.green;
 
     return createThemeData(
       canvasColor: kCanvasColor,
@@ -224,11 +219,11 @@ class ThemeStore extends ChangeNotifier {
   }
 
   ThemeData _darkBloodThemeData() {
-    const kBackgroundColor = Color.fromARGB(255, 8, 8, 8);
-    const kCardColor = kBackgroundColor;
-    const kCanvasColor = Color(0xff0B0B0B);
-    const kPrimaryColor = Color(0xFFFF5252);
-    const kSecondaryColor = kPrimaryColor;
+    const Color kBackgroundColor = Color.fromARGB(255, 8, 8, 8);
+    const Color kCardColor = kBackgroundColor;
+    const Color kCanvasColor = Color(0xff0B0B0B);
+    const Color kPrimaryColor = Color(0xFFFF5252);
+    const Color kSecondaryColor = kPrimaryColor;
 
     return createThemeData(
       canvasColor: kCanvasColor,
@@ -261,6 +256,10 @@ class ThemeStore extends ChangeNotifier {
             ? _darkDimmedThemeData()
             : _lightDefaultThemeData();
     }
+
+    throw Exception(
+      'For some reason when compiling the Flutter SDK claims we cannot left this "null" case, so lets just throw an exception here to prevent this ghost bug, this may be fixed in the next releases.',
+    );
   }
 
   Brightness get currentThemeBrightness {
@@ -278,6 +277,10 @@ class ThemeStore extends ChangeNotifier {
       case AppTheme.followSystem:
         return SchedulerBinding.instance.platformDispatcher.platformBrightness;
     }
+
+    throw Exception(
+      'For some reason when compiling the Flutter SDK claims we cannot left this "null" case, so lets just throw an exception here to prevent this ghost bug, this may be fixed in the next releases.',
+    );
   }
 
   AppTheme get currentTheme => _currentTheme;
@@ -296,7 +299,7 @@ class ThemeStore extends ChangeNotifier {
   }
 
   Future<void> reset() async {
-    await setTheme(defaultAppTheme());
+    await setTheme(AppTheme.kDefaultAppTheme);
     await setFontFamily(defaultAppFontFamily());
   }
 }
@@ -305,10 +308,20 @@ enum AppFontFamily {
   inconsolata,
   robotoMono,
   forward,
-  zenKakuGothicAntique,
-}
+  zenKakuGothicAntique;
 
-extension AppFontFamilyName on AppFontFamily {
+  static AppFontFamily parseCurrentFontFamilyFromString(
+    String fontFamilyString,
+  ) {
+    for (final AppFontFamily theme
+        in AppFontFamily.values.where((AppFontFamily e) => e.displayable)) {
+      if (theme.toString() == fontFamilyString) {
+        return theme;
+      }
+    }
+    return defaultAppFontFamily();
+  }
+
   /// Font family name decribed in the pubspec.yaml
   String get name {
     switch (this) {
@@ -352,25 +365,20 @@ ThemeData createThemeData({
   required Color disabledColor,
   required Color headlineColor,
 }) {
-  final fontFamilyName = fontFamily.name;
+  final String fontFamilyName = fontFamily.name;
 
-  final textTheme = base.textTheme.apply(
+  final TextTheme textTheme = base.textTheme.apply(
     fontFamily: fontFamilyName,
     bodyColor: textColor,
-    fontSizeDelta: 0.0,
-    fontSizeFactor: 1.0,
   );
 
   return base.copyWith(
+    bottomAppBarTheme:
+        base.bottomAppBarTheme.copyWith(elevation: 0, color: backgroundColor),
     scaffoldBackgroundColor: backgroundColor,
     disabledColor: disabledColor,
     textTheme: textTheme,
-    backgroundColor: backgroundColor,
     primaryColor: primaryColor,
-    colorScheme: base.colorScheme.copyWith(
-      primary: primaryColor,
-      secondary: secondaryColor,
-    ),
     dividerColor: disabledColor.withOpacity(.1),
     appBarTheme: base.appBarTheme.copyWith(
       backgroundColor: cardColor,
@@ -405,6 +413,11 @@ ThemeData createThemeData({
         color: textColor,
         borderRadius: BorderRadius.circular(k1dp),
       ),
+    ),
+    colorScheme: base.colorScheme.copyWith(
+      primary: primaryColor,
+      secondary: secondaryColor,
+      background: backgroundColor,
     ),
   );
 }

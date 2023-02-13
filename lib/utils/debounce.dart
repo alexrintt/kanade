@@ -11,10 +11,13 @@ void Function(void Function()) debounceIt50ms() {
 void Function(void Function()) debounceIt(Duration duration) {
   Timer? debounce;
 
-  return (fn) {
+  return (void Function() fn) {
     debounce?.cancel();
 
-    void callback() => ({fn(), debounce?.cancel()});
+    void callback() {
+      fn();
+      debounce?.cancel();
+    }
 
     debounce = Timer(duration, callback);
   };

@@ -1,9 +1,10 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:kanade/setup.dart';
-import 'package:kanade/stores/key_value_storage.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../setup.dart';
+import 'key_value_storage.dart';
 
 mixin LocalizationStoreMixin<T extends StatefulWidget> on State<T> {
   LocalizationStore? _localizationStore;
@@ -20,8 +21,8 @@ class LocalizationStore extends ChangeNotifier
   /// Returns the locale manually defined by the user (if any), [null] otherwise.
   Locale? get fixedLocale => _locale;
 
-  static const _kLocaleLangCodeStorageKey = 'app.locale.langcode';
-  static const _kLocaleCountryCodeStorageKey = 'app.locale.countrycode';
+  static const String _kLocaleLangCodeStorageKey = 'app.locale.langcode';
+  static const String _kLocaleCountryCodeStorageKey = 'app.locale.countrycode';
 
   String get _deviceLocaleName => Platform.localeName;
   List<String> get _deviceLangAndCountryCode => _deviceLocaleName.split('_');
@@ -33,7 +34,7 @@ class LocalizationStore extends ChangeNotifier
 
   bool isSupported(Locale locale) {
     return AppLocalizations.supportedLocales
-        .map((e) => e.languageCode)
+        .map((Locale e) => e.languageCode)
         .contains(locale.languageCode);
   }
 
@@ -41,10 +42,10 @@ class LocalizationStore extends ChangeNotifier
     return isSupported(deviceLocale);
   }
 
-  static const _kDefaultLangCode = 'en';
+  static const String _kDefaultLangCode = 'en';
 
   @override
-  void didChangeLocales(List<Locale>? locales) async {
+  Future<void> didChangeLocales(List<Locale>? locales) async {
     if (locales == null || locales.isEmpty) return;
 
     if (_locale != null) {
@@ -63,11 +64,11 @@ class LocalizationStore extends ChangeNotifier
 
     // Ensures 'en' is inside the [supportedLocales] array.
     return AppLocalizations.supportedLocales
-        .firstWhere((e) => e.languageCode == _kDefaultLangCode);
+        .firstWhere((Locale e) => e.languageCode == _kDefaultLangCode);
   }
 
   Future<Locale?> get _cachedLocale async {
-    final previousLangCode =
+    final String? previousLangCode =
         await keyValueStorage.get(_kLocaleLangCodeStorageKey);
 
     // For now, we do not need country code...
@@ -82,7 +83,7 @@ class LocalizationStore extends ChangeNotifier
   }
 
   Future<void> load() async {
-    final localeFromCache = await _cachedLocale;
+    final Locale? localeFromCache = await _cachedLocale;
 
     if (localeFromCache == null) {
       await reset();
@@ -112,9 +113,19 @@ class LocalizationStore extends ChangeNotifier
 
     _locale = newLocale;
 
-    keyValueStorage
-      ..set(_kLocaleLangCodeStorageKey, newLocale?.languageCode)
-      ..set(_kLocaleCountryCodeStorageKey, newLocale?.countryCode);
+    unawaited(
+      (() async {
+        await keyValueStorage.set(
+          _kLocaleLangCodeStorageKey,
+          newLocale?.languageCode,
+        );
+
+        await keyValueStorage.set(
+          _kLocaleCountryCodeStorageKey,
+          newLocale?.countryCode,
+        );
+      })(),
+    );
 
     notifyListeners();
   }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kanade/setup.dart';
-import 'package:kanade/utils/apply_if_not_null.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_storage/saf.dart';
+
+import '../setup.dart';
+import '../utils/apply_if_not_null.dart';
 
 mixin SettingsStoreMixin<T extends StatefulWidget> on State<T> {
   SettingsStore? _settingsStore;
@@ -24,15 +25,17 @@ class SettingsStore extends ChangeNotifier {
 
   late SharedPreferences prefs;
 
-  static const kExportLocation = 'exportLocation';
+  static const String kExportLocation = 'exportLocation';
 
   Future<Uri?> getAndSetExportLocationIfItExists() async {
-    final savedLocationString = prefs.getString(kExportLocation);
-    var savedLocation =
-        savedLocationString?.apply((location) => Uri.parse(location));
+    Uri? savedLocation = prefs
+        .getString(kExportLocation)
+        .apply((String location) => Uri.parse(location));
 
+    // Ensure the saved location still exists.
+    // e.g the user deleted the folder through a third-party app.
     if (savedLocation != null) {
-      final savedLocationExists = await exists(savedLocation) ?? false;
+      final bool savedLocationExists = await exists(savedLocation) ?? false;
 
       if (!savedLocationExists) {
         savedLocation = null;
@@ -40,9 +43,9 @@ class SettingsStore extends ChangeNotifier {
     }
 
     if (savedLocation == null) {
-      reset();
+      await reset();
     } else {
-      await setExportLocation(savedLocation);
+      await _setExportLocation(savedLocation);
     }
 
     return savedLocation;
@@ -54,19 +57,23 @@ class SettingsStore extends ChangeNotifier {
     await getAndSetExportLocationIfItExists();
   }
 
-  Future<void> setExportLocation(Uri location) async {
+  Future<void> _setExportLocation(Uri? location) async {
     exportLocation = location;
 
-    await prefs.setString(kExportLocation, '$location');
+    if (location == null) {
+      await prefs.remove(kExportLocation);
+    } else {
+      await prefs.setString(kExportLocation, '$location');
+    }
 
     notifyListeners();
   }
 
   Future<void> requestExportLocation() async {
-    final uri = await openDocumentTree(initialUri: exportLocation);
+    final Uri? uri = await openDocumentTree(initialUri: exportLocation);
 
     if (uri != null) {
-      await setExportLocation(uri);
+      await _setExportLocation(uri);
     } else {
       // Update the folder if it no longer exists.
       await getAndSetExportLocationIfItExists();
@@ -74,16 +81,12 @@ class SettingsStore extends ChangeNotifier {
   }
 
   Future<void> requestExportLocationIfNotSet() async {
-    final exportLocation = await getAndSetExportLocationIfItExists();
+    final Uri? exportLocation = await getAndSetExportLocationIfItExists();
 
     if (exportLocation == null) {
       return requestExportLocation();
     }
   }
 
-  Future<void> reset() async {
-    exportLocation = null;
-    await prefs.remove(kExportLocation);
-    notifyListeners();
-  }
+  Future<void> reset() async => _setExportLocation(null);
 }

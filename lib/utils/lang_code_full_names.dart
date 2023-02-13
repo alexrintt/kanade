@@ -1,4 +1,4 @@
-const langCodeToFullName = <String, String>{
+const Map<String, String> langCodeToFullName = <String, String>{
   'aa': 'Afar',
   'ab': 'Аҧсуа',
   'af': 'Afrikaans',
@@ -50,7 +50,7 @@ const langCodeToFullName = <String, String>{
   'ga': 'Gaeilge',
   'gd': 'Gàidhlig',
   'gl': 'Galego',
-  'gn': 'Avañe\'ẽ',
+  'gn': "Avañe'ẽ",
   'gu': 'ગુજરાતી',
   'gv': 'Gaelg',
   'ha': 'هَوُسَ',

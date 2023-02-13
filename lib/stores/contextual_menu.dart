@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kanade/setup.dart';
+import '../setup.dart';
 
 enum MenuContext {
   normal,
@@ -13,7 +13,7 @@ extension MenuContextAlias on MenuContext {
   bool get isSearch => this == MenuContext.search;
 }
 
-mixin ContextualMenuStoreConsumer<T extends StatefulWidget> on State<T> {
+mixin ContextualMenuStoreMixin<T extends StatefulWidget> on State<T> {
   ContextualMenuStore? _menuStore;
   ContextualMenuStore get menuStore =>
       _menuStore ??= getIt<ContextualMenuStore>();
@@ -29,7 +29,7 @@ mixin ContextualMenuStoreConsumer<T extends StatefulWidget> on State<T> {
 class ContextualMenuStore extends ChangeNotifier {
   MenuContext get context => _stack.last;
 
-  final List<MenuContext> _stack = [MenuContext.normal];
+  final List<MenuContext> _stack = <MenuContext>[MenuContext.normal];
 
   void _pushMenu(MenuContext context) {
     if (_stack.last == context) return;

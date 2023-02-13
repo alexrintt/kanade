@@ -7,9 +7,9 @@ void showToast(BuildContext context, String message) {
     msg: message,
     toastLength: Toast.LENGTH_LONG,
     gravity: ToastGravity.BOTTOM,
-    backgroundColor: context.theme.textTheme.bodyText1!.color,
-    textColor: context.theme.backgroundColor,
-    fontSize: 12.0,
+    backgroundColor: context.theme.textTheme.bodyLarge!.color,
+    textColor: context.theme.colorScheme.background,
+    fontSize: 14.0,
   );
 }
 
@@ -17,11 +17,11 @@ Future<T?> showLoadingDialog<T>(BuildContext context, String message) async {
   return showDialog<T>(
     context: context,
     barrierDismissible: false,
-    builder: (context) => AlertDialog(
+    builder: (BuildContext context) => AlertDialog(
       backgroundColor: context.theme.cardColor,
       content: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: <Widget>[
           SizedBox(
             height: k12dp,
             width: k12dp,

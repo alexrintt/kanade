@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
 class AppIconButton extends StatefulWidget {
-  final String tooltip;
-  final Widget icon;
-  final VoidCallback onTap;
-
   const AppIconButton({
-    Key? key,
+    super.key,
     required this.icon,
     required this.tooltip,
-    required this.onTap,
-  }) : super(key: key);
+    this.onTap,
+  });
+
+  final String tooltip;
+  final Widget icon;
+  final VoidCallback? onTap;
 
   @override
   AppIconButtonState createState() => AppIconButtonState();

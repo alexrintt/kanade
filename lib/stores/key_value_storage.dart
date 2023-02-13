@@ -1,5 +1,6 @@
-import 'package:kanade/setup.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../setup.dart';
 
 /// Helper mixin to avoid code repetition through stores.
 ///
@@ -16,15 +17,15 @@ mixin KeyValueStorageConsumer<K, V> {
 abstract class KeyValueStorage<K, V> {
   /// Retrive all values associated with this instance [keys].
   Future<List<V>> get values async {
-    return [
-      for (final key in await keys) await this[key],
+    return <V>[
+      for (final K key in await keys) await this[key],
     ];
   }
 
   /// Retrive all map entries associated with this instance [keys] and [values].
   Future<List<MapEntry<K, V>>> get entries async {
-    return [
-      for (final key in await keys) MapEntry<K, V>(key, await this[key]),
+    return <MapEntry<K, V>>[
+      for (final K key in await keys) MapEntry<K, V>(key, await this[key]),
     ];
   }
 
@@ -80,6 +81,6 @@ class SharedPreferencesStorage extends KeyValueStorage<String, String?> {
 
     await _sharedPreferences.setString(key, value);
 
-    return MapEntry(key, value);
+    return MapEntry<String, String>(key, value);
   }
 }

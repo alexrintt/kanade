@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/constant/constant.dart';
 import 'package:flutter_shared_tools/extensions/extensions.dart';
-import 'package:kanade/constants/strings.dart';
-import 'package:kanade/setup.dart';
-import 'package:kanade/widgets/animated_app_name.dart';
 import 'package:pixelarticons/pixel.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../constants/strings.dart';
+import '../setup.dart';
+import 'animated_app_name.dart';
+
 class AppVersionInfo extends StatefulWidget {
-  const AppVersionInfo({Key? key}) : super(key: key);
+  const AppVersionInfo({super.key});
 
   @override
   State<AppVersionInfo> createState() => _AppVersionInfoState();
@@ -17,14 +18,14 @@ class AppVersionInfo extends StatefulWidget {
 class _AppVersionInfoState extends State<AppVersionInfo> {
   @override
   Widget build(BuildContext context) {
-    final backgroundColor = context.theme.primaryColor.withOpacity(.02);
+    final Color backgroundColor = context.theme.primaryColor.withOpacity(.02);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: k40dp),
       child: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: [
+          children: <Widget>[
             Opacity(
               opacity: 0.5,
               child: Image.asset(
@@ -47,7 +48,7 @@ class _AppVersionInfoState extends State<AppVersionInfo> {
                 padding: const EdgeInsets.all(k4dp).copyWith(bottom: k6dp),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
+                  children: <Widget>[
                     const Center(child: AnimatedAppName()),
                     GestureDetector(
                       onTap: () => launchUrlString(
@@ -56,7 +57,7 @@ class _AppVersionInfoState extends State<AppVersionInfo> {
                       ),
                       child: Text.rich(
                         TextSpan(
-                          children: [
+                          children: <InlineSpan>[
                             TextSpan(
                               text:
                                   'v${packageInfo.version}+${packageInfo.buildNumber}',

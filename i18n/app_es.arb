@@ -27,9 +27,9 @@
   "followTheSystem": "Sigue el sistema",
   "darkHacker": "Hacker oscuro",
   "darkBlood": "Sangre oscura",
-  "someApkWereNotExtracted": "Algunas aplicaciones se encuentran en {{ APK_LOCATION }} pero algunas no se pudieron extraer",
+  "someApkWereNotExtracted": "Algunas aplicaciones se encuentran en {apkLocation} pero algunas no se pudieron extraer",
   "someApkWereNotExtractedPlain": "Algunas aplicaciones se extrajeron con éxito, pero algunas no se pudieron extraer",
-  "allApksWereSuccessfullyExtracted": "Todas las aplicaciones fueron extraídas a {{ APK_LOCATION }}",
+  "allApksWereSuccessfullyExtracted": "Todas las aplicaciones fueron extraídas a {apkLocation}",
   "allApksWereSuccessfullyExtractedPlain": "Todas las aplicaciones fueron extraídas",
   "toggleSelect": "Alternar seleccionar",
   "isNotSupportedYet": "aún no es compatible"

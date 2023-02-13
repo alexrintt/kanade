@@ -27,9 +27,9 @@
   "followTheSystem": "システムと同期",
   "darkHacker": "ダークハッカー",
   "darkBlood": "黒ずんだ血",
-  "someApkWereNotExtracted": "いくつかの apk は {{ APK_LOCATION }} にありますが、一部は抽出できませんでした",
+  "someApkWereNotExtracted": "いくつかの apk は {apkLocation} にありますが、一部は抽出できませんでした",
   "someApkWereNotExtractedPlain": "一部の apk は正常に抽出されましたが、一部は抽出できませんでした",
-  "allApksWereSuccessfullyExtracted": "すべての apk が {{ APK_LOCATION }} に抽出されました",
+  "allApksWereSuccessfullyExtracted": "すべての apk が {apkLocation} に抽出されました",
   "allApksWereSuccessfullyExtractedPlain": "すべての apk が抽出されました",
   "toggleSelect": "トグル選択",
   "isNotSupportedYet": "はまだサポートされていません"

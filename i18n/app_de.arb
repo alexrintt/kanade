@@ -27,9 +27,9 @@
   "followTheSystem": "Mit System synchronisieren",
   "darkHacker": "Dunkler Hacker",
   "darkBlood": "Dunkles Blut",
-  "someApkWereNotExtracted": "Einige APKs befinden sich in {{ APK_LOCATION }}, aber einige konnten nicht extrahiert werden",
+  "someApkWereNotExtracted": "Einige APKs befinden sich in {apkLocation}, aber einige konnten nicht extrahiert werden",
   "someApkWereNotExtractedPlain": "Einige APKs wurden erfolgreich extrahiert, aber einige konnten nicht extrahiert werden",
-  "allApksWereSuccessfullyExtracted": "Alle APKs wurden nach {{ APK_LOCATION }} extrahiert",
+  "allApksWereSuccessfullyExtracted": "Alle APKs wurden nach {apkLocation} extrahiert",
   "allApksWereSuccessfullyExtractedPlain": "Alle APKs wurden extrahiert",
   "toggleSelect": "Auswahl umschalten",
   "isNotSupportedYet": "wird noch nicht unterstützt"

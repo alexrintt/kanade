@@ -16,19 +16,22 @@ void Function(void Function()) throttleIt500ms() {
 void Function(void Function()) throttleIt(Duration duration) {
   Timer? throttle;
 
-  var allowExec = true;
+  bool allowExec = true;
 
   void resetThrottle(void Function() fn) {
     allowExec = false;
 
-    void callback() => {allowExec = true, throttle?.cancel()};
+    void callback() {
+      allowExec = true;
+      throttle?.cancel();
+    }
 
     throttle = Timer(duration, callback);
 
     fn();
   }
 
-  return (fn) {
+  return (void Function() fn) {
     if (!allowExec) return;
 
     resetThrottle(fn);

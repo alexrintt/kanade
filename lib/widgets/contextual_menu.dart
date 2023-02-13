@@ -1,18 +1,25 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
-import 'package:kanade/pages/settings_page.dart';
-import 'package:kanade/utils/app_localization_strings.dart';
-import 'package:kanade/widgets/animated_app_name.dart';
-import 'package:pixelarticons/pixelarticons.dart';
-import 'package:kanade/stores/contextual_menu.dart';
-import 'package:kanade/stores/device_apps.dart';
-import 'package:kanade/widgets/toast.dart';
 import 'package:pixelarticons/pixel.dart';
+import 'package:pixelarticons/pixelarticons.dart';
 
+import '../stores/contextual_menu.dart';
+import '../stores/device_apps.dart';
+import '../utils/app_localization_strings.dart';
 import 'app_icon_button.dart';
+import 'sliver_app_top_bar.dart';
+import 'toast.dart';
 
 class ContextualMenu extends StatefulWidget {
-  const ContextualMenu({Key? key}) : super(key: key);
+  const ContextualMenu({
+    super.key,
+    this.onSearch,
+  });
+
+  final VoidCallback? onSearch;
 
   @override
   _ContextualMenuState createState() => _ContextualMenuState();
@@ -21,28 +28,20 @@ class ContextualMenu extends StatefulWidget {
 /// We cannot split each [SliverAppBar] into multiple Widgets because we are rebuilding
 /// only the [SliverAppBar] and not the entire [CustomScrollView]
 class _ContextualMenuState extends State<ContextualMenu>
-    with ContextualMenuStoreConsumer, DeviceAppsStoreConsumer {
-  Future<void> _openSettingsPage() async {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => const SettingsPage(),
-      ),
-    );
-  }
-
+    with
+        ContextualMenuStoreMixin<ContextualMenu>,
+        DeviceAppsStoreMixin<ContextualMenu> {
   Widget _buildSelectionMenu() {
     return SliverAppBar(
       title: AnimatedBuilder(
         animation: store,
-        builder: (context, child) {
+        builder: (BuildContext context, Widget? child) {
           return Text(
             '${store.selected.length} ${context.strings.ofN} ${store.displayableApps.length}',
           );
         },
       ),
       floating: true,
-      pinned: false,
       leading: IconButton(
         onPressed: () {
           menuStore.popMenu();
@@ -50,21 +49,24 @@ class _ContextualMenuState extends State<ContextualMenu>
         },
         icon: const Icon(Pixel.arrowleft),
       ),
-      actions: [
+      actions: <Widget>[
         AppIconButton(
           tooltip: context.strings.extractAllSelected,
           onTap: () async {
             try {
-              showLoadingDialog(
-                context,
-                '${context.strings.extractingApks}...',
+              unawaited(
+                showLoadingDialog(
+                  context,
+                  '${context.strings.extractingApks}...',
+                ),
               );
 
-              final extractedApks = await store.extractSelectedApks();
+              final MultipleApkExtraction extractedApks =
+                  await store.extractSelectedApks();
 
-              final result = extractedApks.result;
+              final MultipleResult result = extractedApks.result;
 
-              final extractedTo = extractedApks.extractions.isEmpty
+              final Directory? extractedTo = extractedApks.extractions.isEmpty
                   ? null
                   : extractedApks.extractions.first.apk?.parent;
 
@@ -85,8 +87,8 @@ class _ContextualMenuState extends State<ContextualMenu>
                 if (extractedTo != null) {
                   showToast(
                     context,
-                    context.strings.someApkWereNotExtracted.withArgs(
-                      [extractedTo.absolute.toString()],
+                    context.strings.someApkWereNotExtracted(
+                      extractedTo.absolute.toString(),
                     ),
                   );
                 } else {
@@ -99,8 +101,8 @@ class _ContextualMenuState extends State<ContextualMenu>
                 if (extractedTo != null) {
                   showToast(
                     context,
-                    context.strings.allApksWereSuccessfullyExtracted.withArgs(
-                      [extractedTo.absolute.toString()],
+                    context.strings.allApksWereSuccessfullyExtracted(
+                      extractedTo.absolute.toString(),
                     ),
                   );
                 } else {
@@ -121,7 +123,7 @@ class _ContextualMenuState extends State<ContextualMenu>
           onTap: store.toggleSelectAll,
           icon: AnimatedBuilder(
             animation: store,
-            builder: (context, child) {
+            builder: (BuildContext context, Widget? child) {
               if (store.isAllSelected) {
                 return Icon(Pixel.checkbox, color: context.colorScheme.primary);
               }
@@ -137,7 +139,7 @@ class _ContextualMenuState extends State<ContextualMenu>
   Widget _buildSearchMenu() {
     return SliverAppBar(
       title: TextField(
-        cursorColor: context.textTheme.bodyText1!.color,
+        cursorColor: context.textTheme.bodyLarge!.color,
         autofocus: true,
         autocorrect: false,
         onChanged: store.search,
@@ -146,7 +148,6 @@ class _ContextualMenuState extends State<ContextualMenu>
         ),
       ),
       floating: true,
-      pinned: false,
       leading: AppIconButton(
         onTap: () {
           menuStore.popMenu();
@@ -159,46 +160,15 @@ class _ContextualMenuState extends State<ContextualMenu>
   }
 
   Widget _buildNormalMenu() {
-    return SliverAppBar(
-      titleSpacing: k4dp,
-      title: const SizedBox(
-        height: kToolbarHeight,
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child: AnimatedAppName(),
-        ),
-      ),
-      actions: [
-        AppIconButton(
-          onTap: () => showDialog(
-            context: context,
-            builder: (context) => const ChangeThemeDialog(),
-          ),
-          icon: const Icon(Pixel.sun),
-          tooltip: context.strings.changeTheme,
-        ),
-        AppIconButton(
-          onTap: menuStore.pushSearchMenu,
-          icon: const Icon(Pixel.search),
-          tooltip: context.strings.searchPackagesAndApps,
-        ),
-        AppIconButton(
-          onTap: _openSettingsPage,
-          icon: const Icon(Pixel.sliders),
-          tooltip: context.strings.openSettingsPage,
-        ),
-      ],
-      floating: true,
-      pinned: false,
-    );
+    return SliverAppTopBar(onSearch: widget.onSearch);
   }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: menuStore,
-      builder: (context, child) {
-        final current = menuStore.context;
+      builder: (BuildContext context, Widget? child) {
+        final MenuContext current = menuStore.context;
 
         switch (current) {
           case MenuContext.selection:

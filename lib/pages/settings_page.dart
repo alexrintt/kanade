@@ -1,36 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_shared_tools/constant/constant.dart';
 import 'package:flutter_shared_tools/extensions/extensions.dart';
-import 'package:kanade/stores/localization_store.dart';
-import 'package:kanade/stores/settings.dart';
-import 'package:kanade/utils/app_localization_strings.dart';
-import 'package:kanade/utils/stringify_uri_location.dart';
-import 'package:kanade/widgets/app_icon_button.dart';
-import 'package:kanade/widgets/app_version_info.dart';
-import 'package:kanade/widgets/horizontal_rule.dart';
 import 'package:pixelarticons/pixel.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../stores/localization_store.dart';
+import '../stores/settings.dart';
 import '../stores/theme.dart';
+import '../utils/app_localization_strings.dart';
+import '../utils/stringify_uri_location.dart';
+import '../widgets/app_icon_button.dart';
+import '../widgets/app_version_info.dart';
+import '../widgets/horizontal_rule.dart';
 
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  const SettingsPage({super.key});
 
   @override
   State<SettingsPage> createState() => _SettingsPageState();
 }
 
 class _SettingsPageState extends State<SettingsPage>
-    with SettingsStoreMixin, ThemeStoreMixin, LocalizationStoreMixin {
+    with
+        SettingsStoreMixin<SettingsPage>,
+        ThemeStoreMixin<SettingsPage>,
+        LocalizationStoreMixin<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
-        slivers: [
+        slivers: <Widget>[
           SliverAppBar(
             automaticallyImplyLeading: false,
             floating: true,
-            pinned: false,
             titleSpacing: 0,
             leading: !Navigator.canPop(context)
                 ? null
@@ -39,7 +41,7 @@ class _SettingsPageState extends State<SettingsPage>
                     onPressed: () => Navigator.pop(context),
                   ),
             title: Text(context.strings.settings),
-            actions: [
+            actions: <Widget>[
               AppIconButton(
                 icon: const Icon(Pixel.reload),
                 tooltip: context.strings.resetAllPreferences,
@@ -53,7 +55,7 @@ class _SettingsPageState extends State<SettingsPage>
           ),
           SliverList(
             delegate: SliverChildListDelegate(
-              [
+              <Widget>[
                 SettingsTileTitle(context.strings.export),
                 const ExportLocationSettingsTile(),
                 const HorizontalRule(),
@@ -73,9 +75,9 @@ class _SettingsPageState extends State<SettingsPage>
 }
 
 class SettingsTileTitle extends StatelessWidget {
-  final String title;
+  const SettingsTileTitle(this.title, {super.key});
 
-  const SettingsTileTitle(this.title, {Key? key}) : super(key: key);
+  final String title;
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +97,7 @@ class SettingsTileTitle extends StatelessWidget {
 }
 
 class ExportLocationSettingsTile extends StatefulWidget {
-  const ExportLocationSettingsTile({Key? key}) : super(key: key);
+  const ExportLocationSettingsTile({super.key});
 
   @override
   State<ExportLocationSettingsTile> createState() =>
@@ -103,15 +105,15 @@ class ExportLocationSettingsTile extends StatefulWidget {
 }
 
 class _ExportLocationSettingsTileState extends State<ExportLocationSettingsTile>
-    with SettingsStoreMixin {
+    with SettingsStoreMixin<ExportLocationSettingsTile> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: settingsStore.requestExportLocation,
       child: AnimatedBuilder(
         animation: settingsStore,
-        builder: (context, child) {
-          final exportLocation = stringifyTreeUri(
+        builder: (BuildContext context, Widget? child) {
+          final String? exportLocation = stringifyTreeUri(
             settingsStore.exportLocation,
           );
 
@@ -133,21 +135,21 @@ class _ExportLocationSettingsTileState extends State<ExportLocationSettingsTile>
 }
 
 class AppThemeSettingsTile extends StatefulWidget {
-  const AppThemeSettingsTile({Key? key}) : super(key: key);
+  const AppThemeSettingsTile({super.key});
 
   @override
   State<AppThemeSettingsTile> createState() => _AppThemeSettingsTileState();
 }
 
 class _AppThemeSettingsTileState extends State<AppThemeSettingsTile>
-    with ThemeStoreMixin {
+    with ThemeStoreMixin<AppThemeSettingsTile> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         showDialog(
           context: context,
-          builder: (context) => const ChangeThemeDialog(),
+          builder: (BuildContext context) => const ChangeThemeDialog(),
         );
       },
       child: ListTile(
@@ -160,7 +162,7 @@ class _AppThemeSettingsTileState extends State<AppThemeSettingsTile>
         title: Text(context.strings.theme),
         subtitle: AnimatedBuilder(
           animation: themeStore,
-          builder: (context, child) {
+          builder: (BuildContext context, Widget? child) {
             return Text(
               themeStore.currentTheme.getNameString(context.strings),
             );
@@ -172,29 +174,29 @@ class _AppThemeSettingsTileState extends State<AppThemeSettingsTile>
 }
 
 class ChangeThemeDialog extends StatefulWidget {
-  const ChangeThemeDialog({Key? key}) : super(key: key);
+  const ChangeThemeDialog({super.key});
 
   @override
   State<ChangeThemeDialog> createState() => _ChangeThemeDialogState();
 }
 
 class _ChangeThemeDialogState extends State<ChangeThemeDialog>
-    with ThemeStoreMixin {
+    with ThemeStoreMixin<ChangeThemeDialog> {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: themeStore,
-      builder: (context, child) {
+      builder: (BuildContext context, Widget? child) {
         return SimpleDialog(
-          backgroundColor: context.theme.backgroundColor,
+          backgroundColor: context.theme.colorScheme.background,
           title: Text(context.strings.theme),
-          children: [
-            for (final theme in AppTheme.values)
+          children: <Widget>[
+            for (final AppTheme theme in AppTheme.values)
               RadioListTile<AppTheme>(
                 groupValue: themeStore.currentTheme,
                 value: theme,
                 title: Text(theme.getNameString(context.strings)),
-                onChanged: (value) => themeStore.setTheme(value!),
+                onChanged: (AppTheme? value) => themeStore.setTheme(value!),
               ),
           ],
         );
@@ -204,7 +206,7 @@ class _ChangeThemeDialogState extends State<ChangeThemeDialog>
 }
 
 class AppFontFamilySettingsTile extends StatefulWidget {
-  const AppFontFamilySettingsTile({Key? key}) : super(key: key);
+  const AppFontFamilySettingsTile({super.key});
 
   @override
   State<AppFontFamilySettingsTile> createState() =>
@@ -212,14 +214,15 @@ class AppFontFamilySettingsTile extends StatefulWidget {
 }
 
 class _AppFontFamilySettingsTileState extends State<AppFontFamilySettingsTile>
-    with ThemeStoreMixin {
+    with ThemeStoreMixin<AppFontFamilySettingsTile> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         showDialog(
           context: context,
-          builder: (context) => const ChangeThemeFontFamilyDialog(),
+          builder: (BuildContext context) =>
+              const ChangeThemeFontFamilyDialog(),
         );
       },
       child: ListTile(
@@ -232,7 +235,7 @@ class _AppFontFamilySettingsTileState extends State<AppFontFamilySettingsTile>
         title: Text(context.strings.fontFamily),
         subtitle: AnimatedBuilder(
           animation: themeStore,
-          builder: (context, child) {
+          builder: (BuildContext context, Widget? child) {
             return Text(themeStore.currentFontFamily.name);
           },
         ),
@@ -242,7 +245,7 @@ class _AppFontFamilySettingsTileState extends State<AppFontFamilySettingsTile>
 }
 
 class ChangeThemeFontFamilyDialog extends StatefulWidget {
-  const ChangeThemeFontFamilyDialog({Key? key}) : super(key: key);
+  const ChangeThemeFontFamilyDialog({super.key});
 
   @override
   State<ChangeThemeFontFamilyDialog> createState() =>
@@ -250,23 +253,25 @@ class ChangeThemeFontFamilyDialog extends StatefulWidget {
 }
 
 class _ChangeThemeFontFamilyDialogState
-    extends State<ChangeThemeFontFamilyDialog> with ThemeStoreMixin {
+    extends State<ChangeThemeFontFamilyDialog>
+    with ThemeStoreMixin<ChangeThemeFontFamilyDialog> {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: themeStore,
-      builder: (context, child) {
+      builder: (BuildContext context, Widget? child) {
         return SimpleDialog(
-          backgroundColor: context.theme.backgroundColor,
+          backgroundColor: context.theme.colorScheme.background,
           title: Text(context.strings.fontFamily),
-          children: [
-            for (final fontFamily
-                in AppFontFamily.values.where((e) => e.displayable))
+          children: <Widget>[
+            for (final AppFontFamily fontFamily in AppFontFamily.values
+                .where((AppFontFamily e) => e.displayable))
               RadioListTile<AppFontFamily>(
                 groupValue: themeStore.currentFontFamily,
                 value: fontFamily,
                 title: Text(fontFamily.name),
-                onChanged: (value) => themeStore.setFontFamily(value!),
+                onChanged: (AppFontFamily? value) =>
+                    themeStore.setFontFamily(value!),
               ),
           ],
         );
@@ -276,7 +281,7 @@ class _ChangeThemeFontFamilyDialogState
 }
 
 class AppLocalizationSettingsTile extends StatefulWidget {
-  const AppLocalizationSettingsTile({Key? key}) : super(key: key);
+  const AppLocalizationSettingsTile({super.key});
 
   @override
   State<AppLocalizationSettingsTile> createState() =>
@@ -284,14 +289,16 @@ class AppLocalizationSettingsTile extends StatefulWidget {
 }
 
 class _AppLocalizationSettingsTileState
-    extends State<AppLocalizationSettingsTile> with LocalizationStoreMixin {
+    extends State<AppLocalizationSettingsTile>
+    with LocalizationStoreMixin<AppLocalizationSettingsTile> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
         showDialog(
           context: context,
-          builder: (context) => const ChangeAppLocalizationDialog(),
+          builder: (BuildContext context) =>
+              const ChangeAppLocalizationDialog(),
         );
       },
       child: ListTile(
@@ -304,7 +311,7 @@ class _AppLocalizationSettingsTileState
         title: Text(context.strings.language),
         subtitle: AnimatedBuilder(
           animation: localizationStore,
-          builder: (context, child) {
+          builder: (BuildContext context, Widget? child) {
             if (localizationStore.fixedLocale == null) {
               String systemLanguageNotSupportedWarn = '';
 
@@ -326,7 +333,7 @@ class _AppLocalizationSettingsTileState
 }
 
 class ChangeAppLocalizationDialog extends StatefulWidget {
-  const ChangeAppLocalizationDialog({Key? key}) : super(key: key);
+  const ChangeAppLocalizationDialog({super.key});
 
   @override
   State<ChangeAppLocalizationDialog> createState() =>
@@ -334,28 +341,30 @@ class ChangeAppLocalizationDialog extends StatefulWidget {
 }
 
 class _ChangeAppLocalizationDialogState
-    extends State<ChangeAppLocalizationDialog> with LocalizationStoreMixin {
+    extends State<ChangeAppLocalizationDialog>
+    with LocalizationStoreMixin<ChangeAppLocalizationDialog> {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: localizationStore,
-      builder: (context, child) {
+      builder: (BuildContext context, Widget? child) {
         return SimpleDialog(
-          backgroundColor: context.theme.backgroundColor,
+          backgroundColor: context.theme.colorScheme.background,
           title: Text(context.strings.language),
-          children: [
-            for (final localization in AppLocalizations.supportedLocales)
+          children: <Widget>[
+            for (final Locale localization in AppLocalizations.supportedLocales)
               RadioListTile<Locale?>(
                 groupValue: localizationStore.fixedLocale,
                 value: localization,
                 title: Text(localization.fullName),
-                onChanged: (value) => localizationStore.setLocale(value!),
+                onChanged: (Locale? value) =>
+                    localizationStore.setLocale(value),
               ),
             RadioListTile<Locale?>(
               groupValue: localizationStore.fixedLocale,
               value: null,
               title: Text(context.strings.followTheSystem),
-              onChanged: (value) => localizationStore.setLocale(value),
+              onChanged: (Locale? value) => localizationStore.setLocale(value),
             ),
           ],
         );

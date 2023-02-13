@@ -1,92 +1,62 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:flutter_shared_tools/flutter_shared_tools.dart';
-import 'package:kanade/stores/contextual_menu.dart';
-import 'package:kanade/stores/device_apps.dart';
-import 'package:kanade/widgets/loading.dart';
-import 'package:kanade/widgets/multi_animated_builder.dart';
-import 'package:kanade/widgets/packages_list.dart';
+
+import '../screens/apk_list_screen.dart';
+import '../screens/app_list_screen.dart';
+import '../stores/bottom_navigation.dart';
+import '../widgets/bottom_navigation.dart';
+import '../widgets/keep_alive.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage>
-    with DeviceAppsStoreConsumer, ContextualMenuStoreConsumer {
+    with BottomNavigationStoreMixin<HomePage> {
+  late PageController _pageController;
+
   @override
   void initState() {
     super.initState();
 
-    SchedulerBinding.instance
-        .addPostFrameCallback((timestamp) => _loadDevicePackages());
+    _pageController = PageController();
+
+    bottomNavigationStore.addListener(bottomNavigationListener);
   }
 
-  Future<void> _loadDevicePackages() async {
-    await store.loadPackages();
+  void bottomNavigationListener() {
+    _pageController.jumpToPage(bottomNavigationStore.currentIndex);
   }
 
-  Widget _buildHomeContent() {
-    return MultiAnimatedBuilder(
-      animations: [store, menuStore],
-      builder: (context, child) => store.isLoading && store.apps.isEmpty
-          ? const Loading()
-          : const PackagesList(),
-    );
-  }
+  @override
+  void dispose() {
+    bottomNavigationStore.removeListener(bottomNavigationListener);
 
-  Widget _loadingIndicatorBuilder(BuildContext context, Widget? child) {
-    if (store.fullyLoaded) {
-      return const SizedBox.shrink();
-    }
+    _pageController.dispose();
 
-    final isDeterminatedState =
-        store.totalPackagesCount != null && store.loadedPackagesCount != null;
-
-    double progress() {
-      final state = store.loadedPackagesCount! / store.totalPackagesCount!;
-
-      return state.clamp(0, 1);
-    }
-
-    return TweenAnimationBuilder<double>(
-      duration: const Duration(milliseconds: 1000),
-      curve: Curves.easeInOut,
-      tween: Tween<double>(
-        begin: 0,
-        end: isDeterminatedState ? progress() : 0,
-      ),
-      builder: (context, value, _) => LinearProgressIndicator(
-        minHeight: k2dp,
-        color: context.theme.primaryColor,
-        backgroundColor: context.theme.cardColor,
-        value: value,
-      ),
-    );
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(
-        children: [
-          Positioned.fill(child: _buildHomeContent()),
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: SafeArea(
-              child: SizedBox(
-                height: k2dp,
-                child: AnimatedBuilder(
-                  animation: store,
-                  builder: _loadingIndicatorBuilder,
-                ),
-              ),
-            ),
-          ),
+      bottomNavigationBar: AnimatedBuilder(
+        animation: bottomNavigationStore,
+        builder: (BuildContext context, Widget? child) {
+          return BottomNavigation(
+            index: bottomNavigationStore.currentIndex,
+            onChange: bottomNavigationStore.setCurrentIndex,
+          );
+        },
+      ),
+      body: PageView(
+        pageSnapping: false,
+        controller: _pageController,
+        children: const <Widget>[
+          Keep(child: AppListScreen()),
+          Keep(child: ApkListScreen()),
         ],
       ),
     );

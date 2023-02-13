@@ -3,36 +3,56 @@ import 'dart:typed_data';
 import 'package:device_apps/device_apps.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
-import 'package:kanade/stores/contextual_menu.dart';
-import 'package:kanade/stores/device_apps.dart';
-import 'package:kanade/utils/app_localization_strings.dart';
 import 'package:pixelarticons/pixel.dart';
+import 'package:share_plus/share_plus.dart';
 
+import '../stores/contextual_menu.dart';
+import '../stores/device_apps.dart';
+import '../utils/app_localization_strings.dart';
+import '../utils/package_bytes.dart';
 import 'app_icon_button.dart';
 
+enum PackageTileActions {
+  uninstall,
+  share;
+
+  Future<void> perform(Application package) async {
+    switch (this) {
+      case PackageTileActions.uninstall:
+        await package.uninstallApp();
+        break;
+      case PackageTileActions.share:
+        await Share.shareXFiles(<XFile>[XFile(package.apkFilePath)]);
+        break;
+    }
+  }
+}
+
 class PackageTile extends StatefulWidget {
+  const PackageTile(
+    this.package, {
+    super.key,
+    required this.isSelected,
+    required this.showCheckbox,
+    required this.onPressed,
+    required this.onLongPress,
+  });
+
   final Application package;
   final bool isSelected;
   final bool showCheckbox;
   final VoidCallback onPressed;
   final VoidCallback onLongPress;
 
-  const PackageTile(
-    this.package, {
-    Key? key,
-    required this.isSelected,
-    required this.showCheckbox,
-    required this.onPressed,
-    required this.onLongPress,
-  }) : super(key: key);
-
   @override
   _PackageTileState createState() => _PackageTileState();
 }
 
 class _PackageTileState extends State<PackageTile>
-    with ContextualMenuStoreConsumer, DeviceAppsStoreConsumer {
-  static const _kLeadingSize = Size.square(50);
+    with
+        ContextualMenuStoreMixin<PackageTile>,
+        DeviceAppsStoreMixin<PackageTile> {
+  static const Size _kLeadingSize = Size.square(50);
 
   bool get _hasIcon => widget.package is ApplicationWithIcon;
 
@@ -52,6 +72,39 @@ class _PackageTileState extends State<PackageTile>
           _isSelected ? Pixel.checkbox : Pixel.checkboxon,
         ),
       );
+    } else if (!_isSelected) {
+      child = PopupMenuButton<PackageTileActions>(
+        icon: const Icon(Pixel.morevertical),
+        // TODO: Missing translation.
+        tooltip: 'See more options',
+        itemBuilder: (_) {
+          return <PopupMenuEntry<PackageTileActions>>[
+            const PopupMenuItem<PackageTileActions>(
+              value: PackageTileActions.share,
+              child: ListTile(
+                leading: Icon(Pixel.forward),
+                dense: true,
+                // TODO: Missing translation.
+                title: Text('Share apk'),
+              ),
+            ),
+            const PopupMenuItem<PackageTileActions>(
+              value: PackageTileActions.uninstall,
+              child: ListTile(
+                leading: Icon(Pixel.trash, color: Colors.red),
+                dense: true,
+                // TODO: Missing translation.
+                title: Text('Uninstall'),
+              ),
+            ),
+          ];
+        },
+        onSelected: (PackageTileActions? value) {
+          if (value != null) {
+            value.perform(widget.package);
+          }
+        },
+      );
     }
 
     return SizedBox(
@@ -63,7 +116,7 @@ class _PackageTileState extends State<PackageTile>
 
   Widget _buildTileTitle() {
     return Text(
-      widget.package.appName,
+      '${widget.package.appName} ${widget.package.size.formatBytes()}',
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
     );
@@ -137,12 +190,11 @@ class _PackageTileState extends State<PackageTile>
       decoration: BoxDecoration(
         color: context.theme.cardColor,
         border: Border(
-          bottom: BorderSide(color: context.theme.backgroundColor),
+          bottom: BorderSide(color: context.theme.colorScheme.background),
         ),
       ),
       child: Material(
         borderRadius: BorderRadius.circular(0),
-        elevation: 0,
         color: Colors.transparent,
         child: _buildInkEffectWrapper(),
       ),

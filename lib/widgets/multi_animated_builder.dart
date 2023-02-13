@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 ///
 /// The [animations] argument is required.
 class MultiAnimatedBuilder extends StatefulWidget {
-  final Function(BuildContext, Widget?) builder;
-  final List<Listenable> animations;
-  final Widget? child;
-
   const MultiAnimatedBuilder({
-    Key? key,
+    super.key,
     required this.animations,
     required this.builder,
     this.child,
-  }) : super(key: key);
+  });
+
+  final Widget Function(BuildContext, Widget?) builder;
+  final List<Listenable> animations;
+  final Widget? child;
 
   @override
   State<MultiAnimatedBuilder> createState() => _AnimatedState();
@@ -21,13 +21,13 @@ class MultiAnimatedBuilder extends StatefulWidget {
 
 class _AnimatedState extends State<MultiAnimatedBuilder> {
   void _attachAll(List<Listenable> animations, VoidCallback listener) {
-    for (final animation in animations) {
+    for (final Listenable animation in animations) {
       animation.addListener(listener);
     }
   }
 
   void _detachAll(List<Listenable> animations, VoidCallback listener) {
-    for (final animation in animations) {
+    for (final Listenable animation in animations) {
       animation.removeListener(listener);
     }
   }

@@ -1,10 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/extensions/extensions.dart';
-import 'package:kanade/setup.dart';
-import 'package:kanade/stores/theme.dart';
-import 'package:kanade/widgets/multi_animated_builder.dart';
+import '../setup.dart';
+import '../stores/theme.dart';
+import 'multi_animated_builder.dart';
 
 class AnimatedAppName extends StatefulWidget {
+  const AnimatedAppName({
+    super.key,
+    this.size,
+    this.dimmedColor,
+    this.highlightColor,
+    this.fontFamily,
+    this.text,
+  });
+
   final Size? size;
 
   final Color? dimmedColor;
@@ -12,21 +21,12 @@ class AnimatedAppName extends StatefulWidget {
   final String? fontFamily;
   final String? text;
 
-  const AnimatedAppName({
-    Key? key,
-    this.size,
-    this.dimmedColor,
-    this.highlightColor,
-    this.fontFamily,
-    this.text,
-  }) : super(key: key);
-
   @override
   State<AnimatedAppName> createState() => _AnimatedAppNameState();
 }
 
 class _AnimatedAppNameState extends State<AnimatedAppName>
-    with SingleTickerProviderStateMixin, ThemeStoreMixin {
+    with SingleTickerProviderStateMixin, ThemeStoreMixin<AnimatedAppName> {
   late AnimationController _controller;
   late Animation<double> _curve;
 
@@ -57,13 +57,14 @@ class _AnimatedAppNameState extends State<AnimatedAppName>
 
   @override
   Widget build(BuildContext context) {
-    final textPainter = AnimatedAppNamePainter.createTextPainter(_text);
+    final TextPainter textPainter =
+        AnimatedAppNamePainter.createTextPainter(_text);
 
     return ClipRRect(
       clipBehavior: Clip.hardEdge,
       child: MultiAnimatedBuilder(
-        animations: [_controller, themeStore],
-        builder: (context, child) {
+        animations: <Listenable>[_controller, themeStore],
+        builder: (BuildContext context, Widget? child) {
           return CustomPaint(
             painter: AnimatedAppNamePainter(
               text: _text,
@@ -84,15 +85,6 @@ class _AnimatedAppNameState extends State<AnimatedAppName>
 }
 
 class AnimatedAppNamePainter extends CustomPainter {
-  final Color dimmedColor;
-  final Color highlightColor;
-  final double value;
-
-  late TextPainter _textPainter;
-
-  Offset _textOffsetFrom(Size size) =>
-      Offset(0, size.height / 2 - _textPainter.size.height / 2);
-
   AnimatedAppNamePainter({
     required this.dimmedColor,
     required this.highlightColor,
@@ -106,6 +98,14 @@ class AnimatedAppNamePainter extends CustomPainter {
       color: dimmedColor,
     );
   }
+  final Color dimmedColor;
+  final Color highlightColor;
+  final double value;
+
+  late TextPainter _textPainter;
+
+  Offset _textOffsetFrom(Size size) =>
+      Offset(0, size.height / 2 - _textPainter.size.height / 2);
 
   static TextPainter createTextPainter(
     String text, {
@@ -132,21 +132,21 @@ class AnimatedAppNamePainter extends CustomPainter {
       Paint()..color = Colors.black,
     );
 
-    final textOffset = _textOffsetFrom(size);
+    final Offset textOffset = _textOffsetFrom(size);
 
-    final baseRadius = _textPainter.height;
+    final double baseRadius = _textPainter.height;
 
-    final sigma = _convertRadiusToSigma(baseRadius);
+    final double sigma = _convertRadiusToSigma(baseRadius);
 
     // Times 2 to add a natural delay between each "highlight" effect.
-    final radius = baseRadius + sigma * 2;
+    final double radius = baseRadius + sigma * 2;
 
     // Sigma increases the "highlight" effect radius, so we need to consider it
     // when compututing our circle X position.
-    final startX = textOffset.dx - radius;
-    final finalX = startX + radius + _textPainter.width + radius;
+    final double startX = textOffset.dx - radius;
+    final double finalX = startX + radius + _textPainter.width + radius;
 
-    final progressX = startX + (finalX - startX) * value;
+    final double progressX = startX + (finalX - startX) * value;
 
     _textPainter.paint(
       canvas,

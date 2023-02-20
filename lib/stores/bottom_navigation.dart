@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
 import '../setup.dart';
 
-mixin BottomNavigationStoreMixin<T extends StatefulWidget> on State<T> {
+mixin BottomNavigationStoreMixin {
   BottomNavigationStore? _bottomNavigationStore;
   BottomNavigationStore get bottomNavigationStore =>
       _bottomNavigationStore ??= getIt<BottomNavigationStore>();
-
-  @override
-  void didUpdateWidget(covariant T oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _bottomNavigationStore =
-        null; // Refresh store instance when updating the widget
-  }
 }
 
 class BottomNavigationStore extends ChangeNotifier {
@@ -27,4 +20,6 @@ class BottomNavigationStore extends ChangeNotifier {
     _index = index;
     notifyListeners();
   }
+
+  void navigateToAppList() => setCurrentIndex(0);
 }

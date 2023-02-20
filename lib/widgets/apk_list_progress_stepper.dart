@@ -117,7 +117,7 @@ class _ApkListProgressStepperState extends State<ApkListProgressStepper>
           // TODO: Add translation.
           const TextSpan(
             text:
-                'The apk list will appear here, to get started try to click over a tile on the app list screen! It will create a new export job that will copy the app apk to the folder you chose, you can also ',
+                'The apk list will appear here, to get start try to click over a tile on the app list screen! It will create a new export job that will copy the app apk to the folder you chose, you can also ',
           ),
           TextSpan(
             // TODO: Add translation.

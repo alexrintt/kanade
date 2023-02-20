@@ -168,7 +168,7 @@ class ThemeStore extends ChangeNotifier {
       cardColor: kCardColor,
       primaryColor: kPrimaryColor,
       secondaryColor: kSecondaryColor,
-      textColor: Colors.black87,
+      textColor: Colors.black54,
       headlineColor: const Color(0xff111111),
       disabledColor: Colors.black12,
       base: ThemeData.light(),

@@ -21,7 +21,7 @@ class _SliverAppTopBarState extends State<SliverAppTopBar> {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
-      titleSpacing: k4dp,
+      titleSpacing: k10dp,
       title: const SizedBox(
         height: kToolbarHeight,
         child: Align(
@@ -35,18 +35,27 @@ class _SliverAppTopBarState extends State<SliverAppTopBar> {
             context: context,
             builder: (BuildContext context) => const ChangeThemeDialog(),
           ),
-          icon: const Icon(Pixel.sun),
+          icon: Icon(
+            Pixel.sun,
+            color: context.isDark ? null : context.primaryColor,
+          ),
           tooltip: context.strings.changeTheme,
         ),
         if (widget.onSearch != null)
           AppIconButton(
             onTap: widget.onSearch,
-            icon: const Icon(Pixel.search),
+            icon: Icon(
+              Pixel.search,
+              color: context.isDark ? null : context.primaryColor,
+            ),
             tooltip: context.strings.searchPackagesAndApps,
           ),
         AppIconButton(
           onTap: context.openSettingsPage,
-          icon: const Icon(Pixel.sliders),
+          icon: Icon(
+            Pixel.morevertical,
+            color: context.isDark ? null : context.primaryColor,
+          ),
           tooltip: context.strings.openSettingsPage,
         ),
       ],

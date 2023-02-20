@@ -9,4 +9,11 @@ mixin IsDisposedMixin on ChangeNotifier {
 
     super.dispose();
   }
+
+  @override
+  void notifyListeners() {
+    if (isDisposed) return;
+
+    super.notifyListeners();
+  }
 }

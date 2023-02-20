@@ -12,6 +12,7 @@ import '../utils/stringify_uri_location.dart';
 import '../widgets/app_icon_button.dart';
 import '../widgets/app_version_info.dart';
 import '../widgets/horizontal_rule.dart';
+import '../widgets/material_you_dialog_shape.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -22,9 +23,9 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage>
     with
-        SettingsStoreMixin<SettingsPage>,
+        SettingsStoreMixin,
         ThemeStoreMixin<SettingsPage>,
-        LocalizationStoreMixin<SettingsPage> {
+        LocalizationStoreMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,13 +38,19 @@ class _SettingsPageState extends State<SettingsPage>
             leading: !Navigator.canPop(context)
                 ? null
                 : IconButton(
-                    icon: const Icon(Pixel.arrowleft),
+                    icon: Icon(
+                      Pixel.arrowleft,
+                      color: context.isDark ? null : context.primaryColor,
+                    ),
                     onPressed: () => Navigator.pop(context),
                   ),
             title: Text(context.strings.settings),
             actions: <Widget>[
               AppIconButton(
-                icon: const Icon(Pixel.reload),
+                icon: Icon(
+                  Pixel.reload,
+                  color: context.isDark ? null : context.primaryColor,
+                ),
                 tooltip: context.strings.resetAllPreferences,
                 onTap: () {
                   settingsStore.reset();
@@ -105,7 +112,7 @@ class ExportLocationSettingsTile extends StatefulWidget {
 }
 
 class _ExportLocationSettingsTileState extends State<ExportLocationSettingsTile>
-    with SettingsStoreMixin<ExportLocationSettingsTile> {
+    with SettingsStoreMixin {
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -188,6 +195,7 @@ class _ChangeThemeDialogState extends State<ChangeThemeDialog>
       animation: themeStore,
       builder: (BuildContext context, Widget? child) {
         return SimpleDialog(
+          shape: const MaterialYouDialogShape(),
           backgroundColor: context.theme.colorScheme.background,
           title: Text(context.strings.theme),
           children: <Widget>[
@@ -261,6 +269,7 @@ class _ChangeThemeFontFamilyDialogState
       animation: themeStore,
       builder: (BuildContext context, Widget? child) {
         return SimpleDialog(
+          shape: const MaterialYouDialogShape(),
           backgroundColor: context.theme.colorScheme.background,
           title: Text(context.strings.fontFamily),
           children: <Widget>[
@@ -289,8 +298,7 @@ class AppLocalizationSettingsTile extends StatefulWidget {
 }
 
 class _AppLocalizationSettingsTileState
-    extends State<AppLocalizationSettingsTile>
-    with LocalizationStoreMixin<AppLocalizationSettingsTile> {
+    extends State<AppLocalizationSettingsTile> with LocalizationStoreMixin {
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -341,14 +349,14 @@ class ChangeAppLocalizationDialog extends StatefulWidget {
 }
 
 class _ChangeAppLocalizationDialogState
-    extends State<ChangeAppLocalizationDialog>
-    with LocalizationStoreMixin<ChangeAppLocalizationDialog> {
+    extends State<ChangeAppLocalizationDialog> with LocalizationStoreMixin {
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: localizationStore,
       builder: (BuildContext context, Widget? child) {
         return SimpleDialog(
+          shape: const MaterialYouDialogShape(),
           backgroundColor: context.theme.colorScheme.background,
           title: Text(context.strings.language),
           children: <Widget>[

@@ -4,7 +4,6 @@ import '../screens/apk_list_screen.dart';
 import '../screens/app_list_screen.dart';
 import '../stores/bottom_navigation.dart';
 import '../widgets/bottom_navigation.dart';
-import '../widgets/keep_alive.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,30 +12,30 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with BottomNavigationStoreMixin<HomePage> {
-  late PageController _pageController;
-
+class _HomePageState extends State<HomePage> with BottomNavigationStoreMixin {
   @override
   void initState() {
     super.initState();
-
-    _pageController = PageController();
-
-    bottomNavigationStore.addListener(bottomNavigationListener);
-  }
-
-  void bottomNavigationListener() {
-    _pageController.jumpToPage(bottomNavigationStore.currentIndex);
   }
 
   @override
   void dispose() {
-    bottomNavigationStore.removeListener(bottomNavigationListener);
-
-    _pageController.dispose();
-
     super.dispose();
+  }
+
+  Widget _buildTab(Widget child, int index) {
+    return Positioned.fill(
+      child: AnimatedBuilder(
+        animation: bottomNavigationStore,
+        builder: (BuildContext context, Widget? _) {
+          return Visibility(
+            maintainState: true,
+            visible: bottomNavigationStore.currentIndex == 0,
+            child: child,
+          );
+        },
+      ),
+    );
   }
 
   @override
@@ -51,12 +50,11 @@ class _HomePageState extends State<HomePage>
           );
         },
       ),
-      body: PageView(
-        pageSnapping: false,
-        controller: _pageController,
-        children: const <Widget>[
-          Keep(child: AppListScreen()),
-          Keep(child: ApkListScreen()),
+      body: Stack(
+        children: <Widget>[
+          _buildTab(const AppListScreen(), 0),
+          _buildTab(const ApkListScreen(), 0),
+          _buildTab(const Placeholder(), 0),
         ],
       ),
     );

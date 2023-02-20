@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:device_apps/device_apps.dart';
+import 'package:device_packages/device_packages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 
@@ -25,12 +25,12 @@ class _PackagesListState extends State<PackagesList>
     with
         DeviceAppsStoreMixin<PackagesList>,
         ContextualMenuStoreMixin<PackagesList> {
-  void _onLongPress(Application package) {
+  void _onLongPress(PackageInfo package) {
     menuStore.pushSelectionMenu();
     store.toggleSelect(package);
   }
 
-  Future<void> _onPressed(Application package) async {
+  Future<void> _onPressed(PackageInfo package) async {
     if (menuStore.context.isSelection) {
       store.toggleSelect(package);
     } else {
@@ -106,7 +106,7 @@ class _PackagesListState extends State<PackagesList>
                   sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (BuildContext context, int index) {
-                        final Application current =
+                        final PackageInfo current =
                             store.displayableApps[index];
 
                         return PackageTile(

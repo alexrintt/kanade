@@ -66,15 +66,27 @@ packages:
       url: "https://github.com/alexrintt/dart-shared-tools"
     source: git
     version: "0.1.0"
-  device_apps:
+  device_packages:
     dependency: "direct main"
     description:
-      path: "."
-      ref: "6051e51fd78778f848eca870ec51a0367b5d2fd9"
-      resolved-ref: "6051e51fd78778f848eca870ec51a0367b5d2fd9"
-      url: "https://github.com/alexrintt/flutter_plugin_device_apps"
-    source: git
-    version: "2.2.0"
+      path: "../device_packages/device_packages"
+      relative: true
+    source: path
+    version: "0.1.0"
+  device_packages_android:
+    dependency: transitive
+    description:
+      path: "../device_packages/device_packages_android"
+      relative: true
+    source: path
+    version: "0.1.0"
+  device_packages_platform_interface:
+    dependency: transitive
+    description:
+      path: "../device_packages/device_packages_platform_interface"
+      relative: true
+    source: path
+    version: "0.1.0"
   fake_async:
     dependency: transitive
     description:
@@ -403,11 +415,9 @@ packages:
   shared_storage:
     dependency: "direct main"
     description:
-      path: "."
-      ref: d0501693fb5517e6eb78db8a9f1e6764ed37a627
-      resolved-ref: d0501693fb5517e6eb78db8a9f1e6764ed37a627
-      url: "https://github.com/alexrintt/shared-storage"
-    source: git
+      path: "../shared-storage"
+      relative: true
+    source: path
     version: "0.7.0"
   sky_engine:
     dependency: transitive

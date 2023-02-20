@@ -1,6 +1,7 @@
+import 'dart:async';
 import 'dart:io';
 
-import 'package:device_apps/device_apps.dart';
+import 'package:device_packages/device_packages.dart';
 import 'package:flutter/material.dart';
 import 'package:nanoid/async.dart';
 import 'package:shared_storage/shared_storage.dart';
@@ -111,7 +112,7 @@ class ApplicationSearchResult implements Comparable<ApplicationSearchResult> {
   const ApplicationSearchResult({required this.app, required this.text});
 
   final String text;
-  final Application app;
+  final PackageInfo app;
 
   String get _rawRegex {
     final String matcher =
@@ -134,12 +135,10 @@ class ApplicationSearchResult implements Comparable<ApplicationSearchResult> {
     return _regex.hasMatch(source);
   }
 
-  bool hasMatch() {
-    return _hasWildcardMatch();
-  }
+  bool hasMatch() => _hasWildcardMatch();
 
   String get source {
-    return <String>[app.appName, app.packageName].join(' ').toLowerCase();
+    return <String>[app.name ?? '', app.id ?? ''].join(' ').toLowerCase();
   }
 
   double get similarity {
@@ -170,56 +169,140 @@ class DeviceAppsStore extends ChangeNotifier with IsDisposedMixin {
   /// List of all device applications
   /// - Include system apps
   /// - Include app icons
-  final List<Application> apps = <Application>[];
+  List<PackageInfo> get apps => List<PackageInfo>.unmodifiable(
+        _apps.values.toList()
+          ..sort(
+            (PackageInfo a, PackageInfo b) =>
+                a.name!.toLowerCase().compareTo(b.name!.toLowerCase()),
+          ),
+      );
+
+  final Map<String, PackageInfo> _apps = <String, PackageInfo>{};
 
   /// List of all selected applications
-  final Set<Application> selected = <Application>{};
+  Set<PackageInfo> get selected => Set<PackageInfo>.unmodifiable(
+        _selected
+            .map((String packageId) => _apps[packageId])
+            .where((PackageInfo? package) => package != null)
+            .cast<PackageInfo>()
+            .toSet(),
+      );
+
+  /// List of all selected applications
+  final Set<String> _selected = <String>{};
 
   /// Whether loading device applications or not
   bool isLoading = false;
   int? totalPackagesCount;
-  int? get loadedPackagesCount => isLoading ? apps.length : totalPackagesCount;
+  int? get loadedPackagesCount => isLoading ? _apps.length : totalPackagesCount;
   bool get fullyLoaded =>
       !isLoading && loadedPackagesCount == totalPackagesCount;
 
   void Function(void Function()) throttle = throttleIt500ms();
 
+  Stream<PackageEvent>? _onAppChange;
+  StreamSubscription<PackageEvent>? _onAppChangeListener;
+
+  @override
+  void dispose() {
+    _disposeAppChangeListener();
+    _disposeAppStreamListener();
+    super.dispose();
+  }
+
+  void _disposeAppStreamListener() {
+    _appsStreamSubscription?.cancel();
+    _appsStreamSubscription = null;
+  }
+
+  void _disposeAppChangeListener() {
+    _onAppChangeListener?.cancel();
+    _onAppChangeListener = null;
+  }
+
+  void _setupInstallAndUninstallListener() {
+    if (_onAppChange != null || _onAppChangeListener != null) {
+      return;
+    }
+
+    _onAppChange = DevicePackages.listenToPackageEvents();
+    _onAppChangeListener = _onAppChange!.listen(
+      (PackageEvent event) async {
+        switch (event.action) {
+          case PackageAction.install:
+            _apps[event.packageId] = await DevicePackages.getPackage(
+              event.packageId,
+              includeIcon: true,
+            );
+
+            notifyListeners();
+
+            break;
+          case PackageAction.update:
+            _apps[event.packageId] = await DevicePackages.getPackage(
+              event.packageId,
+              includeIcon: true,
+            );
+
+            notifyListeners();
+
+            break;
+          case PackageAction.uninstall:
+            _apps.remove(event.packageId);
+
+            notifyListeners();
+
+            break;
+        }
+      },
+      cancelOnError: true,
+      onError: (_) => _disposeAppChangeListener(),
+      onDone: () => _disposeAppChangeListener(),
+    );
+  }
+
+  StreamSubscription<PackageInfo>? _appsStreamSubscription;
+
   /// Load all device packages
   ///
   /// You need call this method before any action
   Future<void> loadPackages() async {
+    _setupInstallAndUninstallListener();
+
     isLoading = true;
 
     notifyListeners();
 
-    totalPackagesCount = await DeviceApps.getInstalledPackagesCount();
+    totalPackagesCount = await DevicePackages.getInstalledPackageCount();
 
-    final Stream<Application> appsStream =
-        DeviceApps.streamInstalledApplications(
-      includeAppIcons: true,
-      includeSystemApps: true,
+    final Stream<PackageInfo> appsStream =
+        DevicePackages.getInstalledPackagesAsStream(
+      includeIcon: true,
+      includeSystemPackages: true,
+      onlyOpenablePackages: true,
     );
 
-    appsStream.listen(
-      (Application app) {
-        apps.add(app);
+    _appsStreamSubscription = appsStream.listen(
+      (PackageInfo package) {
+        _apps[package.id!] = package;
 
         throttle(() {
-          if (!isDisposed) {
-            notifyListeners();
-          }
+          notifyListeners();
         });
       },
+      cancelOnError: true,
+      onError: (_) => _disposeAppStreamListener(),
       onDone: () {
         isLoading = false;
         notifyListeners();
+        _disposeAppStreamListener();
       },
     );
   }
 
   /// Mark all apps as unselected
   void clearSelection() {
-    selected.clear();
+    _selected.clear();
     notifyListeners();
   }
 
@@ -230,7 +313,7 @@ class DeviceAppsStore extends ChangeNotifier with IsDisposedMixin {
   }
 
   /// Packages to be rendered on the screen
-  List<Application> get displayableApps => _searchText != null
+  List<PackageInfo> get displayableApps => _searchText != null
       ? results.map((ApplicationSearchResult e) => e.app).toList()
       : apps;
 
@@ -238,11 +321,11 @@ class DeviceAppsStore extends ChangeNotifier with IsDisposedMixin {
   bool get isAllSelected => displayableApps.length == selected.length;
 
   /// Add [package] to the [selected] Set
-  void toggleSelect(Application package) {
-    if (selected.contains(package)) {
-      selected.remove(package);
+  void toggleSelect(PackageInfo package) {
+    if (_selected.contains(package.id)) {
+      _selected.remove(package.id);
     } else {
-      selected.add(package);
+      _selected.add(package.id!);
     }
 
     notifyListeners();
@@ -251,16 +334,15 @@ class DeviceAppsStore extends ChangeNotifier with IsDisposedMixin {
   static const String kApkMimeType = 'application/vnd.android.package-archive';
 
   /// Extract Apk of a [package]
-  Future<ApkExtraction> extractApk(Application package, {Uri? folder}) async {
-    final File apkFile = File(package.apkFilePath);
+  Future<ApkExtraction> extractApk(PackageInfo package, {Uri? folder}) async {
+    final File apkFile = File(package.installerPath!);
     final String id = await nanoid(kIdLength);
 
     if (!apkFile.existsSync()) {
       return ApkExtraction(apkFile, Result.notFound);
     }
 
-    final String apkFilename =
-        '${package.appName}_${package.packageName}_${package.versionCode}_$id';
+    final String apkFilename = '${package.name}_${package.id}_$id';
 
     if (folder == null) {
       await _settingsStore.requestExportLocationIfNotSet();
@@ -303,7 +385,7 @@ class DeviceAppsStore extends ChangeNotifier with IsDisposedMixin {
     final Uri? folder = await requestExportLocation();
 
     if (folder != null) {
-      for (final Application selected in selected) {
+      for (final PackageInfo selected in selected) {
         extractions.add(await extractApk(selected, folder: folder));
       }
 
@@ -314,7 +396,7 @@ class DeviceAppsStore extends ChangeNotifier with IsDisposedMixin {
   }
 
   /// Verify if a given [package] is selected
-  bool isSelected(Application package) => selected.contains(package);
+  bool isSelected(PackageInfo package) => _selected.contains(package.id);
 
   void disableSearch() {
     _searchText = null;
@@ -324,11 +406,11 @@ class DeviceAppsStore extends ChangeNotifier with IsDisposedMixin {
   /// Select all [displayableApps], otherwise mark all as unselected
   void toggleSelectAll() {
     if (isAllSelected) {
-      selected.clear();
+      _selected.clear();
     } else {
-      selected
+      _selected
         ..clear()
-        ..addAll(displayableApps);
+        ..addAll(displayableApps.map((PackageInfo e) => e.id!));
     }
 
     notifyListeners();
@@ -341,7 +423,7 @@ class DeviceAppsStore extends ChangeNotifier with IsDisposedMixin {
 
     final List<ApplicationSearchResult> filtered = apps
         .map(
-          (Application app) =>
+          (PackageInfo app) =>
               ApplicationSearchResult(app: app, text: _searchText!),
         )
         .where((ApplicationSearchResult result) => result.hasMatch())

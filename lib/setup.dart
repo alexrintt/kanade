@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import 'stores/apk_list_store.dart';
 import 'stores/bottom_navigation.dart';
 import 'stores/contextual_menu.dart';
 import 'stores/device_apps.dart';
@@ -29,7 +30,8 @@ Future<void> setup() async {
     ..registerLazySingleton<LocalizationStore>(() => LocalizationStore())
     ..registerLazySingleton<BottomNavigationStore>(
       () => BottomNavigationStore(),
-    );
+    )
+    ..registerLazySingleton<ApkListStore>(() => ApkListStore()..start());
 }
 
 Future<void> init() async {

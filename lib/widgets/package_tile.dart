@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-import 'package:device_apps/device_apps.dart';
+import 'package:device_packages/device_packages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:pixelarticons/pixel.dart';
@@ -16,13 +16,13 @@ enum PackageTileActions {
   uninstall,
   share;
 
-  Future<void> perform(Application package) async {
+  Future<void> perform(PackageInfo package) async {
     switch (this) {
       case PackageTileActions.uninstall:
-        await package.uninstallApp();
+        await DevicePackages.uninstallPackage(package.id!);
         break;
       case PackageTileActions.share:
-        await Share.shareXFiles(<XFile>[XFile(package.apkFilePath)]);
+        await Share.shareXFiles(<XFile>[XFile(package.installerPath!)]);
         break;
     }
   }
@@ -38,7 +38,7 @@ class PackageTile extends StatefulWidget {
     required this.onLongPress,
   });
 
-  final Application package;
+  final PackageInfo package;
   final bool isSelected;
   final bool showCheckbox;
   final VoidCallback onPressed;
@@ -54,10 +54,9 @@ class _PackageTileState extends State<PackageTile>
         DeviceAppsStoreMixin<PackageTile> {
   static const Size _kLeadingSize = Size.square(50);
 
-  bool get _hasIcon => widget.package is ApplicationWithIcon;
+  bool get _hasIcon => widget.package.icon != null;
 
-  Uint8List? get _icon =>
-      _hasIcon ? (widget.package as ApplicationWithIcon).icon : null;
+  Uint8List? get _icon => _hasIcon ? widget.package.icon! : null;
 
   bool get _isSelected => widget.isSelected;
 
@@ -115,8 +114,16 @@ class _PackageTileState extends State<PackageTile>
   }
 
   Widget _buildTileTitle() {
+    int? size;
+
+    try {
+      size = widget.package.size;
+    } on AppIsNotAvailable {
+      size = null;
+    }
+
     return Text(
-      '${widget.package.appName} ${widget.package.size.formatBytes()}',
+      '${widget.package.name} ${size != null ? size.formatBytes() : ''}',
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
     );
@@ -136,7 +143,7 @@ class _PackageTileState extends State<PackageTile>
 
   Widget _buildTileSubtitle() {
     return Text(
-      widget.package.packageName,
+      widget.package.id!,
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
     );

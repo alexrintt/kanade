@@ -140,7 +140,7 @@ Specific-abi apks are compatible only with a subset of devices but they are subs
 
 ## How it works
 
-To display all installed apps the [`🔗 device_apps`](https://pub.dev/packages/device_apps) package is used and the apk extraction (that is a simple copy/paste operation between two files) is possible by [`🔗 shared_storage`](https://pub.dev/packages/shared_storage) package.
+To display all installed apps the [`🔗 device_packages`](https://github.com/alexrintt/device-packages) package is used and the apk extraction (that is a simple copy/paste operation between two files) is possible by [`🔗 shared_storage`](https://pub.dev/packages/shared_storage) package.
 
 ## Build by your own
 

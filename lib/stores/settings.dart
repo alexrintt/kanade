@@ -5,15 +5,9 @@ import 'package:shared_storage/saf.dart';
 import '../setup.dart';
 import '../utils/apply_if_not_null.dart';
 
-mixin SettingsStoreMixin<T extends StatefulWidget> on State<T> {
+mixin SettingsStoreMixin {
   SettingsStore? _settingsStore;
   SettingsStore get settingsStore => _settingsStore ??= getIt<SettingsStore>();
-
-  @override
-  void didUpdateWidget(covariant T oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _settingsStore = null; // Refresh store instance when updating the widget
-  }
 }
 
 class SettingsStore extends ChangeNotifier {

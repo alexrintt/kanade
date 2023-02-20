@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> with BottomNavigationStoreMixin {
         builder: (BuildContext context, Widget? _) {
           return Visibility(
             maintainState: true,
-            visible: bottomNavigationStore.currentIndex == 0,
+            visible: bottomNavigationStore.currentIndex == index,
             child: child,
           );
         },

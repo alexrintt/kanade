@@ -13,16 +13,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with BottomNavigationStoreMixin {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
   Widget _buildTab(Widget child, int index) {
     return Positioned.fill(
       child: AnimatedBuilder(

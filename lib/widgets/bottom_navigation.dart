@@ -9,7 +9,7 @@ class BottomNavigation extends StatefulWidget {
     super.key,
     required this.onChange,
     required this.index,
-  }) : assert(index >= 0 && index < 2);
+  }) : assert(index >= 0 && index < 4);
 
   final void Function(int) onChange;
   final int index;
@@ -33,6 +33,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
     return BottomAppBar(
       child: SizedBox(
         height: kToolbarHeight * 1.25,
+        width: context.width,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -48,12 +49,20 @@ class _BottomNavigationState extends State<BottomNavigation> {
               selected: widget.index == 1,
               onTap: () => _select(1),
             ),
-            // BottomNavigationItem(
-            //   icon: Pixel.folder,
-            //   label: 'Explorer',
-            //   selected: widget.index == 2,
-            //   onTap: () => _select(2),
-            // ),
+            BottomNavigationItem(
+              // icon: Pixel.arrowbardown,
+              label: 'Extracting',
+              selected: widget.index == 2,
+              onTap: () => _select(2),
+              icon: Pixel.download,
+              // child: Icon(Pixel.flatten),
+            ),
+            BottomNavigationItem(
+              icon: Pixel.folder,
+              label: 'Explorer',
+              selected: widget.index == 3,
+              onTap: () => _select(3),
+            ),
           ],
         ),
       ),
@@ -64,13 +73,15 @@ class _BottomNavigationState extends State<BottomNavigation> {
 class BottomNavigationItem extends StatefulWidget {
   const BottomNavigationItem({
     super.key,
-    required this.icon,
+    this.icon,
+    this.child,
     required this.label,
     required this.selected,
     required this.onTap,
-  });
+  }) : assert(child != null || icon != null);
 
-  final IconData icon;
+  final IconData? icon;
+  final Widget? child;
   final String label;
   final bool selected;
   final VoidCallback onTap;
@@ -91,26 +102,32 @@ class _BottomNavigationItemState extends State<BottomNavigationItem>
           child: Opacity(
             opacity: widget.selected ? 1 : 0.75,
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 100),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: k10dp,
-                    vertical: k1dp,
-                  ),
-                  margin: const EdgeInsets.only(bottom: k2dp),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(k10dp),
-                    color: widget.selected
-                        ? themeStore.currentThemeBrightness.isDark
-                            ? context.dividerColor
-                            : context.primaryColor.withOpacity(.2)
-                        : null,
-                  ),
-                  child: Icon(
-                    widget.icon,
-                    color: context.primaryColor,
+                Expanded(
+                  child: Center(
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 100),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: k10dp,
+                        vertical: k1dp,
+                      ),
+                      margin: const EdgeInsets.only(bottom: k2dp),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(k10dp),
+                        color: widget.selected
+                            ? themeStore.currentThemeBrightness.isDark
+                                ? context.dividerColor
+                                : context.primaryColor.withOpacity(.2)
+                            : null,
+                      ),
+                      child: widget.child ??
+                          Icon(
+                            widget.icon,
+                            color: context.primaryColor,
+                          ),
+                    ),
                   ),
                 ),
                 Text(

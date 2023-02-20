@@ -6,7 +6,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../setup.dart';
 import 'key_value_storage.dart';
 
-mixin LocalizationStoreMixin<T extends StatefulWidget> on State<T> {
+mixin LocalizationStoreMixin {
   LocalizationStore? _localizationStore;
   LocalizationStore get localizationStore =>
       _localizationStore ??= getIt<LocalizationStore>();

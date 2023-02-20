@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../screens/apk_list_screen.dart';
 import '../screens/app_list_screen.dart';
-import '../stores/bottom_navigation.dart';
+import '../stores/bottom_navigation_store.dart';
 import '../widgets/bottom_navigation.dart';
 
 class HomePage extends StatefulWidget {

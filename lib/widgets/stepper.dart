@@ -93,7 +93,9 @@ class ControlsDetails {
 ///
 ///  * [WidgetBuilder], which is similar but only takes a [BuildContext].
 typedef ControlsWidgetBuilder = Widget Function(
-    BuildContext context, ControlsDetails details);
+  BuildContext context,
+  ControlsDetails details,
+);
 
 const TextStyle _kStepStyle = TextStyle(
   fontSize: 12.0,
@@ -129,7 +131,7 @@ class Step {
     this.state = StepState.indexed,
     this.isActive = false,
     this.label,
-  }) : assert(content != null);
+  });
 
   /// The title of the step that typically describes it.
   final Widget title;
@@ -473,8 +475,10 @@ class _StepperState extends State<Stepper> with TickerProviderStateMixin {
                 0.0,
                 0.8,
               ), // 0.8 looks better than the geometrical 0.33.
-              child: _buildCircleChild(index,
-                  oldState && widget.steps[index].state != StepState.error),
+              child: _buildCircleChild(
+                index,
+                oldState && widget.steps[index].state != StepState.error,
+              ),
             ),
           ),
         ),
@@ -533,7 +537,8 @@ class _StepperState extends State<Stepper> with TickerProviderStateMixin {
         MaterialLocalizations.of(context);
 
     const OutlinedBorder buttonShape = RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(2)));
+      borderRadius: BorderRadius.all(Radius.circular(2)),
+    );
     const EdgeInsets buttonPadding = EdgeInsets.symmetric(horizontal: 16.0);
 
     return Container(
@@ -563,13 +568,16 @@ class _StepperState extends State<Stepper> with TickerProviderStateMixin {
                       : colorScheme.primary;
                 }),
                 padding: const MaterialStatePropertyAll<EdgeInsetsGeometry>(
-                    buttonPadding),
+                  buttonPadding,
+                ),
                 shape:
                     const MaterialStatePropertyAll<OutlinedBorder>(buttonShape),
               ),
-              child: Text(themeData.useMaterial3
-                  ? localizations.continueButtonLabel
-                  : localizations.continueButtonLabel.toUpperCase()),
+              child: Text(
+                themeData.useMaterial3
+                    ? localizations.continueButtonLabel
+                    : localizations.continueButtonLabel.toUpperCase(),
+              ),
             ),
             Container(
               margin: const EdgeInsetsDirectional.only(start: 8.0),
@@ -580,9 +588,11 @@ class _StepperState extends State<Stepper> with TickerProviderStateMixin {
                   padding: buttonPadding,
                   shape: buttonShape,
                 ),
-                child: Text(themeData.useMaterial3
-                    ? localizations.cancelButtonLabel
-                    : localizations.cancelButtonLabel.toUpperCase()),
+                child: Text(
+                  themeData.useMaterial3
+                      ? localizations.cancelButtonLabel
+                      : localizations.cancelButtonLabel.toUpperCase(),
+                ),
               ),
             ),
           ],
@@ -874,8 +884,9 @@ class _StepperState extends State<Stepper> with TickerProviderStateMixin {
                 curve: Curves.fastOutSlowIn,
                 duration: kThemeAnimationDuration,
                 child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: stepPanels),
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: stepPanels,
+                ),
               ),
               _buildVerticalControls(widget.currentStep),
             ],

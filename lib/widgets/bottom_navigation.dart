@@ -113,7 +113,6 @@ class _BottomNavigationItemState extends State<BottomNavigationItem>
                         horizontal: k10dp,
                         vertical: k1dp,
                       ),
-                      margin: const EdgeInsets.only(bottom: k2dp),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(k10dp),
                         color: widget.selected
@@ -130,9 +129,12 @@ class _BottomNavigationItemState extends State<BottomNavigationItem>
                     ),
                   ),
                 ),
-                Text(
-                  widget.label,
-                  style: TextStyle(color: context.primaryColor),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: k5dp),
+                  child: Text(
+                    widget.label,
+                    style: TextStyle(color: context.primaryColor),
+                  ),
                 ),
               ],
             ),

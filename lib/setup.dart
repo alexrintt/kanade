@@ -3,7 +3,7 @@ import 'package:get_it/get_it.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 import 'stores/apk_list_store.dart';
-import 'stores/bottom_navigation.dart';
+import 'stores/bottom_navigation_store.dart';
 import 'stores/contextual_menu.dart';
 import 'stores/device_apps.dart';
 import 'stores/key_value_storage.dart';

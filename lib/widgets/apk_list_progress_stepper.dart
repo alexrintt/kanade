@@ -5,7 +5,7 @@ import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:pixelarticons/pixelarticons.dart';
 
 import '../stores/apk_list_store.dart';
-import '../stores/bottom_navigation.dart';
+import '../stores/bottom_navigation_store.dart';
 import '../stores/settings.dart';
 import '../utils/app_localization_strings.dart';
 import '../utils/stringify_uri_location.dart';
@@ -175,6 +175,7 @@ class _ApkListProgressStepperState extends State<ApkListProgressStepper>
                   size: k8dp,
                 );
               }
+              return null;
             },
             backgroundColor: context.theme.splashColor,
             steps: <Step>[

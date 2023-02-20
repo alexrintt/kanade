@@ -43,8 +43,8 @@ class _HomePageState extends State<HomePage> with BottomNavigationStoreMixin {
       body: Stack(
         children: <Widget>[
           _buildTab(const AppListScreen(), 0),
-          _buildTab(const ApkListScreen(), 0),
-          _buildTab(const Placeholder(), 0),
+          _buildTab(const ApkListScreen(), 1),
+          _buildTab(const Placeholder(), 2),
         ],
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart'
+    hide Stepper, Step, StepperType, ControlsDetails, StepState;
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:pixelarticons/pixelarticons.dart';
 
@@ -9,6 +10,7 @@ import '../stores/settings.dart';
 import '../utils/app_localization_strings.dart';
 import '../utils/stringify_uri_location.dart';
 import 'multi_animated_builder.dart';
+import 'stepper.dart';
 
 class ApkListProgressStepper extends StatefulWidget {
   const ApkListProgressStepper({super.key});
@@ -107,6 +109,7 @@ class _ApkListProgressStepperState extends State<ApkListProgressStepper>
       isActive: _currentStep > index,
       title: Text(title),
       content: child,
+      state: _currentStep > index ? StepState.complete : StepState.indexed,
     );
   }
 
@@ -117,12 +120,12 @@ class _ApkListProgressStepperState extends State<ApkListProgressStepper>
           // TODO: Add translation.
           const TextSpan(
             text:
-                'The apk list will appear here, to get start try to click over a tile on the app list screen! It will create a new export job that will copy the app apk to the folder you chose, you can also ',
+                'The apk list will appear here, to get start try to click over a tile on the app list screen! It will create a new export job that will copy the app apk to the folder you chose.\n\n',
           ),
           TextSpan(
             // TODO: Add translation.
             text:
-                'modify your current export location ${stringifyTreeUri(settingsStore.exportLocation) ?? 'which is not set yet.'}.',
+                '${stringifyTreeUri(settingsStore.exportLocation) ?? 'which is not set yet.'}.',
             recognizer: TapGestureRecognizer()
               ..onTap = settingsStore.requestExportLocation,
             style: context.textTheme.labelLarge!.copyWith(
@@ -158,9 +161,22 @@ class _ApkListProgressStepperState extends State<ApkListProgressStepper>
         return SizedBox(
           height: context.height,
           child: Stepper(
+            dividerColor: context.theme.disabledColor,
+            indexedTextColor: context.isDark ? context.primaryColor : null,
             elevation: 0,
             controlsBuilder: _buildStepperControls,
             currentStep: _currentStep,
+            stepIconBuilder:
+                (BuildContext context, int index, StepState state) {
+              if (state == StepState.complete) {
+                return Icon(
+                  Pixel.check,
+                  color: context.scaffoldBackgroundColor,
+                  size: k8dp,
+                );
+              }
+            },
+            backgroundColor: context.theme.splashColor,
             steps: <Step>[
               _createStep(
                 title: context.strings.selectOutputFolder,

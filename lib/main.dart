@@ -4,7 +4,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'pages/home_page.dart';
 import 'setup.dart';
 import 'stores/localization_store.dart';
-import 'stores/theme.dart';
+import 'stores/theme_store.dart';
 import 'widgets/multi_animated_builder.dart';
 import 'widgets/no_glow_scroll_behavior.dart';
 

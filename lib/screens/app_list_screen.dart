@@ -3,9 +3,9 @@ import 'package:flutter/scheduler.dart';
 import 'package:flutter_shared_tools/constant/constant.dart';
 import 'package:flutter_shared_tools/extensions/extensions.dart';
 
-import '../stores/contextual_menu.dart';
+import '../stores/contextual_menu_store.dart';
 import '../stores/device_apps.dart';
-import '../stores/theme.dart';
+import '../stores/theme_store.dart';
 import '../widgets/loading.dart';
 import '../widgets/multi_animated_builder.dart';
 import '../widgets/packages_list.dart';

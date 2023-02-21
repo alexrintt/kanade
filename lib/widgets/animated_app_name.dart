@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/extensions/extensions.dart';
 import '../setup.dart';
-import '../stores/theme.dart';
+import '../stores/theme_store.dart';
 import 'multi_animated_builder.dart';
 
 class AnimatedAppName extends StatefulWidget {

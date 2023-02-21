@@ -4,12 +4,12 @@ import 'package:package_info_plus/package_info_plus.dart';
 
 import 'stores/apk_list_store.dart';
 import 'stores/bottom_navigation_store.dart';
-import 'stores/contextual_menu.dart';
+import 'stores/contextual_menu_store.dart';
 import 'stores/device_apps.dart';
 import 'stores/key_value_storage.dart';
 import 'stores/localization_store.dart';
-import 'stores/settings.dart';
-import 'stores/theme.dart';
+import 'stores/settings_store.dart';
+import 'stores/theme_store.dart';
 
 final GetIt getIt = GetIt.instance;
 late PackageInfo packageInfo;

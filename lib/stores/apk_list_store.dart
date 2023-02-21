@@ -7,7 +7,7 @@ import '../setup.dart';
 import '../utils/is_disposed_mixin.dart';
 import '../utils/throttle.dart';
 import 'device_apps.dart';
-import 'settings.dart';
+import 'settings_store.dart';
 
 class ApkListStoreMixin {
   ApkListStore? _apkListStore;

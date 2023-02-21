@@ -12,7 +12,7 @@ import '../utils/debounce.dart';
 import '../utils/is_disposed_mixin.dart';
 import '../utils/stringify_uri_location.dart';
 import '../utils/throttle.dart';
-import 'settings.dart';
+import 'settings_store.dart';
 
 mixin DeviceAppsStoreMixin<T extends StatefulWidget> on State<T> {
   DeviceAppsStore? _store;

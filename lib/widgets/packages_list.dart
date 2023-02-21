@@ -4,7 +4,7 @@ import 'package:device_packages/device_packages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 
-import '../stores/contextual_menu.dart';
+import '../stores/contextual_menu_store.dart';
 import '../stores/device_apps.dart';
 import '../utils/app_localization_strings.dart';
 import 'animated_app_name.dart';

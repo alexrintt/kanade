@@ -6,7 +6,7 @@ import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:pixelarticons/pixel.dart';
 import 'package:share_plus/share_plus.dart';
 
-import '../stores/contextual_menu.dart';
+import '../stores/contextual_menu_store.dart';
 import '../stores/device_apps.dart';
 import '../utils/app_localization_strings.dart';
 import '../utils/package_bytes.dart';

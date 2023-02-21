@@ -5,8 +5,8 @@ import 'package:flutter_shared_tools/extensions/extensions.dart';
 import 'package:pixelarticons/pixel.dart';
 
 import '../stores/localization_store.dart';
-import '../stores/settings.dart';
-import '../stores/theme.dart';
+import '../stores/settings_store.dart';
+import '../stores/theme_store.dart';
 import '../utils/app_localization_strings.dart';
 import '../utils/stringify_uri_location.dart';
 import '../widgets/app_icon_button.dart';

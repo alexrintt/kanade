@@ -6,7 +6,7 @@ import 'package:pixelarticons/pixelarticons.dart';
 
 import '../stores/apk_list_store.dart';
 import '../stores/bottom_navigation_store.dart';
-import '../stores/settings.dart';
+import '../stores/settings_store.dart';
 import '../utils/app_localization_strings.dart';
 import '../utils/stringify_uri_location.dart';
 import 'multi_animated_builder.dart';

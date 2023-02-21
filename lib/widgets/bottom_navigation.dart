@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:pixelarticons/pixel.dart';
 
-import '../stores/theme.dart';
+import '../stores/theme_store.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({

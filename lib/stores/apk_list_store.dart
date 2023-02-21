@@ -34,18 +34,15 @@ class ApkListStore extends ChangeNotifier with IsDisposedMixin {
         );
   }
 
+  bool _documentIsApk(DocumentFile element) =>
+      element.type == DeviceAppsStore.kApkMimeType;
+
+  int _byNameAscending(DocumentFile a, DocumentFile z) =>
+      (z.lastModified?.millisecondsSinceEpoch ?? 0) -
+      (a.lastModified?.millisecondsSinceEpoch ?? 0);
+
   List<DocumentFile> get files => List<DocumentFile>.unmodifiable(
-        _files
-            .where(
-              (DocumentFile element) =>
-                  element.type == DeviceAppsStore.kApkMimeType,
-            )
-            .toList()
-          ..sort(
-            (DocumentFile a, DocumentFile z) =>
-                (z.lastModified?.millisecondsSinceEpoch ?? 0) -
-                (a.lastModified?.millisecondsSinceEpoch ?? 0),
-          ),
+        _files.where(_documentIsApk).toList()..sort(_byNameAscending),
       );
 
   Uri? currentUri;

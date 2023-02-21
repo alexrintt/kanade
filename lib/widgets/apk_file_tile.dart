@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:device_packages/device_packages.dart';
 import 'package:flutter/material.dart';
@@ -11,39 +12,16 @@ import '../utils/package_bytes.dart';
 import 'loading_dots.dart';
 
 class ApkFileTile extends StatefulWidget {
-  const ApkFileTile(this.file, {super.key});
+  const ApkFileTile(this.file, {super.key, this.icon});
 
   final DocumentFile file;
+  final DocumentFile? icon;
 
   @override
   State<ApkFileTile> createState() => _ApkFileTileState();
 }
 
 class _ApkFileTileState extends State<ApkFileTile> with LocalizationStoreMixin {
-  late Future<DocumentBitmap?> _bitmap;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _bitmap = getDocumentThumbnail(
-      uri: widget.file.uri,
-      width: 50,
-      height: 50,
-    );
-  }
-
-  @override
-  void didUpdateWidget(covariant ApkFileTile oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    _bitmap = getDocumentThumbnail(
-      uri: widget.file.uri,
-      width: 50,
-      height: 50,
-    );
-  }
-
   String get formattedBytes => (widget.file.size ?? 0).formatBytes();
 
   DateTime? get _lastModified => widget.file.lastModified;
@@ -61,29 +39,73 @@ class _ApkFileTileState extends State<ApkFileTile> with LocalizationStoreMixin {
       leading: SizedBox(
         height: 50,
         width: 50,
-        child: FutureBuilder<DocumentBitmap?>(
-          future: _bitmap,
-          builder:
-              (BuildContext context, AsyncSnapshot<DocumentBitmap?> snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.none:
-              case ConnectionState.waiting:
-              case ConnectionState.active:
-                return const DotLoadingIndicator();
-              case ConnectionState.done:
-                if (snapshot.hasData) {
-                  return Image.memory(snapshot.data!.bytes!);
-                } else {
-                  return const Icon(Pixel.android);
-                }
-            }
-          },
-        ),
+        child: widget.icon != null
+            ? ImageUri(
+                uri: widget.icon!.uri,
+                loading: const DotLoadingIndicator(),
+                error: const Icon(Pixel.android),
+              )
+            : const Icon(Pixel.android),
       ),
       title: Text('${widget.file.name}'),
       subtitle: Text('$formattedBytes, $formattedDate'),
       onTap: () async {
         await DevicePackages.installPackage(installerUri: widget.file.uri);
+      },
+    );
+  }
+}
+
+class ImageUri extends StatefulWidget {
+  const ImageUri({
+    super.key,
+    required this.uri,
+    required this.loading,
+    required this.error,
+  });
+
+  final Uri uri;
+  final Widget loading;
+  final Widget error;
+
+  @override
+  State<ImageUri> createState() => _ImageUriState();
+}
+
+class _ImageUriState extends State<ImageUri> {
+  late Future<Uint8List?> _bitmap;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _bitmap = getDocumentContent(widget.uri);
+  }
+
+  @override
+  void didUpdateWidget(covariant ImageUri oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    _bitmap = getDocumentContent(widget.uri);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<Uint8List?>(
+      future: _bitmap,
+      builder: (BuildContext context, AsyncSnapshot<Uint8List?> snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.waiting:
+          case ConnectionState.active:
+            return widget.loading;
+          case ConnectionState.done:
+            if (snapshot.hasData) {
+              return Image.memory(snapshot.data!);
+            } else {
+              return widget.error;
+            }
+        }
       },
     );
   }

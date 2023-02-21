@@ -26,6 +26,14 @@ class ApkListStore extends ChangeNotifier with IsDisposedMixin {
 
   final List<DocumentFile> _files = <DocumentFile>[];
 
+  DocumentFile? apkIconDocFileOf(DocumentFile apkDocFile) {
+    return _files.cast<DocumentFile?>().firstWhere(
+          (DocumentFile? documentFile) =>
+              documentFile!.name == '${apkDocFile.name}_icon',
+          orElse: () => null,
+        );
+  }
+
   List<DocumentFile> get files => List<DocumentFile>.unmodifiable(
         _files
             .where(

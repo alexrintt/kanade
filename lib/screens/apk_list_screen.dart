@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:shared_storage/saf.dart';
@@ -42,7 +41,10 @@ class _ApkListScreenState extends State<ApkListScreen>
                 return SliverList(
                   delegate: SliverChildBuilderDelegate(
                     (BuildContext context, int index) {
-                      return ApkFileTile(files[index]);
+                      return ApkFileTile(
+                        files[index],
+                        icon: apkListStore.apkIconDocFileOf(files[index]),
+                      );
                     },
                     childCount: files.length,
                   ),

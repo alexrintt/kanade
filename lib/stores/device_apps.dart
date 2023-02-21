@@ -360,6 +360,22 @@ class DeviceAppsStore extends ChangeNotifier with IsDisposedMixin {
       );
 
       if (createdFile != null) {
+        if (createdFile.name != null) {
+          // It is better to save a local copy of the apk file icon.
+          // Because Android does not have an way to load arbitrary apk file icon from URI, only Files.
+          // https://stackoverflow.com/questions/58026104/get-the-real-path-of-apk-file-from-uri-shared-from-other-application#comment133215619_58026104.
+          // So we would be required to copy the apk uri to a local file, which translates to very poor performance if the apk is too big.
+          // it is far more performant to just load a simple icon from a file.
+          // Note that this effort is to keep the app far away from MANAGE_EXTERNAL_STORAGE permission
+          // and keep it valid for PlayStore.
+          await createFile(
+            parentFolder,
+            mimeType: 'application/octet-stream',
+            displayName: '${createdFile.name!}_icon',
+            bytes: package.icon,
+          );
+        }
+
         return ApkExtraction(
           File(stringifyDocumentUri(createdFile.uri)!),
           Result.extracted,

@@ -7,7 +7,8 @@ import 'package:pixelarticons/pixel.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../stores/contextual_menu_store.dart';
-import '../stores/device_apps.dart';
+import '../stores/device_apps_store.dart';
+import '../stores/settings_store.dart';
 import '../utils/app_localization_strings.dart';
 import '../utils/package_bytes.dart';
 import 'app_icon_button.dart';
@@ -51,7 +52,8 @@ class PackageTile extends StatefulWidget {
 class _PackageTileState extends State<PackageTile>
     with
         ContextualMenuStoreMixin<PackageTile>,
-        DeviceAppsStoreMixin<PackageTile> {
+        DeviceAppsStoreMixin<PackageTile>,
+        SettingsStoreMixin {
   static const Size _kLeadingSize = Size.square(50);
 
   bool get _hasIcon => widget.package.icon != null;
@@ -59,6 +61,9 @@ class _PackageTileState extends State<PackageTile>
   Uint8List? get _icon => _hasIcon ? widget.package.icon! : null;
 
   bool get _isSelected => widget.isSelected;
+
+  bool get _showAppIcons =>
+      settingsStore.getBoolPreference(SettingsBoolPreference.displayAppIcons);
 
   Widget? _buildTrailing() {
     Widget? child;
@@ -161,7 +166,7 @@ class _PackageTileState extends State<PackageTile>
       dense: false,
       enableFeedback: false,
       visualDensity: VisualDensity.compact,
-      leading: _buildTileLeading(),
+      leading: _showAppIcons ? _buildTileLeading() : null,
       title: _buildTileTitle(),
       subtitle: _buildTileSubtitle(),
     );

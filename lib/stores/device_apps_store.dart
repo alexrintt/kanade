@@ -159,7 +159,8 @@ class ApplicationSearchResult implements Comparable<ApplicationSearchResult> {
   }
 }
 
-class DeviceAppsStore extends ChangeNotifier with IsDisposedMixin {
+class DeviceAppsStore extends ChangeNotifier
+    with IsDisposedMixin, SettingsStoreMixin {
   /// Id length to avoid filename conflict on extract Apk
   static const int kIdLength = 5;
 
@@ -169,13 +170,23 @@ class DeviceAppsStore extends ChangeNotifier with IsDisposedMixin {
   /// List of all device applications
   /// - Include system apps
   /// - Include app icons
-  List<PackageInfo> get apps => List<PackageInfo>.unmodifiable(
-        _apps.values.toList()
-          ..sort(
-            (PackageInfo a, PackageInfo b) =>
-                a.name!.toLowerCase().compareTo(b.name!.toLowerCase()),
-          ),
-      );
+  List<PackageInfo> get apps {
+    final bool displaySystemApps = settingsStore
+        .getBoolPreference(SettingsBoolPreference.displaySystemApps);
+
+    return List<PackageInfo>.unmodifiable(
+      _apps.values
+          .where(
+            (PackageInfo package) =>
+                package.isSystemPackage == displaySystemApps,
+          )
+          .toList()
+        ..sort(
+          (PackageInfo a, PackageInfo b) =>
+              a.name!.toLowerCase().compareTo(b.name!.toLowerCase()),
+        ),
+    );
+  }
 
   final Map<String, PackageInfo> _apps = <String, PackageInfo>{};
 
@@ -205,6 +216,7 @@ class DeviceAppsStore extends ChangeNotifier with IsDisposedMixin {
 
   @override
   void dispose() {
+    _disposeSettingsStoreListener();
     _disposeAppChangeListener();
     _disposeAppStreamListener();
     super.dispose();
@@ -263,10 +275,19 @@ class DeviceAppsStore extends ChangeNotifier with IsDisposedMixin {
 
   StreamSubscription<PackageInfo>? _appsStreamSubscription;
 
+  void _setupSettingsStoreListener() {
+    settingsStore.addListener(notifyListeners);
+  }
+
+  void _disposeSettingsStoreListener() {
+    settingsStore.removeListener(notifyListeners);
+  }
+
   /// Load all device packages
   ///
   /// You need call this method before any action
   Future<void> loadPackages() async {
+    _setupSettingsStoreListener();
     _setupInstallAndUninstallListener();
 
     isLoading = true;

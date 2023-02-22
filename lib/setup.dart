@@ -5,7 +5,7 @@ import 'package:package_info_plus/package_info_plus.dart';
 import 'stores/apk_list_store.dart';
 import 'stores/bottom_navigation_store.dart';
 import 'stores/contextual_menu_store.dart';
-import 'stores/device_apps.dart';
+import 'stores/device_apps_store.dart';
 import 'stores/key_value_storage.dart';
 import 'stores/localization_store.dart';
 import 'stores/settings_store.dart';

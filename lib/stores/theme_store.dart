@@ -32,10 +32,6 @@ enum AppTheme {
       case AppTheme.darkBlood:
         return strings.darkBlood;
     }
-
-    throw Exception(
-      'For some reason when compiling the Flutter SDK claims we cannot left this "null" case, so lets just throw an exception here to prevent this ghost bug, this may be fixed in the next releases.',
-    );
   }
 
   static AppTheme parseCurrentThemeFromString(String appThemeString) {
@@ -256,10 +252,6 @@ class ThemeStore extends ChangeNotifier {
             ? _darkDimmedThemeData()
             : _lightDefaultThemeData();
     }
-
-    throw Exception(
-      'For some reason when compiling the Flutter SDK claims we cannot left this "null" case, so lets just throw an exception here to prevent this ghost bug, this may be fixed in the next releases.',
-    );
   }
 
   Brightness get currentThemeBrightness {
@@ -277,10 +269,6 @@ class ThemeStore extends ChangeNotifier {
       case AppTheme.followSystem:
         return SchedulerBinding.instance.platformDispatcher.platformBrightness;
     }
-
-    throw Exception(
-      'For some reason when compiling the Flutter SDK claims we cannot left this "null" case, so lets just throw an exception here to prevent this ghost bug, this may be fixed in the next releases.',
-    );
   }
 
   AppTheme get currentTheme => _currentTheme;
@@ -418,6 +406,8 @@ ThemeData createThemeData({
       primary: primaryColor,
       secondary: secondaryColor,
       background: backgroundColor,
+      outline: disabledColor,
     ),
+    useMaterial3: true,
   );
 }

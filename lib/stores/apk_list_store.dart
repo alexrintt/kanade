@@ -6,7 +6,7 @@ import 'package:shared_storage/shared_storage.dart';
 import '../setup.dart';
 import '../utils/is_disposed_mixin.dart';
 import '../utils/throttle.dart';
-import 'device_apps.dart';
+import 'device_apps_store.dart';
 import 'settings_store.dart';
 
 class ApkListStoreMixin {

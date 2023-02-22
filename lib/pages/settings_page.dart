@@ -12,7 +12,6 @@ import '../utils/stringify_uri_location.dart';
 import '../widgets/app_icon_button.dart';
 import '../widgets/app_version_info.dart';
 import '../widgets/horizontal_rule.dart';
-import '../widgets/material_you_dialog_shape.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -70,6 +69,9 @@ class _SettingsPageState extends State<SettingsPage>
                 const AppThemeSettingsTile(),
                 const AppFontFamilySettingsTile(),
                 const AppLocalizationSettingsTile(),
+                const HorizontalRule(),
+                SettingsTileTitle('Preferences'),
+                const AppBooleanPreferencesSettingsTile(),
                 const HorizontalRule(),
                 const AppVersionInfo(),
               ],
@@ -195,7 +197,7 @@ class _ChangeThemeDialogState extends State<ChangeThemeDialog>
       animation: themeStore,
       builder: (BuildContext context, Widget? child) {
         return SimpleDialog(
-          shape: const MaterialYouDialogShape(),
+          // shape: const MaterialYouDialogShape(),
           backgroundColor: context.theme.colorScheme.background,
           title: Text(context.strings.theme),
           children: <Widget>[
@@ -269,7 +271,7 @@ class _ChangeThemeFontFamilyDialogState
       animation: themeStore,
       builder: (BuildContext context, Widget? child) {
         return SimpleDialog(
-          shape: const MaterialYouDialogShape(),
+          // shape: const MaterialYouDialogShape(),
           backgroundColor: context.theme.colorScheme.background,
           title: Text(context.strings.fontFamily),
           children: <Widget>[
@@ -281,6 +283,89 @@ class _ChangeThemeFontFamilyDialogState
                 title: Text(fontFamily.name),
                 onChanged: (AppFontFamily? value) =>
                     themeStore.setFontFamily(value!),
+              ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class AppBooleanPreferencesSettingsTile extends StatefulWidget {
+  const AppBooleanPreferencesSettingsTile({super.key});
+
+  @override
+  State<AppBooleanPreferencesSettingsTile> createState() =>
+      _AppBooleanPreferencesSettingsTileState();
+}
+
+class _AppBooleanPreferencesSettingsTileState
+    extends State<AppBooleanPreferencesSettingsTile> with SettingsStoreMixin {
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: settingsStore,
+      builder: (BuildContext context, Widget? child) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            for (final SettingsBoolPreference preference
+                in SettingsBoolPreference.values)
+              InkWell(
+                onTap: () => settingsStore.toggleBoolPreference(preference),
+                child: ListTile(
+                  tileColor: Colors.transparent,
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: k10dp,
+                  ),
+                  enableFeedback: true,
+                  isThreeLine: true,
+                  trailing: Switch(
+                    trackColor: MaterialStateProperty.resolveWith(
+                      (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.selected)) {
+                          return context.primaryColor;
+                        }
+                        return context.scaffoldBackgroundColor;
+                      },
+                    ),
+                    overlayColor: MaterialStateProperty.resolveWith(
+                      (Set<MaterialState> states) {
+                        return context.theme.highlightColor;
+                      },
+                    ),
+                    thumbColor: MaterialStateProperty.resolveWith(
+                      (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.selected)) {
+                          if (context.isDark) {
+                            return context.theme.disabledColor;
+                          }
+                          return context.theme.dividerColor;
+                        }
+
+                        return context.isDark
+                            ? context.theme.disabledColor
+                            : context.theme.disabledColor.withOpacity(.2);
+                      },
+                    ),
+                    splashRadius: k12dp,
+                    thumbIcon: MaterialStateProperty.resolveWith(
+                      (Set<MaterialState> states) {
+                        if (states.contains(MaterialState.selected)) {
+                          return Icon(Icons.check, color: context.primaryColor);
+                        }
+                        return null;
+                      },
+                    ),
+                    activeColor: context.primaryColor,
+                    value: settingsStore.getBoolPreference(preference),
+                    onChanged: (bool value) => settingsStore
+                        .setBoolPreference(preference, value: value),
+                  ),
+                  title: Text(preference.getNameString(context.strings)),
+                  subtitle:
+                      Text(preference.getDescriptionString(context.strings)),
+                ),
               ),
           ],
         );
@@ -356,7 +441,7 @@ class _ChangeAppLocalizationDialogState
       animation: localizationStore,
       builder: (BuildContext context, Widget? child) {
         return SimpleDialog(
-          shape: const MaterialYouDialogShape(),
+          // shape: const MaterialYouDialogShape(),
           backgroundColor: context.theme.colorScheme.background,
           title: Text(context.strings.language),
           children: <Widget>[

@@ -7,7 +7,7 @@ import 'package:pixelarticons/pixel.dart';
 import 'package:pixelarticons/pixelarticons.dart';
 
 import '../stores/contextual_menu_store.dart';
-import '../stores/device_apps.dart';
+import '../stores/device_apps_store.dart';
 import '../utils/app_localization_strings.dart';
 import 'app_icon_button.dart';
 import 'sliver_app_top_bar.dart';

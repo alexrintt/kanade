@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_storage/saf.dart';
 
@@ -16,6 +17,9 @@ class SettingsStore extends ChangeNotifier {
   ///
   /// If you need it to make IO operations call [getExportLocationIfItExists] instead.
   Uri? exportLocation;
+
+  final Map<SettingsBoolPreference, bool> _boolPreferences =
+      <SettingsBoolPreference, bool>{};
 
   late SharedPreferences prefs;
 
@@ -49,6 +53,19 @@ class SettingsStore extends ChangeNotifier {
     prefs = await SharedPreferences.getInstance();
 
     await getAndSetExportLocationIfItExists();
+    await _loadBoolPreferences();
+  }
+
+  Future<void> _loadBoolPreferences() async {
+    for (final SettingsBoolPreference preference
+        in SettingsBoolPreference.values) {
+      if (!prefs.containsKey(preference.storageKey)) {
+        await prefs.setBool(preference.storageKey, preference.defaultValue);
+      }
+
+      _boolPreferences[preference] =
+          prefs.getBool(preference.storageKey) ?? preference.defaultValue;
+    }
   }
 
   Future<void> _setExportLocation(Uri? location) async {
@@ -82,5 +99,65 @@ class SettingsStore extends ChangeNotifier {
     }
   }
 
-  Future<void> reset() async => _setExportLocation(null);
+  Future<void> reset() async {
+    await _setExportLocation(null);
+    await _resetAllBoolPreferences();
+  }
+
+  Future<void> _resetAllBoolPreferences() async {
+    for (final SettingsBoolPreference preference
+        in SettingsBoolPreference.values) {
+      await resetBoolPreference(preference);
+    }
+  }
+
+  Future<void> resetBoolPreference(SettingsBoolPreference preference) {
+    return setBoolPreference(preference, value: preference.defaultValue);
+  }
+
+  bool getBoolPreference(SettingsBoolPreference preference) {
+    return _boolPreferences[preference] ?? preference.defaultValue;
+  }
+
+  Future<void> toggleBoolPreference(SettingsBoolPreference preference) {
+    return setBoolPreference(preference, value: !getBoolPreference(preference));
+  }
+
+  Future<void> setBoolPreference(
+    SettingsBoolPreference preference, {
+    required bool value,
+  }) async {
+    await prefs.setBool(preference.storageKey, value);
+    _boolPreferences[preference] = value;
+    notifyListeners();
+  }
+}
+
+enum SettingsBoolPreference {
+  displaySystemApps(defaultValue: false),
+  displayAppIcons(defaultValue: true);
+
+  const SettingsBoolPreference({required this.defaultValue});
+
+  String getNameString(AppLocalizations localizations) {
+    switch (this) {
+      case SettingsBoolPreference.displaySystemApps:
+        return 'Show system apps';
+      case SettingsBoolPreference.displayAppIcons:
+        return 'Show app icons';
+    }
+  }
+
+  String getDescriptionString(AppLocalizations localizations) {
+    switch (this) {
+      case SettingsBoolPreference.displaySystemApps:
+        return 'Whether or not the home app list should include system apps.';
+      case SettingsBoolPreference.displayAppIcons:
+        return 'If enabled the home app list will display app icons.';
+    }
+  }
+
+  final bool defaultValue;
+
+  String get storageKey => 'bool__preference__unique__key__${toString()}';
 }

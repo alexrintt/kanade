@@ -737,7 +737,7 @@ class _StepperState extends State<Stepper> with TickerProviderStateMixin {
               child: SizedBox(
                 width: _isLast(index) ? 0.0 : 1.0,
                 child: Container(
-                  color: Colors.grey.shade400,
+                  color: widget.dividerColor,
                 ),
               ),
             ),

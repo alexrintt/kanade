@@ -125,7 +125,7 @@ class _ApkListProgressStepperState extends State<ApkListProgressStepper>
           TextSpan(
             // TODO: Add translation.
             text:
-                '${stringifyTreeUri(settingsStore.exportLocation) ?? 'which is not set yet.'}.',
+                '${stringifyTreeUri(settingsStore.exportLocation) ?? 'Not set.'}.',
             recognizer: TapGestureRecognizer()
               ..onTap = settingsStore.requestExportLocation,
             style: context.textTheme.labelLarge!.copyWith(
@@ -190,7 +190,6 @@ class _ApkListProgressStepperState extends State<ApkListProgressStepper>
                 child: _buildExportApkExplanationMessage(),
               ),
             ],
-            type: StepperType.horizontal,
           ),
         );
       },

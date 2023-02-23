@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 
 import '../screens/apk_list_screen.dart';
 import '../screens/app_list_screen.dart';
 import '../stores/bottom_navigation_store.dart';
 import '../widgets/bottom_navigation.dart';
+
+extension BottomSpacer on BuildContext {
+  Widget get bottomSpacer => Padding(
+        padding: EdgeInsets.only(
+          bottom: theme.navigationBarTheme.height!,
+        ),
+      );
+
+  Widget get bottomSliverSpacer => SliverList(
+        delegate: SliverChildListDelegate(
+          <Widget>[bottomSpacer],
+        ),
+      );
+}
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -40,6 +55,7 @@ class _HomePageState extends State<HomePage> with BottomNavigationStoreMixin {
           );
         },
       ),
+      extendBody: true,
       body: Stack(
         children: <Widget>[
           _buildTab(const AppListScreen(), 0),

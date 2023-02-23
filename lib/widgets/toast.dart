@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import 'loading_dots.dart';
+
 void showToast(BuildContext context, String message) {
   Fluttertoast.showToast(
     msg: message,
@@ -19,15 +21,20 @@ Future<T?> showLoadingDialog<T>(BuildContext context, String message) async {
     barrierDismissible: false,
     builder: (BuildContext context) => AlertDialog(
       backgroundColor: context.theme.cardColor,
+      contentPadding: const EdgeInsets.symmetric(vertical: k8dp),
+      iconPadding: EdgeInsets.zero,
+      insetPadding: const EdgeInsets.all(k12dp),
+      titlePadding: EdgeInsets.zero,
+      buttonPadding: EdgeInsets.zero,
+      actionsPadding: EdgeInsets.zero,
       content: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          SizedBox(
+          const SizedBox(
             height: k12dp,
-            width: k12dp,
-            child: CircularProgressIndicator(
-              color: context.primaryColor,
-              strokeWidth: k1dp,
+            child: AspectRatio(
+              aspectRatio: 2 / 1,
+              child: DotLoadingIndicator(),
             ),
           ),
           const Padding(padding: EdgeInsets.all(k5dp)),

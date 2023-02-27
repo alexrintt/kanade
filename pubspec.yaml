@@ -22,8 +22,10 @@ dependencies:
   fluttertoast: ^8.0.8
   get_it: ^7.2.0
   intl: ^0.17.0
+  json_annotation: ^4.8.0
   nanoid: ^1.0.0
   package_info_plus: ^3.0.1
+  path: ^1.8.2
   pixelarticons: ^0.4.0
   share_plus: 6.3.1
   shared_preferences: ^2.0.15
@@ -33,9 +35,12 @@ dependencies:
   url_launcher: ^6.1.6
 
 dev_dependencies:
+  build_runner: ^2.3.3
   flutter_test:
     sdk: flutter
+  json_serializable: ^6.6.0
   lint: ^2.0.1
+
 
 flutter:
   generate: true

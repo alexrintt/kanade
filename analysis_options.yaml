@@ -9,7 +9,7 @@ include: package:lint/strict.yaml # For production apps
 analyzer:
   exclude:
     #- '**.freezed.dart'
-    #- '**.g.dart'
+    - '*.g.dart'
 
 # You can customize the lint rules set to your own liking. A list of all rules
 # can be found at https://dart-lang.github.io/linter/lints/options/options.html

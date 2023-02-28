@@ -86,7 +86,9 @@ class _ImageUriState extends State<ImageUri> {
   void didUpdateWidget(covariant ImageUri oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    _bitmap = getDocumentContent(widget.uri);
+    if (oldWidget.uri != widget.uri) {
+      _bitmap = getDocumentContent(widget.uri);
+    }
   }
 
   @override

@@ -9,9 +9,20 @@ import 'animated_app_name.dart';
 import 'app_icon_button.dart';
 
 class SliverAppTopBar extends StatefulWidget {
-  const SliverAppTopBar({super.key, this.onSearch});
+  const SliverAppTopBar({
+    super.key,
+    this.onSearch,
+    this.backgroundColor,
+    this.floating = true,
+    this.pinned = false,
+    this.bottom,
+  });
 
   final VoidCallback? onSearch;
+  final Color? backgroundColor;
+  final bool floating;
+  final bool pinned;
+  final PreferredSizeWidget? bottom;
 
   @override
   State<SliverAppTopBar> createState() => _SliverAppTopBarState();
@@ -22,6 +33,7 @@ class _SliverAppTopBarState extends State<SliverAppTopBar> {
   Widget build(BuildContext context) {
     return SliverAppBar(
       titleSpacing: k10dp,
+      backgroundColor: widget.backgroundColor,
       title: const SizedBox(
         height: kToolbarHeight,
         child: Align(
@@ -29,6 +41,7 @@ class _SliverAppTopBarState extends State<SliverAppTopBar> {
           child: AnimatedAppName(),
         ),
       ),
+      bottom: widget.bottom,
       actions: <Widget>[
         AppIconButton(
           onTap: () => showDialog(
@@ -59,7 +72,8 @@ class _SliverAppTopBarState extends State<SliverAppTopBar> {
           tooltip: context.strings.openSettingsPage,
         ),
       ],
-      floating: true,
+      floating: widget.floating,
+      pinned: widget.pinned,
     );
   }
 }

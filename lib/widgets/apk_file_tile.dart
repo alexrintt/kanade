@@ -1,6 +1,3 @@
-import 'dart:io';
-import 'dart:typed_data';
-
 import 'package:device_packages/device_packages.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -9,7 +6,9 @@ import 'package:shared_storage/shared_storage.dart';
 
 import '../stores/localization_store.dart';
 import '../utils/package_bytes.dart';
-import 'loading_dots.dart';
+import 'app_list_tile.dart';
+import 'image_uri.dart';
+import 'toast.dart';
 
 class ApkFileTile extends StatefulWidget {
   const ApkFileTile(this.file, {super.key, this.icon});
@@ -35,14 +34,14 @@ class _ApkFileTileState extends State<ApkFileTile> with LocalizationStoreMixin {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
+    return AppListTile(
       leading: SizedBox(
         height: 50,
         width: 50,
         child: widget.icon != null
             ? ImageUri(
                 uri: widget.icon!.uri,
-                loading: const DotLoadingIndicator(),
+                loading: const Icon(Pixel.android),
                 error: const Icon(Pixel.android),
               )
             : const Icon(Pixel.android),
@@ -50,74 +49,12 @@ class _ApkFileTileState extends State<ApkFileTile> with LocalizationStoreMixin {
       title: Text('${widget.file.name}'),
       subtitle: Text('$formattedBytes, $formattedDate'),
       onTap: () async {
-        await DevicePackages.installPackage(installerUri: widget.file.uri);
-      },
-    );
-  }
-}
-
-class ImageUri extends StatefulWidget {
-  const ImageUri({
-    super.key,
-    required this.uri,
-    required this.loading,
-    required this.error,
-  });
-
-  final Uri uri;
-  final Widget loading;
-  final Widget error;
-
-  @override
-  State<ImageUri> createState() => _ImageUriState();
-}
-
-class _ImageUriState extends State<ImageUri> {
-  late Future<Uint8List?> _bitmap;
-
-  @override
-  void initState() {
-    super.initState();
-
-    _bitmap = getDocumentContent(widget.uri);
-  }
-
-  @override
-  void didUpdateWidget(covariant ImageUri oldWidget) {
-    super.didUpdateWidget(oldWidget);
-
-    if (oldWidget.uri != widget.uri) {
-      _bitmap = getDocumentContent(widget.uri);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<Uint8List?>(
-      future: _bitmap,
-      builder: (BuildContext context, AsyncSnapshot<Uint8List?> snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.none:
-          case ConnectionState.waiting:
-          case ConnectionState.active:
-            return widget.loading;
-          case ConnectionState.done:
-            if (snapshot.hasData) {
-              return Image.memory(snapshot.data!);
-            } else {
-              return widget.error;
-            }
+        try {
+          await DevicePackages.installPackage(installerUri: widget.file.uri);
+        } on InvalidInstallerException {
+          showToast(context, 'Invalid apk, is was probably deleted.');
         }
       },
     );
   }
-}
-
-class ApkAnalysis {
-  ApkAnalysis({this.uri, String? path, File? file})
-      : assert(uri != null || path != null || file != null),
-        file = file ?? (path != null ? File(path) : null);
-
-  final Uri? uri;
-  final File? file;
 }

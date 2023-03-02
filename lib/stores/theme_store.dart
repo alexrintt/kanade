@@ -52,10 +52,6 @@ extension BrightnessInverse on Brightness {
   bool get isLight => this == Brightness.light;
 }
 
-AppFontFamily defaultAppFontFamily() {
-  return AppFontFamily.inconsolata;
-}
-
 mixin ThemeStoreMixin<T extends StatefulWidget> on State<T> {
   ThemeStore? _themeStore;
   ThemeStore get themeStore => _themeStore ??= getIt<ThemeStore>();
@@ -90,7 +86,7 @@ class ThemeStore extends ChangeNotifier {
         await _keyValueStorage.get(_kAppThemeStorageKey);
 
     if (previousFontFamily == null) {
-      _currentFontFamily = defaultAppFontFamily();
+      _currentFontFamily = AppFontFamily.defaultFont;
     } else {
       _currentFontFamily =
           AppFontFamily.parseCurrentFontFamilyFromString(previousFontFamily);
@@ -288,15 +284,21 @@ class ThemeStore extends ChangeNotifier {
 
   Future<void> reset() async {
     await setTheme(AppTheme.kDefaultAppTheme);
-    await setFontFamily(defaultAppFontFamily());
+    await setFontFamily(AppFontFamily.defaultFont);
   }
 }
 
 enum AppFontFamily {
-  inconsolata,
-  robotoMono,
-  forward,
-  zenKakuGothicAntique;
+  inconsolata('Inconsolata', 1.2),
+  robotoMono('Roboto Mono', 0.9),
+  forward('Forward', 1),
+  zenKakuGothicAntique('Zen Kaku Gothic Antique', 1);
+
+  const AppFontFamily(this.fontKey, this.preferableFontSizeDelta);
+
+  static const AppFontFamily defaultFont = AppFontFamily.inconsolata;
+
+  final double preferableFontSizeDelta;
 
   static AppFontFamily parseCurrentFontFamilyFromString(
     String fontFamilyString,
@@ -307,11 +309,11 @@ enum AppFontFamily {
         return theme;
       }
     }
-    return defaultAppFontFamily();
+    return AppFontFamily.defaultFont;
   }
 
   /// Font family name decribed in the pubspec.yaml
-  String get name {
+  String getNameString(AppLocalizations localizations) {
     switch (this) {
       case AppFontFamily.inconsolata:
         return 'Inconsolata';
@@ -323,6 +325,9 @@ enum AppFontFamily {
         return 'Zen Kaku Gothic Antique';
     }
   }
+
+  /// Font family name decribed in the pubspec.yaml
+  final String? fontKey;
 }
 
 extension DisplayAppFontFamily on AppFontFamily {
@@ -353,22 +358,44 @@ ThemeData createThemeData({
   required Color disabledColor,
   required Color headlineColor,
 }) {
-  final String fontFamilyName = fontFamily.name;
+  final String? fontFamilyName = fontFamily.fontKey;
 
-  final TextTheme textTheme = base.textTheme.apply(
-    fontFamily: fontFamilyName,
-    bodyColor: textColor,
-  );
+  final TextTheme textTheme =
+      base.textTheme.merge(Typography.material2021().black).apply(
+            fontFamily: fontFamilyName,
+            bodyColor: textColor,
+          );
 
   return base.copyWith(
-    bottomAppBarTheme:
-        base.bottomAppBarTheme.copyWith(elevation: 0, color: backgroundColor),
+    bottomAppBarTheme: base.bottomAppBarTheme.copyWith(
+      elevation: 0,
+      color: backgroundColor,
+      surfaceTintColor: Colors.transparent,
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: (base.textButtonTheme.style ?? const ButtonStyle()).copyWith(
+        foregroundColor:
+            MaterialStateProperty.resolveWith<Color?>((_) => textColor),
+        surfaceTintColor: MaterialStateProperty.resolveWith<Color?>(
+          (_) => Colors.transparent,
+        ),
+        overlayColor: MaterialStateProperty.resolveWith<Color?>(
+          (Set<MaterialState> states) {
+            if (states.isNotEmpty) {
+              return canvasColor;
+            }
+            return null;
+          },
+        ),
+      ),
+    ),
     scaffoldBackgroundColor: backgroundColor,
     disabledColor: disabledColor,
     textTheme: textTheme,
     primaryColor: primaryColor,
     dividerColor: disabledColor.withOpacity(.1),
     appBarTheme: base.appBarTheme.copyWith(
+      surfaceTintColor: Colors.transparent,
       backgroundColor: cardColor,
       elevation: 0,
       centerTitle: true,
@@ -393,6 +420,32 @@ ThemeData createThemeData({
     radioTheme: base.radioTheme.copyWith(
       fillColor: MaterialStateProperty.all(primaryColor),
     ),
+    dialogTheme: base.dialogTheme.copyWith(
+      surfaceTintColor: Colors.transparent,
+    ),
+    navigationBarTheme: base.navigationBarTheme.copyWith(
+      backgroundColor: backgroundColor,
+      elevation: 0,
+      height: kToolbarHeight * 1.3,
+      surfaceTintColor: Colors.transparent,
+      shadowColor: Colors.transparent,
+      indicatorColor: primaryColor,
+      labelTextStyle: MaterialStateProperty.resolveWith<TextStyle?>(
+        (Set<MaterialState> states) {
+          return textTheme.labelLarge!.copyWith(color: primaryColor);
+        },
+      ),
+      iconTheme: MaterialStateProperty.resolveWith<IconThemeData?>(
+        (Set<MaterialState> states) {
+          if (states.contains(MaterialState.selected)) {
+            return base.iconTheme.copyWith(color: backgroundColor);
+          }
+          return base.iconTheme.copyWith(color: primaryColor);
+        },
+      ),
+      labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
+    ),
+    dialogBackgroundColor: backgroundColor,
     canvasColor: canvasColor,
     cardColor: cardColor,
     tooltipTheme: base.tooltipTheme.copyWith(

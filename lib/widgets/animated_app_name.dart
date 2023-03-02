@@ -51,7 +51,7 @@ class _AnimatedAppNameState extends State<AnimatedAppName>
   }
 
   Color get defaultDimmedColor => context.theme.disabledColor;
-  Color get defaultHighlightColor => context.primaryColor.withOpacity(.5);
+  Color get defaultHighlightColor => context.primaryColor.withOpacity(0.6);
 
   String get _text => widget.text ?? packageInfo.appName;
 
@@ -94,7 +94,7 @@ class AnimatedAppNamePainter extends CustomPainter {
   }) {
     _textPainter = createTextPainter(
       text,
-      fontFamily: fontFamily ?? 'Forward',
+      fontFamily: fontFamily ?? AppFontFamily.forward.fontKey,
       color: dimmedColor,
     );
   }
@@ -109,14 +109,14 @@ class AnimatedAppNamePainter extends CustomPainter {
 
   static TextPainter createTextPainter(
     String text, {
-    String fontFamily = 'Forward',
+    String? fontFamily,
     Color? color,
   }) {
     return TextPainter(
       text: TextSpan(
         text: text.toUpperCase(),
         style: TextStyle(
-          fontFamily: fontFamily,
+          fontFamily: fontFamily ?? AppFontFamily.forward.fontKey,
           height: 2,
           color: color,
         ),

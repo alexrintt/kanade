@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -8,13 +7,15 @@ import 'package:pixelarticons/pixelarticons.dart';
 
 import '../stores/contextual_menu_store.dart';
 import '../stores/device_apps_store.dart';
+import '../stores/settings_store.dart';
 import '../utils/app_localization_strings.dart';
+import '../utils/context_of.dart';
 import 'app_icon_button.dart';
 import 'sliver_app_top_bar.dart';
 import 'toast.dart';
 
-class ContextualMenu extends StatefulWidget {
-  const ContextualMenu({
+class AppListContextualMenu extends StatefulWidget {
+  const AppListContextualMenu({
     super.key,
     this.onSearch,
   });
@@ -22,17 +23,21 @@ class ContextualMenu extends StatefulWidget {
   final VoidCallback? onSearch;
 
   @override
-  _ContextualMenuState createState() => _ContextualMenuState();
+  _AppListContextualMenuState createState() => _AppListContextualMenuState();
 }
 
 /// We cannot split each [SliverAppBar] into multiple Widgets because we are rebuilding
 /// only the [SliverAppBar] and not the entire [CustomScrollView]
-class _ContextualMenuState extends State<ContextualMenu>
-    with
-        ContextualMenuStoreMixin<ContextualMenu>,
-        DeviceAppsStoreMixin<ContextualMenu> {
+class _AppListContextualMenuState extends State<AppListContextualMenu>
+    with DeviceAppsStoreMixin, SettingsStoreMixin {
+  ContextualMenuStore get _menuStore => context.of<ContextualMenuStore>();
+
+  Color? get _appBarColorOverride =>
+      store.apps.isEmpty ? Colors.transparent : null;
+
   Widget _buildSelectionMenu() {
     return SliverAppBar(
+      backgroundColor: _appBarColorOverride,
       title: AnimatedBuilder(
         animation: store,
         builder: (BuildContext context, Widget? child) {
@@ -41,10 +46,12 @@ class _ContextualMenuState extends State<ContextualMenu>
           );
         },
       ),
+      pinned: !settingsStore
+          .getBoolPreference(SettingsBoolPreference.hideAppBarOnScroll),
       floating: true,
       leading: IconButton(
         onPressed: () {
-          menuStore.popMenu();
+          _menuStore.popMenu();
           store.clearSelection();
         },
         icon: const Icon(Pixel.arrowleft),
@@ -54,12 +61,7 @@ class _ContextualMenuState extends State<ContextualMenu>
           tooltip: context.strings.extractAllSelected,
           onTap: () async {
             try {
-              unawaited(
-                showLoadingDialog(
-                  context,
-                  '${context.strings.extractingApks}...',
-                ),
-              );
+              store.showProgressIndicator();
 
               final MultipleApkExtraction extractedApks =
                   await store.extractSelectedApks();
@@ -98,22 +100,10 @@ class _ContextualMenuState extends State<ContextualMenu>
                   );
                 }
               } else if (result.success) {
-                if (extractedTo != null) {
-                  showToast(
-                    context,
-                    context.strings.allApksWereSuccessfullyExtracted(
-                      extractedTo.absolute.toString(),
-                    ),
-                  );
-                } else {
-                  showToast(
-                    context,
-                    context.strings.allApksWereSuccessfullyExtractedPlain,
-                  );
-                }
+                // the bottom bar indicates the success by showing a badge indicator.
               }
             } finally {
-              Navigator.pop(context);
+              store.hideProgressIndicator();
             }
           },
           icon: const Icon(Pixel.download),
@@ -138,6 +128,7 @@ class _ContextualMenuState extends State<ContextualMenu>
 
   Widget _buildSearchMenu() {
     return SliverAppBar(
+      backgroundColor: _appBarColorOverride,
       title: TextField(
         cursorColor: context.textTheme.bodyLarge!.color,
         autofocus: true,
@@ -147,10 +138,12 @@ class _ContextualMenuState extends State<ContextualMenu>
           border: InputBorder.none,
         ),
       ),
+      pinned: !settingsStore
+          .getBoolPreference(SettingsBoolPreference.hideAppBarOnScroll),
       floating: true,
       leading: AppIconButton(
         onTap: () {
-          menuStore.popMenu();
+          _menuStore.popMenu();
           store.disableSearch();
         },
         icon: const Icon(Pixel.arrowleft),
@@ -160,15 +153,20 @@ class _ContextualMenuState extends State<ContextualMenu>
   }
 
   Widget _buildNormalMenu() {
-    return SliverAppTopBar(onSearch: widget.onSearch);
+    return SliverAppTopBar(
+      backgroundColor: _appBarColorOverride,
+      onSearch: widget.onSearch,
+      pinned: !settingsStore
+          .getBoolPreference(SettingsBoolPreference.hideAppBarOnScroll),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: menuStore,
+      animation: _menuStore,
       builder: (BuildContext context, Widget? child) {
-        final MenuContext current = menuStore.context;
+        final MenuContext current = _menuStore.context;
 
         switch (current) {
           case MenuContext.selection:

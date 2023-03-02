@@ -25,6 +25,9 @@ class SettingsStore extends ChangeNotifier {
 
   static const String kExportLocation = 'exportLocation';
 
+  bool get confirmIrreversibleActions =>
+      getBoolPreference(SettingsBoolPreference.confirmIrreversibleActions);
+
   Future<Uri?> getAndSetExportLocationIfItExists() async {
     Uri? savedLocation = prefs
         .getString(kExportLocation)
@@ -111,6 +114,9 @@ class SettingsStore extends ChangeNotifier {
     }
   }
 
+  bool get isCompactMode =>
+      getBoolPreference(SettingsBoolPreference.compactMode);
+
   Future<void> resetBoolPreference(SettingsBoolPreference preference) {
     return setBoolPreference(preference, value: preference.defaultValue);
   }
@@ -133,27 +139,103 @@ class SettingsStore extends ChangeNotifier {
   }
 }
 
-enum SettingsBoolPreference {
-  displaySystemApps(defaultValue: false),
-  displayAppIcons(defaultValue: true);
+enum SettingsBoolPreferenceCategory {
+  behavior,
+  appearance,
+}
 
-  const SettingsBoolPreference({required this.defaultValue});
+enum SettingsBoolPreference {
+  displaySystemApps(
+    defaultValue: false,
+    category: SettingsBoolPreferenceCategory.behavior,
+  ),
+  displayBuiltInApps(
+    defaultValue: true,
+    category: SettingsBoolPreferenceCategory.behavior,
+  ),
+  displayUserInstalledApps(
+    defaultValue: true,
+    category: SettingsBoolPreferenceCategory.behavior,
+  ),
+  displayAppIcons(
+    defaultValue: true,
+    category: SettingsBoolPreferenceCategory.appearance,
+  ),
+  transparentBottomNavigationBar(
+    defaultValue: false,
+    category: SettingsBoolPreferenceCategory.appearance,
+  ),
+  compactMode(
+    defaultValue: false,
+    category: SettingsBoolPreferenceCategory.appearance,
+  ),
+  hideAppBarOnScroll(
+    defaultValue: true,
+    category: SettingsBoolPreferenceCategory.appearance,
+  ),
+  confirmIrreversibleActions(
+    defaultValue: true,
+    category: SettingsBoolPreferenceCategory.behavior,
+  );
+
+  const SettingsBoolPreference({
+    required this.defaultValue,
+    required this.category,
+  });
+
+  static List<SettingsBoolPreference> filterBy({
+    bool? defaultValue,
+    SettingsBoolPreferenceCategory? category,
+  }) {
+    return values.where(
+      (SettingsBoolPreference value) {
+        return value.defaultValue == (defaultValue ?? value.defaultValue) &&
+            value.category == (category ?? value.category);
+      },
+    ).toList();
+  }
+
+  final SettingsBoolPreferenceCategory category;
 
   String getNameString(AppLocalizations localizations) {
     switch (this) {
+      case SettingsBoolPreference.hideAppBarOnScroll:
+        return 'Hide app bar on scroll';
+      case SettingsBoolPreference.confirmIrreversibleActions:
+        return 'Ask for confirmation';
+      case SettingsBoolPreference.compactMode:
+        return 'Compact mode';
       case SettingsBoolPreference.displaySystemApps:
         return 'Show system apps';
       case SettingsBoolPreference.displayAppIcons:
         return 'Show app icons';
+      case SettingsBoolPreference.displayBuiltInApps:
+        return 'Show built-in apps';
+      case SettingsBoolPreference.displayUserInstalledApps:
+        return 'Show user installed apps';
+      case SettingsBoolPreference.transparentBottomNavigationBar:
+        return 'Transparent bottom navigation bar';
     }
   }
 
   String getDescriptionString(AppLocalizations localizations) {
     switch (this) {
+      case SettingsBoolPreference.confirmIrreversibleActions:
+        return 'Ask for confirmation whenever the user tries to do any irreversible action like deleting a file.';
+      case SettingsBoolPreference.hideAppBarOnScroll:
+        return 'If enabled, the app bar will automatically hide when scroll down.';
+      case SettingsBoolPreference.compactMode:
+        return 'Show the home app list in compact mode, less space and more content.';
       case SettingsBoolPreference.displaySystemApps:
-        return 'Whether or not the home app list should include system apps.';
+        return 'If enabled the home list will include system apps, they may not be launchable.';
       case SettingsBoolPreference.displayAppIcons:
-        return 'If enabled the home app list will display app icons.';
+        return 'If enabled the home app list will show the app icons.';
+      case SettingsBoolPreference.displayBuiltInApps:
+        return 'If enabled the home list will include built-in apps, they are like system apps but openable.';
+      case SettingsBoolPreference.displayUserInstalledApps:
+        return 'If enabled the home list will include apps installed by you.';
+      case SettingsBoolPreference.transparentBottomNavigationBar:
+        return 'Apply a blur transparent effect to the home navigation bar.';
     }
   }
 

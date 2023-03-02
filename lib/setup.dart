@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
-import 'stores/apk_list_store.dart';
+import 'stores/background_task_store.dart';
 import 'stores/bottom_navigation_store.dart';
 import 'stores/contextual_menu_store.dart';
 import 'stores/device_apps_store.dart';
+import 'stores/file_list_store.dart';
+import 'stores/global_file_change_store.dart';
 import 'stores/key_value_storage.dart';
 import 'stores/localization_store.dart';
 import 'stores/settings_store.dart';
@@ -20,8 +22,10 @@ Future<void> setup() async {
   packageInfo = await PackageInfo.fromPlatform();
 
   getIt
+    ..registerLazySingleton<GlobalFileChangeStore>(
+      () => GlobalFileChangeStore(),
+    )
     ..registerLazySingleton<DeviceAppsStore>(() => DeviceAppsStore())
-    ..registerLazySingleton<ContextualMenuStore>(() => ContextualMenuStore())
     ..registerLazySingleton<SettingsStore>(() => SettingsStore())
     ..registerLazySingleton<KeyValueStorage<String, String?>>(
       () => SharedPreferencesStorage(),
@@ -31,12 +35,21 @@ Future<void> setup() async {
     ..registerLazySingleton<BottomNavigationStore>(
       () => BottomNavigationStore(),
     )
-    ..registerLazySingleton<ApkListStore>(() => ApkListStore()..start());
+    ..registerLazySingleton<BackgroundTaskStore>(() => BackgroundTaskStore())
+    ..registerLazySingleton<FileListStore>(() => FileListStore());
+
+  // Most items that are not singleton (probably) need to be
+  // used with [Provider] in order to make use of the correct instance (that's why singletons does not need Provider, because
+  // there is only one instance throughout the entire app widget tree).
+  getIt.registerFactory<ContextualMenuStore>(() => ContextualMenuStore());
 }
 
 Future<void> init() async {
+  await getIt<GlobalFileChangeStore>().load();
   await getIt<KeyValueStorage<String, String?>>().setup();
   await getIt<SettingsStore>().load();
   await getIt<ThemeStore>().load();
   await getIt<LocalizationStore>().load();
+  await getIt<BackgroundTaskStore>().load();
+  await getIt<FileListStore>().load();
 }

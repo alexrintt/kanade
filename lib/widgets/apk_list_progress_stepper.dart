@@ -4,7 +4,7 @@ import 'package:flutter/material.dart'
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:pixelarticons/pixelarticons.dart';
 
-import '../stores/apk_list_store.dart';
+import '../stores/background_task_store.dart';
 import '../stores/bottom_navigation_store.dart';
 import '../stores/settings_store.dart';
 import '../utils/app_localization_strings.dart';
@@ -12,17 +12,22 @@ import '../utils/stringify_uri_location.dart';
 import 'multi_animated_builder.dart';
 import 'stepper.dart';
 
-class ApkListProgressStepper extends StatefulWidget {
-  const ApkListProgressStepper({super.key});
+class StorageRequirementsProgressStepper extends StatefulWidget {
+  const StorageRequirementsProgressStepper({super.key});
 
   @override
-  State<ApkListProgressStepper> createState() => _ApkListProgressStepperState();
+  State<StorageRequirementsProgressStepper> createState() =>
+      _StorageRequirementsProgressStepperState();
 }
 
-class _ApkListProgressStepperState extends State<ApkListProgressStepper>
-    with SettingsStoreMixin, ApkListStoreMixin, BottomNavigationStoreMixin {
+class _StorageRequirementsProgressStepperState
+    extends State<StorageRequirementsProgressStepper>
+    with
+        SettingsStoreMixin,
+        BackgroundTaskStoreMixin,
+        BottomNavigationStoreMixin {
   bool get _wasExportLocationChosen => settingsStore.exportLocation != null;
-  bool get _extractedAtLeastOneApk => apkListStore.files.isNotEmpty;
+  bool get _extractedAtLeastOneApk => backgroundTaskStore.tasks.isNotEmpty;
 
   int get _currentStep {
     final List<bool> steps = <bool>[
@@ -32,7 +37,8 @@ class _ApkListProgressStepperState extends State<ApkListProgressStepper>
 
     return steps
         .map((bool e) => e ? 1 : 0)
-        .reduce((int value, int element) => value + element);
+        .reduce((int value, int element) => value + element)
+        .clamp(0, steps.length - 1);
   }
 
   Widget _buildFilledButton(
@@ -156,7 +162,7 @@ class _ApkListProgressStepperState extends State<ApkListProgressStepper>
   @override
   Widget build(BuildContext context) {
     return MultiAnimatedBuilder(
-      animations: <Listenable>[apkListStore, settingsStore],
+      animations: <Listenable>[backgroundTaskStore, settingsStore],
       builder: (BuildContext context, Widget? child) {
         return SizedBox(
           height: context.height,

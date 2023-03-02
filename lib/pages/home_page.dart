@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 
-import '../screens/apk_list_screen.dart';
 import '../screens/app_list_screen.dart';
+import '../screens/background_task_list_screen.dart';
+import '../screens/file_list_screen.dart';
 import '../stores/bottom_navigation_store.dart';
 import '../widgets/bottom_navigation.dart';
 
@@ -59,8 +60,8 @@ class _HomePageState extends State<HomePage> with BottomNavigationStoreMixin {
       body: Stack(
         children: <Widget>[
           _buildTab(const AppListScreen(), 0),
-          _buildTab(const ApkListScreen(), 1),
-          _buildTab(const Placeholder(), 2),
+          _buildTab(const BackgroundTaskListScreen(), 1),
+          _buildTab(const FileListScreen(), 2),
         ],
       ),
     );

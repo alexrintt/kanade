@@ -2,27 +2,17 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:device_packages/device_packages.dart';
-import 'package:flutter/material.dart';
-import 'package:nanoid/async.dart';
-import 'package:shared_storage/shared_storage.dart';
-import 'package:string_similarity/string_similarity.dart';
 
 import '../setup.dart';
-import '../utils/debounce.dart';
 import '../utils/is_disposed_mixin.dart';
-import '../utils/stringify_uri_location.dart';
 import '../utils/throttle.dart';
+import 'background_task_store.dart';
+import 'indexed_collection_store.dart';
 import 'settings_store.dart';
 
-mixin DeviceAppsStoreMixin<T extends StatefulWidget> on State<T> {
+mixin DeviceAppsStoreMixin {
   DeviceAppsStore? _store;
   DeviceAppsStore get store => _store ??= getIt<DeviceAppsStore>();
-
-  @override
-  void didUpdateWidget(covariant T oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _store = null; // Refresh store instance when updating the widget
-  }
 }
 
 class ApkExtraction {
@@ -63,14 +53,14 @@ class MultipleApkExtraction {
 }
 
 enum Result {
-  extracted,
+  queued,
   permissionDenied,
   permissionRestricted,
   notAllowed,
   notFound;
 
-  /// Happy end, apk extracted successfully
-  bool get success => this == extracted;
+  /// Happy end, for now, a request was made to start the job in background.
+  bool get success => this == queued;
 
   /// User denied permission
   bool get permissionWasDenied => this == permissionDenied;
@@ -108,106 +98,70 @@ class MultipleResult {
   bool get permissionWasDenied => value == 3;
 }
 
-class ApplicationSearchResult implements Comparable<ApplicationSearchResult> {
-  const ApplicationSearchResult({required this.app, required this.text});
-
-  final String text;
-  final PackageInfo app;
-
-  String get _rawRegex {
-    final String matcher =
-        text.substring(0, text.length - 1).split('').join('.*');
-    final String ending = text[text.length - 1];
-
-    return matcher + ending;
-  }
-
-  RegExp get _regex => RegExp(_rawRegex, caseSensitive: false);
-
-  /// Checks if [source] contains all the characters of [text] in the correct order
-  ///
-  /// Example:
-  /// ```
-  /// hasMatch('abcdef', 'adf') // true
-  /// hasMatch('dbcaef', 'adf') // false
-  /// ```
-  bool _hasWildcardMatch() {
-    return _regex.hasMatch(source);
-  }
-
-  bool hasMatch() => _hasWildcardMatch();
-
-  String get source {
-    return <String>[app.name ?? '', app.id ?? ''].join(' ').toLowerCase();
-  }
-
-  double get similarity {
-    return text.similarityTo(source);
-  }
-
-  @override
-  int compareTo(ApplicationSearchResult other) {
-    if (text != other.text) return 0;
-
-    if (similarity == other.similarity) {
-      return 0;
-    } else if (similarity > other.similarity) {
-      return 1;
-    } else {
-      return -1;
-    }
-  }
-}
-
-class DeviceAppsStore extends ChangeNotifier
-    with IsDisposedMixin, SettingsStoreMixin {
-  /// Id length to avoid filename conflict on extract Apk
-  static const int kIdLength = 5;
-
-  /// Max tries count to export Apk
-  static const int kMaxTriesCount = 10;
-
-  /// List of all device applications
-  /// - Include system apps
-  /// - Include app icons
-  List<PackageInfo> get apps {
+class DeviceAppsStore extends IndexedCollectionStore<PackageInfo>
+    with
+        IsDisposedMixin,
+        SettingsStoreMixin,
+        SelectableStoreMixin<PackageInfo>,
+        SearchableStoreMixin<PackageInfo>,
+        LoadingStoreMixin<PackageInfo>,
+        ProgressIndicatorMixin {
+  bool _filterAppsByPreferences(PackageInfo package) {
     final bool displaySystemApps = settingsStore
         .getBoolPreference(SettingsBoolPreference.displaySystemApps);
 
+    final bool displayBuiltInApps = settingsStore
+        .getBoolPreference(SettingsBoolPreference.displayBuiltInApps);
+
+    final bool displayUserInstalledApps = settingsStore
+        .getBoolPreference(SettingsBoolPreference.displayUserInstalledApps);
+
+    if (displaySystemApps) {
+      if (package.isSystemPackage ?? false) {
+        return true;
+      }
+    }
+
+    if (displayBuiltInApps) {
+      if (package.isSystemPackage ?? false) {
+        if (package.isOpenable ?? false) {
+          return true;
+        }
+      }
+    }
+
+    if (displayUserInstalledApps) {
+      if (!(package.isSystemPackage ?? true)) {
+        if (package.isOpenable ?? false) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  List<PackageInfo> get apps => collection;
+  List<PackageInfo> get displayableApps => displayableCollection;
+
+  @override
+  List<PackageInfo> get collection {
+    int byPackageNameAsc(PackageInfo a, PackageInfo b) =>
+        a.name!.toLowerCase().compareTo(b.name!.toLowerCase());
+
     return List<PackageInfo>.unmodifiable(
-      _apps.values
-          .where(
-            (PackageInfo package) =>
-                package.isSystemPackage == displaySystemApps,
-          )
-          .toList()
-        ..sort(
-          (PackageInfo a, PackageInfo b) =>
-              a.name!.toLowerCase().compareTo(b.name!.toLowerCase()),
-        ),
+      super.collection.toList()..sort(byPackageNameAsc),
+    );
+  }
+
+  @override
+  List<PackageInfo> get displayableCollection {
+    return List<PackageInfo>.unmodifiable(
+      collection.where(_filterAppsByPreferences).toList(),
     );
   }
 
   final Map<String, PackageInfo> _apps = <String, PackageInfo>{};
-
-  /// List of all selected applications
-  Set<PackageInfo> get selected => Set<PackageInfo>.unmodifiable(
-        _selected
-            .map((String packageId) => _apps[packageId])
-            .where((PackageInfo? package) => package != null)
-            .cast<PackageInfo>()
-            .toSet(),
-      );
-
-  /// List of all selected applications
-  final Set<String> _selected = <String>{};
-
-  /// Whether loading device applications or not
-  bool isLoading = false;
-  int? totalPackagesCount;
-  int? get loadedPackagesCount => isLoading ? _apps.length : totalPackagesCount;
-  bool get fullyLoaded =>
-      !isLoading && loadedPackagesCount == totalPackagesCount;
 
   void Function(void Function()) throttle = throttleIt500ms();
 
@@ -247,6 +201,8 @@ class DeviceAppsStore extends ChangeNotifier
               includeIcon: true,
             );
 
+            defineTotalItemsCount(totalCount ?? 0 + 1);
+
             notifyListeners();
 
             break;
@@ -261,6 +217,8 @@ class DeviceAppsStore extends ChangeNotifier
             break;
           case PackageAction.uninstall:
             _apps.remove(event.packageId);
+
+            defineTotalItemsCount(totalCount ?? 0 - 1);
 
             notifyListeners();
 
@@ -294,13 +252,16 @@ class DeviceAppsStore extends ChangeNotifier
 
     notifyListeners();
 
-    totalPackagesCount = await DevicePackages.getInstalledPackageCount();
+    defineTotalItemsCount(
+      await DevicePackages.getInstalledPackageCount(
+        includeSystemPackages: true,
+      ),
+    );
 
     final Stream<PackageInfo> appsStream =
         DevicePackages.getInstalledPackagesAsStream(
       includeIcon: true,
       includeSystemPackages: true,
-      onlyOpenablePackages: true,
     );
 
     _appsStreamSubscription = appsStream.listen(
@@ -321,49 +282,25 @@ class DeviceAppsStore extends ChangeNotifier
     );
   }
 
-  /// Mark all apps as unselected
-  void clearSelection() {
-    _selected.clear();
-    notifyListeners();
-  }
-
   void restoreToDefault() {
     clearSelection();
     disableSearch();
     notifyListeners();
   }
 
-  /// Packages to be rendered on the screen
-  List<PackageInfo> get displayableApps => _searchText != null
-      ? results.map((ApplicationSearchResult e) => e.app).toList()
-      : apps;
-
-  /// Return [true] if all [displayableApps] are selected
-  bool get isAllSelected => displayableApps.length == selected.length;
-
-  /// Add [package] to the [selected] Set
-  void toggleSelect(PackageInfo package) {
-    if (_selected.contains(package.id)) {
-      _selected.remove(package.id);
-    } else {
-      _selected.add(package.id!);
-    }
-
-    notifyListeners();
+  @override
+  List<String> createSearchableStringsOf(PackageInfo item) {
+    return <String>[item.name ?? '', item.id ?? ''];
   }
 
-  static const String kApkMimeType = 'application/vnd.android.package-archive';
+  BackgroundTaskStore get _backgroundTaskStore => getIt<BackgroundTaskStore>();
 
-  /// Extract Apk of a [package]
   Future<ApkExtraction> extractApk(PackageInfo package, {Uri? folder}) async {
     final File apkFile = File(package.installerPath!);
-    final String id = await nanoid(kIdLength);
 
     if (!apkFile.existsSync()) {
       return ApkExtraction(apkFile, Result.notFound);
     }
-
-    final String apkFilename = '${package.name}_${package.id}_$id';
 
     if (folder == null) {
       await _settingsStore.requestExportLocationIfNotSet();
@@ -373,35 +310,16 @@ class DeviceAppsStore extends ChangeNotifier
         folder ?? await _settingsStore.getAndSetExportLocationIfItExists();
 
     if (parentFolder != null) {
-      final DocumentFile? createdFile = await createFile(
-        parentFolder,
-        mimeType: kApkMimeType,
-        displayName: apkFilename,
-        bytes: await apkFile.readAsBytes(),
+      unawaited(
+        _backgroundTaskStore.queue(
+          ExtractApkBackgroundTask.create(
+            packageId: package.id!,
+            parentUri: parentFolder,
+            createdAt: DateTime.now(),
+          ),
+        ),
       );
-
-      if (createdFile != null) {
-        if (createdFile.name != null) {
-          // It is better to save a local copy of the apk file icon.
-          // Because Android does not have an way to load arbitrary apk file icon from URI, only Files.
-          // https://stackoverflow.com/questions/58026104/get-the-real-path-of-apk-file-from-uri-shared-from-other-application#comment133215619_58026104.
-          // So we would be required to copy the apk uri to a local file, which translates to very poor performance if the apk is too big.
-          // it is far more performant to just load a simple icon from a file.
-          // Note that this effort is to keep the app far away from MANAGE_EXTERNAL_STORAGE permission
-          // and keep it valid for PlayStore.
-          await createFile(
-            parentFolder,
-            mimeType: 'application/octet-stream',
-            displayName: '${createdFile.name!}_icon',
-            bytes: package.icon,
-          );
-        }
-
-        return ApkExtraction(
-          File(stringifyDocumentUri(createdFile.uri)!),
-          Result.extracted,
-        );
-      }
+      return ApkExtraction(apkFile, Result.queued);
     }
 
     return ApkExtraction(apkFile, Result.permissionDenied);
@@ -414,6 +332,14 @@ class DeviceAppsStore extends ChangeNotifier
   }
 
   SettingsStore get _settingsStore => getIt<SettingsStore>();
+
+  @override
+  bool canBeSelected(PackageInfo package) {
+    return displayableApps
+        .map((PackageInfo e) => e.id!)
+        .toSet()
+        .contains(package.id);
+  }
 
   /// Extract Apk of all [selected] apps
   Future<MultipleApkExtraction> extractSelectedApks() async {
@@ -432,61 +358,11 @@ class DeviceAppsStore extends ChangeNotifier
     }
   }
 
-  /// Verify if a given [package] is selected
-  bool isSelected(PackageInfo package) => _selected.contains(package.id);
+  @override
+  Map<String, PackageInfo> get collectionIndexedById => _apps;
 
-  void disableSearch() {
-    _searchText = null;
-    notifyListeners();
-  }
-
-  /// Select all [displayableApps], otherwise mark all as unselected
-  void toggleSelectAll() {
-    if (isAllSelected) {
-      _selected.clear();
-    } else {
-      _selected
-        ..clear()
-        ..addAll(displayableApps.map((PackageInfo e) => e.id!));
-    }
-
-    notifyListeners();
-  }
-
-  bool get isSearchMode => _searchText != null;
-
-  List<ApplicationSearchResult> get results {
-    if (_searchText == null) return <ApplicationSearchResult>[];
-
-    final List<ApplicationSearchResult> filtered = apps
-        .map(
-          (PackageInfo app) =>
-              ApplicationSearchResult(app: app, text: _searchText!),
-        )
-        .where((ApplicationSearchResult result) => result.hasMatch())
-        .toList()
-      ..sort(
-        (ApplicationSearchResult a, ApplicationSearchResult z) =>
-            z.compareTo(a),
-      );
-
-    return filtered;
-  }
-
-  String? _searchText;
-
-  final void Function(void Function() p1) debounceSearch = debounceIt50ms();
-
-  /// Add all matched apps to [results] array if any
-  ///
-  /// This method will disable search if [text] is empty by default
-  void search(String text) {
-    _searchText = text;
-
-    if (text.isEmpty) {
-      _searchText = null;
-    }
-
-    debounceSearch(() => notifyListeners());
+  @override
+  String getItemId(PackageInfo item) {
+    return item.id!;
   }
 }

@@ -1,14 +1,26 @@
+import 'package:device_packages/device_packages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_shared_tools/constant/constant.dart';
 import 'package:flutter_shared_tools/extensions/extensions.dart';
+import 'package:provider/provider.dart';
 
+import '../pages/home_page.dart';
+import '../setup.dart';
 import '../stores/contextual_menu_store.dart';
 import '../stores/device_apps_store.dart';
+import '../stores/settings_store.dart';
 import '../stores/theme_store.dart';
+import '../utils/app_localization_strings.dart';
+import '../utils/context_of.dart';
+import '../widgets/animated_app_name.dart';
+import '../widgets/app_list_contextual_menu.dart';
+import '../widgets/app_version_info.dart';
+import '../widgets/device_app_tile.dart';
 import '../widgets/loading.dart';
 import '../widgets/multi_animated_builder.dart';
-import '../widgets/packages_list.dart';
+import '../widgets/selectable_custom_scroll_view.dart';
+import '../widgets/toast.dart';
 
 class AppListScreen extends StatefulWidget {
   const AppListScreen({super.key});
@@ -17,11 +29,45 @@ class AppListScreen extends StatefulWidget {
   State<AppListScreen> createState() => _AppListScreenState();
 }
 
-class _AppListScreenState extends State<AppListScreen>
-    with
-        DeviceAppsStoreMixin<AppListScreen>,
-        ContextualMenuStoreMixin<AppListScreen>,
-        ThemeStoreMixin<AppListScreen> {
+class _AppListScreenState extends State<AppListScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return const AppListScreenProvider(
+      child: AppListScreenConsumer(),
+    );
+  }
+}
+
+class AppListScreenProvider extends StatefulWidget {
+  const AppListScreenProvider({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  State<AppListScreenProvider> createState() => _AppListScreenProviderState();
+}
+
+class _AppListScreenProviderState extends State<AppListScreenProvider> {
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider<ContextualMenuStore>(
+      create: (BuildContext context) => getIt<ContextualMenuStore>(),
+      child: widget.child,
+    );
+  }
+}
+
+class AppListScreenConsumer extends StatefulWidget {
+  const AppListScreenConsumer({super.key});
+
+  @override
+  State<AppListScreenConsumer> createState() => _AppListScreenConsumerState();
+}
+
+class _AppListScreenConsumerState extends State<AppListScreenConsumer>
+    with DeviceAppsStoreMixin, ThemeStoreMixin<AppListScreenConsumer> {
+  ContextualMenuStore get _menuStore => context.of<ContextualMenuStore>();
+
   @override
   void initState() {
     super.initState();
@@ -36,25 +82,29 @@ class _AppListScreenState extends State<AppListScreen>
 
   Widget _buildHomeContent() {
     return MultiAnimatedBuilder(
-      animations: <Listenable>[store, menuStore],
+      animations: <Listenable>[store, _menuStore],
       builder: (BuildContext context, Widget? child) =>
           store.isLoading && store.apps.isEmpty
               ? const Loading()
-              : const PackagesList(),
+              : const MainAppList(),
     );
   }
 
   Widget _loadingIndicatorBuilder(BuildContext context, Widget? child) {
+    if (store.inProgress) {
+      return LinearProgressIndicator(
+        minHeight: k1dp,
+        color: context.theme.primaryColor,
+        backgroundColor: context.theme.cardColor,
+      );
+    }
+
     if (store.fullyLoaded) {
       return const SizedBox.shrink();
     }
 
-    final bool isDeterminatedState =
-        store.totalPackagesCount != null && store.loadedPackagesCount != null;
-
     double progress() {
-      final double state =
-          store.loadedPackagesCount! / store.totalPackagesCount!;
+      final double state = store.percent;
 
       return state.clamp(0, 1);
     }
@@ -64,11 +114,11 @@ class _AppListScreenState extends State<AppListScreen>
       curve: Curves.easeInOut,
       tween: Tween<double>(
         begin: 0,
-        end: isDeterminatedState ? progress() : 0,
+        end: progress(),
       ),
       builder: (BuildContext context, double value, _) =>
           LinearProgressIndicator(
-        minHeight: k2dp,
+        minHeight: k1dp,
         color: context.theme.primaryColor,
         backgroundColor: context.theme.cardColor,
         value: value,
@@ -96,6 +146,153 @@ class _AppListScreenState extends State<AppListScreen>
           ),
         ),
       ],
+    );
+  }
+}
+
+class MainAppList extends StatefulWidget {
+  const MainAppList({super.key});
+
+  @override
+  _MainAppListState createState() => _MainAppListState();
+}
+
+class _MainAppListState extends State<MainAppList>
+    with DeviceAppsStoreMixin, SettingsStoreMixin {
+  ContextualMenuStore get _menuStore => context.of<ContextualMenuStore>();
+
+  final Key _kMainAppListViewKey = const Key('app.mainlistview');
+
+  late ScrollController _scrollController;
+
+  Future<void> _onPressed(PackageInfo package) async {
+    if (_menuStore.context.isSelection) {
+      store.toggleSelect(item: package);
+    } else {
+      try {
+        store.showProgressIndicator();
+
+        final ApkExtraction extraction = await store.extractApk(package);
+
+        if (!mounted) return;
+
+        switch (extraction.result) {
+          case Result.permissionDenied:
+            showToast(context, context.strings.permissionDenied);
+            break;
+          case Result.permissionRestricted:
+            showToast(context, context.strings.permissionRestrictedByAndroid);
+            break;
+          case Result.notAllowed:
+            showToast(
+              context,
+              context.strings.operationNotAllowedMayBeProtectedPackage,
+            );
+            break;
+          case Result.notFound:
+            showToast(
+              context,
+              // TODO: Missing translation.
+              'Could not extract, this apk was probably uninstalled because we did not found it is apk file',
+            );
+            break;
+          case Result.queued:
+            // The bottom navigation bar actually changes its badge indicator,
+            // so we don't need to do anything here to indicate the apk is being extracted.
+            break;
+        }
+      } finally {
+        store.hideProgressIndicator();
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _scrollController = ScrollController();
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultContextualMenuPopHandler<PackageInfo>(
+      searchableStore: store,
+      selectableStore: store,
+      child: MultiAnimatedBuilder(
+        animations: <Listenable>[store, _menuStore, settingsStore],
+        builder: (BuildContext context, Widget? child) =>
+            ScrollViewLongPressGestureDetector(
+          scrollController: _scrollController,
+          sliverLisKey: _kMainAppListViewKey,
+          enableSelect: _menuStore.context.isSelection,
+          onSelectedItems: (List<String> selectedPackageIds) {
+            if (selectedPackageIds.isNotEmpty) {
+              _menuStore.pushSelectionMenu();
+              store.selectMany(itemIds: selectedPackageIds);
+            }
+          },
+          child: CustomScrollView(
+            controller: _scrollController,
+            slivers: <Widget>[
+              AppListContextualMenu(onSearch: _menuStore.pushSearchMenu),
+              MultiAnimatedBuilder(
+                animations: <Listenable>[store, _menuStore],
+                builder: (BuildContext context, Widget? child) {
+                  return SliverPadding(
+                    padding: const EdgeInsets.symmetric(vertical: k3dp),
+                    sliver: SliverList(
+                      key: _kMainAppListViewKey,
+                      delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                          final PackageInfo current =
+                              store.displayableApps[index];
+
+                          return DeviceAppTile(
+                            key: Key(current.id!),
+                            current,
+                            showCheckbox: _menuStore.context.isSelection,
+                            onTap: () => _onPressed(current),
+                            isSelected: _menuStore.context.isSelection &&
+                                store.isSelected(item: current),
+                          );
+                        },
+                        childCount: store.displayableApps.length,
+                      ),
+                    ),
+                  );
+                },
+              ),
+              MultiAnimatedBuilder(
+                animations: <Listenable>[store],
+                builder: (BuildContext context, Widget? child) {
+                  return SliverList(
+                    delegate: SliverChildListDelegate(
+                      <Widget>[
+                        if (store.fullyLoaded)
+                          const AppVersionInfo()
+                        else
+                          const Padding(
+                            padding: EdgeInsets.all(k12dp),
+                            child: Center(child: AnimatedAppName()),
+                          ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+              context.bottomSliverSpacer,
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

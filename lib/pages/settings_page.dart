@@ -3,6 +3,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_shared_tools/constant/constant.dart';
 import 'package:flutter_shared_tools/extensions/extensions.dart';
 import 'package:pixelarticons/pixel.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 import '../stores/localization_store.dart';
 import '../stores/settings_store.dart';
@@ -10,6 +11,7 @@ import '../stores/theme_store.dart';
 import '../utils/app_localization_strings.dart';
 import '../utils/stringify_uri_location.dart';
 import '../widgets/app_icon_button.dart';
+import '../widgets/app_list_tile.dart';
 import '../widgets/app_version_info.dart';
 import '../widgets/horizontal_rule.dart';
 
@@ -30,34 +32,47 @@ class _SettingsPageState extends State<SettingsPage>
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
-          SliverAppBar(
-            automaticallyImplyLeading: false,
-            floating: true,
-            titleSpacing: 0,
-            leading: !Navigator.canPop(context)
-                ? null
-                : IconButton(
+          AnimatedBuilder(
+            animation: settingsStore,
+            builder: (BuildContext context, Widget? child) {
+              return SliverAppBar(
+                automaticallyImplyLeading: false,
+                floating: true,
+                pinned: !settingsStore.getBoolPreference(
+                  SettingsBoolPreference.hideAppBarOnScroll,
+                ),
+                titleSpacing: 0,
+                leading: !Navigator.canPop(context)
+                    ? null
+                    : IconButton(
+                        icon: Icon(
+                          Pixel.arrowleft,
+                          color: context.isDark ? null : context.primaryColor,
+                        ),
+                        onPressed: () => Navigator.pop(context),
+                      ),
+                title: Text(
+                  context.strings.settings,
+                  style: context.theme.appBarTheme.titleTextStyle!.copyWith(
+                    color: context.theme.textTheme.labelSmall!.color,
+                  ),
+                ),
+                actions: <Widget>[
+                  AppIconButton(
                     icon: Icon(
-                      Pixel.arrowleft,
+                      Pixel.reload,
                       color: context.isDark ? null : context.primaryColor,
                     ),
-                    onPressed: () => Navigator.pop(context),
+                    tooltip: context.strings.resetAllPreferences,
+                    onTap: () {
+                      settingsStore.reset();
+                      themeStore.reset();
+                      localizationStore.reset();
+                    },
                   ),
-            title: Text(context.strings.settings),
-            actions: <Widget>[
-              AppIconButton(
-                icon: Icon(
-                  Pixel.reload,
-                  color: context.isDark ? null : context.primaryColor,
-                ),
-                tooltip: context.strings.resetAllPreferences,
-                onTap: () {
-                  settingsStore.reset();
-                  themeStore.reset();
-                  localizationStore.reset();
-                },
-              ),
-            ],
+                ],
+              );
+            },
           ),
           SliverList(
             delegate: SliverChildListDelegate(
@@ -70,8 +85,22 @@ class _SettingsPageState extends State<SettingsPage>
                 const AppFontFamilySettingsTile(),
                 const AppLocalizationSettingsTile(),
                 const HorizontalRule(),
-                SettingsTileTitle('Preferences'),
-                const AppBooleanPreferencesSettingsTile(),
+                const SettingsTileTitle('Behavior preferences'),
+                AppBooleanPreferencesSettingsTile(
+                  values: SettingsBoolPreference.filterBy(
+                    category: SettingsBoolPreferenceCategory.behavior,
+                  ),
+                ),
+                const HorizontalRule(),
+                const SettingsTileTitle('Appearance preferences'),
+                AppBooleanPreferencesSettingsTile(
+                  values: SettingsBoolPreference.filterBy(
+                    category: SettingsBoolPreferenceCategory.appearance,
+                  ),
+                ),
+                const HorizontalRule(),
+                const SettingsTileTitle('Credits'),
+                const CreditsSettingsTile(),
                 const HorizontalRule(),
                 const AppVersionInfo(),
               ],
@@ -92,7 +121,7 @@ class SettingsTileTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: k12dp,
+        horizontal: k10dp,
         vertical: k6dp,
       ).copyWith(top: k12dp),
       child: Text(
@@ -126,7 +155,7 @@ class _ExportLocationSettingsTileState extends State<ExportLocationSettingsTile>
             settingsStore.exportLocation,
           );
 
-          return ListTile(
+          return AppListTile(
             tileColor: Colors.transparent,
             contentPadding: const EdgeInsets.symmetric(
               horizontal: k10dp,
@@ -161,7 +190,7 @@ class _AppThemeSettingsTileState extends State<AppThemeSettingsTile>
           builder: (BuildContext context) => const ChangeThemeDialog(),
         );
       },
-      child: ListTile(
+      child: AppListTile(
         tileColor: Colors.transparent,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: k10dp,
@@ -197,8 +226,6 @@ class _ChangeThemeDialogState extends State<ChangeThemeDialog>
       animation: themeStore,
       builder: (BuildContext context, Widget? child) {
         return SimpleDialog(
-          // shape: const MaterialYouDialogShape(),
-          backgroundColor: context.theme.colorScheme.background,
           title: Text(context.strings.theme),
           children: <Widget>[
             for (final AppTheme theme in AppTheme.values)
@@ -235,7 +262,7 @@ class _AppFontFamilySettingsTileState extends State<AppFontFamilySettingsTile>
               const ChangeThemeFontFamilyDialog(),
         );
       },
-      child: ListTile(
+      child: AppListTile(
         tileColor: Colors.transparent,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: k10dp,
@@ -246,7 +273,9 @@ class _AppFontFamilySettingsTileState extends State<AppFontFamilySettingsTile>
         subtitle: AnimatedBuilder(
           animation: themeStore,
           builder: (BuildContext context, Widget? child) {
-            return Text(themeStore.currentFontFamily.name);
+            return Text(
+              themeStore.currentFontFamily.getNameString(context.strings),
+            );
           },
         ),
       ),
@@ -280,7 +309,7 @@ class _ChangeThemeFontFamilyDialogState
               RadioListTile<AppFontFamily>(
                 groupValue: themeStore.currentFontFamily,
                 value: fontFamily,
-                title: Text(fontFamily.name),
+                title: Text(fontFamily.getNameString(context.strings)),
                 onChanged: (AppFontFamily? value) =>
                     themeStore.setFontFamily(value!),
               ),
@@ -291,8 +320,68 @@ class _ChangeThemeFontFamilyDialogState
   }
 }
 
+class CreditsSettingsTile extends StatefulWidget {
+  const CreditsSettingsTile({super.key});
+
+  @override
+  State<CreditsSettingsTile> createState() => _CreditsSettingsTileState();
+}
+
+class _CreditsSettingsTileState extends State<CreditsSettingsTile> {
+  final List<List<dynamic>> kLinks = <List<dynamic>>[
+    <dynamic>[
+      'Follow me on GitHub',
+      (_) => launchUrlString(
+            'https://github.com/alexrintt',
+            mode: LaunchMode.externalApplication,
+          ),
+    ],
+    <dynamic>[
+      'GitHub donation',
+      (_) => launchUrlString(
+            'https://github.com/sponsors/alexrintt',
+            mode: LaunchMode.externalApplication,
+          ),
+    ],
+    <dynamic>[
+      'Stripe donation',
+      (_) => launchUrlString(
+            'https://github.com/sponsors/alexrintt',
+            mode: LaunchMode.externalApplication,
+          ),
+    ],
+    <dynamic>[
+      'Open source licenses',
+      (BuildContext context) => showLicensePage(context: context),
+    ],
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        for (final List<dynamic> tile in kLinks)
+          InkWell(
+            onTap: () => (tile.last as void Function(BuildContext))(context),
+            child: AppListTile(
+              tileColor: Colors.transparent,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: k10dp,
+              ),
+              enableFeedback: true,
+              title: Text(tile.first as String),
+            ),
+          ),
+      ],
+    );
+  }
+}
+
 class AppBooleanPreferencesSettingsTile extends StatefulWidget {
-  const AppBooleanPreferencesSettingsTile({super.key});
+  const AppBooleanPreferencesSettingsTile({super.key, required this.values});
+
+  final List<SettingsBoolPreference> values;
 
   @override
   State<AppBooleanPreferencesSettingsTile> createState() =>
@@ -309,11 +398,10 @@ class _AppBooleanPreferencesSettingsTileState
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            for (final SettingsBoolPreference preference
-                in SettingsBoolPreference.values)
+            for (final SettingsBoolPreference preference in widget.values)
               InkWell(
                 onTap: () => settingsStore.toggleBoolPreference(preference),
-                child: ListTile(
+                child: AppListTile(
                   tileColor: Colors.transparent,
                   contentPadding: const EdgeInsets.symmetric(
                     horizontal: k10dp,
@@ -363,8 +451,14 @@ class _AppBooleanPreferencesSettingsTileState
                         .setBoolPreference(preference, value: value),
                   ),
                   title: Text(preference.getNameString(context.strings)),
-                  subtitle:
-                      Text(preference.getDescriptionString(context.strings)),
+                  subtitle: Text(
+                    preference.getDescriptionString(context.strings),
+                    style: context.textTheme.labelLarge!.copyWith(
+                      color: context.isDark
+                          ? context.theme.disabledColor
+                          : context.theme.disabledColor.withOpacity(.35),
+                    ),
+                  ),
                 ),
               ),
           ],
@@ -394,7 +488,7 @@ class _AppLocalizationSettingsTileState
               const ChangeAppLocalizationDialog(),
         );
       },
-      child: ListTile(
+      child: AppListTile(
         tileColor: Colors.transparent,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: k10dp,

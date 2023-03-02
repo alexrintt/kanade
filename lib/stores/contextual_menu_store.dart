@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../setup.dart';
+import '../utils/context_of.dart';
+import 'indexed_collection_store.dart';
 
 enum MenuContext {
   normal,
@@ -13,16 +15,10 @@ extension MenuContextAlias on MenuContext {
   bool get isSearch => this == MenuContext.search;
 }
 
-mixin ContextualMenuStoreMixin<T extends StatefulWidget> on State<T> {
+mixin ContextualMenuStoreMixin {
   ContextualMenuStore? _menuStore;
   ContextualMenuStore get menuStore =>
       _menuStore ??= getIt<ContextualMenuStore>();
-
-  @override
-  void didUpdateWidget(covariant T oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _menuStore = null; // Refresh store instance when updating the widget
-  }
 }
 
 /// Store to manage the current active menu.
@@ -50,6 +46,7 @@ class ContextualMenuStore extends ChangeNotifier {
   }
 
   void popMenu() {
+    if (_stack.length == 1) return;
     _stack.removeLast();
     notifyListeners();
   }
@@ -59,5 +56,50 @@ class ContextualMenuStore extends ChangeNotifier {
       ..clear()
       ..add(MenuContext.normal);
     notifyListeners();
+  }
+}
+
+class DefaultContextualMenuPopHandler<T> extends StatefulWidget {
+  const DefaultContextualMenuPopHandler({
+    super.key,
+    this.searchableStore,
+    this.selectableStore,
+    required this.child,
+  });
+
+  final SearchableStoreMixin<T>? searchableStore;
+  final SelectableStoreMixin<T>? selectableStore;
+  final Widget child;
+
+  @override
+  State<DefaultContextualMenuPopHandler<T>> createState() =>
+      _DefaultContextualMenuPopHandlerState<T>();
+}
+
+class _DefaultContextualMenuPopHandlerState<T>
+    extends State<DefaultContextualMenuPopHandler<T>> {
+  ContextualMenuStore get _menuStore => context.of<ContextualMenuStore>();
+
+  @override
+  Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () async {
+        switch (_menuStore.context) {
+          case MenuContext.normal:
+            return true;
+          case MenuContext.search:
+            widget.searchableStore?.disableSearch();
+            break;
+          case MenuContext.selection:
+            widget.selectableStore?.clearSelection();
+            break;
+        }
+
+        _menuStore.popMenu();
+
+        return false;
+      },
+      child: widget.child,
+    );
   }
 }

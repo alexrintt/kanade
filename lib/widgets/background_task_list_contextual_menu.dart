@@ -3,7 +3,6 @@ import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:pixelarticons/pixel.dart';
 import 'package:pixelarticons/pixelarticons.dart';
 
-import '../setup.dart';
 import '../stores/background_task_store.dart';
 import '../stores/contextual_menu_store.dart';
 import '../stores/settings_store.dart';

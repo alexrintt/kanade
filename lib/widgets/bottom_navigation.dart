@@ -55,8 +55,8 @@ class _BottomNavigationState extends State<BottomNavigation>
             ),
             NavigationDestination(
               icon: Badge(
-                label: Text(backgroundTaskStore.pendingTasksCount.toString()),
-                isLabelVisible: !backgroundTaskStore.idle,
+                label: Text(backgroundTaskStore.badgeCount.toString()),
+                isLabelVisible: backgroundTaskStore.badgeCount != 0,
                 child: const Icon(Pixel.android),
               ),
               label: 'Apks',
@@ -73,7 +73,7 @@ class _BottomNavigationState extends State<BottomNavigation>
             height: context.theme.navigationBarTheme.height,
             child: ClipRect(
               child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                filter: ImageFilter.blur(sigmaX: k3dp, sigmaY: k3dp),
                 child: navigationBar,
               ),
             ),

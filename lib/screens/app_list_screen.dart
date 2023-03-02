@@ -15,7 +15,6 @@ import '../utils/app_localization_strings.dart';
 import '../utils/context_of.dart';
 import '../widgets/animated_app_name.dart';
 import '../widgets/app_list_contextual_menu.dart';
-import '../widgets/app_version_info.dart';
 import '../widgets/device_app_tile.dart';
 import '../widgets/loading.dart';
 import '../widgets/multi_animated_builder.dart';
@@ -276,13 +275,10 @@ class _MainAppListState extends State<MainAppList>
                   return SliverList(
                     delegate: SliverChildListDelegate(
                       <Widget>[
-                        if (store.fullyLoaded)
-                          const AppVersionInfo()
-                        else
-                          const Padding(
-                            padding: EdgeInsets.all(k12dp),
-                            child: Center(child: AnimatedAppName()),
-                          ),
+                        const Padding(
+                          padding: EdgeInsets.all(k12dp),
+                          child: Center(child: AnimatedAppName()),
+                        ),
                       ],
                     ),
                   );

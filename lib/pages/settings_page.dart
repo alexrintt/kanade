@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_shared_tools/constant/constant.dart';
 import 'package:flutter_shared_tools/extensions/extensions.dart';
 import 'package:pixelarticons/pixel.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
+import '../setup.dart';
 import '../stores/localization_store.dart';
 import '../stores/settings_store.dart';
 import '../stores/theme_store.dart';
 import '../utils/app_localization_strings.dart';
 import '../utils/stringify_uri_location.dart';
+import '../widgets/animated_app_name.dart';
 import '../widgets/app_icon_button.dart';
 import '../widgets/app_list_tile.dart';
-import '../widgets/app_version_info.dart';
 import '../widgets/horizontal_rule.dart';
+import '../widgets/toast.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -102,7 +105,13 @@ class _SettingsPageState extends State<SettingsPage>
                 const SettingsTileTitle('Credits'),
                 const CreditsSettingsTile(),
                 const HorizontalRule(),
+                const SettingsTileTitle('Info'),
                 const AppVersionInfo(),
+                const HorizontalRule(),
+                const Padding(
+                  padding: EdgeInsets.all(k20dp),
+                  child: Center(child: AnimatedAppName()),
+                ),
               ],
             ),
           ),
@@ -134,6 +143,62 @@ class SettingsTileTitle extends StatelessWidget {
   }
 }
 
+class AppVersionInfo extends StatefulWidget {
+  const AppVersionInfo({super.key});
+
+  @override
+  State<AppVersionInfo> createState() => _AppVersionInfoState();
+}
+
+class _AppVersionInfoState extends State<AppVersionInfo> {
+  final List<List<dynamic>> kLinks = <List<dynamic>>[
+    <dynamic>[
+      'Package and version',
+      (BuildContext context) =>
+          '${packageInfo.packageName} v${packageInfo.version}+${packageInfo.buildNumber}',
+    ],
+    <dynamic>[
+      'Signature',
+      (BuildContext context) => packageInfo.buildSignature,
+    ],
+  ];
+
+  String get _clipboardText => kLinks
+      .map(
+        (List<dynamic> e) =>
+            '${e.first}: ${(e.last as String Function(BuildContext))(context)}',
+      )
+      .join('\n');
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        for (final List<dynamic> tile in kLinks)
+          AppListTile(
+            tileColor: Colors.transparent,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: k10dp,
+            ),
+            onLongPress: () async {
+              await Clipboard.setData(ClipboardData(text: _clipboardText));
+              if (context.mounted) showToast(context, 'Copied to clipboard');
+            },
+            enableFeedback: true,
+            title: Text(tile.first as String),
+            subtitle: Text(
+              (tile.last as String Function(BuildContext))(context),
+              style: TextStyle(
+                color: context.theme.disabledColor,
+              ),
+            ),
+          )
+      ],
+    );
+  }
+}
+
 class ExportLocationSettingsTile extends StatefulWidget {
   const ExportLocationSettingsTile({super.key});
 
@@ -156,7 +221,6 @@ class _ExportLocationSettingsTileState extends State<ExportLocationSettingsTile>
           );
 
           return AppListTile(
-            tileColor: Colors.transparent,
             contentPadding: const EdgeInsets.symmetric(
               horizontal: k10dp,
             ),

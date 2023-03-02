@@ -9,7 +9,6 @@ environment:
 dependencies:
   device_packages:
     path: ../device_packages/device_packages
-  fast_noise: ^1.0.1
   flutter:
     sdk: flutter
   flutter_localizations:

@@ -11,6 +11,7 @@ import 'package:shared_storage/saf.dart' as saf;
 import '../setup.dart';
 import '../utils/mime_types.dart';
 import '../utils/package_bytes.dart';
+import 'bottom_navigation_store.dart';
 import 'global_file_change_store.dart';
 import 'indexed_collection_store.dart';
 
@@ -279,6 +280,17 @@ class BackgroundTaskStore
     return task.progress.status == TaskStatus.finished;
   }
 
+  late DateTime _lastView;
+
+  void markAsViewed() {
+    _lastView = DateTime.now();
+    notifyListeners();
+  }
+
+  int get badgeCount => collection
+      .where((ExtractApkBackgroundTask e) => e.createdAt.isAfter(_lastView))
+      .length;
+
   List<BackgroundTaskDisplayInfo> get displayBackgroundTasks =>
       List<BackgroundTaskDisplayInfo>.unmodifiable(
         displayableCollection
@@ -392,11 +404,32 @@ class BackgroundTaskStore
 
   @override
   Future<void> dispose() async {
+    _stopNavigationTabListener();
     await stopListeningToFileChanges();
     super.dispose();
   }
 
+  void _bottomNavigationListener() {
+    if (_bottomNavigationStore.currentIndex == 1) {
+      markAsViewed();
+    }
+  }
+
+  BottomNavigationStore get _bottomNavigationStore =>
+      getIt<BottomNavigationStore>();
+
+  void _startNavigationTabListener() {
+    _bottomNavigationStore.addListener(_bottomNavigationListener);
+  }
+
+  void _stopNavigationTabListener() {
+    _bottomNavigationStore.removeListener(_bottomNavigationListener);
+  }
+
   Future<void> load() async {
+    markAsViewed();
+    _startNavigationTabListener();
+
     await startListeningToFileChanges();
 
     if (!_cacheFile.existsSync()) {

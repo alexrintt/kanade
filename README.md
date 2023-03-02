@@ -98,24 +98,22 @@ So here we are, whatever the reason, if you want to share some app directly thro
 
 This is what is currently available:
 
-- Apk extraction, I'm sure you are not expecting that.
-- Multiple apk extraction at once.
-- Select/deselect all.
-- List and search device apps (and internal packages).
-- Extract to a desired location, no security or privacy issues brought by `MANAGE_EXTERNAL_STORAGE`.
-- Multiple color themes and fonts.
-- ~~Bad designer~~ Minimalist UI.
-- No ads or tracking, this app doesn't even has `INTERNET` permission.
+- [x] Apk extraction, I'm sure you are not expecting that.
+- [x] Multiple apk extraction at once.
+- [x] Select/deselect all.
+- [x] List and search device apps (and internal packages).
+- [x] Extract to a desired location, no security or privacy issues brought by `MANAGE_EXTERNAL_STORAGE`.
+- [x] Multiple color themes and fonts.
+- [x] ~~Bad designer~~ Minimalist UI.
+- [x] No ads or tracking, this app doesn't even has `INTERNET` permission.
+- [x] List extracted apks files inside the app.
+- [x] Allow uninstall apps.
+- [x] Share listed apk through bluetooth or wifi-direct.
 
-## Missing features
+Missing, sorted by priority:
 
-Listed by priority:
-
-- List extracted apks files inside the app (A).
-- Allow uninstall apps (B).
-- Share listed apk through bluetooth or wifi-direct (C, requires A).
-- Analyze apk metainfo (name, version, package, etc.) (D).
-- Sign-in apk (E).
+- [ ] Analyze apk metainfo (name, version, package, etc.) (D).
+- [ ] Sign-in apk (E).
 
 ## Installation (Universal apk)
 

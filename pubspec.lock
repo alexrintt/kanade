@@ -249,14 +249,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_octicons:
-    dependency: "direct main"
-    description:
-      name: flutter_octicons
-      sha256: "69894a65e8d519e09889a4531d08a93c61b61e2913128d85ad67e368d6592d2c"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.26.0"
   flutter_shared_tools:
     dependency: "direct main"
     description:

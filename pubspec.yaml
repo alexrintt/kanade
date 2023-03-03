@@ -1,5 +1,5 @@
 name: kanade
-description: "Kanade is a simple app that allows you to extract apk from your apps list. Fully open-source and zero-ads."
+description: "Android app to extract apks from installed apps (Android 4.4+)."
 publish_to: "none"
 version: 0.5.0+7
 
@@ -13,7 +13,6 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
-  flutter_octicons: ^0.26.0
   flutter_shared_tools:
     git:
       url: https://github.com/alexrintt/flutter-shared-tools

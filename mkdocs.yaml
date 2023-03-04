@@ -7,7 +7,26 @@ site_description: "Android app to extract apks from installed apps (Android 4.4+
 repo_name: alexrintt/kanade
 repo_url: https://github.com/alexrintt/kanade
 
-theme: material
+
+nav:
+  - User guide: index.md
+  - Features: features.md
+  - How it works: how-it-works.md
+  - Donate: donate.md
+  - Privacy: privacy-policy.md
+
+theme:
+  name: material
+  logo: assets/icons/padded_mono.png
+  favion: assets/icons/padded_mono.png
+  palette:
+    primary: black
+  features:
+    - header.autohide
+
+extra_css:
+  - stylesheets/extra.css
+
 markdown_extensions:
   - markdown.extensions.admonition
   - markdown.extensions.attr_list

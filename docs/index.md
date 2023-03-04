@@ -1,7 +1,6 @@
 # How to Extract Android App APK using Kanade
 
 ## 1. Install Kanade 
-Download and install Kanade from the Google Play Store. Once it's installed, open the app.
 
 ### Installation (Universal apk)
 
@@ -25,7 +24,10 @@ Specific-abi apks are compatible only with a subset of devices but they are subs
 
 
 ## 2. Select the app you want to extract 
-In Kanade, you'll see a list of all the apps installed on your device. Find the app you want to extract and tap on it.
+
+In Kanade, you'll see a list of all the apps installed on your device. Find the app you want to extract and tap on it:
+
+<img src="https://user-images.githubusercontent.com/51419598/222926315-7a13b1d3-5b72-49e1-adfe-df47f62b23ce.png" width="200">
 
 ## 3. Grant permission to access files 
 Kanade will ask for permission to access your files. Tap "Allow" to give it permission.

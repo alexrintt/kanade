@@ -1,10 +1,16 @@
-## App Icon Feedback
+<sup>App icon by [@WSTxda](https://linktr.ee/wstxda).</sup>
 
-The app icon changed recently and now there's an open pool to collect feedback about this change [github.com/alexrintt/kanade/discussions/26](https://github.com/alexrintt/kanade/discussions/26), it can impact future releases, it's a one-click pool.
 
-<img src="https://user-images.githubusercontent.com/51419598/202943201-f15a7fb0-4195-4723-9bad-3e13ac0d26ea.svg" />
+<kbd>
+  <img src="https://user-images.githubusercontent.com/51419598/222720499-97c1dff7-3fa6-45f1-962f-4e0576a12c29.png" />
+</kbd>
 
-<sup>Banner and icon by [@WSTxda](https://linktr.ee/wstxda).</sup>
+<br>
+
+<p align="center">
+  <a href="https://github.com/alexrintt/kanade/releases"><b>Download</b></a> •
+  <a href="https://alexrintt.io/kanade"><b>User Guide</b></a>
+</p>
 
 ## Kanade Apk Extractor
 
@@ -88,100 +94,12 @@ PlayStore link, add again when the new version is available.
   </a>
 </div>
 
-## What's an apk extractor
-
-Installed apps from PlayStore doesn't expose their apk installation files by default. So if you want to share some app you will need to send the PlayStore link, and if you are offline or the app is no longer available on the PlayStore you won't be able to do so.
-
-So here we are, whatever the reason, if you want to share some app directly through a p2p connection (Bluetooth, Wifi-Direct, etc.) you can use apk extractors! These kind of apps allow the user to extract the hidden apk files from almost any installed app to a visible location (e.g Downloads folder).
-
-## Features
-
-This is what is currently available:
-
-- [x] Apk extraction, I'm sure you are not expecting that.
-- [x] Multiple apk extraction at once.
-- [x] Select/deselect all.
-- [x] List and search device apps (and internal packages).
-- [x] Extract to a desired location, no security or privacy issues brought by `MANAGE_EXTERNAL_STORAGE`.
-- [x] Multiple color themes and fonts.
-- [x] ~~Bad designer~~ Minimalist UI.
-- [x] No ads or tracking, this app doesn't even has `INTERNET` permission.
-- [x] List extracted apks files inside the app.
-- [x] Allow uninstall apps.
-- [x] Share listed apk through bluetooth or wifi-direct.
-
-Missing, sorted by priority:
-
-- [ ] Analyze apk metainfo (name, version, package, etc.) (D).
-- [ ] Sign-in apk (E).
-
-## Installation (Universal apk)
-
-The app universal apk (20MB) is delivered on these fonts:
-
-- ([Repository Releases](https://github.com/alexrintt/kanade/releases)) Most easy one-time way to install: download the universal apk (20MB) directly at [github.com/alexrintt/kanade/releases](https://github.com/alexrintt/kanade/releases).
-
-- ([IzzyOnDroid](https://apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade)) You can also download the apk directly at [apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade](https://apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade) (F-Droid based repository).
-
-- ([F-Droid + IzzyOnDroid](https://f-droid.org/packages/io.alexrintt.kanade)) Most easy way to install and get updates: [f-droid.org/packages/io.alexrintt.kanade](https://f-droid.org/packages/io.alexrintt.kanade). This app is indexed by [IzzyOnDroid repository](https://gitlab.com/IzzyOnDroid/repo) (F-Droid subrepository). **If it's your first time using IzzyOnDroid or F-Droid, you will need to follow these instructions:**
-
-  - Install [F-Droid client](https://f-droid.org/F-Droid.apk).
-  - On F-Droid client go to **Settings** -> **Repositories** -> **Add new repository** (Plus icon at top right).
-  - Type `https://apt.izzysoft.de/fdroid/repo` then click **Add**.
-  - You can now click on this link to directly go to the app installation page: [f-droid.org/packages/io.alexrintt.kanade](https://f-droid.org/packages/io.alexrintt.kanade).
-
-## Installation (x86-64, armeabi-v7 and arm64-v8)
-
-Specific-abi apks are compatible only with a subset of devices but they are substantially lighter than the universal apk. So, if you are that guy from _The Matrix_ who stares at falling green cliffs all day, feel free to download and install your specific-apk (8MB) at:
-
-- ([Repository Releases](https://github.com/alexrintt/kanade/releases)) Most easy one-time way to install: [github.com/alexrintt/kanade/releases](https://github.com/alexrintt/kanade/releases).
-
-## How it works
-
-To display all installed apps the [`🔗 device_packages`](https://github.com/alexrintt/device-packages) package is used and the apk extraction (that is a simple copy/paste operation between two files) is possible by [`🔗 shared_storage`](https://pub.dev/packages/shared_storage) package.
-
-## Build by your own
-
-Flutter has a [great documentation](https://docs.flutter.dev/get-started/install) in case you don't have a configured Flutter environment yet.
-
-### 1. Get deps and generate l10n local library
-
-To get app dependencies:
-
-```shell
-flutter pub get
-```
-
-To run the code generation (that generates the `flutter_gen` library used for i18n features):
-
-```shell
-flutter gen-l10n
-```
-
-### 2. Generate binaries
-
-If you're looking for the apk:
-
-```shell
-flutter build apk
-# or specific-abis
-flutter build apk --split-per-abi
-```
-
-You can also generate the app bundle:
-
-```shell
-flutter build appbundle
-```
-
 ## Contributing
 
 There are several ways to contribute:
 
 - To improve the translation: 1. open the `/i18n` folder, 2. create a file `app_<thelangcodeyouwanttoaddorimprove>.arb` and 3. translate the keys 4. then open a PR, that's it.
-
 - To report a bug, create a new issue with an screenshot or a small description of the bug.
-
 - To request a feature please add an issue to further discuss.
 
 If you wanna contribute in private, you can also ping me on my email [reach@alexrintt.io](mailto://reach@alexrintt.io) to discuss any of the points above.

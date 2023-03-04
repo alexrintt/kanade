@@ -1,17 +1,13 @@
-If you would like to donate to support the development of Kanade, I would greatly appreciate it.
+I accept donations from several platforms:
 
-## GitHub Sponsors
+- [GitHub Sponsors](https://github.com/sponsors/alexrintt).
+- [Ko-fi](https://ko-fi.com/alexrintt).
+- [Buy Me a Coffee](https://www.buymeacoffee.com/alexrintt).
+- [Pix (Brazil only)](https://livepix.gg/alexrintt).
+- [Gumroad](https://alexrintt.gumroad.com/).
+- [Patreon](https://www.patreon.com/alexrintt).
+- Bitcoin `bc1qacmk9z48m7upaaq2jl80u6dxsyld443jdjufv9`.
 
-If you'd like to become a recurring or a one-time sponsor, you can support me through [GitHub Sponsors](https://github.com/sponsors/alexrintt). This is the best way to support me as a developer, as it allows me to continue to work on open-source projects like Kanade.
+In case of 404 check the updated list here: [donate.alexrintt.io](https://donate.alexrintt.io).
 
-## Ko-fi
-
-If you'd like to buy me a one-time donation, you can support me through [Ko-fi](https://ko-fi.com/alexrintt). Every little bit helps and is greatly appreciated!
-
-## Buy Me a Coffee
-
-If you'd like to support me with a one-time coffee, you can do so through [Buy Me a Coffee](https://www.buymeacoffee.com/alexrintt). This is another great way to support my work on Kanade.
-
-## Bitcoin
-
-If you'd like to make a donation using Bitcoin, you can send it to the following address: `bc1qacmk9z48m7upaaq2jl80u6dxsyld443jdjufv9`.
+Glad to see you are interested in the project!

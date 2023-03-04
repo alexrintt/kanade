@@ -1,0 +1,6 @@
+div.md-header__title span.md-ellipsis {
+  font-family: "FFF Forward";
+  font-weight: normal;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+}

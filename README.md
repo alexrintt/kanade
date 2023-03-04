@@ -1,16 +1,28 @@
 <sup>App icon by [@WSTxda](https://linktr.ee/wstxda).</sup>
 
-
 <kbd>
   <img src="https://user-images.githubusercontent.com/51419598/222720499-97c1dff7-3fa6-45f1-962f-4e0576a12c29.png" />
 </kbd>
 
 <br>
+<br>
 
 <p align="center">
   <a href="https://github.com/alexrintt/kanade/releases"><b>Download</b></a> •
-  <a href="https://alexrintt.io/kanade"><b>User Guide</b></a>
+  <a href="https://alexrintt.io/kanade"><b>User Guide</b></a> •
+  <a href="https://donate.alexrintt.io"><b>Donate</b></a>
 </p>
+
+<p align="center">
+  <a href="https://apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade">
+    <img height="80" src="https://user-images.githubusercontent.com/51419598/202963424-371af9f5-e433-4f23-8cd0-537fe6fc013f.png">
+  </a>
+  <a href="https://github.com/alexrintt/kanade/releases">
+    <img height="80" src="https://user-images.githubusercontent.com/51419598/202963419-6095ee98-88a5-486f-9c84-a0bd2d8c700e.png">
+  </a>
+</p>
+
+---
 
 ## Kanade Apk Extractor
 
@@ -83,17 +95,6 @@ PlayStore link, add again when the new version is available.
   
 </details>
 
----
-
-<div>
-  <a href="https://apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade">
-    <img height="80" src="https://user-images.githubusercontent.com/51419598/202963424-371af9f5-e433-4f23-8cd0-537fe6fc013f.png">
-  </a>
-  <a href="https://github.com/alexrintt/kanade/releases">
-    <img height="80" src="https://user-images.githubusercontent.com/51419598/202963419-6095ee98-88a5-486f-9c84-a0bd2d8c700e.png">
-  </a>
-</div>
-
 ## Contributing
 
 There are several ways to contribute:
@@ -102,9 +103,7 @@ There are several ways to contribute:
 - To report a bug, create a new issue with an screenshot or a small description of the bug.
 - To request a feature please add an issue to further discuss.
 
-If you wanna contribute in private, you can also ping me on my email [reach@alexrintt.io](mailto://reach@alexrintt.io) to discuss any of the points above.
-
-Thanks in advance.
+If you wanna contribute in private, you can also ping me on my email [kanade@alexrintt.io](mailto://kanade@alexrintt.io) to discuss any of the points above. Thanks in advance.
 
 ## Contributors
 
@@ -118,7 +117,7 @@ Thanks in advance.
 - All fonts in this repository are subject to copyright of it's respective owners.
 - All images in this repository are subject to copyright of it's respective owners.
 
-For content removal, please, ping me on my email [reach@alexrintt.io](mailto:reach@alexrintt.io).
+For content removal, please, ping me on my email [kanade@alexrintt.io](mailto:kanade@alexrintt.io).
 
 <br />
 

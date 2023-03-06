@@ -69,7 +69,10 @@ class _ImageUriState extends State<ImageUri> {
             return widget.loading;
           case ConnectionState.done:
             if (snapshot.hasData) {
-              return Image.memory(snapshot.data!);
+              return Image.memory(
+                snapshot.data!,
+                errorBuilder: (_, __, ___) => widget.error,
+              );
             } else {
               return widget.error;
             }

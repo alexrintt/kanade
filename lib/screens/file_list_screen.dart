@@ -150,8 +150,14 @@ class _FileListScreenConsumerState extends State<FileListScreenConsumer>
           enableSelect: _menuStore.context.isSelection,
           scrollController: _scrollController,
           sliverLisKey: _sliverListKey,
-          onSelectedItems: (List<String> selectedItemIds) {
-            fileListStore.selectMany(itemIds: selectedItemIds);
+          onChangeSelection: (List<String> itemIds, bool isSelecting) {
+            _menuStore.pushSelectionMenu();
+
+            if (isSelecting) {
+              fileListStore.selectMany(itemIds: itemIds);
+            } else {
+              fileListStore.unselectMany(itemIds: itemIds);
+            }
           },
           child: CustomScrollView(
             physics: const AlwaysScrollableScrollPhysics(),

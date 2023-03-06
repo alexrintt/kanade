@@ -111,8 +111,14 @@ class _BackgroundTaskListScreenConsumerState
         enableSelect: _menuStore.context.isSelection,
         scrollController: _scrollController,
         sliverLisKey: _sliverListKey,
-        onSelectedItems: (List<String> selectedItemIds) {
-          backgroundTaskStore.selectMany(itemIds: selectedItemIds);
+        onChangeSelection: (List<String> itemIds, bool isSelecting) {
+          _menuStore.pushSelectionMenu();
+
+          if (isSelecting) {
+            backgroundTaskStore.selectMany(itemIds: itemIds);
+          } else {
+            backgroundTaskStore.unselectMany(itemIds: itemIds);
+          }
         },
         child: CustomScrollView(
           controller: _scrollController,

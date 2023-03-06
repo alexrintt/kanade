@@ -230,10 +230,15 @@ class _MainAppListState extends State<MainAppList>
         sliverLisKey: _kMainAppListViewKey,
         enableSelect: _menuStore.context.isSelection,
         isItemSelected: (String id) => store.isSelected(itemId: id),
-        onSelectedItems: (List<String> selectedPackageIds) {
+        onChangeSelection: (List<String> selectedPackageIds, bool isSelecting) {
           if (selectedPackageIds.isNotEmpty) {
             _menuStore.pushSelectionMenu();
-            store.selectMany(itemIds: selectedPackageIds);
+
+            if (isSelecting) {
+              store.selectMany(itemIds: selectedPackageIds);
+            } else {
+              store.unselectMany(itemIds: selectedPackageIds);
+            }
           }
         },
         child: MultiAnimatedBuilder(

@@ -2,13 +2,14 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 /// Widget that enables long-press gesture recognition over multiple [SliverList] items.
 ///
 /// - [sliverLisKey] must be a [Key] linked to the target [SliverList].
 /// - [scrollController] must be a valid [ScrollController] linked to the [CustomScrollView] that is parent of the target [SliverList], remember to create it inside [State.initState] and call [ScrollController.dispose] inside of [State.dispose].
-/// - [onSelectedItems] a callback that receives a list of key values.
+/// - [onChangeSelection] a callback that receives a list of key values and a boolean value indicating if the key list is being currently selected or unselected.
 /// - [enableSelect] set to [true] to enable the gesture recognition. I am exposing this API because computing the highlighted items is a expensive computation, so disable this when you are not in a "selection mode".
 /// - [child] must be the target [CustomScrollView].
 ///
@@ -18,7 +19,7 @@ class DragSelectScrollNotifier extends StatefulWidget {
     super.key,
     required this.sliverLisKey,
     required this.scrollController,
-    required this.onSelectedItems,
+    required this.onChangeSelection,
     required this.child,
     required this.enableSelect,
     required this.isItemSelected,
@@ -26,7 +27,7 @@ class DragSelectScrollNotifier extends StatefulWidget {
 
   final Key sliverLisKey;
   final ScrollController scrollController;
-  final void Function(List<String>) onSelectedItems;
+  final void Function(List<String>, bool) onChangeSelection;
   final Widget child;
   final bool enableSelect;
   final bool Function(String) isItemSelected;
@@ -179,8 +180,10 @@ class _DragSelectScrollNotifierState extends State<DragSelectScrollNotifier> {
     return Rect.fromLTRB(xa, ya, xb, yb);
   }
 
+  bool? _isSelecting;
+
   void _findAndDetectSelectedListItems() {
-    final List<String> selectedListItemKeyValues = <String>[];
+    final List<String> itemKeyValues = <String>[];
 
     // This [parseValueKey] is required because [SliverList] wraps each
     // child into a private class [_SaltedValueKey] which we cannot import
@@ -202,10 +205,10 @@ class _DragSelectScrollNotifierState extends State<DragSelectScrollNotifier> {
       final String listItemKeyValue =
           parseValueKey<String>(tileElement.widget.key!);
 
+      final bool isItemSelected = widget.isItemSelected(listItemKeyValue);
+
       // Already marked this item as selected.
-      if (widget.isItemSelected(listItemKeyValue)) {
-        return;
-      }
+      if (isItemSelected == _isSelecting) return;
 
       final RenderBox? renderBox = tileElement.findRenderObject() as RenderBox?;
 
@@ -237,16 +240,25 @@ class _DragSelectScrollNotifierState extends State<DragSelectScrollNotifier> {
       final bool hasOverlap = _hasRectOverlap(tileRect, pointerRect);
 
       if (hasOverlap) {
+        if (_starting) {
+          // if the current pressed item is selected, then the user wants to start unselecting.
+          _isSelecting = !isItemSelected;
+        }
+
+        _starting = false;
+
         assert(
           tileElement.widget.key != null,
           '''You must provide a key to each list item child of ${widget.sliverLisKey}''',
         );
 
-        selectedListItemKeyValues.add(listItemKeyValue);
+        itemKeyValues.add(listItemKeyValue);
       }
     });
 
-    widget.onSelectedItems(selectedListItemKeyValues);
+    if (_isSelecting != null) {
+      widget.onChangeSelection(itemKeyValues, _isSelecting!);
+    }
   }
 
   Offset get _scrollControllerOffset => Offset(0, _scrollController.offset);
@@ -261,6 +273,8 @@ class _DragSelectScrollNotifierState extends State<DragSelectScrollNotifier> {
   double get _logicalHeight => _logicalScreenSize.height;
 
   void _autoscrollListener() {
+    _updateAutoscrollFeature();
+
     _velocity = _acceleration * _logicalHeight / 10;
 
     final double step =
@@ -274,7 +288,7 @@ class _DragSelectScrollNotifierState extends State<DragSelectScrollNotifier> {
     // We need to call it here to updating the selected items when the list is autoscrolling down
     // or up and the user doesn't move the finger.
     //
-    // When that happens the [_findAndDetectSelectedListItems] is not called thus the [onSelectedItems]
+    // When that happens the [_findAndDetectSelectedListItems] is not called thus the [onChangeSelection]
     // callback is also not called, which results in the list not updating the selected items.
     _findAndDetectSelectedListItems();
   }
@@ -340,33 +354,62 @@ class _DragSelectScrollNotifierState extends State<DragSelectScrollNotifier> {
       _autoscrollDirection = null;
       _acceleration = 0.0;
     }
+
+    // prevent starting fast even if the user start selecting a bottom (or top) tile.
+    _acceleration *= _calcDragTimeFactor();
   }
+
+  double _calcDragTimeFactor() {
+    if (_startDragTime == null) return 0;
+
+    const Duration kCooldownDuration = Duration(seconds: 3);
+
+    final DateTime now = DateTime.now();
+    final Duration delta = now.difference(_startDragTime!);
+
+    final double factor =
+        delta.inMilliseconds / kCooldownDuration.inMilliseconds;
+
+    return factor.clamp(0, 1);
+  }
+
+  bool _starting = false;
+  DateTime? _startDragTime;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onLongPressStart: (LongPressStartDetails details) {
+        _startDragTime = DateTime.now();
+        _isSelecting = null;
+        _starting = true;
         _globalInitialDragPosition = details.globalPosition;
         _startAutoscrollFeature();
+        _findAndDetectSelectedListItems();
       },
       onLongPressMoveUpdate: (LongPressMoveUpdateDetails details) {
+        _starting = false;
         _globalFinalDragPosition = details.globalPosition;
 
         _findAndDetectSelectedListItems();
-        _updateAutoscrollFeature();
       },
       onLongPressEnd: (LongPressEndDetails details) {
+        _startDragTime = null;
+        _starting = false;
         _globalInitialDragPosition = null;
         _globalFinalDragPosition = null;
         _endAutoscrollFeature();
       },
       onLongPressCancel: () {
+        _startDragTime = null;
+        _starting = false;
         _globalInitialDragPosition = null;
         _globalFinalDragPosition = null;
         _endAutoscrollFeature();
       },
-      onLongPress: () {
-        _findAndDetectSelectedListItems();
+      onLongPressUp: () {
+        _startDragTime = null;
+        _starting = false;
       },
       child: widget.child,
     );

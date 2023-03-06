@@ -20,7 +20,7 @@ import '../widgets/current_selected_tree.dart';
 import '../widgets/file_list_contextual_menu.dart';
 import '../widgets/image_uri.dart';
 import '../widgets/multi_animated_builder.dart';
-import '../widgets/selectable_custom_scroll_view.dart';
+import '../widgets/drag_select_scroll_notifier.dart';
 import '../widgets/toast.dart';
 
 class FileListScreen extends StatefulWidget {

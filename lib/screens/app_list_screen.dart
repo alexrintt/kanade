@@ -16,9 +16,9 @@ import '../utils/context_of.dart';
 import '../widgets/animated_app_name.dart';
 import '../widgets/app_list_contextual_menu.dart';
 import '../widgets/device_app_tile.dart';
+import '../widgets/drag_select_scroll_notifier.dart';
 import '../widgets/loading.dart';
 import '../widgets/multi_animated_builder.dart';
-import '../widgets/drag_select_scroll_notifier.dart';
 import '../widgets/toast.dart';
 
 class AppListScreen extends StatefulWidget {

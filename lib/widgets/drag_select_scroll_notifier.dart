@@ -317,7 +317,7 @@ class _DragSelectScrollNotifierState extends State<DragSelectScrollNotifier> {
         _globalFinalDragPosition ?? _globalInitialDragPosition;
     final bool hasPointer = pointer != null;
 
-    const double kAutoscrollArea = kToolbarHeight * 2;
+    const double kAutoscrollArea = kToolbarHeight * 3;
 
     final double topDiff = hasPointer ? 1 - pointer.dy / kAutoscrollArea : 0.0;
     final double bottomDiff = hasPointer

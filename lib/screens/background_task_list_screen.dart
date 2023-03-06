@@ -17,9 +17,9 @@ import '../widgets/apk_list_progress_stepper.dart';
 import '../widgets/app_list_tile.dart';
 import '../widgets/background_task_list_contextual_menu.dart';
 import '../widgets/current_selected_tree.dart';
+import '../widgets/drag_select_scroll_notifier.dart';
 import '../widgets/image_uri.dart';
 import '../widgets/multi_animated_builder.dart';
-import '../widgets/drag_select_scroll_notifier.dart';
 import '../widgets/toast.dart';
 
 class BackgroundTaskListScreen extends StatefulWidget {

@@ -293,7 +293,7 @@ class BackgroundTaskStore
 
   List<BackgroundTaskDisplayInfo> get displayBackgroundTasks =>
       List<BackgroundTaskDisplayInfo>.unmodifiable(
-        displayableCollection
+        collection
             .map(
               (ExtractApkBackgroundTask task) => BackgroundTaskDisplayInfo(
                 createdAt: task.createdAt,

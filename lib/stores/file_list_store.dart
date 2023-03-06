@@ -78,7 +78,7 @@ class FileListStore extends IndexedCollectionStore<DocumentFile>
   }
 
   Future<void> reload() async {
-    currentUri = _settingsStore.exportLocation;
+    currentUri = await _settingsStore.getAndSetExportLocationIfItExists();
 
     await _filesStreamSubscription?.cancel();
     _filesStream = null;

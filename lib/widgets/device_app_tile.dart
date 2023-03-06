@@ -64,7 +64,12 @@ class _DeviceAppTileState extends State<DeviceAppTile>
 
   Widget _buildTileLeading() {
     return Center(
-      child: _hasIcon ? Image.memory(_icon!) : const Icon(Pixel.android),
+      child: _hasIcon
+          ? Image.memory(
+              _icon!,
+              errorBuilder: (_, __, ___) => const Icon(Pixel.android),
+            )
+          : const Icon(Pixel.android),
     );
   }
 

@@ -16,6 +16,10 @@ import 'global_file_change_store.dart';
 /// into the store as demand, so each key feature (e.g search, select/unselect)
 /// does not know about each other thus we achieve a low-coupling class inheritance tree.
 abstract class IndexedCollectionStore<T> extends ChangeNotifier {
+  /// Full source, all data linked to [this] store, it does not handle any logic, it must hold all
+  /// items and should not contain any other logic such as selected items or even the search results.
+  ///
+  /// Override [collection] to provide such features instead.
   @protected
   Map<String, T> get collectionIndexedById;
 
@@ -33,8 +37,8 @@ mixin SearchableStoreMixin<T> on IndexedCollectionStore<T> {
   }
 
   /// Packages to be rendered on the screen
-  List<T> get displayableCollection =>
-      isSearchMode ? searchResults : collection;
+  @override
+  List<T> get collection => isSearchMode ? searchResults : super.collection;
 
   /// Compute the string match ranking to show best results first.
   @protected
@@ -91,8 +95,8 @@ mixin SearchableStoreMixin<T> on IndexedCollectionStore<T> {
       0,
       for (final String source in sources)
         computeMatch(
-          caseSensitive ? source : source.toLowerCase(),
-          caseSensitive ? query : query.toLowerCase(),
+          caseSensitive ? source : source.toLowerCase().replaceAll(' ', ''),
+          caseSensitive ? query : query.toLowerCase().replaceAll(' ', ''),
         ),
     ]..sort((double z, double a) => (z - a) ~/ 1);
 
@@ -112,7 +116,9 @@ mixin SearchableStoreMixin<T> on IndexedCollectionStore<T> {
   List<T> get searchResults {
     if (_searchText == null) return <T>[];
 
-    final List<T> filtered = collection.where(_itemHasMatch).toList()
+    final List<T> filtered = collectionIndexedById.values
+        .where(_itemHasMatch)
+        .toList()
       ..sort(_sortItemsByBestResultsFirst);
 
     return filtered;
@@ -133,6 +139,11 @@ mixin SearchableStoreMixin<T> on IndexedCollectionStore<T> {
     debounceSearch(() => notifyListeners());
   }
 }
+
+// mixin SelectableAndSearchableStoreMixin<T> on SelectableStoreMixin<T>, SearchableStoreMixin<T> {
+//   @override
+//   bool get isAllSelected => displayableCollection.length == selected.length;
+// }
 
 /// Helpful mixin to add selection features to stores that implements [IndexedCollectionStore].
 mixin SelectableStoreMixin<T> on IndexedCollectionStore<T> {
@@ -279,7 +290,7 @@ mixin LoadingStoreMixin<T> on IndexedCollectionStore<T> {
 
   bool get isDeterminatedState => totalCount != null;
 
-  int get loadedCount => isDeterminatedState ? collection.length : 0;
+  int get loadedCount => isDeterminatedState ? collectionIndexedById.length : 0;
   bool get fullyLoaded =>
       isDeterminatedState && !isLoading && loadedCount >= totalCount!;
   double get percent => isDeterminatedState ? loadedCount / totalCount! : 0;

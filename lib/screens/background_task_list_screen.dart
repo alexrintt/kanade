@@ -105,7 +105,9 @@ class _BackgroundTaskListScreenConsumerState
     return DefaultContextualMenuPopHandler<ExtractApkBackgroundTask>(
       searchableStore: backgroundTaskStore,
       selectableStore: backgroundTaskStore,
-      child: ScrollViewLongPressGestureDetector(
+      child: DragSelectScrollNotifier(
+        isItemSelected: (String id) =>
+            backgroundTaskStore.isSelected(itemId: id),
         enableSelect: _menuStore.context.isSelection,
         scrollController: _scrollController,
         sliverLisKey: _sliverListKey,

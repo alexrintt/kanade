@@ -142,22 +142,15 @@ class DeviceAppsStore extends IndexedCollectionStore<PackageInfo>
   }
 
   List<PackageInfo> get apps => collection;
-  List<PackageInfo> get displayableApps => displayableCollection;
+
+  int _byPackageNameAsc(PackageInfo a, PackageInfo b) =>
+      a.name!.toLowerCase().compareTo(b.name!.toLowerCase());
 
   @override
   List<PackageInfo> get collection {
-    int byPackageNameAsc(PackageInfo a, PackageInfo b) =>
-        a.name!.toLowerCase().compareTo(b.name!.toLowerCase());
-
     return List<PackageInfo>.unmodifiable(
-      super.collection.toList()..sort(byPackageNameAsc),
-    );
-  }
-
-  @override
-  List<PackageInfo> get displayableCollection {
-    return List<PackageInfo>.unmodifiable(
-      collection.where(_filterAppsByPreferences).toList(),
+      super.collection.where(_filterAppsByPreferences).toList()
+        ..sort(_byPackageNameAsc),
     );
   }
 
@@ -326,19 +319,14 @@ class DeviceAppsStore extends IndexedCollectionStore<PackageInfo>
   }
 
   Future<Uri?> requestExportLocation() async {
-    await _settingsStore.requestExportLocationIfNotSet();
-
-    return _settingsStore.exportLocation;
+    return _settingsStore.requestExportLocationIfNotSet();
   }
 
   SettingsStore get _settingsStore => getIt<SettingsStore>();
 
   @override
   bool canBeSelected(PackageInfo package) {
-    return displayableApps
-        .map((PackageInfo e) => e.id!)
-        .toSet()
-        .contains(package.id);
+    return apps.map((PackageInfo e) => e.id!).toSet().contains(package.id);
   }
 
   /// Extract Apk of all [selected] apps

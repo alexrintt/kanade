@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:pixelarticons/pixel.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_storage/saf.dart';
 
@@ -95,6 +96,47 @@ class _FileListScreenConsumerState extends State<FileListScreenConsumer>
     super.dispose();
   }
 
+  Widget _buildFileListSliverUsingPredicate(
+    bool Function(DocumentFile) predicate,
+  ) {
+    return SliverPadding(
+      padding: EdgeInsets.zero,
+      sliver: MultiAnimatedBuilder(
+        animations: <Listenable>[
+          fileListStore,
+          localizationStore,
+          settingsStore
+        ],
+        builder: (BuildContext context, Widget? child) {
+          final List<DocumentFile> files =
+              fileListStore.collection.where(predicate).toList();
+
+          if (files.isEmpty) {
+            return const SliverList(
+              delegate: SliverChildListDelegate.fixed(<Widget>[]),
+            );
+          }
+
+          return SliverList(
+            key: _sliverListKey,
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return DocumentFileTile(
+                  key: Key(files[index].idOrUri),
+                  file: files[index],
+                  isSelected: fileListStore.isSelected(
+                    itemId: files[index].id,
+                  ),
+                );
+              },
+              childCount: files.length,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultContextualMenuPopHandler<DocumentFile>(
@@ -103,7 +145,8 @@ class _FileListScreenConsumerState extends State<FileListScreenConsumer>
       child: RefreshIndicator(
         triggerMode: RefreshIndicatorTriggerMode.anywhere,
         onRefresh: fileListStore.reload,
-        child: ScrollViewLongPressGestureDetector(
+        child: DragSelectScrollNotifier(
+          isItemSelected: (String id) => fileListStore.isSelected(itemId: id),
           enableSelect: _menuStore.context.isSelection,
           scrollController: _scrollController,
           sliverLisKey: _sliverListKey,
@@ -122,53 +165,32 @@ class _FileListScreenConsumerState extends State<FileListScreenConsumer>
               MultiAnimatedBuilder(
                 animations: <Listenable>[settingsStore, fileListStore],
                 builder: (BuildContext context, Widget? child) {
+                  final List<DocumentFile> files = fileListStore.collection;
+
+                  if (files.isEmpty) {
+                    return const SliverFillRemaining(
+                      child:
+                          Center(child: StorageRequirementsProgressStepper()),
+                    );
+                  }
+
                   return SliverList(
                     delegate: SliverChildListDelegate(
                       <Widget>[
-                        if (settingsStore.exportLocation != null &&
-                            fileListStore.files.isNotEmpty)
+                        if (settingsStore.exportLocation != null)
                           const CurrentSelectedTree(),
                       ],
                     ),
                   );
                 },
               ),
-              SliverPadding(
-                padding: EdgeInsets.zero,
-                sliver: MultiAnimatedBuilder(
-                  animations: <Listenable>[
-                    fileListStore,
-                    localizationStore,
-                    settingsStore
-                  ],
-                  builder: (BuildContext context, Widget? child) {
-                    final List<DocumentFile> files =
-                        fileListStore.displayableCollection;
-
-                    if (files.isEmpty) {
-                      return const SliverFillRemaining(
-                        child:
-                            Center(child: StorageRequirementsProgressStepper()),
-                      );
-                    }
-
-                    return SliverList(
-                      key: _sliverListKey,
-                      delegate: SliverChildBuilderDelegate(
-                        (BuildContext context, int index) {
-                          return DocumentFileTile(
-                            key: Key(files[index].idOrUri),
-                            file: files[index],
-                            isSelected: fileListStore.isSelected(
-                              itemId: files[index].id,
-                            ),
-                          );
-                        },
-                        childCount: files.length,
-                      ),
-                    );
-                  },
-                ),
+              // Show directories first.
+              _buildFileListSliverUsingPredicate(
+                (DocumentFile file) => file.isDirectory ?? false,
+              ),
+              // Then proceed to show all remaining files.
+              _buildFileListSliverUsingPredicate(
+                (DocumentFile file) => !(file.isDirectory ?? false),
               ),
               context.bottomSliverSpacer,
             ],
@@ -214,16 +236,20 @@ class _DocumentFileTileState extends State<DocumentFileTile>
   Widget build(BuildContext context) {
     return AppListTile(
       onTap: () async {
-        if (fileListStore.selected.isNotEmpty) {
-          fileListStore.toggleSelect(itemId: widget.file.id);
+        if (widget.file.isDirectory ?? false) {
+          showToast(context, 'Opening a folder is not supported yet');
         } else {
-          try {
-            await widget.file.open();
-          } on PlatformException {
-            showToast(
-              context,
-              "There's no activity that can handle this file",
-            );
+          if (fileListStore.inSelectionMode) {
+            fileListStore.toggleSelect(itemId: widget.file.id);
+          } else {
+            try {
+              await widget.file.open();
+            } on PlatformException {
+              showToast(
+                context,
+                "There's no activity that can handle this file",
+              );
+            }
           }
         }
       },
@@ -261,16 +287,20 @@ class _DocumentFileThumbnailState extends State<DocumentFileThumbnail> {
     if (widget.file.type == kApkMimeType) {
       return ImageUri(
         uri: Uri.parse('${widget.file.uri}_icon'),
-        loading: const Icon(Icons.android),
-        error: const Icon(Icons.android),
+        loading: const Icon(Pixel.android),
+        error: const Icon(Pixel.android),
       );
+    }
+
+    if (widget.file.isDirectory ?? false) {
+      return const Icon(Icons.folder);
     }
 
     return ImageUri(
       fetchThumbnail: true,
       uri: widget.file.uri,
-      loading: const Icon(Icons.android),
-      error: const Icon(Icons.android),
+      loading: const Icon(Pixel.android),
+      error: const Icon(Pixel.android),
     );
   }
 }

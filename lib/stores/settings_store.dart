@@ -15,7 +15,7 @@ class SettingsStore extends ChangeNotifier {
   /// Use it for display only features, do not rely on it to create files
   /// because it can no longer exists if the user deleted.
   ///
-  /// If you need it to make IO operations call [getExportLocationIfItExists] instead.
+  /// If you need it to make IO operations call [getAndSetExportLocationIfItExists] instead.
   Uri? exportLocation;
 
   final Map<SettingsBoolPreference, bool> _boolPreferences =
@@ -29,6 +29,8 @@ class SettingsStore extends ChangeNotifier {
       getBoolPreference(SettingsBoolPreference.confirmIrreversibleActions);
 
   Future<Uri?> getAndSetExportLocationIfItExists() async {
+    final Uri? currentLocation = exportLocation;
+
     Uri? savedLocation = prefs
         .getString(kExportLocation)
         .apply((String location) => Uri.parse(location));
@@ -43,10 +45,12 @@ class SettingsStore extends ChangeNotifier {
       }
     }
 
-    if (savedLocation == null) {
-      await reset();
-    } else {
-      await _setExportLocation(savedLocation);
+    if (savedLocation != currentLocation) {
+      if (savedLocation == null) {
+        await reset();
+      } else {
+        await _setExportLocation(savedLocation);
+      }
     }
 
     return savedLocation;
@@ -94,12 +98,14 @@ class SettingsStore extends ChangeNotifier {
     }
   }
 
-  Future<void> requestExportLocationIfNotSet() async {
+  Future<Uri?> requestExportLocationIfNotSet() async {
     final Uri? exportLocation = await getAndSetExportLocationIfItExists();
 
     if (exportLocation == null) {
-      return requestExportLocation();
+      await requestExportLocation();
     }
+
+    return exportLocation;
   }
 
   Future<void> reset() async {

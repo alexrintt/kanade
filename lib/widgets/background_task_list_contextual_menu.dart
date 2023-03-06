@@ -90,9 +90,8 @@ class _BackgroundTaskListContextualMenuState
         autofocus: true,
         autocorrect: false,
         onChanged: backgroundTaskStore.search,
-        decoration: const InputDecoration(
-          border: InputBorder.none,
-        ),
+        style: const TextStyle(decorationThickness: 0),
+        decoration: const InputDecoration(border: InputBorder.none),
       ),
       pinned: !settingsStore
           .getBoolPreference(SettingsBoolPreference.hideAppBarOnScroll),

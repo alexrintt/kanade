@@ -42,7 +42,7 @@ class _AppListContextualMenuState extends State<AppListContextualMenu>
         animation: store,
         builder: (BuildContext context, Widget? child) {
           return Text(
-            '${store.selected.length} ${context.strings.ofN} ${store.displayableApps.length}',
+            '${store.selected.length} ${context.strings.ofN} ${store.apps.length}',
           );
         },
       ),
@@ -134,9 +134,8 @@ class _AppListContextualMenuState extends State<AppListContextualMenu>
         autofocus: true,
         autocorrect: false,
         onChanged: store.search,
-        decoration: const InputDecoration(
-          border: InputBorder.none,
-        ),
+        style: const TextStyle(decorationThickness: 0),
+        decoration: const InputDecoration(border: InputBorder.none),
       ),
       pinned: !settingsStore
           .getBoolPreference(SettingsBoolPreference.hideAppBarOnScroll),

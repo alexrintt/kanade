@@ -225,20 +225,20 @@ class _MainAppListState extends State<MainAppList>
     return DefaultContextualMenuPopHandler<PackageInfo>(
       searchableStore: store,
       selectableStore: store,
-      child: MultiAnimatedBuilder(
-        animations: <Listenable>[store, _menuStore, settingsStore],
-        builder: (BuildContext context, Widget? child) =>
-            ScrollViewLongPressGestureDetector(
-          scrollController: _scrollController,
-          sliverLisKey: _kMainAppListViewKey,
-          enableSelect: _menuStore.context.isSelection,
-          onSelectedItems: (List<String> selectedPackageIds) {
-            if (selectedPackageIds.isNotEmpty) {
-              _menuStore.pushSelectionMenu();
-              store.selectMany(itemIds: selectedPackageIds);
-            }
-          },
-          child: CustomScrollView(
+      child: DragSelectScrollNotifier(
+        scrollController: _scrollController,
+        sliverLisKey: _kMainAppListViewKey,
+        enableSelect: _menuStore.context.isSelection,
+        isItemSelected: (String id) => store.isSelected(itemId: id),
+        onSelectedItems: (List<String> selectedPackageIds) {
+          if (selectedPackageIds.isNotEmpty) {
+            _menuStore.pushSelectionMenu();
+            store.selectMany(itemIds: selectedPackageIds);
+          }
+        },
+        child: MultiAnimatedBuilder(
+          animations: <Listenable>[store, _menuStore, settingsStore],
+          builder: (BuildContext context, Widget? child) => CustomScrollView(
             controller: _scrollController,
             slivers: <Widget>[
               AppListContextualMenu(onSearch: _menuStore.pushSearchMenu),
@@ -251,8 +251,7 @@ class _MainAppListState extends State<MainAppList>
                       key: _kMainAppListViewKey,
                       delegate: SliverChildBuilderDelegate(
                         (BuildContext context, int index) {
-                          final PackageInfo current =
-                              store.displayableApps[index];
+                          final PackageInfo current = store.apps[index];
 
                           return DeviceAppTile(
                             key: Key(current.id!),
@@ -263,7 +262,7 @@ class _MainAppListState extends State<MainAppList>
                                 store.isSelected(item: current),
                           );
                         },
-                        childCount: store.displayableApps.length,
+                        childCount: store.apps.length,
                       ),
                     ),
                   );

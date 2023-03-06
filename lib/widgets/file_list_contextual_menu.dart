@@ -36,7 +36,7 @@ class _FileListContextualMenuState extends State<FileListContextualMenu>
         animation: fileListStore,
         builder: (BuildContext context, Widget? child) {
           return Text(
-            '${fileListStore.selected.length} ${context.strings.ofN} ${fileListStore.displayableCollection.length}',
+            '${fileListStore.selected.length} ${context.strings.ofN} ${fileListStore.collection.length}',
           );
         },
       ),
@@ -87,9 +87,8 @@ class _FileListContextualMenuState extends State<FileListContextualMenu>
         autofocus: true,
         autocorrect: false,
         onChanged: fileListStore.search,
-        decoration: const InputDecoration(
-          border: InputBorder.none,
-        ),
+        style: const TextStyle(decorationThickness: 0),
+        decoration: const InputDecoration(border: InputBorder.none),
       ),
       pinned: !settingsStore
           .getBoolPreference(SettingsBoolPreference.hideAppBarOnScroll),

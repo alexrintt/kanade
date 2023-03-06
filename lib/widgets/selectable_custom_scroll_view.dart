@@ -12,15 +12,16 @@ import 'package:flutter/material.dart';
 /// - [enableSelect] set to [true] to enable the gesture recognition. I am exposing this API because computing the highlighted items is a expensive computation, so disable this when you are not in a "selection mode".
 /// - [child] must be the target [CustomScrollView].
 ///
-/// To see a demo refer to issue [#25](https://github.com/alexrintt/kanade/issues/25).
-class ScrollViewLongPressGestureDetector extends StatefulWidget {
-  const ScrollViewLongPressGestureDetector({
+/// See the original issue [#25](https://github.com/alexrintt/kanade/issues/25).
+class DragSelectScrollNotifier extends StatefulWidget {
+  const DragSelectScrollNotifier({
     super.key,
     required this.sliverLisKey,
     required this.scrollController,
     required this.onSelectedItems,
     required this.child,
     required this.enableSelect,
+    required this.isItemSelected,
   });
 
   final Key sliverLisKey;
@@ -28,14 +29,14 @@ class ScrollViewLongPressGestureDetector extends StatefulWidget {
   final void Function(List<String>) onSelectedItems;
   final Widget child;
   final bool enableSelect;
+  final bool Function(String) isItemSelected;
 
   @override
-  State<ScrollViewLongPressGestureDetector> createState() =>
-      _ScrollViewLongPressGestureDetectorState();
+  State<DragSelectScrollNotifier> createState() =>
+      _DragSelectScrollNotifierState();
 }
 
-class _ScrollViewLongPressGestureDetectorState
-    extends State<ScrollViewLongPressGestureDetector> {
+class _DragSelectScrollNotifierState extends State<DragSelectScrollNotifier> {
   Offset? _globalInitialDragPosition;
   Offset? _globalFinalDragPosition;
 
@@ -50,7 +51,7 @@ class _ScrollViewLongPressGestureDetectorState
     Key? key,
     bool filterByKey = true,
   }) {
-    _visitVisibleSliverListChildElementsRecursively<T>(
+    _visitVisibleSliverListChildElementsIteratively<T>(
       element,
       visitor,
       filterByKey: filterByKey,
@@ -58,7 +59,39 @@ class _ScrollViewLongPressGestureDetectorState
     );
   }
 
-  void _visitVisibleSliverListChildElementsRecursively<T extends SliverList>(
+  // void _visitVisibleSliverListChildElementsRecursively<T extends SliverList>(
+  //   Element element,
+  //   void Function(Element) visitor, {
+  //   Key? key,
+  //   bool filterByKey = true,
+  // }) {
+  //   assert(
+  //     (() {
+  //       if (filterByKey) return key != null;
+  //       return true;
+  //     })(),
+  //   );
+
+  //   element.visitChildElements((Element childElement) {
+  //     final bool keyMatch = !filterByKey || childElement.widget.key == key;
+  //     final bool typeMatch = childElement.widget is T;
+
+  //     if (keyMatch && typeMatch) {
+  //       childElement.visitChildElements(visitor);
+  //     } else {
+  //       _visitVisibleSliverListChildElements<T>(
+  //         childElement,
+  //         visitor,
+  //         filterByKey: filterByKey,
+  //         key: key,
+  //       );
+  //     }
+  //   });
+  // }
+
+  Element? sliverListElement;
+
+  void _visitVisibleSliverListChildElementsIteratively<T extends SliverList>(
     Element element,
     void Function(Element) visitor, {
     Key? key,
@@ -71,21 +104,34 @@ class _ScrollViewLongPressGestureDetectorState
       })(),
     );
 
-    element.visitChildElements((Element childElement) {
-      final bool keyMatch = !filterByKey || childElement.widget.key == key;
-      final bool typeMatch = childElement.widget is T;
-
-      if (keyMatch && typeMatch) {
-        childElement.visitChildElements(visitor);
+    if (sliverListElement != null) {
+      if (sliverListElement!.mounted) {
+        return sliverListElement!.visitChildElements(visitor);
       } else {
-        _visitVisibleSliverListChildElements<T>(
-          childElement,
-          visitor,
-          filterByKey: filterByKey,
-          key: key,
-        );
+        sliverListElement = null;
       }
-    });
+    }
+
+    if (element.mounted) {
+      element.visitChildElements((Element childElement) {
+        if (childElement.mounted) {
+          final bool keyMatch = !filterByKey || childElement.widget.key == key;
+          final bool typeMatch = childElement.widget is T;
+
+          if (keyMatch && typeMatch) {
+            sliverListElement = childElement;
+            childElement.visitChildElements(visitor);
+          } else {
+            _visitVisibleSliverListChildElements<T>(
+              childElement,
+              visitor,
+              filterByKey: filterByKey,
+              key: key,
+            );
+          }
+        }
+      });
+    }
   }
 
   void _visitVisiblePackageTileElements(void Function(Element) visitor) {
@@ -136,7 +182,31 @@ class _ScrollViewLongPressGestureDetectorState
   void _findAndDetectSelectedListItems() {
     final List<String> selectedListItemKeyValues = <String>[];
 
+    // This [parseValueKey] is required because [SliverList] wraps each
+    // child into a private class [_SaltedValueKey] which we cannot import
+    // or get the raw String original value directly.
+    // See https://github.com/flutter/flutter/blob/08a2635e2b725c951ff0471eb9c556b375aa5d7a/packages/flutter/lib/src/widgets/sliver.dart#L229-L231
+    T parseValueKey<T>(Key key) {
+      if (key is ValueKey<T>) {
+        return key.value;
+      }
+      return parseValueKey((key as ValueKey<dynamic>).value as Key);
+    }
+
     _visitVisiblePackageTileElements((Element tileElement) {
+      assert(
+        tileElement.widget.key != null,
+        '''You must provide a key to each list item child of ${widget.sliverLisKey}''',
+      );
+
+      final String listItemKeyValue =
+          parseValueKey<String>(tileElement.widget.key!);
+
+      // Already marked this item as selected.
+      if (widget.isItemSelected(listItemKeyValue)) {
+        return;
+      }
+
       final RenderBox? renderBox = tileElement.findRenderObject() as RenderBox?;
 
       if (renderBox == null) return;
@@ -167,24 +237,10 @@ class _ScrollViewLongPressGestureDetectorState
       final bool hasOverlap = _hasRectOverlap(tileRect, pointerRect);
 
       if (hasOverlap) {
-        // This [parseValueKey] is required because [SliverList] wraps each
-        // child into a private class [_SaltedValueKey] which we cannot import
-        // or get the raw String original value directly.
-        // See https://github.com/flutter/flutter/blob/08a2635e2b725c951ff0471eb9c556b375aa5d7a/packages/flutter/lib/src/widgets/sliver.dart#L229-L231
-        T parseValueKey<T>(Key key) {
-          if (key is ValueKey<T>) {
-            return key.value;
-          }
-          return parseValueKey((key as ValueKey<dynamic>).value as Key);
-        }
-
         assert(
           tileElement.widget.key != null,
           '''You must provide a key to each list item child of ${widget.sliverLisKey}''',
         );
-
-        final String listItemKeyValue =
-            parseValueKey<String>(tileElement.widget.key!);
 
         selectedListItemKeyValues.add(listItemKeyValue);
       }

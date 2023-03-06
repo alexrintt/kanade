@@ -46,7 +46,7 @@ class _FileListContextualMenuState extends State<FileListContextualMenu>
       leading: IconButton(
         onPressed: () {
           _menuStore.popMenu();
-          fileListStore.clearSelection();
+          fileListStore.unselectAll();
         },
         icon: const Icon(Pixel.arrowleft),
       ),

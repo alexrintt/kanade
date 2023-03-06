@@ -276,7 +276,7 @@ class DeviceAppsStore extends IndexedCollectionStore<PackageInfo>
   }
 
   void restoreToDefault() {
-    clearSelection();
+    unselectAll();
     disableSearch();
     notifyListeners();
   }

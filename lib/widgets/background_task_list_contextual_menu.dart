@@ -48,7 +48,7 @@ class _BackgroundTaskListContextualMenuState
       leading: IconButton(
         onPressed: () {
           _menuStore.popMenu();
-          backgroundTaskStore.clearSelection();
+          backgroundTaskStore.unselectAll();
         },
         icon: const Icon(Pixel.arrowleft),
       ),

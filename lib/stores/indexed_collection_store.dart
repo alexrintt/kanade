@@ -173,95 +173,130 @@ mixin SelectableStoreMixin<T> on IndexedCollectionStore<T> {
     return true;
   }
 
+  /// Same as [canBeSelected] but for unselect action.
+  @protected
+  bool canBeUnselected(T item) {
+    return true;
+  }
+
   /// Add a single [package] to the [selected] Set.
-  void select({T? item, String? itemId}) {
+  void select({T? item, String? itemId, bool notify = true}) {
     assert(item != null || itemId != null);
 
     final T? e = item ?? collectionIndexedById[itemId];
 
-    if (e == null) return;
+    if (e == null) {
+      return unselect(item: item);
+    }
 
     if (!canBeSelected(e)) return;
 
     final String id = getItemId(e);
 
-    if (!_selected.contains(id)) {
-      _selected.add(id);
-    }
+    _selected.add(id);
 
-    notifyListeners();
+    if (notify) notifyListeners();
   }
 
   /// Set multiple [packages] state as _selected.
-  void selectMany({List<T>? items, List<String>? itemIds}) {
+  void selectMany({
+    List<T>? items,
+    List<String>? itemIds,
+    bool notify = true,
+  }) {
     assert(items != null || itemIds != null);
 
     final Iterable<String> ids = itemIds ?? items!.map(getItemId);
 
     for (final String id in ids) {
-      if (collectionIndexedById[id] == null) {
-        unselect(itemId: id);
-      } else {
-        if (!canBeSelected(collectionIndexedById[id] as T)) continue;
-
-        if (!_selected.contains(id)) {
-          _selected.add(id);
-        }
-      }
+      select(itemId: id, notify: false);
     }
 
-    notifyListeners();
+    if (notify) notifyListeners();
   }
 
-  void unselect({T? item, String? itemId}) {
+  /// Set multiple [packages] state as _unselected.
+  void unselectMany({
+    List<T>? items,
+    List<String>? itemIds,
+    bool notify = true,
+  }) {
+    assert(items != null || itemIds != null);
+
+    final Iterable<String> ids = itemIds ?? items!.map(getItemId);
+
+    for (final String id in ids) {
+      unselect(itemId: id, notify: false);
+    }
+
+    if (notify) notifyListeners();
+  }
+
+  void unselect({T? item, String? itemId, bool notify = true}) {
     assert(item != null || itemId != null);
 
     final String id = itemId ?? getItemId(item as T);
 
-    collectionIndexedById.remove(id);
+    final T? e = collectionIndexedById[id];
+
+    // If the element is null then it must be unselected to avoid ghost ids in the [_selected] array.
+    if (e != null) {
+      // Avoid unselect if the element cannot be unselected.
+      if (!canBeUnselected(e)) return;
+    }
+
+    _selected.remove(id);
+
+    if (notify) notifyListeners();
   }
 
-  void toggleSelect({T? item, String? itemId}) {
+  void toggleSelect({
+    T? item,
+    String? itemId,
+    bool notify = true,
+  }) {
     assert(item != null || itemId != null);
 
     final String id = itemId ?? getItemId(item as T);
 
     if (isSelected(itemId: id)) {
-      _selected.remove(id);
+      unselect(itemId: id, notify: false);
     } else {
-      final T? item = collectionIndexedById[id];
-
-      if (item == null) {
-        unselect(itemId: id);
-      } else {
-        if (!canBeSelected(item)) return;
-        _selected.add(id);
-      }
+      select(itemId: id, notify: false);
     }
 
-    notifyListeners();
+    if (notify) notifyListeners();
   }
 
-  void clearSelection() {
-    _selected.clear();
-    notifyListeners();
+  void unselectAll({bool notify = true}) {
+    unselectMany(itemIds: _selected.toList(), notify: false);
+    if (notify) notifyListeners();
+  }
+
+  void selectAll({bool notify = true}) {
+    selectMany(items: collection, notify: false);
+    if (notify) notifyListeners();
+  }
+
+  void invertSelection({bool notify = true}) {
+    for (final T item in collection) {
+      toggleSelect(item: item, notify: false);
+    }
+
+    if (notify) notifyListeners();
   }
 
   bool isSelected({T? item, String? itemId}) =>
       _selected.contains(itemId ?? getItemId(item as T));
 
-  void toggleSelectAll() {
+  void toggleSelectAll({bool notify = false}) {
     if (isAllSelected) {
-      _selected.clear();
+      unselectAll(notify: false);
     } else {
-      _selected
-        ..clear()
-        ..addAll(
-          collection.where(canBeSelected).map((T item) => getItemId(item)),
-        );
+      selectAll(notify: false);
     }
 
-    notifyListeners();
+    if (notify) notifyListeners();
   }
 }
 

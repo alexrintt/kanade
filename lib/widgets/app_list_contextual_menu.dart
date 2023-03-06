@@ -52,7 +52,7 @@ class _AppListContextualMenuState extends State<AppListContextualMenu>
       leading: IconButton(
         onPressed: () {
           _menuStore.popMenu();
-          store.clearSelection();
+          store.unselectAll();
         },
         icon: const Icon(Pixel.arrowleft),
       ),

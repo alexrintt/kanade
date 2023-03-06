@@ -91,7 +91,7 @@ class _DefaultContextualMenuPopHandlerState<T>
             widget.searchableStore?.disableSearch();
             break;
           case MenuContext.selection:
-            widget.selectableStore?.clearSelection();
+            widget.selectableStore?.unselectAll();
             break;
         }
 

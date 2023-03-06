@@ -1,4 +1,4 @@
-div.md-header__title span.md-ellipsis {
+div.md-header__title:not(.md-header__title--active) span.md-ellipsis {
   font-family: "FFF Forward";
   font-weight: normal;
   text-transform: uppercase;

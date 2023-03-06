@@ -1,0 +1,81 @@
+<!doctype html>
+<html class="scroll-smooth h-full overflow-y-auto">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link id="heading-font" rel="stylesheet" type="text/css"
+    href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@300;400;500&display=swap" media="all" />
+
+  <script>
+    window.tailwind.config = {
+      "theme": {
+        "fontFamily": {
+          "heading": ["Roboto Mono", "ui-sans-serif", "system-ui", "-apple-system", "BlinkMacSystemFont", "\"Segoe UI\"", "Roboto", "\"Helvetica Neue\"", "Arial", "\"Noto Sans\"", "sans-serif", "\"Apple Color Emoji\"", "\"Segoe UI Emoji\"", "\"Segoe UI Symbol\"", "\"Noto Color Emoji\""],
+          "body": ["Roboto Mono", "ui-sans-serif", "system-ui", "-apple-system", "BlinkMacSystemFont", "\"Segoe UI\"", "Roboto", "\"Helvetica Neue\"", "Arial", "\"Noto Sans\"", "sans-serif", "\"Apple Color Emoji\"", "\"Segoe UI Emoji\"", "\"Segoe UI Symbol\"", "\"Noto Color Emoji\""]
+        },
+        "extend": {
+          "borderRadius": {
+            "global": "5px"
+          },
+          "colors": {
+            "primary": {
+              "DEFAULT": "#000000"
+            },
+            "secondary": {
+              "DEFAULT": "#F5F5F5"
+            }
+          }
+        }
+      },
+    };
+  </script>
+  <style>
+    @font-face {
+      font-family: "Forward";
+      src: url("assets/fonts/forward.ttf");
+    }
+
+    html {
+      --mockup-width: 350px;
+      --device-color: #080808;
+    }
+
+    img.preview {
+      width: var(--mockup-width);
+    }
+  </style>
+</head>
+
+<body class='font-body antialiased h-full flex flex-col text-[#000000] bg-[#EEEEEE]'>
+  <header class="flex justify-center items-center">
+    <div class="max-w-2xl flex justify-start w-full p-8">
+      <a href="https://github.com/alexrintt/kanade"
+        class="hover:underline opacity-[0.5] text-[18px] font-['Forward']">KANADE</a>
+    </div>
+  </header>
+  <div class="flex flex-1 items-center justify-center">
+    <div class="relative w-full max-w-2xl flex items-center">
+      <div class="max-w-5xl p-0 pl-8">
+        <img src="{{ config.site_url + 'assets/icons/gh-release-qrcode.png' }}" alt="QR Code for Download"
+          class="mb-4 w-[80px]" style="image-rendering: pixelated;">
+        <div class="pb-[30px] space-y-5">
+          <h1 class="text-[32px]">Apk Extractor</h1>
+          <p>Free & open-source apk extractor.</p>
+        </div>
+        <div class="flex flex-wrap justify-start"><a href="https://github.com/alexrintt/kanade/releases/latest"
+            class="bg-primary text-white px-4 py-2 mr-2 mb-2 rounded-global">DOWNLOAD</a>
+          <a href="{{ config.site_url + 'user-guide' }}"
+            class="bg-primary px-4 py-2 mr-2 mb-2 rounded-global text-black bg-transparent border-2 border-solid border-primary">USER
+            GUIDE</a>
+        </div>
+      </div>
+      <img class="preview hidden md:block" src="{{ config.site_url + 'assets/icons/preview.png' }}" alt="App preview">
+    </div>
+  </div>
+</body>
+
+</html>

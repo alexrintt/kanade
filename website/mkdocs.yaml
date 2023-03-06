@@ -1,31 +1,39 @@
 site_name: Kanade
 
-site_url: https://alexrintt.github.io/kanade/
+site_url: https://alexrintt.github.io/kanade
 site_author: Alex Rintt
 site_description: "Android app to extract apks from installed apps (Android 4.4+)."
 
 repo_name: alexrintt/kanade
 repo_url: https://github.com/alexrintt/kanade
 
-
 nav:
-  - User guide: index.md
+  - Home: index.md
+  - Installation and usage: user-guide.md
   - Features: features.md
+  - Build yourself: build-yourself.md
   - How it works: how-it-works.md
   - Donate: donate.md
   - Privacy: privacy-policy.md
 
 theme:
   name: material
-  logo: assets/icons/padded_mono.png
-  favion: assets/icons/padded_mono.png
+  custom_dir: material
+  logo: assets/icons/mono_favicon.png
   palette:
     primary: black
   features:
     - header.autohide
+  favicon: assets/icons/mono_favicon.png
 
 extra_css:
   - stylesheets/extra.css
+
+plugins:
+  - search
+  - mkdocstrings:
+      watch:
+        - material
 
 markdown_extensions:
   - markdown.extensions.admonition

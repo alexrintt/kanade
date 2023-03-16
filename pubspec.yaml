@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  flutter_octicons: ^0.29.0
   flutter_shared_tools:
     git:
       url: https://github.com/alexrintt/flutter-shared-tools
@@ -24,7 +25,6 @@ dependencies:
   nanoid: ^1.0.0
   package_info_plus: ^3.0.1
   path: ^1.8.2
-  pixelarticons: ^0.4.0
   provider: ^6.0.5
   share_plus: 6.3.1
   shared_preferences: ^2.0.15
@@ -39,7 +39,6 @@ dev_dependencies:
     sdk: flutter
   json_serializable: ^6.6.0
   lint: ^2.0.1
-
 
 flutter:
   generate: true

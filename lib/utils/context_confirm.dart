@@ -10,7 +10,7 @@ Future<bool> showConfirmationModal({
 }) async {
   // Bad practice, avoid adding unnecessary coupling like this, for now it will work
   // but I'll probably remove in the future.
-  if (!getIt<SettingsStore>().confirmIrreversibleActions) {
+  if (!getIt<SettingsStore>().shouldConfirmIrreversibleActions) {
     return true;
   }
 

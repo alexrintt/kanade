@@ -124,8 +124,10 @@ class _AppListContextualMenuState extends State<AppListContextualMenu>
                 );
               }
 
-              return const Icon(AppIcons.checkboxUnselected,
-                  size: kDefaultIconSize);
+              return const Icon(
+                AppIcons.checkboxUnselected,
+                size: kDefaultIconSize,
+              );
             },
           ),
         ),

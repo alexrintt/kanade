@@ -78,8 +78,10 @@ class _FileListContextualMenuState extends State<FileListContextualMenu>
                 );
               }
 
-              return const Icon(AppIcons.checkboxUnselected,
-                  size: kDefaultIconSize);
+              return const Icon(
+                AppIcons.checkboxUnselected,
+                size: kDefaultIconSize,
+              );
             },
           ),
         ),

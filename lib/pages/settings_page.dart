@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_shared_tools/constant/constant.dart';
 import 'package:flutter_shared_tools/extensions/extensions.dart';
-import 'package:url_launcher/url_launcher_string.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../setup.dart';
 import '../stores/localization_store.dart';
@@ -11,6 +11,7 @@ import '../stores/settings_store.dart';
 import '../stores/theme_store.dart';
 import '../utils/app_icons.dart';
 import '../utils/app_localization_strings.dart';
+import '../utils/context_confirm.dart';
 import '../utils/stringify_uri_location.dart';
 import '../widgets/animated_app_name.dart';
 import '../widgets/app_icon_button.dart';
@@ -69,10 +70,17 @@ class _SettingsPageState extends State<SettingsPage>
                       color: context.isDark ? null : context.primaryColor,
                     ),
                     tooltip: context.strings.resetAllPreferences,
-                    onTap: () {
-                      settingsStore.reset();
-                      themeStore.reset();
-                      localizationStore.reset();
+                    onTap: () async {
+                      final bool confirmed = await showConfirmationModal(
+                        context: context,
+                        message: 'Reset all preferences?',
+                      );
+
+                      if (confirmed) {
+                        await settingsStore.reset();
+                        await themeStore.reset();
+                        await localizationStore.reset();
+                      }
                     },
                   ),
                 ],
@@ -104,11 +112,11 @@ class _SettingsPageState extends State<SettingsPage>
                   ),
                 ),
                 const HorizontalRule(),
-                const SettingsTileTitle('Credits'),
-                const CreditsSettingsTile(),
+                const SettingsTileTitle('Donate'),
+                const DonationSettingsTile(),
                 const HorizontalRule(),
-                const SettingsTileTitle('Info'),
-                const AppVersionInfo(),
+                const SettingsTileTitle('Links'),
+                const RelatedLinks(),
                 const HorizontalRule(),
                 const Padding(
                   padding: EdgeInsets.all(k20dp),
@@ -145,57 +153,46 @@ class SettingsTileTitle extends StatelessWidget {
   }
 }
 
-class AppVersionInfo extends StatefulWidget {
-  const AppVersionInfo({super.key});
+class RelatedLinks extends StatefulWidget {
+  const RelatedLinks({super.key});
 
   @override
-  State<AppVersionInfo> createState() => _AppVersionInfoState();
+  State<RelatedLinks> createState() => _RelatedLinksState();
 }
 
-class _AppVersionInfoState extends State<AppVersionInfo> {
-  final List<List<dynamic>> kLinks = <List<dynamic>>[
-    <dynamic>[
-      'Package and version',
-      (BuildContext context) =>
-          '${packageInfo.packageName} v${packageInfo.version}+${packageInfo.buildNumber}',
-    ],
-    <dynamic>[
-      'Signature',
-      (BuildContext context) => packageInfo.buildSignature,
-    ],
-  ];
-
-  String get _clipboardText => kLinks
-      .map(
-        (List<dynamic> e) =>
-            '${e.first}: ${(e.last as String Function(BuildContext))(context)}',
-      )
-      .join('\n');
+class _RelatedLinksState extends State<RelatedLinks>
+    with BasicTileBuilderMixin<RelatedLinks> {
+  final String _packageVersion =
+      '${packageInfo.packageName} v${packageInfo.version}+${packageInfo.buildNumber}';
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        for (final List<dynamic> tile in kLinks)
-          AppListTile(
-            tileColor: Colors.transparent,
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: k10dp,
-            ),
-            onLongPress: () async {
-              await Clipboard.setData(ClipboardData(text: _clipboardText));
-              if (context.mounted) showToast(context, 'Copied to clipboard');
-            },
-            enableFeedback: true,
-            title: Text(tile.first as String),
-            subtitle: Text(
-              (tile.last as String Function(BuildContext))(context),
-              style: TextStyle(
-                color: context.theme.disabledColor,
-              ),
-            ),
-          )
+        buildTile(
+          title: 'Open source licenses',
+          onTap: () => showLicensePage(context: context),
+        ),
+        buildTile(
+          title: 'Report a issue',
+          onTap: openThisLink('https://github.com/alexrintt/kanade/issues'),
+        ),
+        buildTile(
+          title: 'Follow me on GitHub',
+          onTap: openThisLink('https://github.com/alexrintt'),
+          description: '@alexrintt',
+        ),
+        buildTile(
+          title: 'GitHub repository',
+          onTap: openThisLink('https://github.com/alexrintt/kanade'),
+          description: 'github.com/alexrintt/kanade',
+        ),
+        buildTile(
+          title: 'Package and version',
+          onTap: copyThisText(_packageVersion),
+          description: _packageVersion,
+        ),
       ],
     );
   }
@@ -386,59 +383,90 @@ class _ChangeThemeFontFamilyDialogState
   }
 }
 
-class CreditsSettingsTile extends StatefulWidget {
-  const CreditsSettingsTile({super.key});
+mixin BasicTileBuilderMixin<T extends StatefulWidget> on State<T> {
+  Widget buildTile({
+    required String title,
+    String? description,
+    VoidCallback? onTap,
+    VoidCallback? onLongPress,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      onLongPress: onLongPress,
+      child: AppListTile(
+        tileColor: Colors.transparent,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: k10dp,
+        ),
+        enableFeedback: true,
+        title: Text(title),
+        subtitle: description != null ? Text(description) : null,
+      ),
+    );
+  }
 
-  @override
-  State<CreditsSettingsTile> createState() => _CreditsSettingsTileState();
+  VoidCallback openThisLink(String url, {bool external = true}) {
+    return () {
+      launchUrl(
+        Uri.parse(url),
+        mode:
+            external ? LaunchMode.externalApplication : LaunchMode.inAppWebView,
+      );
+    };
+  }
+
+  VoidCallback copyThisText(String text) {
+    return () async {
+      await Clipboard.setData(ClipboardData(text: text));
+      if (context.mounted) showToast(context, 'Copied to clipboard');
+    };
+  }
 }
 
-class _CreditsSettingsTileState extends State<CreditsSettingsTile> {
-  final List<List<dynamic>> kLinks = <List<dynamic>>[
-    <dynamic>[
-      'Follow me on GitHub',
-      (_) => launchUrlString(
-            'https://github.com/alexrintt',
-            mode: LaunchMode.externalApplication,
-          ),
-    ],
-    <dynamic>[
-      'GitHub donation',
-      (_) => launchUrlString(
-            'https://github.com/sponsors/alexrintt',
-            mode: LaunchMode.externalApplication,
-          ),
-    ],
-    <dynamic>[
-      'Stripe donation',
-      (_) => launchUrlString(
-            'https://github.com/sponsors/alexrintt',
-            mode: LaunchMode.externalApplication,
-          ),
-    ],
-    <dynamic>[
-      'Open source licenses',
-      (BuildContext context) => showLicensePage(context: context),
-    ],
-  ];
+class DonationSettingsTile extends StatefulWidget {
+  const DonationSettingsTile({super.key});
+
+  @override
+  State<DonationSettingsTile> createState() => _DonationSettingsTileState();
+}
+
+class _DonationSettingsTileState extends State<DonationSettingsTile>
+    with BasicTileBuilderMixin<DonationSettingsTile> {
+  final String _btcAddress = 'bc1qacmk9z48m7upaaq2jl80u6dxsyld443jdjufv9';
+  final Uri _livePix = Uri.parse('https://livepix.gg/alexrintt');
+  final Uri _githubSponsor = Uri.parse('https://github.com/sponsors/alexrintt');
+  final Uri _kofi = Uri.parse('https://ko-fi.com/alexrintt');
 
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        for (final List<dynamic> tile in kLinks)
-          InkWell(
-            onTap: () => (tile.last as void Function(BuildContext))(context),
-            child: AppListTile(
-              tileColor: Colors.transparent,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: k10dp,
-              ),
-              enableFeedback: true,
-              title: Text(tile.first as String),
-            ),
-          ),
+        buildTile(
+          title: 'Donate on GitHub (Card)',
+          onTap: openThisLink(_githubSponsor.toString()),
+          description: _githubSponsor.host + _githubSponsor.path,
+        ),
+        buildTile(
+          title: 'Ko-fi (Card or PayPal)',
+          onTap: openThisLink(_kofi.toString(), external: false),
+          description: _kofi.host + _kofi.path,
+        ),
+        buildTile(
+          title: 'Pix donation (Brazil only)',
+          onTap: openThisLink(_livePix.toString(), external: false),
+          description: _livePix.host + _livePix.path,
+        ),
+        buildTile(
+          title: 'BTC donation',
+          onTap: copyThisText(_btcAddress),
+          description: _btcAddress,
+        ),
+        buildTile(
+          title: 'Other donation methods',
+          onTap: openThisLink('https://donate.alexrintt.io'),
+          description: 'donate.alexrintt.io',
+        ),
       ],
     );
   }

@@ -25,7 +25,7 @@ class SettingsStore extends ChangeNotifier {
 
   static const String kExportLocation = 'exportLocation';
 
-  bool get confirmIrreversibleActions =>
+  bool get shouldConfirmIrreversibleActions =>
       getBoolPreference(SettingsBoolPreference.confirmIrreversibleActions);
 
   Future<Uri?> getAndSetExportLocationIfItExists() async {

@@ -459,6 +459,7 @@ class _DonationSettingsTileState extends State<DonationSettingsTile>
         ),
         buildTile(
           title: 'BTC donation',
+          onLongPress: copyThisText(_btcAddress),
           onTap: copyThisText(_btcAddress),
           description: _btcAddress,
         ),

@@ -238,15 +238,20 @@ class _DocumentFileTileState extends State<DocumentFileTile>
   String get formattedDate =>
       _lastModified != null ? dateFormatter.format(_lastModified!) : '';
 
+  void _toggleSelect() {
+    fileListStore.toggleSelect(itemId: widget.file.id);
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppListTile(
+      onLongPress: () => _toggleSelect(),
       onTap: () async {
-        if (widget.file.isDirectory ?? false) {
-          showToast(context, 'Opening a folder is not supported yet');
+        if (fileListStore.inSelectionMode) {
+          _toggleSelect();
         } else {
-          if (fileListStore.inSelectionMode) {
-            fileListStore.toggleSelect(itemId: widget.file.id);
+          if (widget.file.isDirectory ?? false) {
+            showToast(context, 'Opening a folder is not supported yet');
           } else {
             try {
               await widget.file.open();

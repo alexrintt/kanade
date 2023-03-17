@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
-import 'package:pixelarticons/pixel.dart';
-import 'package:pixelarticons/pixelarticons.dart';
 
 import '../stores/contextual_menu_store.dart';
 import '../stores/file_list_store.dart';
 import '../stores/settings_store.dart';
+import '../utils/app_icons.dart';
 import '../utils/app_localization_strings.dart';
 import '../utils/context_confirm.dart';
 import '../utils/context_of.dart';
@@ -48,7 +47,10 @@ class _FileListContextualMenuState extends State<FileListContextualMenu>
           _menuStore.popMenu();
           fileListStore.unselectAll();
         },
-        icon: const Icon(Pixel.arrowleft),
+        icon: const Icon(
+          AppIcons.arrowLeft,
+          size: kDefaultIconSize,
+        ),
       ),
       actions: <Widget>[
         AppIconButton(
@@ -60,7 +62,7 @@ class _FileListContextualMenuState extends State<FileListContextualMenu>
 
             await fileListStore.deleteSelectedFiles();
           },
-          icon: const Icon(Pixel.trash),
+          icon: const Icon(AppIcons.delete, size: kDefaultIconSize),
         ),
         AppIconButton(
           tooltip: context.strings.selectUnselectAll,
@@ -69,10 +71,15 @@ class _FileListContextualMenuState extends State<FileListContextualMenu>
             animation: fileListStore,
             builder: (BuildContext context, Widget? child) {
               if (fileListStore.isAllSelected) {
-                return Icon(Pixel.checkbox, color: context.colorScheme.primary);
+                return Icon(
+                  AppIcons.checkboxSelected,
+                  size: kDefaultIconSize,
+                  color: context.colorScheme.primary,
+                );
               }
 
-              return const Icon(Pixel.checkboxon);
+              return const Icon(AppIcons.checkboxUnselected,
+                  size: kDefaultIconSize);
             },
           ),
         ),
@@ -98,7 +105,10 @@ class _FileListContextualMenuState extends State<FileListContextualMenu>
           _menuStore.popMenu();
           fileListStore.disableSearch();
         },
-        icon: const Icon(Pixel.arrowleft),
+        icon: const Icon(
+          AppIcons.arrowLeft,
+          size: kDefaultIconSize,
+        ),
         tooltip: context.strings.exitSearch,
       ),
     );

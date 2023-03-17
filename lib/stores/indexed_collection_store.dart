@@ -289,7 +289,7 @@ mixin SelectableStoreMixin<T> on IndexedCollectionStore<T> {
   bool isSelected({T? item, String? itemId}) =>
       _selected.contains(itemId ?? getItemId(item as T));
 
-  void toggleSelectAll({bool notify = false}) {
+  void toggleSelectAll({bool notify = true}) {
     if (isAllSelected) {
       unselectAll(notify: false);
     } else {

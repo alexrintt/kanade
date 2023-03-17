@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
-import 'package:pixelarticons/pixelarticons.dart';
 
 import '../stores/settings_store.dart';
+import '../utils/app_icons.dart';
 import '../utils/app_localization_strings.dart';
 import '../utils/stringify_uri_location.dart';
 
@@ -39,11 +39,11 @@ class _CurrentSelectedTreeState extends State<CurrentSelectedTree>
                 children: <InlineSpan>[
                   WidgetSpan(
                     child: Padding(
-                      padding: const EdgeInsets.only(right: k2dp),
+                      padding: const EdgeInsets.only(right: k6dp),
                       child: Icon(
-                        Pixel.folder,
-                        size: k8dp,
-                        color: context.theme.primaryColor,
+                        AppIcons.folder,
+                        size: kDefaultIconSize,
+                        color: context.theme.primaryColor.withOpacity(.5),
                       ),
                     ),
                     alignment: PlaceholderAlignment.middle,

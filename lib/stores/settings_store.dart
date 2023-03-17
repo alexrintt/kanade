@@ -99,13 +99,14 @@ class SettingsStore extends ChangeNotifier {
   }
 
   Future<Uri?> requestExportLocationIfNotSet() async {
-    final Uri? exportLocation = await getAndSetExportLocationIfItExists();
+    Uri? location = await getAndSetExportLocationIfItExists();
 
-    if (exportLocation == null) {
+    if (location == null) {
       await requestExportLocation();
+      location = exportLocation;
     }
 
-    return exportLocation;
+    return location;
   }
 
   Future<void> reset() async {

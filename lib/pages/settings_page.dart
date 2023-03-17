@@ -3,13 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_shared_tools/constant/constant.dart';
 import 'package:flutter_shared_tools/extensions/extensions.dart';
-import 'package:pixelarticons/pixel.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import '../setup.dart';
 import '../stores/localization_store.dart';
 import '../stores/settings_store.dart';
 import '../stores/theme_store.dart';
+import '../utils/app_icons.dart';
 import '../utils/app_localization_strings.dart';
 import '../utils/stringify_uri_location.dart';
 import '../widgets/animated_app_name.dart';
@@ -49,7 +49,8 @@ class _SettingsPageState extends State<SettingsPage>
                     ? null
                     : IconButton(
                         icon: Icon(
-                          Pixel.arrowleft,
+                          AppIcons.arrowLeft,
+                          size: kDefaultIconSize,
                           color: context.isDark ? null : context.primaryColor,
                         ),
                         onPressed: () => Navigator.pop(context),
@@ -63,7 +64,8 @@ class _SettingsPageState extends State<SettingsPage>
                 actions: <Widget>[
                   AppIconButton(
                     icon: Icon(
-                      Pixel.reload,
+                      AppIcons.reset,
+                      size: kDefaultIconSize,
                       color: context.isDark ? null : context.primaryColor,
                     ),
                     tooltip: context.strings.resetAllPreferences,
@@ -225,10 +227,10 @@ class _ExportLocationSettingsTileState extends State<ExportLocationSettingsTile>
               horizontal: k10dp,
             ),
             enableFeedback: true,
-            leading: const Icon(Pixel.folder),
+            leading: const Icon(AppIcons.folder, size: kDefaultIconSize),
             title: Text(context.strings.selectOutputFolder),
             subtitle: Text(exportLocation ?? context.strings.notDefined),
-            trailing: const Icon(Pixel.chevronright),
+            trailing: const Icon(AppIcons.arrowRight, size: kDefaultIconSize),
           );
         },
       ),
@@ -260,7 +262,7 @@ class _AppThemeSettingsTileState extends State<AppThemeSettingsTile>
           horizontal: k10dp,
         ),
         enableFeedback: true,
-        leading: const Icon(Pixel.sun),
+        leading: const Icon(AppIcons.styling, size: kDefaultIconSize),
         title: Text(context.strings.theme),
         subtitle: AnimatedBuilder(
           animation: themeStore,
@@ -332,7 +334,7 @@ class _AppFontFamilySettingsTileState extends State<AppFontFamilySettingsTile>
           horizontal: k10dp,
         ),
         enableFeedback: true,
-        leading: const Icon(Pixel.sortalpabetic),
+        leading: const Icon(AppIcons.fontFamily, size: kDefaultIconSize),
         title: Text(context.strings.fontFamily),
         subtitle: AnimatedBuilder(
           animation: themeStore,
@@ -558,7 +560,7 @@ class _AppLocalizationSettingsTileState
           horizontal: k10dp,
         ),
         enableFeedback: true,
-        leading: const Icon(Pixel.circle),
+        leading: const Icon(AppIcons.language, size: kDefaultIconSize),
         title: Text(context.strings.language),
         subtitle: AnimatedBuilder(
           animation: localizationStore,

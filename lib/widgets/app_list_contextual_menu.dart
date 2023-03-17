@@ -2,12 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
-import 'package:pixelarticons/pixel.dart';
-import 'package:pixelarticons/pixelarticons.dart';
 
 import '../stores/contextual_menu_store.dart';
 import '../stores/device_apps_store.dart';
 import '../stores/settings_store.dart';
+import '../utils/app_icons.dart';
 import '../utils/app_localization_strings.dart';
 import '../utils/context_of.dart';
 import 'app_icon_button.dart';
@@ -54,7 +53,10 @@ class _AppListContextualMenuState extends State<AppListContextualMenu>
           _menuStore.popMenu();
           store.unselectAll();
         },
-        icon: const Icon(Pixel.arrowleft),
+        icon: const Icon(
+          AppIcons.arrowLeft,
+          size: kDefaultIconSize,
+        ),
       ),
       actions: <Widget>[
         AppIconButton(
@@ -106,7 +108,7 @@ class _AppListContextualMenuState extends State<AppListContextualMenu>
               store.hideProgressIndicator();
             }
           },
-          icon: const Icon(Pixel.download),
+          icon: const Icon(AppIcons.download, size: kDefaultIconSize),
         ),
         AppIconButton(
           tooltip: context.strings.selectUnselectAll,
@@ -115,10 +117,15 @@ class _AppListContextualMenuState extends State<AppListContextualMenu>
             animation: store,
             builder: (BuildContext context, Widget? child) {
               if (store.isAllSelected) {
-                return Icon(Pixel.checkbox, color: context.colorScheme.primary);
+                return Icon(
+                  AppIcons.checkboxSelected,
+                  size: kDefaultIconSize,
+                  color: context.colorScheme.primary,
+                );
               }
 
-              return const Icon(Pixel.checkboxon);
+              return const Icon(AppIcons.checkboxUnselected,
+                  size: kDefaultIconSize);
             },
           ),
         ),
@@ -145,7 +152,10 @@ class _AppListContextualMenuState extends State<AppListContextualMenu>
           _menuStore.popMenu();
           store.disableSearch();
         },
-        icon: const Icon(Pixel.arrowleft),
+        icon: const Icon(
+          AppIcons.arrowLeft,
+          size: kDefaultIconSize,
+        ),
         tooltip: context.strings.exitSearch,
       ),
     );

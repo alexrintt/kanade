@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
-import 'package:pixelarticons/pixelarticons.dart';
 
 import '../stores/settings_store.dart';
+import '../utils/app_icons.dart';
 import '../utils/app_localization_strings.dart';
 import 'app_icon_button.dart';
 
@@ -310,12 +310,13 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
         onTap: () => widget.onSelectionChange?.call(!widget.selected),
         tooltip: context.strings.toggleSelect,
         icon: Icon(
-          _isSelected ? Pixel.checkbox : Pixel.checkboxon,
+          _isSelected ? AppIcons.checkboxSelected : AppIcons.checkboxUnselected,
+          size: kDefaultIconSize,
         ),
       );
     } else if (widget.popupMenuBuilder != null) {
       child = AppIconButton(
-        icon: const Icon(Pixel.morevertical),
+        icon: const Icon(AppIcons.more, size: kDefaultIconSize),
         tooltip: 'Show more options',
         onTap: () {
           showDialog(context: context, builder: widget.popupMenuBuilder!);

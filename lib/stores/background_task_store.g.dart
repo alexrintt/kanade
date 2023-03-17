@@ -20,6 +20,7 @@ Map<String, dynamic> _$TaskProgressToJson(TaskProgress instance) =>
     };
 
 const _$TaskStatusEnumMap = {
+  TaskStatus.initial: 'initial',
   TaskStatus.queued: 'queued',
   TaskStatus.running: 'running',
   TaskStatus.finished: 'finished',

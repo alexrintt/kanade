@@ -18,13 +18,17 @@ import 'indexed_collection_store.dart';
 part 'background_task_store.g.dart';
 
 enum TaskStatus {
+  initial,
   queued,
   running,
   finished,
   partial,
   failed;
 
-  bool get isPending => this == TaskStatus.queued || this == TaskStatus.running;
+  bool get isPending =>
+      this == TaskStatus.queued ||
+      this == TaskStatus.running ||
+      this == TaskStatus.initial;
 }
 
 enum TaskException {
@@ -44,7 +48,7 @@ class TaskProgress {
 
   const TaskProgress.initial()
       : percent = 0,
-        status = TaskStatus.queued,
+        status = TaskStatus.initial,
         exception = null;
 
   const TaskProgress.notFound()
@@ -257,7 +261,7 @@ class BackgroundTaskDisplayInfo {
     required this.apkIconUri,
   });
 
-  final String title;
+  final String? title;
   final int size;
   final DateTime createdAt;
   final Uri? targetUri;
@@ -300,9 +304,7 @@ class BackgroundTaskStore
                 size: task.size ?? 0,
                 targetUri: task.apkDestinationUri,
                 id: task.id,
-                title: task.apkDestinationFileName ??
-                    task.packageName ??
-                    task.packageId,
+                title: task.apkDestinationFileName ?? task.packageName,
                 progress: task.progress,
                 apkIconUri: task.apkIconUri,
               ),
@@ -369,6 +371,10 @@ class BackgroundTaskStore
 
   Future<void> deleteSelectedBackgroundTasks() async {
     await deleteTasks(selected);
+  }
+
+  Future<void> deleteAllBackgroundTasks() async {
+    await deleteTasks(tasks.toSet());
   }
 
   @override
@@ -493,14 +499,6 @@ class BackgroundTaskStore
   }
 
   Future<void> queue(ExtractApkBackgroundTask task) async {
-    await task.prepare();
-
-    if (task.apkDestinationUri != null && task.apkIconUri != null) {
-      getIt<GlobalFileChangeStore>()
-        ..commit(action: FileAction.create, uri: task.apkDestinationUri!)
-        ..commit(action: FileAction.create, uri: task.apkIconUri!);
-    }
-
     _queueTask(task);
     unawaited(_runExecutorLooper());
     notifyListeners();
@@ -524,7 +522,19 @@ class BackgroundTaskStore
 
     if (tasks.isEmpty) return;
 
+    Future<void> cancel() async {
+      await _currentRunningTaskListener!.cancel();
+      _currentRunningTaskListener = null;
+      await _saveTasks(tasks);
+      await _runExecutorLooper();
+    }
+
     for (final ExtractApkBackgroundTask task in tasks.reversed) {
+      final bool hasPendingInitialTask = tasks.reversed.any(
+        (ExtractApkBackgroundTask task) =>
+            task.progress.status == TaskStatus.initial,
+      );
+
       switch (task.progress.status) {
         case TaskStatus.finished:
         case TaskStatus.failed:
@@ -534,14 +544,12 @@ class BackgroundTaskStore
           // There is already a running task.
           return;
         case TaskStatus.queued:
-          final Stream<TaskProgress> taskStream = task.run();
-
-          Future<void> cancel() async {
-            await _currentRunningTaskListener!.cancel();
-            _currentRunningTaskListener = null;
-            await _saveTasks(tasks);
-            await _runExecutorLooper();
+          if (hasPendingInitialTask) {
+            // Some tasks were not even "touched", so do it before starting heavy tasks.
+            continue;
           }
+
+          final Stream<TaskProgress> taskStream = task.run();
 
           _currentRunningTaskListener = taskStream.listen(
             (TaskProgress progress) {
@@ -557,6 +565,28 @@ class BackgroundTaskStore
               }
 
               notifyListeners();
+            },
+            cancelOnError: true,
+            onDone: cancel,
+            onError: (_) => cancel(),
+          );
+
+          return;
+
+        case TaskStatus.initial:
+          final Stream<TaskProgress> onTaskEnd =
+              Stream<TaskProgress>.fromFuture(task.prepare());
+
+          _currentRunningTaskListener = onTaskEnd.listen(
+            (TaskProgress _) {
+              if (task.apkDestinationUri != null && task.apkIconUri != null) {
+                getIt<GlobalFileChangeStore>()
+                  ..commit(
+                    action: FileAction.create,
+                    uri: task.apkDestinationUri!,
+                  )
+                  ..commit(action: FileAction.create, uri: task.apkIconUri!);
+              }
             },
             cancelOnError: true,
             onDone: cancel,

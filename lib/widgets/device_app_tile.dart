@@ -1,12 +1,12 @@
 import 'package:device_packages/device_packages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:pixelarticons/pixel.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../stores/contextual_menu_store.dart';
 import '../stores/device_apps_store.dart';
 import '../stores/settings_store.dart';
+import '../utils/app_icons.dart';
 import '../utils/package_bytes.dart';
 import 'app_list_tile.dart';
 
@@ -67,9 +67,10 @@ class _DeviceAppTileState extends State<DeviceAppTile>
       child: _hasIcon
           ? Image.memory(
               _icon!,
-              errorBuilder: (_, __, ___) => const Icon(Pixel.android),
+              errorBuilder: (_, __, ___) =>
+                  const Icon(AppIcons.apk, size: kDefaultIconSize),
             )
-          : const Icon(Pixel.android),
+          : const Icon(AppIcons.apk, size: kDefaultIconSize),
     );
   }
 
@@ -113,30 +114,34 @@ class _DeviceAppTileState extends State<DeviceAppTile>
       children: <Widget>[
         AppListTile(
           title: const Text('Open app'),
-          leading: const Icon(Pixel.frame),
+          leading: const Icon(AppIcons.externalLink, size: kDefaultIconSize),
           onTap: () {
             perform(DeviceAppTileAction.open, widget.package);
           },
         ),
         AppListTile(
           title: const Text('Share apk'),
-          leading: const Icon(Pixel.open),
+          leading: const Icon(AppIcons.share, size: kDefaultIconSize),
           onTap: () {
             perform(DeviceAppTileAction.share, widget.package);
           },
         ),
         AppListTile(
           title: const Text('Extract apk'),
-          leading: const Icon(Pixel.download),
+          leading: const Icon(AppIcons.download, size: kDefaultIconSize),
           onTap: () {
             perform(DeviceAppTileAction.extract, widget.package);
           },
         ),
         AppListTile(
           title: const Text('Uninstall'),
-          leading: const Icon(Pixel.trash, color: Colors.red),
+          leading: const Icon(
+            AppIcons.delete,
+            size: kDefaultIconSize,
+            color: Colors.red,
+          ),
           onTap: () {
-            perform(DeviceAppTileAction.open, widget.package);
+            perform(DeviceAppTileAction.uninstall, widget.package);
           },
         ),
       ],

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
-import 'package:pixelarticons/pixel.dart';
-import 'package:pixelarticons/pixelarticons.dart';
 
 import '../stores/background_task_store.dart';
 import '../stores/contextual_menu_store.dart';
 import '../stores/settings_store.dart';
+import '../utils/app_icons.dart';
 import '../utils/app_localization_strings.dart';
 import '../utils/context_confirm.dart';
 import '../utils/context_of.dart';
 import 'app_icon_button.dart';
+import 'multi_animated_builder.dart';
 import 'sliver_app_top_bar.dart';
 
 class BackgroundTaskListContextualMenu extends StatefulWidget {
@@ -50,7 +50,10 @@ class _BackgroundTaskListContextualMenuState
           _menuStore.popMenu();
           backgroundTaskStore.unselectAll();
         },
-        icon: const Icon(Pixel.arrowleft),
+        icon: const Icon(
+          AppIcons.arrowLeft,
+          size: kDefaultIconSize,
+        ),
       ),
       actions: <Widget>[
         AppIconButton(
@@ -62,7 +65,11 @@ class _BackgroundTaskListContextualMenuState
 
             await backgroundTaskStore.deleteSelectedBackgroundTasks();
           },
-          icon: const Icon(Pixel.trash),
+          icon: const Icon(
+            AppIcons.delete,
+            size: kDefaultIconSize,
+            color: Colors.red,
+          ),
         ),
         AppIconButton(
           tooltip: context.strings.selectUnselectAll,
@@ -71,10 +78,15 @@ class _BackgroundTaskListContextualMenuState
             animation: backgroundTaskStore,
             builder: (BuildContext context, Widget? child) {
               if (backgroundTaskStore.isAllSelected) {
-                return Icon(Pixel.checkbox, color: context.colorScheme.primary);
+                return Icon(
+                  AppIcons.checkboxSelected,
+                  size: kDefaultIconSize,
+                  color: context.colorScheme.primary,
+                );
               }
 
-              return const Icon(Pixel.checkboxon);
+              return const Icon(AppIcons.checkboxUnselected,
+                  size: kDefaultIconSize);
             },
           ),
         ),
@@ -101,18 +113,59 @@ class _BackgroundTaskListContextualMenuState
           _menuStore.popMenu();
           backgroundTaskStore.disableSearch();
         },
-        icon: const Icon(Pixel.arrowleft),
+        icon: const Icon(
+          AppIcons.arrowLeft,
+          size: kDefaultIconSize,
+        ),
         tooltip: context.strings.exitSearch,
       ),
     );
   }
 
   Widget _buildNormalMenu() {
-    return SliverAppTopBar(
-      // backgroundColor: _appBarColorOverride,
-      onSearch: widget.onSearch,
-      pinned: !settingsStore
-          .getBoolPreference(SettingsBoolPreference.hideAppBarOnScroll),
+    return MultiAnimatedBuilder(
+      animations: <Listenable>[backgroundTaskStore],
+      builder: (_, __) {
+        return SliverAppTopBar(
+          onSearch: widget.onSearch,
+          pinned: !settingsStore
+              .getBoolPreference(SettingsBoolPreference.hideAppBarOnScroll),
+          actions: <Widget>[
+            if (backgroundTaskStore.collection.isNotEmpty)
+              AppIconButton(
+                icon: Icon(
+                  backgroundTaskStore.idle ? AppIcons.delete : AppIcons.x,
+                  size: kDefaultIconSize,
+                  color: Colors.red,
+                ),
+                tooltip: 'Remove',
+                onTap: () async {
+                  if (backgroundTaskStore.idle) {
+                    final bool confirmed = await showConfirmationModal(
+                      context: context,
+                      message:
+                          'Do you want force a bulk delete on all these tasks?',
+                    );
+
+                    if (confirmed) {
+                      await backgroundTaskStore.deleteAllBackgroundTasks();
+                    }
+                  } else {
+                    final bool confirmed = await showConfirmationModal(
+                      context: context,
+                      message:
+                          'Do you want force a bulk cancel on all these tasks?',
+                    );
+
+                    if (confirmed) {
+                      await backgroundTaskStore.deleteAllBackgroundTasks();
+                    }
+                  }
+                },
+              ),
+          ],
+        );
+      },
     );
   }
 

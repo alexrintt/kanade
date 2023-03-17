@@ -4,7 +4,10 @@ import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import '../setup.dart';
 import '../stores/settings_store.dart';
 
-Future<bool> showConfirmationModal({required BuildContext context}) async {
+Future<bool> showConfirmationModal({
+  required BuildContext context,
+  String? message,
+}) async {
   // Bad practice, avoid adding unnecessary coupling like this, for now it will work
   // but I'll probably remove in the future.
   if (!getIt<SettingsStore>().confirmIrreversibleActions) {
@@ -16,8 +19,9 @@ Future<bool> showConfirmationModal({required BuildContext context}) async {
     builder: (BuildContext context) {
       return AlertDialog(
         title: const Text('Are you sure?'),
-        content: const Text(
-          'This is a irreversible action, be sure you want to do it.',
+        content: Text(
+          message ??
+              'This is a irreversible action, be sure you want to do it.',
         ),
         actions: <Widget>[
           TextButton(

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:pixelarticons/pixel.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_storage/saf.dart';
 
@@ -11,6 +10,7 @@ import '../stores/contextual_menu_store.dart';
 import '../stores/file_list_store.dart';
 import '../stores/localization_store.dart';
 import '../stores/settings_store.dart';
+import '../utils/app_icons.dart';
 import '../utils/context_of.dart';
 import '../utils/mime_types.dart';
 import '../utils/package_bytes.dart';
@@ -293,8 +293,8 @@ class _DocumentFileThumbnailState extends State<DocumentFileThumbnail> {
     if (widget.file.type == kApkMimeType) {
       return ImageUri(
         uri: Uri.parse('${widget.file.uri}_icon'),
-        loading: const Icon(Pixel.android),
-        error: const Icon(Pixel.android),
+        loading: const Icon(AppIcons.apk, size: kDefaultIconSize),
+        error: const Icon(AppIcons.apk, size: kDefaultIconSize),
       );
     }
 
@@ -305,8 +305,8 @@ class _DocumentFileThumbnailState extends State<DocumentFileThumbnail> {
     return ImageUri(
       fetchThumbnail: true,
       uri: widget.file.uri,
-      loading: const Icon(Pixel.android),
-      error: const Icon(Pixel.android),
+      loading: const Icon(AppIcons.apk, size: kDefaultIconSize),
+      error: const Icon(AppIcons.apk, size: kDefaultIconSize),
     );
   }
 }

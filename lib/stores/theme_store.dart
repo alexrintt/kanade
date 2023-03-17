@@ -398,6 +398,7 @@ ThemeData createThemeData({
       surfaceTintColor: Colors.transparent,
       backgroundColor: cardColor,
       elevation: 0,
+      scrolledUnderElevation: 0,
       centerTitle: true,
       titleTextStyle:
           (base.appBarTheme.titleTextStyle ?? textTheme.displayLarge)!

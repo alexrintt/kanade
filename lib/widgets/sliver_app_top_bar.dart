@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
-import 'package:pixelarticons/pixelarticons.dart';
 
 import '../pages/settings_page.dart';
+import '../utils/app_icons.dart';
 import '../utils/app_localization_strings.dart';
 import '../utils/open_settings_page.dart';
 import 'animated_app_name.dart';
@@ -16,6 +16,7 @@ class SliverAppTopBar extends StatefulWidget {
     this.floating = true,
     this.pinned = false,
     this.bottom,
+    this.actions,
   });
 
   final VoidCallback? onSearch;
@@ -23,6 +24,7 @@ class SliverAppTopBar extends StatefulWidget {
   final bool floating;
   final bool pinned;
   final PreferredSizeWidget? bottom;
+  final List<Widget>? actions;
 
   @override
   State<SliverAppTopBar> createState() => _SliverAppTopBarState();
@@ -43,14 +45,16 @@ class _SliverAppTopBarState extends State<SliverAppTopBar> {
       ),
       bottom: widget.bottom,
       actions: <Widget>[
+        ...?widget.actions,
         AppIconButton(
           onTap: () => showDialog(
             context: context,
             builder: (BuildContext context) => const ChangeThemeDialog(),
           ),
           icon: Icon(
-            Pixel.sun,
+            AppIcons.styling,
             color: context.isDark ? null : context.primaryColor,
+            size: kDefaultIconSize,
           ),
           tooltip: context.strings.changeTheme,
         ),
@@ -58,16 +62,18 @@ class _SliverAppTopBarState extends State<SliverAppTopBar> {
           AppIconButton(
             onTap: widget.onSearch,
             icon: Icon(
-              Pixel.search,
+              AppIcons.search,
               color: context.isDark ? null : context.primaryColor,
+              size: kDefaultIconSize,
             ),
             tooltip: context.strings.searchPackagesAndApps,
           ),
         AppIconButton(
           onTap: context.openSettingsPage,
           icon: Icon(
-            Pixel.morevertical,
+            AppIcons.settings,
             color: context.isDark ? null : context.primaryColor,
+            size: kDefaultIconSize,
           ),
           tooltip: context.strings.openSettingsPage,
         ),

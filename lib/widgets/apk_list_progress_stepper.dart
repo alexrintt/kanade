@@ -2,11 +2,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart'
     hide Stepper, Step, StepperType, ControlsDetails, StepState;
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
-import 'package:pixelarticons/pixelarticons.dart';
 
 import '../stores/background_task_store.dart';
 import '../stores/bottom_navigation_store.dart';
 import '../stores/settings_store.dart';
+import '../utils/app_icons.dart';
 import '../utils/app_localization_strings.dart';
 import '../utils/stringify_uri_location.dart';
 import 'multi_animated_builder.dart';
@@ -56,7 +56,7 @@ class _StorageRequirementsProgressStepperState
       ),
       onPressed: onPressed,
       label: Text(text),
-      icon: Icon(icon),
+      icon: Icon(icon, size: kDefaultIconSize),
     );
   }
 
@@ -69,7 +69,7 @@ class _StorageRequirementsProgressStepperState
           alignment: Alignment.centerLeft,
           child: _buildFilledButton(
             context.strings.selectOutputFolder,
-            Pixel.folder,
+            AppIcons.folder,
             onPressed: settingsStore.requestExportLocation,
           ),
         );
@@ -81,7 +81,7 @@ class _StorageRequirementsProgressStepperState
             _buildFilledButton(
               // TODO: Add translation.
               'Go to app list',
-              Pixel.home,
+              AppIcons.apps,
               onPressed: bottomNavigationStore.navigateToAppList,
             ),
             const Padding(padding: EdgeInsets.all(k2dp)),
@@ -176,9 +176,9 @@ class _StorageRequirementsProgressStepperState
                 (BuildContext context, int index, StepState state) {
               if (state == StepState.complete) {
                 return Icon(
-                  Pixel.check,
+                  AppIcons.checkmark,
                   color: context.scaffoldBackgroundColor,
-                  size: k8dp,
+                  size: kDefaultIconSize,
                 );
               }
               return null;

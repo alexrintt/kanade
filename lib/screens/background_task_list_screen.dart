@@ -2,7 +2,6 @@ import 'package:device_packages/device_packages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:intl/intl.dart';
-import 'package:pixelarticons/pixel.dart';
 import 'package:provider/provider.dart';
 
 import '../pages/home_page.dart';
@@ -11,6 +10,7 @@ import '../stores/background_task_store.dart';
 import '../stores/contextual_menu_store.dart';
 import '../stores/localization_store.dart';
 import '../stores/settings_store.dart';
+import '../utils/app_icons.dart';
 import '../utils/context_of.dart';
 import '../utils/package_bytes.dart';
 import '../widgets/apk_list_progress_stepper.dart';
@@ -222,7 +222,6 @@ class _BackgroundTaskTileState extends State<BackgroundTaskTile>
         child: CircularProgressIndicator(
           backgroundColor: context.theme.disabledColor,
           strokeWidth: k1dp,
-          value: widget.task.progress.status == TaskStatus.queued ? 0 : null,
         ),
       );
     }
@@ -232,23 +231,33 @@ class _BackgroundTaskTileState extends State<BackgroundTaskTile>
     }
 
     return widget.isSelected
-        ? Icon(Pixel.checkbox, color: context.primaryColor)
-        : Icon(Pixel.checkboxon, color: context.primaryColor);
+        ? Icon(
+            AppIcons.checkboxSelected,
+            size: kDefaultIconSize,
+            color: context.primaryColor,
+          )
+        : Icon(
+            AppIcons.checkboxUnselected,
+            size: kDefaultIconSize,
+            color: context.primaryColor,
+          );
   }
 
   Widget? _buildLeading() {
     if (widget.task.apkIconUri != null) {
       return ImageUri(
         uri: widget.task.apkIconUri!,
-        error: const Icon(Pixel.android),
+        error: const Icon(AppIcons.apk, size: kDefaultIconSize),
         loading: const AspectRatio(
           aspectRatio: 1,
-          child: Icon(Pixel.android),
+          child: Icon(AppIcons.apk, size: kDefaultIconSize),
         ),
       );
     }
 
-    return const Center(child: Icon(Pixel.android));
+    return const Center(
+      child: Icon(AppIcons.apk, size: kDefaultIconSize),
+    );
   }
 
   Future<void> _onBackgroundTaskTileTapped() async {
@@ -261,6 +270,7 @@ class _BackgroundTaskTileState extends State<BackgroundTaskTile>
       case TaskStatus.partial:
       case TaskStatus.queued:
       case TaskStatus.running:
+      case TaskStatus.initial:
         // Show warning explaining the reason we cannot install this package.
         break;
       case TaskStatus.finished:
@@ -286,7 +296,7 @@ class _BackgroundTaskTileState extends State<BackgroundTaskTile>
   Widget build(BuildContext context) {
     return AppListTile(
       onTap: _onBackgroundTaskTileTapped,
-      title: Text(widget.task.title),
+      title: Text(widget.task.title ?? 'Loading info...'),
       subtitle: Text('$formattedBytes, $formattedDate'),
       trailing: _buildTrailing(),
       selected: backgroundTaskStore.selected.isNotEmpty && widget.isSelected,

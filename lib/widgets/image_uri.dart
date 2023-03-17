@@ -48,13 +48,7 @@ class _ImageUriState extends State<ImageUri> {
   }
 
   Future<Uint8List?> _getDocumentThumbnail() async {
-    final DocumentBitmap? bitmap = await getDocumentThumbnail(
-      uri: widget.uri,
-      width: kToolbarHeight,
-      height: kToolbarHeight,
-    );
-
-    return bitmap?.bytes;
+    return getDocumentContent(widget.uri);
   }
 
   @override

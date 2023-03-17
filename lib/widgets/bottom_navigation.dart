@@ -2,10 +2,10 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
-import 'package:pixelarticons/pixel.dart';
 
 import '../stores/background_task_store.dart';
 import '../stores/settings_store.dart';
+import '../utils/app_icons.dart';
 import 'multi_animated_builder.dart';
 
 class BottomNavigation extends StatefulWidget {
@@ -50,19 +50,28 @@ class _BottomNavigationState extends State<BottomNavigation>
           onDestinationSelected: _select,
           destinations: <Widget>[
             const NavigationDestination(
-              icon: Icon(Pixel.dashbaord),
+              icon: Icon(
+                AppIcons.apps,
+                size: kDefaultIconSize,
+              ),
               label: 'Apps',
             ),
             NavigationDestination(
               icon: Badge(
                 label: Text(backgroundTaskStore.badgeCount.toString()),
                 isLabelVisible: backgroundTaskStore.badgeCount != 0,
-                child: const Icon(Pixel.android),
+                child: const Icon(
+                  AppIcons.apk,
+                  size: kDefaultIconSize,
+                ),
               ),
               label: 'Apks',
             ),
             const NavigationDestination(
-              icon: Icon(Pixel.folder),
+              icon: Icon(
+                AppIcons.folder,
+                size: kDefaultIconSize,
+              ),
               label: 'Files',
             ),
           ],

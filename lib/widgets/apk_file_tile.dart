@@ -1,10 +1,10 @@
 import 'package:device_packages/device_packages.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:pixelarticons/pixel.dart';
 import 'package:shared_storage/shared_storage.dart';
 
 import '../stores/localization_store.dart';
+import '../utils/app_icons.dart';
 import '../utils/package_bytes.dart';
 import 'app_list_tile.dart';
 import 'image_uri.dart';
@@ -41,10 +41,10 @@ class _ApkFileTileState extends State<ApkFileTile> with LocalizationStoreMixin {
         child: widget.icon != null
             ? ImageUri(
                 uri: widget.icon!.uri,
-                loading: const Icon(Pixel.android),
-                error: const Icon(Pixel.android),
+                loading: const Icon(AppIcons.apk, size: kDefaultIconSize),
+                error: const Icon(AppIcons.apk, size: kDefaultIconSize),
               )
-            : const Icon(Pixel.android),
+            : const Icon(AppIcons.apk, size: kDefaultIconSize),
       ),
       title: Text('${widget.file.name}'),
       subtitle: Text('$formattedBytes, $formattedDate'),

@@ -30,7 +30,6 @@
   <p>
     <img src="https://img.shields.io/github/v/release/alexrintt/kanade?label=latest&style=flat-square">
     <img src="https://img.shields.io/github/downloads/alexrintt/kanade/total?color=000t&style=flat-square">
-    <img src="https://img.shields.io/badge/compatibility-4.4+-orange?style=flat-square">
     <img src="https://img.shields.io/badge/API-19+-green?style=flat-square">
   </p>
 </a>

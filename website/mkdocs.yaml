@@ -2,7 +2,7 @@ site_name: Kanade
 
 site_url: https://alexrintt.github.io/kanade
 site_author: Alex Rintt
-site_description: "Android app to extract apks from installed apps (Android 4.4+)."
+site_description: "Android app to extract apks from installed apps."
 
 repo_name: alexrintt/kanade
 repo_url: https://github.com/alexrintt/kanade

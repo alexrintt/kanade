@@ -12,14 +12,14 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./website
+    # defaults:
+    #   run:
+    #     working-directory: ./website
     steps:
       - uses: actions/checkout@v2
       - name: Deploy docs
         uses: mhausenblas/mkdocs-deploy-gh-pages@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CONFIG_FILE: mkdocs.yaml
+          CONFIG_FILE: website/mkdocs.yaml
           EXTRA_PACKAGES: build-base

@@ -1,5 +1,3 @@
-<sup>App icon by [@WSTxda](https://linktr.ee/wstxda).</sup>
-
 <kbd>
   <img src="https://user-images.githubusercontent.com/51419598/222720499-97c1dff7-3fa6-45f1-962f-4e0576a12c29.png" />
 </kbd>

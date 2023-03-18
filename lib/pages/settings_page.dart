@@ -449,12 +449,12 @@ class _DonationSettingsTileState extends State<DonationSettingsTile>
         ),
         buildTile(
           title: 'Ko-fi (Card or PayPal)',
-          onTap: openThisLink(_kofi.toString(), external: false),
+          onTap: openThisLink(_kofi.toString()),
           description: _kofi.host + _kofi.path,
         ),
         buildTile(
           title: 'Pix donation (Brazil only)',
-          onTap: openThisLink(_livePix.toString(), external: false),
+          onTap: openThisLink(_livePix.toString()),
           description: _livePix.host + _livePix.path,
         ),
         buildTile(

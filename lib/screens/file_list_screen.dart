@@ -245,7 +245,6 @@ class _DocumentFileTileState extends State<DocumentFileTile>
   @override
   Widget build(BuildContext context) {
     return AppListTile(
-      onLongPress: () => _toggleSelect(),
       onTap: () async {
         if (fileListStore.inSelectionMode) {
           _toggleSelect();

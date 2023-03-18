@@ -8,7 +8,6 @@ repo_name: alexrintt/kanade
 repo_url: https://github.com/alexrintt/kanade
 
 nav:
-  - Home: index.md
   - Installation and usage: user-guide.md
   - Features: features.md
   - Build yourself: build-yourself.md

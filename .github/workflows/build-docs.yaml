@@ -22,4 +22,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CONFIG_FILE: website/mkdocs.yaml
+          REQUIREMENTS: website/requirements.txt
           EXTRA_PACKAGES: build-base

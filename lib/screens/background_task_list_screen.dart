@@ -1,18 +1,23 @@
-import 'package:device_packages/device_packages.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_storage/saf.dart';
 
 import '../pages/home_page.dart';
 import '../setup.dart';
 import '../stores/background_task_store.dart';
 import '../stores/contextual_menu_store.dart';
+import '../stores/indexed_collection_store.dart';
 import '../stores/localization_store.dart';
 import '../stores/settings_store.dart';
 import '../utils/app_icons.dart';
+import '../utils/context_confirm.dart';
 import '../utils/context_of.dart';
 import '../utils/package_bytes.dart';
+import '../utils/share_file.dart';
+import '../widgets/apk_file_popup_menu.dart';
 import '../widgets/apk_list_progress_stepper.dart';
 import '../widgets/app_list_tile.dart';
 import '../widgets/background_task_list_contextual_menu.dart';
@@ -271,24 +276,31 @@ class _BackgroundTaskTileState extends State<BackgroundTaskTile>
       case TaskStatus.queued:
       case TaskStatus.running:
       case TaskStatus.initial:
-        // Show warning explaining the reason we cannot install this package.
+        showToast(
+          context,
+          'Not fully extracted yet, can not install right now',
+        );
         break;
       case TaskStatus.finished:
-        try {
-          await DevicePackages.installPackage(
-            installerUri: widget.task.targetUri,
-          );
-        } on InvalidInstallerException {
-          showToast(
-            context,
-            'Invalid apk, it is was probably deleted.',
-          );
-
-          // The apk linked to this background task was deleted
-          // so remove this task reference.
-          await backgroundTaskStore.deleteTask(taskId: widget.task.id);
-        }
+        await _tryInstallApk();
         break;
+    }
+  }
+
+  Future<void> _tryInstallApk() async {
+    final PackageInstallationIntentResult result =
+        await backgroundTaskStore.installPackage(
+      installationId: widget.task.id,
+      uri: widget.task.targetUri,
+    );
+
+    if (!result.ok) {
+      if (mounted) {
+        showToast(
+          context,
+          'Invalid apk, it is was probably deleted.',
+        );
+      }
     }
   }
 
@@ -299,6 +311,63 @@ class _BackgroundTaskTileState extends State<BackgroundTaskTile>
       title: Text(widget.task.title ?? 'Loading info...'),
       subtitle: Text('$formattedBytes, $formattedDate'),
       trailing: _buildTrailing(),
+      onPopupMenuTapped: () async {
+        final ApkFileTileAction? action = await showDialog<ApkFileTileAction>(
+          context: context,
+          builder: (_) => const ApkFilePopupMenu(),
+        );
+        if (action != null) {
+          switch (action) {
+            case ApkFileTileAction.delete:
+              bool confirmed = false;
+
+              if (mounted) {
+                confirmed = await showConfirmationModal(context: context);
+              }
+
+              if (confirmed) {
+                await backgroundTaskStore.deleteTask(taskId: widget.task.id);
+              }
+
+              break;
+            case ApkFileTileAction.install:
+              await _tryInstallApk();
+              break;
+            case ApkFileTileAction.share:
+              await shareFile(uri: widget.task.targetUri);
+              break;
+            case ApkFileTileAction.open:
+              if (widget.task.targetUri == null) {
+                if (mounted) {
+                  showToast(context, 'We could not find the target file');
+                }
+                return;
+              }
+
+              try {
+                await openDocumentFile(
+                  // This removes the "document" part
+                  // which is used to identify the apk. And takes only the [tree]
+                  // part which is used to (generally) identify the directory.
+                  // This may not work on all devices.
+                  widget.task.targetUri!.replace(
+                    pathSegments: widget.task.targetUri!.pathSegments
+                        .takeWhile((String value) => value != 'document')
+                        .toList(),
+                  ),
+                );
+              } on PlatformException catch (e) {
+                if (mounted) {
+                  showToast(
+                    context,
+                    'Could not find the file location, exception: $e',
+                  );
+                }
+              }
+              break;
+          }
+        }
+      },
       selected: backgroundTaskStore.selected.isNotEmpty && widget.isSelected,
       inSelectionMode: backgroundTaskStore.inSelectionMode,
       leading: _buildLeading(),

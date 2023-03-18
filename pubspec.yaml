@@ -26,7 +26,6 @@ dependencies:
   package_info_plus: ^3.0.1
   path: ^1.8.2
   provider: ^6.0.5
-  share_plus: 6.3.1
   shared_preferences: ^2.0.15
   shared_storage:
     path: ../shared-storage

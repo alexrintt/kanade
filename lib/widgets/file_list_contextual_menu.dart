@@ -62,7 +62,11 @@ class _FileListContextualMenuState extends State<FileListContextualMenu>
 
             await fileListStore.deleteSelectedFiles();
           },
-          icon: const Icon(AppIcons.delete, size: kDefaultIconSize),
+          icon: const Icon(
+            AppIcons.delete,
+            size: kDefaultIconSize,
+            color: Colors.red,
+          ),
         ),
         AppIconButton(
           tooltip: context.strings.selectUnselectAll,

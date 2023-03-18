@@ -41,6 +41,7 @@ class AppListTile extends StatefulWidget {
     this.inSelectionMode = false,
     this.onSelectionChange,
     this.popupMenuBuilder,
+    this.onPopupMenuTapped,
   });
 
   /// A widget to display before the title.
@@ -292,6 +293,7 @@ class AppListTile extends StatefulWidget {
   final bool inSelectionMode;
   final void Function(bool)? onSelectionChange;
   final WidgetBuilder? popupMenuBuilder;
+  final VoidCallback? onPopupMenuTapped;
 
   @override
   State<AppListTile> createState() => _AppListTileState();
@@ -314,12 +316,17 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
           size: kDefaultIconSize,
         ),
       );
-    } else if (widget.popupMenuBuilder != null) {
+    } else if (widget.popupMenuBuilder != null ||
+        widget.onPopupMenuTapped != null) {
       child = AppIconButton(
         icon: const Icon(AppIcons.more, size: kDefaultIconSize),
         tooltip: 'Show more options',
         onTap: () {
-          showDialog(context: context, builder: widget.popupMenuBuilder!);
+          if (widget.popupMenuBuilder != null) {
+            showDialog(context: context, builder: widget.popupMenuBuilder!);
+          } else {
+            widget.onPopupMenuTapped!();
+          }
         },
       );
     }

@@ -1,13 +1,13 @@
 import 'package:device_packages/device_packages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../stores/contextual_menu_store.dart';
 import '../stores/device_apps_store.dart';
 import '../stores/settings_store.dart';
 import '../utils/app_icons.dart';
 import '../utils/package_bytes.dart';
+import '../utils/share_file.dart';
 import 'app_list_tile.dart';
 
 enum DeviceAppTileAction {
@@ -94,13 +94,7 @@ class _DeviceAppTileState extends State<DeviceAppTile>
         break;
       case DeviceAppTileAction.share:
         if (package.installerPath == null) return;
-        try {
-          await Share.shareXFiles(<XFile>[XFile(package.installerPath!)]);
-        } on PlatformException {
-          // The user clicked twice too fast, which created 2 share requests and the second one failed.
-          // Unhandled Exception: PlatformException(Share callback error, prior share-sheet did not call back, did you await it? Maybe use non-result variant, null, null).
-          return;
-        }
+        await shareFile(path: package.installerPath);
         break;
       case DeviceAppTileAction.open:
         if (package.id == null) return;

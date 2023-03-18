@@ -1,10 +1,13 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:device_packages/device_packages.dart';
 import 'package:flutter/material.dart';
 import 'package:string_similarity/string_similarity.dart';
 
 import '../setup.dart';
 import '../utils/debounce.dart';
+import '../utils/install_package.dart' as utils;
 import 'global_file_change_store.dart';
 
 /// Defines a base/interface class for stores that works on top of a collection of items of type [T].
@@ -26,6 +29,67 @@ abstract class IndexedCollectionStore<T> extends ChangeNotifier {
   List<T> get collection => collectionIndexedById.values.toList();
 
   String getItemId(T item);
+}
+
+enum PackageInstallationIntentResult {
+  invalidPackage,
+  unknown,
+  success;
+
+  bool get ok => this == PackageInstallationIntentResult.success;
+}
+
+mixin PackageInstallerMixin {
+  Future<PackageInstallationIntentResult> _installPackage({
+    File? file,
+    Uri? uri,
+    String? path,
+  }) async {
+    assert(file != null || uri != null || path != null);
+    try {
+      await utils.installPackage(
+        file: file,
+        uri: uri,
+        path: path,
+      );
+      return PackageInstallationIntentResult.success;
+    } on InvalidInstallerException {
+      return PackageInstallationIntentResult.invalidPackage;
+    }
+  }
+
+  Future<PackageInstallationIntentResult> installPackage({
+    required String installationId,
+    File? file,
+    Uri? uri,
+    String? path,
+  }) async {
+    final PackageInstallationIntentResult result = await _installPackage(
+      file: file,
+      uri: uri,
+      path: path,
+    );
+
+    if (!result.ok) {
+      await onInstallationFailed(
+        installationId: installationId,
+        path: path,
+        result: result,
+        file: file,
+        uri: uri,
+      );
+    }
+
+    return result;
+  }
+
+  Future<void> onInstallationFailed({
+    required String installationId,
+    required PackageInstallationIntentResult result,
+    File? file,
+    Uri? uri,
+    String? path,
+  });
 }
 
 mixin SearchableStoreMixin<T> on IndexedCollectionStore<T> {

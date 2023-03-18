@@ -96,9 +96,9 @@ class _FileListScreenConsumerState extends State<FileListScreenConsumer>
     super.dispose();
   }
 
-  Widget _buildFileListSliverUsingPredicate(
-    bool Function(DocumentFile) predicate,
-  ) {
+  Widget _buildFileListSliverUsingPredicate({
+    required int Function(DocumentFile, DocumentFile) sortBy,
+  }) {
     return SliverPadding(
       padding: EdgeInsets.zero,
       sliver: MultiAnimatedBuilder(
@@ -108,8 +108,8 @@ class _FileListScreenConsumerState extends State<FileListScreenConsumer>
           settingsStore
         ],
         builder: (BuildContext context, Widget? child) {
-          final List<DocumentFile> files =
-              fileListStore.collection.where(predicate).toList();
+          final List<DocumentFile> files = fileListStore.collection.toList()
+            ..sort(sortBy);
 
           if (files.isEmpty) {
             return const SliverList(
@@ -135,6 +135,21 @@ class _FileListScreenConsumerState extends State<FileListScreenConsumer>
         },
       ),
     );
+  }
+
+  int _sortByNameAscAndFoldersFirst(DocumentFile a, DocumentFile z) {
+    if (a.isDirectory ?? false) {
+      if (!(z.isDirectory ?? false)) {
+        return -1;
+      }
+    } else {
+      if (z.isDirectory ?? false) {
+        return 1;
+      }
+    }
+    return (a.name ?? a.idOrUri)
+        .toLowerCase()
+        .compareTo((z.name ?? z.idOrUri).toLowerCase());
   }
 
   @override
@@ -192,11 +207,7 @@ class _FileListScreenConsumerState extends State<FileListScreenConsumer>
               ),
               // Show directories first.
               _buildFileListSliverUsingPredicate(
-                (DocumentFile file) => file.isDirectory ?? false,
-              ),
-              // Then proceed to show all remaining files.
-              _buildFileListSliverUsingPredicate(
-                (DocumentFile file) => !(file.isDirectory ?? false),
+                sortBy: _sortByNameAscAndFoldersFirst,
               ),
               context.bottomSliverSpacer,
             ],

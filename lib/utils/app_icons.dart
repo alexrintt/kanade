@@ -14,7 +14,7 @@ class AppIcons {
   static const IconData share = OctIcons.share_android_16;
   static const IconData folder = OctIcons.file_directory_16;
   static const IconData settings = OctIcons.gear_16;
-  static const IconData reset = OctIcons.tools_16;
+  static const IconData reset = OctIcons.sync_16;
   static const IconData delete = OctIcons.trash_16;
   static const IconData more = OctIcons.kebab_horizontal_16;
   static const IconData arrowLeft = OctIcons.chevron_left_16;
@@ -23,5 +23,6 @@ class AppIcons {
   static const IconData checkmark = OctIcons.check_16;
   static const IconData download = OctIcons.download_16;
   static const IconData x = OctIcons.x_16;
+  static const IconData arrowDown = OctIcons.arrow_down_16;
   static const IconData externalLink = OctIcons.link_external_16;
 }

@@ -264,9 +264,14 @@ class BackgroundTaskDisplayInfo {
   final String? title;
   final int size;
   final DateTime createdAt;
+
+  /// The current apk uri.
   final Uri? targetUri;
+
   final String id;
   final TaskProgress progress;
+
+  /// The linked icon Uri to this background task. Use it to display the apk icon.
   final Uri? apkIconUri;
 }
 
@@ -275,7 +280,8 @@ class BackgroundTaskStore
     with
         SelectableStoreMixin<ExtractApkBackgroundTask>,
         SearchableStoreMixin<ExtractApkBackgroundTask>,
-        FileChangeAwareMixin {
+        FileChangeAwareMixin,
+        PackageInstallerMixin {
   final Map<String, ExtractApkBackgroundTask> _tasks =
       <String, ExtractApkBackgroundTask>{};
 
@@ -615,5 +621,16 @@ class BackgroundTaskStore
       item.size?.toString() ?? '',
       item.apkDestinationUri?.toString() ?? '',
     ];
+  }
+
+  @override
+  Future<void> onInstallationFailed({
+    required String installationId,
+    required PackageInstallationIntentResult result,
+    File? file,
+    Uri? uri,
+    String? path,
+  }) async {
+    unawaited(deleteTask(taskId: installationId));
   }
 }

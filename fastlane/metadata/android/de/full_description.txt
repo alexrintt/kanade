@@ -1,4 +1,4 @@
-<i>Kanade</i> ist eine einfache App, mit der Sie apk aus Ihrer App-Liste extrahieren können. Vollständig Open-Source und keine Werbung. Funktioniert für Android 4.4 oder höher.
+<i>Kanade</i> ist eine einfache App, mit der Sie apk aus Ihrer App-Liste extrahieren können. Vollständig Open-Source und keine Werbung. Funktioniert für Android 5.0 oder höher.
 
 Installierte Apps aus dem PlayStore zeigen ihre APK-Installationsdateien standardmäßig nicht an. Wenn Sie also eine App teilen möchten, müssen Sie den PlayStore-Link senden. Wenn Sie also offline sind oder die App nicht mehr im PlayStore verfügbar ist, können Sie die App nicht teilen.
 

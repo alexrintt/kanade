@@ -44,11 +44,11 @@ dev_dependencies:
 
 # Use this tool to generate the mipmap and the drawables automatically, but do not rely on it to configure the Android xml styles!!!
 flutter_icons:
-  android: "ic_launcher_monochrome"
+  android: "ic_launcher"
   ios: false
-  image_path: "assets/icons/fg_monochrome.png"
-  # adaptive_icon_background: "assets/icons/bg.png"
-  # adaptive_icon_foreground: "assets/icons/fg_monochrome.png.png"
+  image_path: "assets/icons/fg.png"
+  adaptive_icon_background: "#ffffff"
+  adaptive_icon_foreground: "assets/icons/fg.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
   web:
     generate: false

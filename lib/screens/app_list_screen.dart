@@ -11,7 +11,6 @@ import '../stores/contextual_menu_store.dart';
 import '../stores/device_apps_store.dart';
 import '../stores/settings_store.dart';
 import '../stores/theme_store.dart';
-import '../utils/app_localization_strings.dart';
 import '../utils/context_of.dart';
 import '../utils/context_show_apk_result_message.dart';
 import '../widgets/animated_app_name.dart';
@@ -20,7 +19,6 @@ import '../widgets/device_app_tile.dart';
 import '../widgets/drag_select_scroll_notifier.dart';
 import '../widgets/loading.dart';
 import '../widgets/multi_animated_builder.dart';
-import '../widgets/toast.dart';
 
 class AppListScreen extends StatefulWidget {
   const AppListScreen({super.key});

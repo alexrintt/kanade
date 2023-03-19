@@ -310,7 +310,7 @@ class _DocumentFileThumbnailState extends State<DocumentFileThumbnail> {
     }
 
     if (widget.file.isDirectory ?? false) {
-      return Icon(Icons.folder);
+      return Icon(AppIcons.folder.data);
     }
 
     return PackageImageUri(

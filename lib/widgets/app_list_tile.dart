@@ -42,7 +42,7 @@ class AppListTile extends StatefulWidget {
     this.onSelectionChange,
     this.popupMenuBuilder,
     this.onPopupMenuTapped,
-    this.dense = false,
+    this.dense,
   });
 
   /// A widget to display before the title.
@@ -291,7 +291,7 @@ class AppListTile extends StatefulWidget {
   /// that is also null, then a default value of 40 is used.
   final double? minLeadingWidth;
 
-  final bool dense;
+  final bool? dense;
 
   final bool inSelectionMode;
   final void Function(bool)? onSelectionChange;

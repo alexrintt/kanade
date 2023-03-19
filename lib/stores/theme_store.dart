@@ -398,8 +398,8 @@ ThemeData createThemeData({
       titleTextStyle:
           (base.appBarTheme.titleTextStyle ?? textTheme.displayLarge)!
               .copyWith(color: textColor, fontSize: k8dp),
-      iconTheme:
-          (base.appBarTheme.iconTheme ?? IconThemeData.fallback()).copyWith(
+      iconTheme: (base.appBarTheme.iconTheme ?? const IconThemeData.fallback())
+          .copyWith(
         color: textColor,
       ),
       systemOverlayStyle: SystemUiOverlayStyle(

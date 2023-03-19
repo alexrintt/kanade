@@ -2,20 +2,14 @@ import 'dart:io';
 
 import 'package:device_packages/device_packages.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 
 import '../stores/contextual_menu_store.dart';
 import '../stores/device_apps_store.dart';
 import '../stores/settings_store.dart';
-import '../utils/app_icons.dart';
 import '../utils/package_bytes.dart';
-import '../utils/share_file.dart';
-import 'app_icon_button.dart';
 import 'app_list_tile.dart';
 import 'image_uri.dart';
 import 'package_menu_bottom_sheet.dart';
-import 'toast.dart';
 
 class DeviceAppTile extends StatefulWidget {
   const DeviceAppTile(

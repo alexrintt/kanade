@@ -3,10 +3,6 @@ import 'dart:typed_data';
 
 import 'package:device_packages/device_packages.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter_shared_tools/flutter_shared_tools.dart';
-import 'package:kanade/widgets/app_list_tile.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../stores/device_apps_store.dart';
@@ -15,7 +11,7 @@ import '../utils/context_show_apk_result_message.dart';
 import '../utils/generate_play_store_uri.dart';
 import '../utils/share_file.dart';
 import 'app_icon_button.dart';
-import 'device_app_tile.dart';
+import 'app_list_tile.dart';
 import 'image_uri.dart';
 import 'toast.dart';
 
@@ -124,8 +120,10 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
         ),
         AppListTile(
           title: const Text('Open app'),
-          leading: Icon(AppIcons.externalLink.data,
-              size: AppIcons.externalLink.size),
+          leading: Icon(
+            AppIcons.externalLink.data,
+            size: AppIcons.externalLink.size,
+          ),
           onTap: () {
             perform(InstalledAppTileAction.open);
           },

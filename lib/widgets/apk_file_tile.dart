@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:shared_storage/shared_storage.dart';
 
 import '../stores/localization_store.dart';
-import '../utils/app_icons.dart';
 import '../utils/package_bytes.dart';
 import 'app_list_tile.dart';
 import 'image_uri.dart';

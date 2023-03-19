@@ -65,14 +65,14 @@ class _BottomNavigationState extends State<BottomNavigation>
                   size: kDefaultIconSize,
                 ),
               ),
-              label: 'Apks',
+              label: 'Extracted',
             ),
             NavigationDestination(
               icon: Icon(
                 AppIcons.folder.data,
                 size: kDefaultIconSize,
               ),
-              label: 'Files',
+              label: 'All files',
             ),
           ],
         );

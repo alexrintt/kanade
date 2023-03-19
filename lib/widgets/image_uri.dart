@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_storage/saf.dart';
 
 import '../utils/app_icons.dart';
+import 'app_list_tile.dart';
 
 class PackageImageBytes extends StatefulWidget {
   const PackageImageBytes({super.key, required this.icon});
@@ -19,14 +20,18 @@ class _PackageImageBytesState extends State<PackageImageBytes> {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: _hasIcon
-          ? Image.memory(
-              widget.icon!,
-              errorBuilder: (_, __, ___) =>
-                  Icon(AppIcons.apk.data, size: AppIcons.apk.size),
-            )
-          : Icon(AppIcons.apk.data, size: AppIcons.apk.size),
+    return SizedBox(
+      width: kLeadingSize.width,
+      height: kLeadingSize.height,
+      child: Center(
+        child: _hasIcon
+            ? Image.memory(
+                widget.icon!,
+                errorBuilder: (_, __, ___) =>
+                    Icon(AppIcons.apk.data, size: AppIcons.apk.size),
+              )
+            : Icon(AppIcons.apk.data, size: AppIcons.apk.size),
+      ),
     );
   }
 }

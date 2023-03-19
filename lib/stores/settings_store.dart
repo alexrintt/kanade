@@ -121,9 +121,6 @@ class SettingsStore extends ChangeNotifier {
     }
   }
 
-  bool get isCompactMode =>
-      getBoolPreference(SettingsBoolPreference.compactMode);
-
   Future<void> resetBoolPreference(SettingsBoolPreference preference) {
     return setBoolPreference(preference, value: preference.defaultValue);
   }
@@ -164,15 +161,7 @@ enum SettingsBoolPreference {
     defaultValue: true,
     category: SettingsBoolPreferenceCategory.behavior,
   ),
-  displayAppIcons(
-    defaultValue: true,
-    category: SettingsBoolPreferenceCategory.appearance,
-  ),
   transparentBottomNavigationBar(
-    defaultValue: false,
-    category: SettingsBoolPreferenceCategory.appearance,
-  ),
-  compactMode(
     defaultValue: false,
     category: SettingsBoolPreferenceCategory.appearance,
   ),
@@ -210,12 +199,8 @@ enum SettingsBoolPreference {
         return 'Hide app bar on scroll';
       case SettingsBoolPreference.confirmIrreversibleActions:
         return 'Ask for confirmation';
-      case SettingsBoolPreference.compactMode:
-        return 'Compact mode';
       case SettingsBoolPreference.displaySystemApps:
         return 'Show system apps';
-      case SettingsBoolPreference.displayAppIcons:
-        return 'Show app icons';
       case SettingsBoolPreference.displayBuiltInApps:
         return 'Show built-in apps';
       case SettingsBoolPreference.displayUserInstalledApps:
@@ -231,12 +216,8 @@ enum SettingsBoolPreference {
         return 'Ask for confirmation whenever the user tries to do any irreversible action like deleting a file.';
       case SettingsBoolPreference.hideAppBarOnScroll:
         return 'If enabled, the app bar will automatically hide when scroll down.';
-      case SettingsBoolPreference.compactMode:
-        return 'Show the home app list in compact mode, less space and more content.';
       case SettingsBoolPreference.displaySystemApps:
         return 'If enabled the home list will include system apps, they may not be launchable.';
-      case SettingsBoolPreference.displayAppIcons:
-        return 'If enabled the home app list will show the app icons.';
       case SettingsBoolPreference.displayBuiltInApps:
         return 'If enabled the home list will include built-in apps, they are like system apps but openable.';
       case SettingsBoolPreference.displayUserInstalledApps:

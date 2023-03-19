@@ -104,7 +104,7 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
               ? Text(widget.packageId!)
               : null,
           trailing: AppIconButton(
-            icon: Icon(AppIcons.settings.data),
+            icon: Icon(AppIcons.settings.data, size: AppIcons.settings.size),
             tooltip: 'Open app settings',
             onTap: () {
               if (widget.packageId != null) {
@@ -118,6 +118,7 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
             },
           ),
         ),
+        const Divider(),
         AppListTile(
           title: const Text('Open app'),
           leading: Icon(

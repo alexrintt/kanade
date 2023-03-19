@@ -6,6 +6,8 @@ import '../utils/app_icons.dart';
 import '../utils/app_localization_strings.dart';
 import 'app_icon_button.dart';
 
+const Size kLeadingSize = Size.square(40);
+
 class AppListTile extends StatefulWidget {
   const AppListTile({
     super.key,
@@ -303,8 +305,6 @@ class AppListTile extends StatefulWidget {
 }
 
 class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
-  static const Size _kLeadingSize = Size.square(50);
-
   bool get _isSelected => widget.selected;
 
   Widget? _buildTileTrailing() {
@@ -341,20 +341,18 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
     }
 
     return SizedBox(
-      width: _kLeadingSize.width,
-      height: _kLeadingSize.height,
+      width: kLeadingSize.width,
+      height: kLeadingSize.height,
       child: AspectRatio(aspectRatio: 1, child: child),
     );
   }
-
-  bool get _isCompact => settingsStore.isCompactMode;
 
   Widget? _buildTileLeading() {
     if (widget.leading == null) return null;
 
     return SizedBox(
-      width: _kLeadingSize.width / (_isCompact ? 2 : 1),
-      height: _kLeadingSize.height / (_isCompact ? 2 : 1),
+      width: kLeadingSize.width,
+      height: kLeadingSize.height,
       child: widget.leading,
     );
   }
@@ -370,7 +368,7 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
           subtitle: widget.subtitle,
           trailing: widget.trailing ?? _buildTileTrailing(),
           isThreeLine: widget.isThreeLine,
-          dense: widget.dense ?? settingsStore.isCompactMode,
+          dense: widget.dense,
           visualDensity: widget.visualDensity ?? VisualDensity.compact,
           shape: widget.shape,
           style: widget.style,
@@ -378,9 +376,9 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
           iconColor: widget.iconColor,
           textColor: widget.textColor,
           contentPadding: widget.contentPadding ??
-              EdgeInsets.symmetric(
-                vertical: _isCompact ? 0 : k5dp,
-                horizontal: _isCompact ? k8dp : k8dp,
+              const EdgeInsets.symmetric(
+                vertical: k2dp,
+                horizontal: k8dp,
               ),
           enabled: widget.enabled,
           onTap: widget.onTap,

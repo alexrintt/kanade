@@ -246,8 +246,6 @@ class _MainAppListState extends State<MainAppList>
                             current,
                             showCheckbox: _menuStore.context.isSelection,
                             onTap: () => _onPressed(current),
-                            onPopupMenuTapped: () =>
-                                _openModalBottomSheet(current),
                             isSelected: _menuStore.context.isSelection &&
                                 store.isSelected(item: current),
                           );

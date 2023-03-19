@@ -389,6 +389,9 @@ ThemeData createThemeData({
     textTheme: textTheme,
     primaryColor: primaryColor,
     dividerColor: disabledColor.withOpacity(.1),
+    dividerTheme: base.dividerTheme.copyWith(
+      color: disabledColor,
+    ),
     appBarTheme: base.appBarTheme.copyWith(
       surfaceTintColor: Colors.transparent,
       backgroundColor: cardColor,

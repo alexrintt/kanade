@@ -14,14 +14,12 @@ class DeviceAppTile extends StatefulWidget {
     required this.isSelected,
     required this.showCheckbox,
     required this.onTap,
-    required this.onPopupMenuTapped,
   });
 
   final PackageInfo package;
   final bool isSelected;
   final bool showCheckbox;
   final VoidCallback onTap;
-  final VoidCallback onPopupMenuTapped;
 
   @override
   _DeviceAppTileState createState() => _DeviceAppTileState();
@@ -30,9 +28,6 @@ class DeviceAppTile extends StatefulWidget {
 class _DeviceAppTileState extends State<DeviceAppTile>
     with ContextualMenuStoreMixin, DeviceAppsStoreMixin, SettingsStoreMixin {
   bool get _isSelected => widget.isSelected;
-
-  bool get _showAppIcons =>
-      settingsStore.getBoolPreference(SettingsBoolPreference.displayAppIcons);
 
   Widget _buildTileTitle() {
     return Text(
@@ -53,10 +48,8 @@ class _DeviceAppTileState extends State<DeviceAppTile>
   Widget _buildAppListTile() {
     return AppListTile(
       onSelectionChange: (_) => store.toggleSelect(item: widget.package),
-      onPopupMenuTapped: widget.onPopupMenuTapped,
       selected: _isSelected,
-      leading:
-          _showAppIcons ? PackageImageBytes(icon: widget.package.icon) : null,
+      leading: PackageImageBytes(icon: widget.package.icon),
       title: _buildTileTitle(),
       subtitle: _buildTileSubtitle(),
       inSelectionMode: widget.showCheckbox,

@@ -42,6 +42,7 @@ class AppListTile extends StatefulWidget {
     this.onSelectionChange,
     this.popupMenuBuilder,
     this.onPopupMenuTapped,
+    this.dense = false,
   });
 
   /// A widget to display before the title.
@@ -290,6 +291,8 @@ class AppListTile extends StatefulWidget {
   /// that is also null, then a default value of 40 is used.
   final double? minLeadingWidth;
 
+  final bool dense;
+
   final bool inSelectionMode;
   final void Function(bool)? onSelectionChange;
   final WidgetBuilder? popupMenuBuilder;
@@ -312,18 +315,24 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
         onTap: () => widget.onSelectionChange?.call(!widget.selected),
         tooltip: context.strings.toggleSelect,
         icon: Icon(
-          _isSelected ? AppIcons.checkboxSelected : AppIcons.checkboxUnselected,
+          _isSelected
+              ? AppIcons.checkboxSelected.data
+              : AppIcons.checkboxUnselected.data,
           size: kDefaultIconSize,
         ),
       );
     } else if (widget.popupMenuBuilder != null ||
         widget.onPopupMenuTapped != null) {
       child = AppIconButton(
-        icon: const Icon(AppIcons.more, size: kDefaultIconSize),
+        icon: Icon(AppIcons.more.data, size: AppIcons.more.size),
         tooltip: 'Show more options',
         onTap: () {
           if (widget.popupMenuBuilder != null) {
-            showDialog(context: context, builder: widget.popupMenuBuilder!);
+            showModalBottomSheet<void>(
+              context: context,
+              // useRootNavigator: true,
+              builder: widget.popupMenuBuilder!,
+            );
           } else {
             widget.onPopupMenuTapped!();
           }
@@ -361,7 +370,7 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
           subtitle: widget.subtitle,
           trailing: widget.trailing ?? _buildTileTrailing(),
           isThreeLine: widget.isThreeLine,
-          dense: settingsStore.isCompactMode,
+          dense: widget.dense ?? settingsStore.isCompactMode,
           visualDensity: widget.visualDensity ?? VisualDensity.compact,
           shape: widget.shape,
           style: widget.style,

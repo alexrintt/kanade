@@ -41,7 +41,7 @@ class _CurrentSelectedTreeState extends State<CurrentSelectedTree>
                     child: Padding(
                       padding: const EdgeInsets.only(right: k6dp),
                       child: Icon(
-                        AppIcons.folder,
+                        AppIcons.folder.data,
                         size: kDefaultIconSize,
                         color: context.theme.primaryColor.withOpacity(.5),
                       ),

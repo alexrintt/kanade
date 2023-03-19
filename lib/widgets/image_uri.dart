@@ -3,6 +3,67 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:shared_storage/saf.dart';
 
+import '../utils/app_icons.dart';
+
+class PackageImageBytes extends StatefulWidget {
+  const PackageImageBytes({super.key, required this.icon});
+
+  final Uint8List? icon;
+
+  @override
+  State<PackageImageBytes> createState() => _PackageImageBytesState();
+}
+
+class _PackageImageBytesState extends State<PackageImageBytes> {
+  bool get _hasIcon => widget.icon != null;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: _hasIcon
+          ? Image.memory(
+              widget.icon!,
+              errorBuilder: (_, __, ___) =>
+                  Icon(AppIcons.apk.data, size: AppIcons.apk.size),
+            )
+          : Icon(AppIcons.apk.data, size: AppIcons.apk.size),
+    );
+  }
+}
+
+class PackageImageUri extends StatefulWidget {
+  const PackageImageUri({super.key, this.uri, this.fetchThumbnail = false});
+
+  final Uri? uri;
+  final bool fetchThumbnail;
+
+  @override
+  State<PackageImageUri> createState() => _PackageImageUriState();
+}
+
+class _PackageImageUriState extends State<PackageImageUri> {
+  Widget _buildImageLoadingIconPlaceholder() {
+    return AspectRatio(
+      aspectRatio: 1,
+      child: Icon(AppIcons.apk.data, size: AppIcons.apk.size),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.uri == null) {
+      return Center(child: _buildImageLoadingIconPlaceholder());
+    }
+
+    return ImageUri(
+      fetchThumbnail: widget.fetchThumbnail,
+      uri: widget.uri!,
+      error: Icon(AppIcons.apk.data, size: AppIcons.apk.size),
+      loading: _buildImageLoadingIconPlaceholder(),
+    );
+  }
+}
+
 class ImageUri extends StatefulWidget {
   const ImageUri({
     super.key,

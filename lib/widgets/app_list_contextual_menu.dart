@@ -53,8 +53,8 @@ class _AppListContextualMenuState extends State<AppListContextualMenu>
           _menuStore.popMenu();
           store.unselectAll();
         },
-        icon: const Icon(
-          AppIcons.arrowLeft,
+        icon: Icon(
+          AppIcons.arrowLeft.data,
           size: kDefaultIconSize,
         ),
       ),
@@ -108,7 +108,7 @@ class _AppListContextualMenuState extends State<AppListContextualMenu>
               store.hideProgressIndicator();
             }
           },
-          icon: const Icon(AppIcons.download, size: kDefaultIconSize),
+          icon: Icon(AppIcons.download.data, size: AppIcons.download.size),
         ),
         AppIconButton(
           tooltip: context.strings.selectUnselectAll,
@@ -118,14 +118,14 @@ class _AppListContextualMenuState extends State<AppListContextualMenu>
             builder: (BuildContext context, Widget? child) {
               if (store.isAllSelected) {
                 return Icon(
-                  AppIcons.checkboxSelected,
+                  AppIcons.checkboxSelected.data,
                   size: kDefaultIconSize,
                   color: context.colorScheme.primary,
                 );
               }
 
-              return const Icon(
-                AppIcons.checkboxUnselected,
+              return Icon(
+                AppIcons.checkboxUnselected.data,
                 size: kDefaultIconSize,
               );
             },
@@ -154,8 +154,8 @@ class _AppListContextualMenuState extends State<AppListContextualMenu>
           _menuStore.popMenu();
           store.disableSearch();
         },
-        icon: const Icon(
-          AppIcons.arrowLeft,
+        icon: Icon(
+          AppIcons.arrowLeft.data,
           size: kDefaultIconSize,
         ),
         tooltip: context.strings.exitSearch,

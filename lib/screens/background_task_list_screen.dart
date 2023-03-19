@@ -237,33 +237,18 @@ class _BackgroundTaskTileState extends State<BackgroundTaskTile>
 
     return widget.isSelected
         ? Icon(
-            AppIcons.checkboxSelected,
+            AppIcons.checkboxSelected.data,
             size: kDefaultIconSize,
             color: context.primaryColor,
           )
         : Icon(
-            AppIcons.checkboxUnselected,
+            AppIcons.checkboxUnselected.data,
             size: kDefaultIconSize,
             color: context.primaryColor,
           );
   }
 
-  Widget? _buildLeading() {
-    if (widget.task.apkIconUri != null) {
-      return ImageUri(
-        uri: widget.task.apkIconUri!,
-        error: const Icon(AppIcons.apk, size: kDefaultIconSize),
-        loading: const AspectRatio(
-          aspectRatio: 1,
-          child: Icon(AppIcons.apk, size: kDefaultIconSize),
-        ),
-      );
-    }
-
-    return const Center(
-      child: Icon(AppIcons.apk, size: kDefaultIconSize),
-    );
-  }
+  Widget _buildLeading() => PackageImageUri(uri: widget.task.apkIconUri);
 
   Future<void> _onBackgroundTaskTileTapped() async {
     if (backgroundTaskStore.inSelectionMode) {

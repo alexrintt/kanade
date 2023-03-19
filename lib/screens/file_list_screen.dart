@@ -306,22 +306,16 @@ class _DocumentFileThumbnailState extends State<DocumentFileThumbnail> {
   @override
   Widget build(BuildContext context) {
     if (widget.file.type == kApkMimeType) {
-      return ImageUri(
-        uri: Uri.parse('${widget.file.uri}_icon'),
-        loading: const Icon(AppIcons.apk, size: kDefaultIconSize),
-        error: const Icon(AppIcons.apk, size: kDefaultIconSize),
-      );
+      return PackageImageUri(uri: Uri.parse('${widget.file.uri}_icon'));
     }
 
     if (widget.file.isDirectory ?? false) {
-      return const Icon(Icons.folder);
+      return Icon(Icons.folder);
     }
 
-    return ImageUri(
+    return PackageImageUri(
       fetchThumbnail: true,
       uri: widget.file.uri,
-      loading: const Icon(AppIcons.apk, size: kDefaultIconSize),
-      error: const Icon(AppIcons.apk, size: kDefaultIconSize),
     );
   }
 }

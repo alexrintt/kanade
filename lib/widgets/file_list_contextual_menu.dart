@@ -47,8 +47,8 @@ class _FileListContextualMenuState extends State<FileListContextualMenu>
           _menuStore.popMenu();
           fileListStore.unselectAll();
         },
-        icon: const Icon(
-          AppIcons.arrowLeft,
+        icon: Icon(
+          AppIcons.arrowLeft.data,
           size: kDefaultIconSize,
         ),
       ),
@@ -62,8 +62,8 @@ class _FileListContextualMenuState extends State<FileListContextualMenu>
 
             await fileListStore.deleteSelectedFiles();
           },
-          icon: const Icon(
-            AppIcons.delete,
+          icon: Icon(
+            AppIcons.delete.data,
             size: kDefaultIconSize,
             color: Colors.red,
           ),
@@ -76,14 +76,14 @@ class _FileListContextualMenuState extends State<FileListContextualMenu>
             builder: (BuildContext context, Widget? child) {
               if (fileListStore.isAllSelected) {
                 return Icon(
-                  AppIcons.checkboxSelected,
+                  AppIcons.checkboxSelected.data,
                   size: kDefaultIconSize,
                   color: context.colorScheme.primary,
                 );
               }
 
-              return const Icon(
-                AppIcons.checkboxUnselected,
+              return Icon(
+                AppIcons.checkboxUnselected.data,
                 size: kDefaultIconSize,
               );
             },
@@ -111,8 +111,8 @@ class _FileListContextualMenuState extends State<FileListContextualMenu>
           _menuStore.popMenu();
           fileListStore.disableSearch();
         },
-        icon: const Icon(
-          AppIcons.arrowLeft,
+        icon: Icon(
+          AppIcons.arrowLeft.data,
           size: kDefaultIconSize,
         ),
         tooltip: context.strings.exitSearch,

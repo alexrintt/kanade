@@ -50,7 +50,7 @@ class _SettingsPageState extends State<SettingsPage>
                     ? null
                     : IconButton(
                         icon: Icon(
-                          AppIcons.arrowLeft,
+                          AppIcons.arrowLeft.data,
                           size: kDefaultIconSize,
                           color: context.isDark ? null : context.primaryColor,
                         ),
@@ -65,7 +65,7 @@ class _SettingsPageState extends State<SettingsPage>
                 actions: <Widget>[
                   AppIconButton(
                     icon: Icon(
-                      AppIcons.reset,
+                      AppIcons.reset.data,
                       size: kDefaultIconSize,
                       color: context.isDark ? null : context.primaryColor,
                     ),
@@ -224,10 +224,11 @@ class _ExportLocationSettingsTileState extends State<ExportLocationSettingsTile>
               horizontal: k10dp,
             ),
             enableFeedback: true,
-            leading: const Icon(AppIcons.folder, size: kDefaultIconSize),
+            leading: Icon(AppIcons.folder.data, size: AppIcons.folder.size),
             title: Text(context.strings.selectOutputFolder),
             subtitle: Text(exportLocation ?? context.strings.notDefined),
-            trailing: const Icon(AppIcons.arrowRight, size: kDefaultIconSize),
+            trailing:
+                Icon(AppIcons.arrowRight.data, size: AppIcons.arrowRight.size),
           );
         },
       ),
@@ -259,7 +260,7 @@ class _AppThemeSettingsTileState extends State<AppThemeSettingsTile>
           horizontal: k10dp,
         ),
         enableFeedback: true,
-        leading: const Icon(AppIcons.styling, size: kDefaultIconSize),
+        leading: Icon(AppIcons.styling.data, size: AppIcons.styling.size),
         title: Text(context.strings.theme),
         subtitle: AnimatedBuilder(
           animation: themeStore,
@@ -331,7 +332,7 @@ class _AppFontFamilySettingsTileState extends State<AppFontFamilySettingsTile>
           horizontal: k10dp,
         ),
         enableFeedback: true,
-        leading: const Icon(AppIcons.fontFamily, size: kDefaultIconSize),
+        leading: Icon(AppIcons.fontFamily.data, size: AppIcons.fontFamily.size),
         title: Text(context.strings.fontFamily),
         subtitle: AnimatedBuilder(
           animation: themeStore,
@@ -589,7 +590,7 @@ class _AppLocalizationSettingsTileState
           horizontal: k10dp,
         ),
         enableFeedback: true,
-        leading: const Icon(AppIcons.language, size: kDefaultIconSize),
+        leading: Icon(AppIcons.language.data, size: AppIcons.language.size),
         title: Text(context.strings.language),
         subtitle: AnimatedBuilder(
           animation: localizationStore,

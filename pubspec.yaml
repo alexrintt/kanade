@@ -199,10 +199,6 @@ flutter:
   generate: true
   uses-material-design: true
   fonts:
-    - family: Inconsolata
-      fonts:
-        - asset: assets/fonts/Inconsolata-Regular.ttf
-          weight: 700
     - family: Roboto Mono
       fonts:
         - asset: assets/fonts/RobotoMono-Regular.ttf

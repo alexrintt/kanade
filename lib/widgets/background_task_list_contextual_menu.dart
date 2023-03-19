@@ -50,8 +50,8 @@ class _BackgroundTaskListContextualMenuState
           _menuStore.popMenu();
           backgroundTaskStore.unselectAll();
         },
-        icon: const Icon(
-          AppIcons.arrowLeft,
+        icon: Icon(
+          AppIcons.arrowLeft.data,
           size: kDefaultIconSize,
         ),
       ),
@@ -65,8 +65,8 @@ class _BackgroundTaskListContextualMenuState
 
             await backgroundTaskStore.deleteSelectedBackgroundTasks();
           },
-          icon: const Icon(
-            AppIcons.delete,
+          icon: Icon(
+            AppIcons.delete.data,
             size: kDefaultIconSize,
             color: Colors.red,
           ),
@@ -79,14 +79,14 @@ class _BackgroundTaskListContextualMenuState
             builder: (BuildContext context, Widget? child) {
               if (backgroundTaskStore.isAllSelected) {
                 return Icon(
-                  AppIcons.checkboxSelected,
+                  AppIcons.checkboxSelected.data,
                   size: kDefaultIconSize,
                   color: context.colorScheme.primary,
                 );
               }
 
-              return const Icon(
-                AppIcons.checkboxUnselected,
+              return Icon(
+                AppIcons.checkboxUnselected.data,
                 size: kDefaultIconSize,
               );
             },
@@ -115,8 +115,8 @@ class _BackgroundTaskListContextualMenuState
           _menuStore.popMenu();
           backgroundTaskStore.disableSearch();
         },
-        icon: const Icon(
-          AppIcons.arrowLeft,
+        icon: Icon(
+          AppIcons.arrowLeft.data,
           size: kDefaultIconSize,
         ),
         tooltip: context.strings.exitSearch,
@@ -136,7 +136,9 @@ class _BackgroundTaskListContextualMenuState
             if (backgroundTaskStore.collection.isNotEmpty)
               AppIconButton(
                 icon: Icon(
-                  backgroundTaskStore.idle ? AppIcons.delete : AppIcons.x,
+                  backgroundTaskStore.idle
+                      ? AppIcons.delete.data
+                      : AppIcons.x.data,
                   size: kDefaultIconSize,
                   color: Colors.red,
                 ),

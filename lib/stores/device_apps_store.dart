@@ -288,7 +288,22 @@ class DeviceAppsStore extends IndexedCollectionStore<PackageInfo>
 
   BackgroundTaskStore get _backgroundTaskStore => getIt<BackgroundTaskStore>();
 
-  Future<ApkExtraction> extractApk(PackageInfo package, {Uri? folder}) async {
+  Future<void> uninstallApp(String packageId) async {
+    await DevicePackages.uninstallPackage(packageId);
+  }
+
+  Future<ApkExtraction> extractApk({
+    PackageInfo? packageInfo,
+    String? packageId,
+    Uri? folder,
+  }) async {
+    final PackageInfo? package =
+        packageInfo ?? collectionIndexedById[packageId!];
+
+    if (package == null) {
+      return const ApkExtraction(null, Result.notFound);
+    }
+
     final File apkFile = File(package.installerPath!);
 
     if (!apkFile.existsSync()) {
@@ -336,8 +351,10 @@ class DeviceAppsStore extends IndexedCollectionStore<PackageInfo>
     final Uri? folder = await requestExportLocation();
 
     if (folder != null) {
-      for (final PackageInfo selected in selected) {
-        extractions.add(await extractApk(selected, folder: folder));
+      for (final PackageInfo selectedPackage in selected) {
+        extractions.add(
+          await extractApk(packageInfo: selectedPackage, folder: folder),
+        );
       }
 
       return MultipleApkExtraction(extractions);

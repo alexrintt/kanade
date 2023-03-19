@@ -49,9 +49,9 @@ class _BottomNavigationState extends State<BottomNavigation>
           selectedIndex: widget.index,
           onDestinationSelected: _select,
           destinations: <Widget>[
-            const NavigationDestination(
+            NavigationDestination(
               icon: Icon(
-                AppIcons.apps,
+                AppIcons.apps.data,
                 size: kDefaultIconSize,
               ),
               label: 'Apps',
@@ -60,16 +60,16 @@ class _BottomNavigationState extends State<BottomNavigation>
               icon: Badge(
                 label: Text(backgroundTaskStore.badgeCount.toString()),
                 isLabelVisible: backgroundTaskStore.badgeCount != 0,
-                child: const Icon(
-                  AppIcons.apk,
+                child: Icon(
+                  AppIcons.apk.data,
                   size: kDefaultIconSize,
                 ),
               ),
               label: 'Apks',
             ),
-            const NavigationDestination(
+            NavigationDestination(
               icon: Icon(
-                AppIcons.folder,
+                AppIcons.folder.data,
                 size: kDefaultIconSize,
               ),
               label: 'Files',

@@ -13,6 +13,7 @@ import '../stores/settings_store.dart';
 import '../stores/theme_store.dart';
 import '../utils/app_localization_strings.dart';
 import '../utils/context_of.dart';
+import '../utils/context_show_apk_result_message.dart';
 import '../widgets/animated_app_name.dart';
 import '../widgets/app_list_contextual_menu.dart';
 import '../widgets/device_app_tile.dart';
@@ -171,34 +172,11 @@ class _MainAppListState extends State<MainAppList>
       try {
         store.showProgressIndicator();
 
-        final ApkExtraction extraction = await store.extractApk(package);
+        final ApkExtraction extraction =
+            await store.extractApk(packageInfo: package);
 
-        if (!mounted) return;
-
-        switch (extraction.result) {
-          case Result.permissionDenied:
-            showToast(context, context.strings.permissionDenied);
-            break;
-          case Result.permissionRestricted:
-            showToast(context, context.strings.permissionRestrictedByAndroid);
-            break;
-          case Result.notAllowed:
-            showToast(
-              context,
-              context.strings.operationNotAllowedMayBeProtectedPackage,
-            );
-            break;
-          case Result.notFound:
-            showToast(
-              context,
-              // TODO: Missing translation.
-              'Could not extract, this apk was probably uninstalled because we did not found it is apk file',
-            );
-            break;
-          case Result.queued:
-            // The bottom navigation bar actually changes its badge indicator,
-            // so we don't need to do anything here to indicate the apk is being extracted.
-            break;
+        if (mounted) {
+          context.showApkResultMessage(extraction.result);
         }
       } finally {
         store.hideProgressIndicator();

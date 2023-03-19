@@ -289,14 +289,13 @@ class ThemeStore extends ChangeNotifier {
 }
 
 enum AppFontFamily {
-  inconsolata('Inconsolata', 1.2),
   robotoMono('Roboto Mono', 0.9),
   forward('Forward', 1),
   zenKakuGothicAntique('Zen Kaku Gothic Antique', 1);
 
   const AppFontFamily(this.fontKey, this.preferableFontSizeDelta);
 
-  static const AppFontFamily defaultFont = AppFontFamily.inconsolata;
+  static const AppFontFamily defaultFont = AppFontFamily.robotoMono;
 
   final double preferableFontSizeDelta;
 
@@ -315,8 +314,6 @@ enum AppFontFamily {
   /// Font family name decribed in the pubspec.yaml
   String getNameString(AppLocalizations localizations) {
     switch (this) {
-      case AppFontFamily.inconsolata:
-        return 'Inconsolata';
       case AppFontFamily.forward:
         return 'Forward';
       case AppFontFamily.robotoMono:
@@ -334,8 +331,6 @@ extension DisplayAppFontFamily on AppFontFamily {
   /// Wether or not this font can be used as main font family.
   bool get displayable {
     switch (this) {
-      case AppFontFamily.inconsolata:
-        return true;
       case AppFontFamily.forward:
         return false;
       case AppFontFamily.robotoMono:
@@ -403,8 +398,8 @@ ThemeData createThemeData({
       titleTextStyle:
           (base.appBarTheme.titleTextStyle ?? textTheme.displayLarge)!
               .copyWith(color: textColor, fontSize: k8dp),
-      iconTheme: (base.appBarTheme.iconTheme ?? const IconThemeData.fallback())
-          .copyWith(
+      iconTheme:
+          (base.appBarTheme.iconTheme ?? IconThemeData.fallback()).copyWith(
         color: textColor,
       ),
       systemOverlayStyle: SystemUiOverlayStyle(
@@ -420,6 +415,21 @@ ThemeData createThemeData({
     highlightColor: primaryColor.withOpacity(0.025),
     radioTheme: base.radioTheme.copyWith(
       fillColor: MaterialStateProperty.all(primaryColor),
+    ),
+    popupMenuTheme: base.popupMenuTheme.copyWith(elevation: 0),
+    bottomSheetTheme: base.bottomSheetTheme.copyWith(
+      backgroundColor: backgroundColor,
+      elevation: 0,
+      modalBackgroundColor: backgroundColor,
+      surfaceTintColor: Colors.transparent,
+      modalElevation: 0,
+      shape: const ContinuousRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(k40dp),
+          topRight: Radius.circular(k40dp),
+        ),
+      ),
+      // modalBarrierColor: Colors.black.withOpacity(.75),
     ),
     dialogTheme: base.dialogTheme.copyWith(
       surfaceTintColor: Colors.transparent,

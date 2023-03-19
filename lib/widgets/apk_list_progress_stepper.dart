@@ -69,7 +69,7 @@ class _StorageRequirementsProgressStepperState
           alignment: Alignment.centerLeft,
           child: _buildFilledButton(
             context.strings.selectOutputFolder,
-            AppIcons.folder,
+            AppIcons.folder.data,
             onPressed: settingsStore.requestExportLocation,
           ),
         );
@@ -81,7 +81,7 @@ class _StorageRequirementsProgressStepperState
             _buildFilledButton(
               // TODO: Add translation.
               'Go to app list',
-              AppIcons.apps,
+              AppIcons.apps.data,
               onPressed: bottomNavigationStore.navigateToAppList,
             ),
             const Padding(padding: EdgeInsets.all(k2dp)),
@@ -176,7 +176,7 @@ class _StorageRequirementsProgressStepperState
                 (BuildContext context, int index, StepState state) {
               if (state == StepState.complete) {
                 return Icon(
-                  AppIcons.checkmark,
+                  AppIcons.checkmark.data,
                   color: context.scaffoldBackgroundColor,
                   size: kDefaultIconSize,
                 );

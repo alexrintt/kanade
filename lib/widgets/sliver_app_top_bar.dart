@@ -52,7 +52,7 @@ class _SliverAppTopBarState extends State<SliverAppTopBar> {
             builder: (BuildContext context) => const ChangeThemeDialog(),
           ),
           icon: Icon(
-            AppIcons.styling,
+            AppIcons.styling.data,
             color: context.isDark ? null : context.primaryColor,
             size: kDefaultIconSize,
           ),
@@ -62,7 +62,7 @@ class _SliverAppTopBarState extends State<SliverAppTopBar> {
           AppIconButton(
             onTap: widget.onSearch,
             icon: Icon(
-              AppIcons.search,
+              AppIcons.search.data,
               color: context.isDark ? null : context.primaryColor,
               size: kDefaultIconSize,
             ),
@@ -71,7 +71,7 @@ class _SliverAppTopBarState extends State<SliverAppTopBar> {
         AppIconButton(
           onTap: context.openSettingsPage,
           icon: Icon(
-            AppIcons.settings,
+            AppIcons.settings.data,
             color: context.isDark ? null : context.primaryColor,
             size: kDefaultIconSize,
           ),

@@ -35,17 +35,7 @@ class _ApkFileTileState extends State<ApkFileTile> with LocalizationStoreMixin {
   @override
   Widget build(BuildContext context) {
     return AppListTile(
-      leading: SizedBox(
-        height: 50,
-        width: 50,
-        child: widget.icon != null
-            ? ImageUri(
-                uri: widget.icon!.uri,
-                loading: const Icon(AppIcons.apk, size: kDefaultIconSize),
-                error: const Icon(AppIcons.apk, size: kDefaultIconSize),
-              )
-            : const Icon(AppIcons.apk, size: kDefaultIconSize),
-      ),
+      leading: PackageImageUri(uri: widget.icon?.uri),
       title: Text('${widget.file.name}'),
       subtitle: Text('$formattedBytes, $formattedDate'),
       onTap: () async {

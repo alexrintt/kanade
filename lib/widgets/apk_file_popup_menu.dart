@@ -38,29 +38,36 @@ class _ApkFilePopupMenuState extends State<ApkFilePopupMenu> {
       children: <Widget>[
         AppListTile(
           title: const Text('Open file location'),
-          leading: const Icon(AppIcons.folder, size: kDefaultIconSize),
+          leading: Icon(AppIcons.folder.data, size: AppIcons.folder.size),
           onTap: () {
             context.pop<ApkFileTileAction>(ApkFileTileAction.open);
           },
         ),
         AppListTile(
           title: const Text('Share apk'),
-          leading: const Icon(AppIcons.share, size: kDefaultIconSize),
+          leading: Icon(AppIcons.share.data, size: AppIcons.share.size),
           onTap: () {
             context.pop<ApkFileTileAction>(ApkFileTileAction.share);
           },
         ),
         AppListTile(
           title: const Text('Install apk'),
-          leading: const Icon(AppIcons.arrowDown, size: kDefaultIconSize),
+          leading: Icon(AppIcons.arrowDown.data, size: AppIcons.arrowDown.size),
           onTap: () {
             context.pop<ApkFileTileAction>(ApkFileTileAction.install);
           },
         ),
         AppListTile(
+          title: const Text('Open file location'),
+          leading: Icon(AppIcons.folder.data, size: AppIcons.folder.size),
+          onTap: () {
+            context.pop<ApkFileTileAction>(ApkFileTileAction.open);
+          },
+        ),
+        AppListTile(
           title: const Text('Delete file'),
-          leading: const Icon(
-            AppIcons.delete,
+          leading: Icon(
+            AppIcons.delete.data,
             size: kDefaultIconSize,
             color: Colors.red,
           ),

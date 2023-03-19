@@ -7,7 +7,7 @@ void showToast(BuildContext context, String message) {
   Fluttertoast.showToast(
     msg: message,
     toastLength: Toast.LENGTH_LONG,
-    gravity: ToastGravity.BOTTOM,
+    gravity: ToastGravity.TOP,
     backgroundColor: context.theme.disabledColor.withOpacity(1),
     textColor: context.theme.colorScheme.background,
     fontSize: 14.0,

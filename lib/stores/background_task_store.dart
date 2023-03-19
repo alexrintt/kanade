@@ -10,7 +10,6 @@ import 'package:shared_storage/saf.dart' as saf;
 
 import '../setup.dart';
 import '../utils/mime_types.dart';
-import '../utils/package_bytes.dart';
 import 'bottom_navigation_store.dart';
 import 'global_file_change_store.dart';
 import 'indexed_collection_store.dart';
@@ -147,7 +146,7 @@ class ExtractApkBackgroundTask {
         packageInfo =
             await DevicePackages.getPackage(packageId, includeIcon: true);
 
-        size = packageInfo.size;
+        size = packageInfo.length;
         packageName = packageInfo.name;
 
         if (packageInfo.installerPath == null) {

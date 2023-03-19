@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:device_packages/device_packages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
@@ -12,13 +14,13 @@ import '../stores/device_apps_store.dart';
 import '../stores/settings_store.dart';
 import '../stores/theme_store.dart';
 import '../utils/context_of.dart';
-import '../utils/context_show_apk_result_message.dart';
 import '../widgets/animated_app_name.dart';
 import '../widgets/app_list_contextual_menu.dart';
 import '../widgets/device_app_tile.dart';
 import '../widgets/drag_select_scroll_notifier.dart';
 import '../widgets/loading.dart';
 import '../widgets/multi_animated_builder.dart';
+import '../widgets/package_menu_bottom_sheet.dart';
 
 class AppListScreen extends StatefulWidget {
   const AppListScreen({super.key});
@@ -167,18 +169,7 @@ class _MainAppListState extends State<MainAppList>
     if (_menuStore.context.isSelection) {
       store.toggleSelect(item: package);
     } else {
-      try {
-        store.showProgressIndicator();
-
-        final ApkExtraction extraction =
-            await store.extractApk(packageInfo: package);
-
-        if (mounted) {
-          context.showApkResultMessage(extraction.result);
-        }
-      } finally {
-        store.hideProgressIndicator();
-      }
+      _openModalBottomSheet(package);
     }
   }
 
@@ -194,6 +185,22 @@ class _MainAppListState extends State<MainAppList>
     _scrollController.dispose();
 
     super.dispose();
+  }
+
+  void _openModalBottomSheet(PackageInfo package) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (_) => BottomSheetWithAnimationController(
+        child: InstalledAppMenuOptions(
+          iconBytes: package.icon,
+          packageId: package.id,
+          packageInstallerFile: package.installerPath != null
+              ? File(package.installerPath!)
+              : null,
+          packageName: package.name,
+        ),
+      ),
+    );
   }
 
   @override
@@ -239,6 +246,8 @@ class _MainAppListState extends State<MainAppList>
                             current,
                             showCheckbox: _menuStore.context.isSelection,
                             onTap: () => _onPressed(current),
+                            onPopupMenuTapped: () =>
+                                _openModalBottomSheet(current),
                             isSelected: _menuStore.context.isSelection &&
                                 store.isSelected(item: current),
                           );

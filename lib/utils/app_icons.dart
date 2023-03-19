@@ -3,16 +3,8 @@ import 'package:flutter_octicons/flutter_octicons.dart';
 
 const double kDefaultIconSize = 18;
 
-double defaultIconSizeOf(IconData icon) {
-  if (icon == AppIcons.playStore.data) {
-    return 26.0;
-  }
-
-  return 18.0;
-}
-
 enum AppIcons {
-  playStore(Icons.play_arrow_outlined, 24),
+  playStore(Icons.play_arrow_outlined, 26),
   search(OctIcons.search_16),
   checkboxSelected(OctIcons.check_circle_fill_16),
   checkboxUnselected(OctIcons.circle_16),
@@ -25,7 +17,7 @@ enum AppIcons {
   settings(OctIcons.gear_16),
   reset(OctIcons.sync_16),
   delete(OctIcons.trash_16),
-  more(Icons.more_vert),
+  more(Icons.more_vert, 26),
   arrowLeft(OctIcons.chevron_left_16),
   arrowRight(OctIcons.chevron_right_16),
   fontFamily(OctIcons.italic_16),

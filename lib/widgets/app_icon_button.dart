@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 
 class AppIconButton extends StatefulWidget {
   const AppIconButton({
@@ -6,11 +7,13 @@ class AppIconButton extends StatefulWidget {
     required this.icon,
     required this.tooltip,
     this.onTap,
+    this.iconSize,
   });
 
   final String tooltip;
   final Widget icon;
   final VoidCallback? onTap;
+  final double? iconSize;
 
   @override
   AppIconButtonState createState() => AppIconButtonState();
@@ -21,9 +24,10 @@ class AppIconButtonState extends State<AppIconButton> {
   Widget build(BuildContext context) {
     return IconButton(
       onPressed: widget.onTap,
-      splashColor: Colors.white.withOpacity(.05),
-      highlightColor: Colors.white.withOpacity(.05),
+      splashColor: context.theme.splashColor,
+      highlightColor: context.theme.highlightColor,
       icon: widget.icon,
+      iconSize: widget.iconSize,
       tooltip: widget.tooltip,
     );
   }

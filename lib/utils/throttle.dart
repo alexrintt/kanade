@@ -1,10 +1,9 @@
 import 'dart:async';
 
-/// Do not declare it directly like this:
+/// Usage:
 /// ```dart
 /// final kThrottle5000ms = throttleIt(const Duration(milliseconds: 5000));
 /// ```
-/// because any global call will reset the throttle function.
 void Function(void Function()) throttleIt1s() {
   return throttleIt(const Duration(seconds: 1));
 }

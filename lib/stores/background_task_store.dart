@@ -9,6 +9,7 @@ import 'package:path/path.dart';
 import 'package:shared_storage/saf.dart' as saf;
 
 import '../setup.dart';
+import '../utils/debounce.dart';
 import '../utils/mime_types.dart';
 import 'bottom_navigation_store.dart';
 import 'global_file_change_store.dart';
@@ -89,6 +90,11 @@ class ExtractApkBackgroundTask {
   final Uri parentUri;
   final String packageId;
   final DateTime createdAt;
+
+  Uri? get targetUri => apkDestinationUri;
+  String? get title => apkDestinationFileName ?? packageName;
+
+  int get sizeOrZero => size ?? 0;
 
   Uri? apkIconUri;
   String? packageName;
@@ -248,31 +254,31 @@ mixin BackgroundTaskStoreMixin {
       _backgroundTaskStore ??= getIt<BackgroundTaskStore>();
 }
 
-/// Lightweight view model version of [ExtractApkBackgroundTask].
-class BackgroundTaskDisplayInfo {
-  const BackgroundTaskDisplayInfo({
-    required this.title,
-    required this.size,
-    required this.createdAt,
-    required this.targetUri,
-    required this.id,
-    required this.progress,
-    required this.apkIconUri,
-  });
+// /// Lightweight view model version of [ExtractApkBackgroundTask].
+// class BackgroundTaskDisplayInfo {
+//   const BackgroundTaskDisplayInfo({
+//     required this.title,
+//     required this.size,
+//     required this.createdAt,
+//     required this.targetUri,
+//     required this.id,
+//     required this.progress,
+//     required this.apkIconUri,
+//   });
 
-  final String? title;
-  final int size;
-  final DateTime createdAt;
+//   final String? title;
+//   final int size;
+//   final DateTime createdAt;
 
-  /// The current apk uri.
-  final Uri? targetUri;
+//   /// The current apk uri.
+//   final Uri? targetUri;
 
-  final String id;
-  final TaskProgress progress;
+//   final String id;
+//   final TaskProgress progress;
 
-  /// The linked icon Uri to this background task. Use it to display the apk icon.
-  final Uri? apkIconUri;
-}
+//   /// The linked icon Uri to this background task. Use it to display the apk icon.
+//   final Uri? apkIconUri;
+// }
 
 class BackgroundTaskStore
     extends IndexedCollectionStore<ExtractApkBackgroundTask>
@@ -299,23 +305,6 @@ class BackgroundTaskStore
   int get badgeCount => collection
       .where((ExtractApkBackgroundTask e) => e.createdAt.isAfter(_lastView))
       .length;
-
-  List<BackgroundTaskDisplayInfo> get displayBackgroundTasks =>
-      List<BackgroundTaskDisplayInfo>.unmodifiable(
-        collection
-            .map(
-              (ExtractApkBackgroundTask task) => BackgroundTaskDisplayInfo(
-                createdAt: task.createdAt,
-                size: task.size ?? 0,
-                targetUri: task.apkDestinationUri,
-                id: task.id,
-                title: task.apkDestinationFileName ?? task.packageName,
-                progress: task.progress,
-                apkIconUri: task.apkIconUri,
-              ),
-            )
-            .toList(),
-      );
 
   int _byCreationDateDesc(
     ExtractApkBackgroundTask a,
@@ -492,7 +481,10 @@ class BackgroundTaskStore
     }
   }
 
-  Future<void> _saveTasks(List<ExtractApkBackgroundTask> tasks) async {
+  final void Function(void Function()) debounce =
+      debounceIt(const Duration(seconds: 1));
+
+  Future<void> __saveTasks(List<ExtractApkBackgroundTask> tasks) async {
     await _cacheFile.writeAsString(
       jsonEncode(
         <String, dynamic>{
@@ -501,6 +493,10 @@ class BackgroundTaskStore
         },
       ),
     );
+  }
+
+  Future<void> _saveTasks(List<ExtractApkBackgroundTask> tasks) async {
+    debounce(() => __saveTasks(tasks));
   }
 
   Future<void> queue(ExtractApkBackgroundTask task) async {

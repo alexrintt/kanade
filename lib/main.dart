@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 
 import 'pages/home_page.dart';
 import 'setup.dart';
@@ -21,7 +22,10 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiAnimatedBuilder(
-      animations: <Listenable>[getIt<ThemeStore>(), getIt<LocalizationStore>()],
+      animations: <Listenable>[
+        getIt<ThemeStore>(),
+        getIt<LocalizationStore>(),
+      ],
       builder: (BuildContext context, Widget? child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -30,9 +34,28 @@ class App extends StatelessWidget {
           theme: getIt<ThemeStore>().currentThemeData,
           locale: getIt<LocalizationStore>().locale,
           builder: (BuildContext context, Widget? child) {
-            return ScrollConfiguration(
-              behavior: NoGlowScrollBehavior(),
-              child: child!,
+            return AnimatedBuilder(
+              animation: getIt<ThemeStore>(),
+              builder: (BuildContext context, Widget? child) {
+                final ScrollBehavior scrollBehavior =
+                    getIt<ThemeStore>().scrollBehavior;
+
+                Widget? childWithColoredScrollIndicator = child;
+
+                if (scrollBehavior == const GlowScrollBehavior()) {
+                  childWithColoredScrollIndicator = GlowingOverscrollIndicator(
+                    color: context.theme.primaryColor,
+                    axisDirection: AxisDirection.down,
+                    child: childWithColoredScrollIndicator,
+                  );
+                }
+
+                return ScrollConfiguration(
+                  behavior: getIt<ThemeStore>().scrollBehavior,
+                  child: childWithColoredScrollIndicator!,
+                );
+              },
+              child: child,
             );
           },
           home: const HomePage(),

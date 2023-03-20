@@ -6,7 +6,7 @@ import '../utils/app_icons.dart';
 import '../utils/app_localization_strings.dart';
 import 'app_icon_button.dart';
 
-const Size kLeadingSize = Size.square(40);
+const Size kLeadingSize = Size.square(55);
 
 class AppListTile extends StatefulWidget {
   const AppListTile({
@@ -45,6 +45,7 @@ class AppListTile extends StatefulWidget {
     this.popupMenuBuilder,
     this.onPopupMenuTapped,
     this.dense,
+    this.flat = true,
   });
 
   /// A widget to display before the title.
@@ -300,6 +301,8 @@ class AppListTile extends StatefulWidget {
   final WidgetBuilder? popupMenuBuilder;
   final VoidCallback? onPopupMenuTapped;
 
+  final bool flat;
+
   @override
   State<AppListTile> createState() => _AppListTileState();
 }
@@ -330,7 +333,6 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
           if (widget.popupMenuBuilder != null) {
             showModalBottomSheet<void>(
               context: context,
-              // useRootNavigator: true,
               builder: widget.popupMenuBuilder!,
             );
           } else {
@@ -357,9 +359,23 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
     );
   }
 
+  ShapeBorder? get _defaultShape {
+    if (widget.flat) {
+      return null;
+    }
+
+    return ContinuousRectangleBorder(
+      borderRadius: BorderRadius.circular(k8dp),
+    );
+  }
+
+  Color? get _defaultTileColor {
+    return widget.flat ? null : context.theme.canvasColor;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
+    Widget child = AnimatedBuilder(
       animation: settingsStore,
       builder: (BuildContext context, Widget? child) {
         return ListTile(
@@ -370,16 +386,13 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
           isThreeLine: widget.isThreeLine,
           dense: widget.dense,
           visualDensity: widget.visualDensity ?? VisualDensity.compact,
-          shape: widget.shape,
+          shape: widget.shape ?? _defaultShape,
           style: widget.style,
           selectedColor: widget.selectedColor,
           iconColor: widget.iconColor,
           textColor: widget.textColor,
           contentPadding: widget.contentPadding ??
-              const EdgeInsets.symmetric(
-                vertical: k2dp,
-                horizontal: k8dp,
-              ),
+              const EdgeInsets.symmetric(horizontal: k5dp, vertical: k2dp),
           enabled: widget.enabled,
           onTap: widget.onTap,
           onLongPress: widget.onLongPress,
@@ -391,9 +404,8 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
           splashColor: widget.splashColor,
           focusNode: widget.focusNode,
           autofocus: widget.autofocus,
-          tileColor: widget.tileColor,
-          selectedTileColor:
-              widget.selectedTileColor ?? context.theme.highlightColor,
+          tileColor: widget.tileColor ?? _defaultTileColor,
+          selectedTileColor: widget.selectedTileColor,
           enableFeedback: widget.enableFeedback,
           horizontalTitleGap: widget.horizontalTitleGap,
           minVerticalPadding: widget.minVerticalPadding,
@@ -401,5 +413,14 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
         );
       },
     );
+
+    if (!widget.flat) {
+      child = Card(
+        clipBehavior: Clip.hardEdge,
+        child: child,
+      );
+    }
+
+    return child;
   }
 }

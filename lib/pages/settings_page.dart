@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_shared_tools/constant/constant.dart';
 import 'package:flutter_shared_tools/extensions/extensions.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../setup.dart';
 import '../stores/localization_store.dart';
@@ -12,12 +10,13 @@ import '../stores/theme_store.dart';
 import '../utils/app_icons.dart';
 import '../utils/app_localization_strings.dart';
 import '../utils/context_confirm.dart';
+import '../utils/copy_to_clipboard.dart';
+import '../utils/open_url.dart';
 import '../utils/stringify_uri_location.dart';
 import '../widgets/animated_app_name.dart';
 import '../widgets/app_icon_button.dart';
 import '../widgets/app_list_tile.dart';
 import '../widgets/horizontal_rule.dart';
-import '../widgets/toast.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -106,6 +105,7 @@ class _SettingsPageState extends State<SettingsPage>
                 ),
                 const HorizontalRule(),
                 const SettingsTileTitle('Appearance preferences'),
+                const AppOverscrollPhysicsTile(),
                 AppBooleanPreferencesSettingsTile(
                   values: SettingsBoolPreference.filterBy(
                     category: SettingsBoolPreferenceCategory.appearance,
@@ -227,8 +227,10 @@ class _ExportLocationSettingsTileState extends State<ExportLocationSettingsTile>
             leading: Icon(AppIcons.folder.data, size: AppIcons.folder.size),
             title: Text(context.strings.selectOutputFolder),
             subtitle: Text(exportLocation ?? context.strings.notDefined),
-            trailing:
-                Icon(AppIcons.arrowRight.data, size: AppIcons.arrowRight.size),
+            trailing: Icon(
+              AppIcons.chevronRight.data,
+              size: AppIcons.chevronRight.size,
+            ),
           );
         },
       ),
@@ -306,6 +308,82 @@ class _ChangeThemeDialogState extends State<ChangeThemeDialog>
   }
 }
 
+class AppOverscrollPhysicsTile extends StatefulWidget {
+  const AppOverscrollPhysicsTile({super.key});
+
+  @override
+  State<AppOverscrollPhysicsTile> createState() =>
+      _AppOverscrollPhysicsTileState();
+}
+
+class _AppOverscrollPhysicsTileState extends State<AppOverscrollPhysicsTile>
+    with ThemeStoreMixin<AppOverscrollPhysicsTile> {
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) =>
+              const ChangeOverscrollPhysicsDialog(),
+        );
+      },
+      child: AppListTile(
+        tileColor: Colors.transparent,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: k10dp,
+        ),
+        enableFeedback: true,
+        title: const Text('Overscroll indicator'),
+        subtitle: AnimatedBuilder(
+          animation: themeStore,
+          builder: (BuildContext context, Widget? child) {
+            return Text(
+              themeStore.currentOverscrollPhysics
+                  .getNameString(context.strings),
+            );
+          },
+        ),
+      ),
+    );
+  }
+}
+
+class ChangeOverscrollPhysicsDialog extends StatefulWidget {
+  const ChangeOverscrollPhysicsDialog({super.key});
+
+  @override
+  State<ChangeOverscrollPhysicsDialog> createState() =>
+      _ChangeOverscrollPhysicsDialogState();
+}
+
+class _ChangeOverscrollPhysicsDialogState
+    extends State<ChangeOverscrollPhysicsDialog>
+    with ThemeStoreMixin<ChangeOverscrollPhysicsDialog> {
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: themeStore,
+      builder: (BuildContext context, Widget? child) {
+        return SimpleDialog(
+          title: Text(context.strings.theme),
+          children: <Widget>[
+            for (final OverscrollPhysics overscrollPhysics
+                in OverscrollPhysics.values)
+              RadioListTile<OverscrollPhysics>(
+                groupValue: themeStore.currentOverscrollPhysics,
+                value: overscrollPhysics,
+                title: Text(overscrollPhysics.getNameString(context.strings)),
+                onChanged: (OverscrollPhysics? value) =>
+                    themeStore.setOverscrollPhysics(value!),
+              ),
+          ],
+        );
+      },
+    );
+  }
+}
+
 class AppFontFamilySettingsTile extends StatefulWidget {
   const AppFontFamilySettingsTile({super.key});
 
@@ -338,7 +416,7 @@ class _AppFontFamilySettingsTileState extends State<AppFontFamilySettingsTile>
           animation: themeStore,
           builder: (BuildContext context, Widget? child) {
             return Text(
-              themeStore.currentFontFamily.getNameString(context.strings),
+              themeStore.currentFontFamily.fontKey,
             );
           },
         ),
@@ -373,7 +451,7 @@ class _ChangeThemeFontFamilyDialogState
               RadioListTile<AppFontFamily>(
                 groupValue: themeStore.currentFontFamily,
                 value: fontFamily,
-                title: Text(fontFamily.getNameString(context.strings)),
+                title: Text(fontFamily.fontKey),
                 onChanged: (AppFontFamily? value) =>
                     themeStore.setFontFamily(value!),
               ),
@@ -406,20 +484,13 @@ mixin BasicTileBuilderMixin<T extends StatefulWidget> on State<T> {
     );
   }
 
-  VoidCallback openThisLink(String url, {bool external = true}) {
-    return () {
-      launchUrl(
-        Uri.parse(url),
-        mode:
-            external ? LaunchMode.externalApplication : LaunchMode.inAppWebView,
-      );
-    };
+  VoidCallback openThisLink(String url) {
+    return () => openUri(Uri.parse(url));
   }
 
   VoidCallback copyThisText(String text) {
     return () async {
-      await Clipboard.setData(ClipboardData(text: text));
-      if (context.mounted) showToast(context, 'Copied to clipboard');
+      await context.copyTextToClipboardAndShowToast(text);
     };
   }
 }

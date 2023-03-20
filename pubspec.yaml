@@ -203,6 +203,11 @@ flutter:
       fonts:
         - asset: assets/fonts/RobotoMono-Regular.ttf
           weight: 700
+    - family: Segoe UI
+      fonts:
+        - asset: Segoe UI.ttf
+        - asset: Segoe UI Bold.ttf
+          weight: 700
     - family: Forward
       fonts:
         - asset: assets/fonts/Forward.ttf

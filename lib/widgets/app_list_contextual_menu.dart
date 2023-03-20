@@ -9,6 +9,7 @@ import '../stores/settings_store.dart';
 import '../utils/app_icons.dart';
 import '../utils/app_localization_strings.dart';
 import '../utils/context_of.dart';
+import 'animated_flip_counter.dart';
 import 'app_icon_button.dart';
 import 'sliver_app_top_bar.dart';
 import 'toast.dart';
@@ -40,8 +41,15 @@ class _AppListContextualMenuState extends State<AppListContextualMenu>
       title: AnimatedBuilder(
         animation: store,
         builder: (BuildContext context, Widget? child) {
-          return Text(
-            '${store.selected.length} ${context.strings.ofN} ${store.apps.length}',
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              AnimatedCount(count: store.selected.length),
+              Text(
+                ' ${context.strings.ofN} ',
+              ),
+              AnimatedCount(count: store.apps.length),
+            ],
           );
         },
       ),

@@ -13,8 +13,11 @@ import '../stores/contextual_menu_store.dart';
 import '../stores/device_apps_store.dart';
 import '../stores/settings_store.dart';
 import '../stores/theme_store.dart';
+import '../utils/context_confirm.dart';
 import '../utils/context_of.dart';
+import '../utils/context_show_apk_result_message.dart';
 import '../widgets/animated_app_name.dart';
+import '../widgets/animated_flip_counter.dart';
 import '../widgets/app_list_contextual_menu.dart';
 import '../widgets/device_app_tile.dart';
 import '../widgets/drag_select_scroll_notifier.dart';
@@ -169,7 +172,16 @@ class _MainAppListState extends State<MainAppList>
     if (_menuStore.context.isSelection) {
       store.toggleSelect(item: package);
     } else {
-      _openModalBottomSheet(package);
+      if (settingsStore.shouldExtractWithSingleClick) {
+        final ApkExtraction extraction =
+            await store.extractApk(packageInfo: package);
+
+        if (mounted) {
+          context.showApkResultMessage(extraction.result);
+        }
+      } else {
+        await _openModalBottomSheet(package);
+      }
     }
   }
 
@@ -187,18 +199,148 @@ class _MainAppListState extends State<MainAppList>
     super.dispose();
   }
 
-  void _openModalBottomSheet(PackageInfo package) {
-    showModalBottomSheet<void>(
+  Future<void> _openModalBottomSheet(PackageInfo package) async {
+    await showModalBottomSheet<void>(
+      isScrollControlled: true,
       context: context,
-      builder: (_) => BottomSheetWithAnimationController(
-        child: InstalledAppMenuOptions(
-          iconBytes: package.icon,
-          packageId: package.id,
-          packageInstallerFile: package.installerPath != null
-              ? File(package.installerPath!)
-              : null,
-          packageName: package.name,
+      useRootNavigator: true,
+      barrierColor: Colors.transparent,
+      backgroundColor: Colors.transparent,
+      builder: (_) => InstalledAppMenuOptions(
+        iconBytes: package.icon,
+        packageId: package.id,
+        title: package.name ?? package.id ?? 'Unnamed package',
+        subtitle: _generatePackageSubtitle(package),
+        packageInstallerFile:
+            package.installerPath != null ? File(package.installerPath!) : null,
+        packageName: package.name,
+      ),
+    );
+  }
+
+  Widget _buildInstalledAppsFilterChip(
+    String text,
+    SettingsBoolPreference preference,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.all(k2dp),
+      child: FilterChip(
+        padding: const EdgeInsets.all(k2dp),
+        label: Text(
+          text,
+          style: TextStyle(
+            color: settingsStore.getBoolPreference(preference)
+                ? context.scaffoldBackgroundColor
+                : null,
+          ),
         ),
+        backgroundColor: context.dividerColor,
+        selectedColor: context.primaryColor,
+        onSelected: (bool value) async {
+          final bool displaySystemApps = settingsStore
+              .getBoolPreference(SettingsBoolPreference.displaySystemApps);
+          final bool displayBuiltInApps = settingsStore
+              .getBoolPreference(SettingsBoolPreference.displayBuiltInApps);
+          final bool displayUserInstalledApps = settingsStore.getBoolPreference(
+            SettingsBoolPreference.displayUserInstalledApps,
+          );
+
+          final bool hasRiskOfUnintentionalUnselect =
+              store.hasRiskOfUnintentionalUnselect(
+            displaySystemApps:
+                preference == SettingsBoolPreference.displaySystemApps
+                    ? value
+                    : displaySystemApps,
+            displayBuiltInApps:
+                preference == SettingsBoolPreference.displayBuiltInApps
+                    ? value
+                    : displayBuiltInApps,
+            displayUserInstalledApps:
+                preference == SettingsBoolPreference.displayUserInstalledApps
+                    ? value
+                    : displayUserInstalledApps,
+          );
+
+          if (hasRiskOfUnintentionalUnselect) {
+            final bool confirmed = await showConfirmationModal(
+              context: context,
+              force: true,
+              message:
+                  'This filter will erase some of your selected items, and you will need to re-select them again',
+            );
+
+            if (!confirmed) return;
+          }
+
+          await settingsStore.setBoolPreference(preference, value: value);
+        },
+        selected: settingsStore.getBoolPreference(preference),
+      ),
+    );
+  }
+
+  String _generatePackageSubtitle(PackageInfo package) {
+    final StringBuffer subtitle = StringBuffer();
+
+    if (package.id != null) {
+      subtitle.write(package.id);
+    }
+
+    if (package.versionName != null) {
+      final String before = subtitle.isNotEmpty ? ' (' : '';
+      final String after = subtitle.isNotEmpty ? ')' : '';
+      subtitle.write('${before}Version: ${package.versionName}$after');
+    }
+
+    if (subtitle.isEmpty && package.name != null) {
+      subtitle.write(package.name);
+    }
+
+    if (subtitle.isNotEmpty) {
+      return subtitle.toString();
+    }
+
+    return 'Unavailable';
+  }
+
+  Widget _buildFilterChips() {
+    return SliverList(
+      delegate: SliverChildListDelegate(
+        <Widget>[
+          Wrap(
+            runAlignment: WrapAlignment.center,
+            alignment: WrapAlignment.center,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(k2dp),
+                child: RawChip(
+                  padding: const EdgeInsets.all(k2dp),
+                  label: AnimatedCount(
+                    duration: const Duration(milliseconds: 500),
+                    count: store.collection.length,
+                    curve: Curves.easeInOut,
+                    textStyle: TextStyle(
+                      color: context.primaryColor.withOpacity(.3),
+                    ),
+                  ),
+                  backgroundColor: context.theme.canvasColor,
+                ),
+              ),
+              _buildInstalledAppsFilterChip(
+                'User',
+                SettingsBoolPreference.displayUserInstalledApps,
+              ),
+              _buildInstalledAppsFilterChip(
+                'Built-in',
+                SettingsBoolPreference.displayBuiltInApps,
+              ),
+              _buildInstalledAppsFilterChip(
+                'System',
+                SettingsBoolPreference.displaySystemApps,
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -230,6 +372,7 @@ class _MainAppListState extends State<MainAppList>
             controller: _scrollController,
             slivers: <Widget>[
               AppListContextualMenu(onSearch: _menuStore.pushSearchMenu),
+              _buildFilterChips(),
               MultiAnimatedBuilder(
                 animations: <Listenable>[store, _menuStore],
                 builder: (BuildContext context, Widget? child) {
@@ -244,10 +387,15 @@ class _MainAppListState extends State<MainAppList>
                           return DeviceAppTile(
                             key: Key(current.id!),
                             current,
+                            subtitle: _generatePackageSubtitle(current),
                             showCheckbox: _menuStore.context.isSelection,
                             onTap: () => _onPressed(current),
                             isSelected: _menuStore.context.isSelection &&
                                 store.isSelected(item: current),
+                            onPopupMenuTapped:
+                                settingsStore.shouldExtractWithSingleClick
+                                    ? () => _openModalBottomSheet(current)
+                                    : null,
                           );
                         },
                         childCount: store.apps.length,

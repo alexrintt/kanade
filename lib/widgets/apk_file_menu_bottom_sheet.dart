@@ -1,16 +1,16 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:device_packages/device_packages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
+import 'package:shared_storage/saf.dart';
 
 import '../stores/device_apps_store.dart';
 import '../utils/app_icons.dart';
-import '../utils/context_show_apk_result_message.dart';
 import '../utils/copy_to_clipboard.dart';
 import '../utils/generate_play_store_uri.dart';
+import '../utils/install_package.dart';
 import '../utils/open_url.dart';
 import '../utils/share_file.dart';
 import 'app_icon_button.dart';
@@ -18,16 +18,17 @@ import 'app_list_tile.dart';
 import 'image_uri.dart';
 import 'toast.dart';
 
-enum InstalledAppTileAction {
-  uninstall,
+enum ApkFileTileAction {
+  delete,
   share,
-  open,
-  extract,
-  openSettings;
+  install,
+  openFileLocation,
+  // Soon...
+  analyze;
 }
 
-class InstalledAppMenuOptions extends StatefulWidget {
-  const InstalledAppMenuOptions({
+class ApkFileMenuOptions extends StatefulWidget {
+  const ApkFileMenuOptions({
     super.key,
     this.iconUri,
     this.iconBytes,
@@ -38,10 +39,12 @@ class InstalledAppMenuOptions extends StatefulWidget {
     this.packageInstallerFile,
     required this.subtitle,
     required this.title,
+    required this.onDelete,
   });
 
   final Uri? iconUri;
   final Uint8List? iconBytes;
+  final VoidCallback onDelete;
 
   final String? packageId;
   final String? packageName;
@@ -54,58 +57,60 @@ class InstalledAppMenuOptions extends StatefulWidget {
   final bool fetchIconUriAsThumbnail;
 
   @override
-  State<InstalledAppMenuOptions> createState() =>
-      _InstalledAppMenuOptionsState();
+  State<ApkFileMenuOptions> createState() => _ApkFileMenuOptionsState();
 }
 
-class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
+class _ApkFileMenuOptionsState extends State<ApkFileMenuOptions>
     with DeviceAppsStoreMixin {
-  Future<void> perform(InstalledAppTileAction action) async {
+  Future<void> perform(ApkFileTileAction action) async {
     switch (action) {
-      case InstalledAppTileAction.extract:
-        if (widget.packageId == null) return;
-        final ApkExtraction extraction =
-            await store.extractApk(packageId: widget.packageId);
-
-        if (mounted) {
-          context.showApkResultMessage(extraction.result);
-        }
+      case ApkFileTileAction.delete:
+        // Unfortunalelly I cannot listen for file deletions using SAF,
+        // so the solution is let the parent handle the deletion and broadcast to other storages.
+        widget.onDelete();
         break;
-      case InstalledAppTileAction.uninstall:
-        if (widget.packageId == null) return;
-        await store.uninstallApp(widget.packageId!);
-        break;
-      case InstalledAppTileAction.share:
+      case ApkFileTileAction.share:
         await shareFile(
           uri: widget.packageInstallerUri,
           file: widget.packageInstallerFile,
         );
         break;
-      case InstalledAppTileAction.open:
-        if (widget.packageId == null) {
-          showToast(
-            context,
-            'Package ID is not defined, try reloading the list',
-          );
+      case ApkFileTileAction.install:
+        await installPackage(
+          file: widget.packageInstallerFile,
+          uri: widget.packageInstallerUri,
+        );
+        break;
+      case ApkFileTileAction.analyze:
+        showToast(context, 'Soon...');
+        break;
+      case ApkFileTileAction.openFileLocation:
+        if (widget.packageInstallerUri == null) {
+          if (mounted) {
+            showToast(context, 'We could not find the target file');
+          }
           return;
         }
+
         try {
-          await DevicePackages.openPackage(widget.packageId!);
-        } on PackageIsNotOpenableException {
-          showToast(
-            context,
-            'Could not start app, probably because it has no UI (no launch intent is declared)',
+          await openDocumentFile(
+            // This removes the "document" part
+            // which is used to identify the apk. And takes only the [tree]
+            // part which is used to (generally) identify the directory.
+            // This may not work on all devices.
+            widget.packageInstallerUri!.replace(
+              pathSegments: widget.packageInstallerUri!.pathSegments
+                  .takeWhile((String value) => value != 'document')
+                  .toList(),
+            ),
           );
-        }
-        break;
-      case InstalledAppTileAction.openSettings:
-        if (widget.packageId != null) {
-          await DevicePackages.openPackageSettings(widget.packageId!);
-        } else {
-          showToast(
-            context,
-            'The current tile has no ID thus invalid, try reloading the list',
-          );
+        } on PlatformException catch (e) {
+          if (mounted) {
+            showToast(
+              context,
+              'Could not find the file location this either was deleted or we have no permission over the folder. Exception: $e',
+            );
+          }
         }
         break;
     }
@@ -208,14 +213,14 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
             ),
             AppListTile(
               dense: true,
-              title: const Text('Uninstall'),
+              title: const Text('Delete'),
               leading: Icon(
                 AppIcons.delete.data,
                 size: kDefaultIconSize,
                 color: Colors.red,
               ),
               onTap: () {
-                perform(InstalledAppTileAction.uninstall);
+                perform(ApkFileTileAction.delete);
               },
             ),
           ],
@@ -229,7 +234,7 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
       behavior: HitTestBehavior.opaque,
       onTap: () => context.pop(),
       child: Scaffold(
-        backgroundColor: Colors.black.withOpacity(.5),
+        backgroundColor: Colors.black.withOpacity(.4),
         body: SizedBox.expand(
           child: DraggableScrollableSheet(
             builder: (
@@ -262,37 +267,28 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
               icon: AppIcons.download.data,
               iconSize: AppIcons.download.size,
               onTap: () {
-                perform(InstalledAppTileAction.extract);
+                perform(ApkFileTileAction.install);
               },
-              text: 'Extract',
-              tooltip: 'Extract apk',
+              text: 'Install',
+              tooltip: 'Install apk',
             ),
             ActionButton(
               icon: AppIcons.share.data,
               iconSize: AppIcons.share.size,
               onTap: () {
-                perform(InstalledAppTileAction.share);
+                perform(ApkFileTileAction.share);
               },
               text: 'Share',
               tooltip: 'Share apk',
             ),
             ActionButton(
-              icon: AppIcons.externalLink.data,
-              iconSize: AppIcons.externalLink.size,
+              icon: AppIcons.folder.data,
+              iconSize: AppIcons.folder.size,
               onTap: () {
-                perform(InstalledAppTileAction.open);
+                perform(ApkFileTileAction.openFileLocation);
               },
-              text: 'Open app',
-              tooltip: 'Open app',
-            ),
-            ActionButton(
-              icon: AppIcons.settings.data,
-              iconSize: AppIcons.settings.size,
-              onTap: () {
-                perform(InstalledAppTileAction.openSettings);
-              },
-              text: 'Settings',
-              tooltip: 'Open app settings',
+              text: 'Open file location',
+              tooltip: 'Open file location',
             ),
           ],
         ),
@@ -340,49 +336,6 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
   }
 }
 
-// class BottomSheetWithAnimationController extends StatefulWidget {
-//   const BottomSheetWithAnimationController({
-//     super.key,
-//     this.child,
-//     this.builder,
-//   }) : assert(child != null || builder != null);
-
-//   final Widget Function(BuildContext, ScrollController)? builder;
-//   final Widget? child;
-
-//   @override
-//   State<BottomSheetWithAnimationController> createState() =>
-//       _BottomSheetWithAnimationControllerState();
-// }
-
-// class _BottomSheetWithAnimationControllerState
-//     extends State<BottomSheetWithAnimationController>
-//     with ThemeStoreMixin<BottomSheetWithAnimationController> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-//       behavior: HitTestBehavior.opaque,
-//       onTap: () => context.pop(),
-//       child: Scaffold(
-//         backgroundColor: Colors.black.withOpacity(.4),
-//         body: SizedBox.expand(
-//           child: DraggableScrollableSheet(
-//             // sna
-//             builder: widget.builder ??
-//                 (_, ScrollController scrollController) => ColoredBox(
-//                       color: context.theme.scaffoldBackgroundColor,
-//                       child: SingleChildScrollView(
-//                         controller: scrollController,
-//                         child: widget.child,
-//                       ),
-//                     ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 class ActionButton extends StatelessWidget {
   const ActionButton({
     super.key,
@@ -417,7 +370,10 @@ class ActionButton extends StatelessWidget {
                 size: iconSize,
                 color: context.theme.primaryColor,
               ),
-              Text(text),
+              Text(
+                text,
+                textAlign: TextAlign.center,
+              ),
             ],
           ),
         ),

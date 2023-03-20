@@ -1,23 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_storage/saf.dart';
 
 import '../pages/home_page.dart';
 import '../setup.dart';
 import '../stores/background_task_store.dart';
 import '../stores/contextual_menu_store.dart';
-import '../stores/indexed_collection_store.dart';
 import '../stores/localization_store.dart';
 import '../stores/settings_store.dart';
 import '../utils/app_icons.dart';
-import '../utils/context_confirm.dart';
 import '../utils/context_of.dart';
+import '../utils/context_try_install_apk.dart';
 import '../utils/package_bytes.dart';
-import '../utils/share_file.dart';
-import '../widgets/apk_file_popup_menu.dart';
+import '../widgets/apk_file_menu_bottom_sheet.dart';
 import '../widgets/apk_list_progress_stepper.dart';
 import '../widgets/app_list_tile.dart';
 import '../widgets/background_task_list_contextual_menu.dart';
@@ -156,8 +152,8 @@ class _BackgroundTaskListScreenConsumerState
                   settingsStore
                 ],
                 builder: (BuildContext context, Widget? child) {
-                  final List<BackgroundTaskDisplayInfo> tasks =
-                      backgroundTaskStore.displayBackgroundTasks;
+                  final List<ExtractApkBackgroundTask> tasks =
+                      backgroundTaskStore.collection;
 
                   if (tasks.isEmpty) {
                     return const SliverFillRemaining(
@@ -199,7 +195,7 @@ class BackgroundTaskTile extends StatefulWidget {
     required this.isSelected,
   });
 
-  final BackgroundTaskDisplayInfo task;
+  final ExtractApkBackgroundTask task;
   final bool isSelected;
 
   @override
@@ -208,7 +204,7 @@ class BackgroundTaskTile extends StatefulWidget {
 
 class _BackgroundTaskTileState extends State<BackgroundTaskTile>
     with LocalizationStoreMixin, BackgroundTaskStoreMixin, SettingsStoreMixin {
-  String get formattedBytes => widget.task.size.formatBytes();
+  String get formattedBytes => widget.task.sizeOrZero.formatBytes();
 
   DateTime? get _lastModified => widget.task.createdAt;
 
@@ -267,91 +263,45 @@ class _BackgroundTaskTileState extends State<BackgroundTaskTile>
         );
         break;
       case TaskStatus.finished:
-        await _tryInstallApk();
+        await context.tryInstallPackage(
+          backgroundTaskStore: backgroundTaskStore,
+          taskId: widget.task.id,
+          packageUri: widget.task.targetUri,
+        );
         break;
     }
   }
 
-  Future<void> _tryInstallApk() async {
-    final PackageInstallationIntentResult result =
-        await backgroundTaskStore.installPackage(
-      installationId: widget.task.id,
-      uri: widget.task.targetUri,
-    );
-
-    if (!result.ok) {
-      if (mounted) {
-        showToast(
-          context,
-          'Invalid apk, it is was probably deleted.',
-        );
-      }
-    }
-  }
+  String get _taskSubtitle => '$formattedBytes, $formattedDate';
 
   @override
   Widget build(BuildContext context) {
     return AppListTile(
       onTap: _onBackgroundTaskTileTapped,
       title: Text(widget.task.title ?? 'Loading info...'),
-      subtitle: Text('$formattedBytes, $formattedDate'),
+      subtitle: Text(_taskSubtitle),
       trailing: _buildTrailing(),
       onPopupMenuTapped: () async {
-        final ApkFileTileAction? action = await showDialog<ApkFileTileAction>(
+        if (widget.task.progress.status.isPending) return;
+
+        await showModalBottomSheet<void>(
+          isScrollControlled: true,
           context: context,
-          builder: (_) => const ApkFilePopupMenu(),
+          useRootNavigator: true,
+          barrierColor: Colors.transparent,
+          backgroundColor: Colors.transparent,
+          builder: (_) => ApkFileMenuOptions(
+            onDelete: () {
+              backgroundTaskStore.deleteTask(taskId: widget.task.id);
+            },
+            packageId: widget.task.packageId,
+            packageName: widget.task.packageName,
+            packageInstallerUri: widget.task.targetUri,
+            iconUri: widget.task.apkIconUri,
+            subtitle: _taskSubtitle,
+            title: widget.task.title ?? 'Not available',
+          ),
         );
-        if (action != null) {
-          switch (action) {
-            case ApkFileTileAction.delete:
-              bool confirmed = false;
-
-              if (mounted) {
-                confirmed = await showConfirmationModal(context: context);
-              }
-
-              if (confirmed) {
-                await backgroundTaskStore.deleteTask(taskId: widget.task.id);
-              }
-
-              break;
-            case ApkFileTileAction.install:
-              await _tryInstallApk();
-              break;
-            case ApkFileTileAction.share:
-              await shareFile(uri: widget.task.targetUri);
-              break;
-            case ApkFileTileAction.open:
-              if (widget.task.targetUri == null) {
-                if (mounted) {
-                  showToast(context, 'We could not find the target file');
-                }
-                return;
-              }
-
-              try {
-                await openDocumentFile(
-                  // This removes the "document" part
-                  // which is used to identify the apk. And takes only the [tree]
-                  // part which is used to (generally) identify the directory.
-                  // This may not work on all devices.
-                  widget.task.targetUri!.replace(
-                    pathSegments: widget.task.targetUri!.pathSegments
-                        .takeWhile((String value) => value != 'document')
-                        .toList(),
-                  ),
-                );
-              } on PlatformException catch (e) {
-                if (mounted) {
-                  showToast(
-                    context,
-                    'Could not find the file location, exception: $e',
-                  );
-                }
-              }
-              break;
-          }
-        }
       },
       selected: backgroundTaskStore.selected.isNotEmpty && widget.isSelected,
       inSelectionMode: backgroundTaskStore.inSelectionMode,

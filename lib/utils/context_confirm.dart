@@ -7,10 +7,11 @@ import '../stores/settings_store.dart';
 Future<bool> showConfirmationModal({
   required BuildContext context,
   String? message,
+  bool force = false,
 }) async {
   // Bad practice, avoid adding unnecessary coupling like this, for now it will work
   // but I'll probably remove in the future.
-  if (!getIt<SettingsStore>().shouldConfirmIrreversibleActions) {
+  if (!getIt<SettingsStore>().shouldConfirmIrreversibleActions && !force) {
     return true;
   }
 
@@ -22,6 +23,9 @@ Future<bool> showConfirmationModal({
         content: Text(
           message ??
               'This is a irreversible action, be sure you want to do it.',
+          style: const TextStyle(
+            fontSize: 12,
+          ),
         ),
         actions: <Widget>[
           TextButton(

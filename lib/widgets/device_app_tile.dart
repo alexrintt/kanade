@@ -14,12 +14,16 @@ class DeviceAppTile extends StatefulWidget {
     required this.isSelected,
     required this.showCheckbox,
     required this.onTap,
+    required this.subtitle,
+    this.onPopupMenuTapped,
   });
 
   final PackageInfo package;
   final bool isSelected;
+  final String subtitle;
   final bool showCheckbox;
   final VoidCallback onTap;
+  final VoidCallback? onPopupMenuTapped;
 
   @override
   _DeviceAppTileState createState() => _DeviceAppTileState();
@@ -39,7 +43,7 @@ class _DeviceAppTileState extends State<DeviceAppTile>
 
   Widget _buildTileSubtitle() {
     return Text(
-      widget.package.id!,
+      widget.subtitle,
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
     );
@@ -54,6 +58,8 @@ class _DeviceAppTileState extends State<DeviceAppTile>
       subtitle: _buildTileSubtitle(),
       inSelectionMode: widget.showCheckbox,
       onTap: widget.onTap,
+      flat: false,
+      onPopupMenuTapped: widget.onPopupMenuTapped,
     );
   }
 

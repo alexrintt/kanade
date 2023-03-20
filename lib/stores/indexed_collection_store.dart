@@ -253,7 +253,9 @@ mixin SelectableStoreMixin<T> on IndexedCollectionStore<T> {
       return unselect(item: item);
     }
 
-    if (!canBeSelected(e)) return;
+    if (!canBeSelected(e)) {
+      return unselect(item: e, notify: notify);
+    }
 
     final String id = getItemId(e);
 

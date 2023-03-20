@@ -1,11 +1,32 @@
 import 'package:flutter/material.dart';
 
-class NoGlowScrollBehavior extends ScrollBehavior {
+class NoneScrollBehavior extends ScrollBehavior {
+  const NoneScrollBehavior();
+
   @override
   Widget buildOverscrollIndicator(
     BuildContext context,
     Widget child,
     ScrollableDetails details,
-  ) =>
-      child;
+  ) {
+    return child;
+  }
+}
+
+class BouncingScrollBehavior extends ScrollBehavior {
+  const BouncingScrollBehavior();
+
+  @override
+  ScrollPhysics getScrollPhysics(BuildContext context) {
+    return const BouncingScrollPhysics();
+  }
+}
+
+class GlowScrollBehavior extends ScrollBehavior {
+  const GlowScrollBehavior();
+
+  @override
+  ScrollPhysics getScrollPhysics(BuildContext context) {
+    return const ClampingScrollPhysics();
+  }
 }

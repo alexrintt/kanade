@@ -28,6 +28,9 @@ class SettingsStore extends ChangeNotifier {
   bool get shouldConfirmIrreversibleActions =>
       getBoolPreference(SettingsBoolPreference.confirmIrreversibleActions);
 
+  bool get shouldExtractWithSingleClick =>
+      getBoolPreference(SettingsBoolPreference.extractWithSingleClick);
+
   Future<Uri?> getAndSetExportLocationIfItExists() async {
     final Uri? currentLocation = exportLocation;
 
@@ -161,6 +164,10 @@ enum SettingsBoolPreference {
     defaultValue: true,
     category: SettingsBoolPreferenceCategory.behavior,
   ),
+  extractWithSingleClick(
+    defaultValue: true,
+    category: SettingsBoolPreferenceCategory.behavior,
+  ),
   transparentBottomNavigationBar(
     defaultValue: false,
     category: SettingsBoolPreferenceCategory.appearance,
@@ -197,6 +204,8 @@ enum SettingsBoolPreference {
     switch (this) {
       case SettingsBoolPreference.hideAppBarOnScroll:
         return 'Hide app bar on scroll';
+      case SettingsBoolPreference.extractWithSingleClick:
+        return 'Extract with single click';
       case SettingsBoolPreference.confirmIrreversibleActions:
         return 'Ask for confirmation';
       case SettingsBoolPreference.displaySystemApps:
@@ -224,6 +233,8 @@ enum SettingsBoolPreference {
         return 'If enabled the home list will include apps installed by you.';
       case SettingsBoolPreference.transparentBottomNavigationBar:
         return 'Apply a blur transparent effect to the home navigation bar.';
+      case SettingsBoolPreference.extractWithSingleClick:
+        return 'If enabled, the app list will extract apk with a single click instead of opening the details page.';
     }
   }
 

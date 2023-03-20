@@ -106,35 +106,36 @@ class DeviceAppsStore extends IndexedCollectionStore<PackageInfo>
         SearchableStoreMixin<PackageInfo>,
         LoadingStoreMixin<PackageInfo>,
         ProgressIndicatorMixin {
-  bool _filterAppsByPreferences(PackageInfo package) {
-    final bool displaySystemApps = settingsStore
-        .getBoolPreference(SettingsBoolPreference.displaySystemApps);
+  bool get _displaySystemApps =>
+      settingsStore.getBoolPreference(SettingsBoolPreference.displaySystemApps);
+  bool get _displayBuiltInApps => settingsStore
+      .getBoolPreference(SettingsBoolPreference.displayBuiltInApps);
+  bool get _displayUserInstalledApps => settingsStore
+      .getBoolPreference(SettingsBoolPreference.displayUserInstalledApps);
 
-    final bool displayBuiltInApps = settingsStore
-        .getBoolPreference(SettingsBoolPreference.displayBuiltInApps);
-
-    final bool displayUserInstalledApps = settingsStore
-        .getBoolPreference(SettingsBoolPreference.displayUserInstalledApps);
-
+  bool _filterAppsByPreferences(
+    PackageInfo package, {
+    required bool displaySystemApps,
+    required bool displayBuiltInApps,
+    required bool displayUserInstalledApps,
+  }) {
     if (displaySystemApps) {
-      if (package.isSystemPackage ?? false) {
+      if (package.isSystemPackage == true) {
         return true;
       }
     }
 
     if (displayBuiltInApps) {
-      if (package.isSystemPackage ?? false) {
-        if (package.isOpenable ?? false) {
+      if (package.isSystemPackage == true) {
+        if (package.isOpenable == true) {
           return true;
         }
       }
     }
 
     if (displayUserInstalledApps) {
-      if (!(package.isSystemPackage ?? true)) {
-        if (package.isOpenable ?? false) {
-          return true;
-        }
+      if (package.isSystemPackage == false) {
+        return true;
       }
     }
 
@@ -146,11 +147,31 @@ class DeviceAppsStore extends IndexedCollectionStore<PackageInfo>
   int _byPackageNameAsc(PackageInfo a, PackageInfo b) =>
       a.name!.toLowerCase().compareTo(b.name!.toLowerCase());
 
+  List<PackageInfo> _filterPackagesBy({
+    required bool displaySystemApps,
+    required bool displayBuiltInApps,
+    required bool displayUserInstalledApps,
+  }) =>
+      super
+          .collection
+          .where(
+            (PackageInfo e) => _filterAppsByPreferences(
+              e,
+              displayBuiltInApps: displayBuiltInApps,
+              displaySystemApps: displaySystemApps,
+              displayUserInstalledApps: displayUserInstalledApps,
+            ),
+          )
+          .toList();
+
   @override
   List<PackageInfo> get collection {
     return List<PackageInfo>.unmodifiable(
-      super.collection.where(_filterAppsByPreferences).toList()
-        ..sort(_byPackageNameAsc),
+      _filterPackagesBy(
+        displayBuiltInApps: _displayBuiltInApps,
+        displaySystemApps: _displaySystemApps,
+        displayUserInstalledApps: _displayUserInstalledApps,
+      )..sort(_byPackageNameAsc),
     );
   }
 
@@ -227,11 +248,40 @@ class DeviceAppsStore extends IndexedCollectionStore<PackageInfo>
   StreamSubscription<PackageInfo>? _appsStreamSubscription;
 
   void _setupSettingsStoreListener() {
-    settingsStore.addListener(notifyListeners);
+    settingsStore.addListener(() {
+      for (final PackageInfo element in selected) {
+        // Try to select all selected items again,
+        // if they are not allowed anymore, they will be unselected.
+        select(item: element, notify: false);
+      }
+
+      notifyListeners();
+    });
   }
 
   void _disposeSettingsStoreListener() {
     settingsStore.removeListener(notifyListeners);
+  }
+
+  bool hasRiskOfUnintentionalUnselect({
+    required bool displaySystemApps,
+    required bool displayBuiltInApps,
+    required bool displayUserInstalledApps,
+  }) {
+    final List<PackageInfo> preview = _filterPackagesBy(
+      displaySystemApps: displaySystemApps,
+      displayBuiltInApps: displayBuiltInApps,
+      displayUserInstalledApps: displayUserInstalledApps,
+    );
+
+    // If any selected package is not contained by the next collection filter, then
+    // the user may will lose some selected items. This is painful if you are selecting hundred of items
+    // by hand and unintentionally select a filter that erases your selection. So in this case we must confirm with a dialog.
+    //
+    // This is really rare to happen though.
+    return selected.any((PackageInfo package) {
+      return !preview.contains(package);
+    });
   }
 
   /// Load all device packages

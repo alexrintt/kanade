@@ -22,6 +22,7 @@ import '../widgets/app_list_contextual_menu.dart';
 import '../widgets/device_app_tile.dart';
 import '../widgets/drag_select_scroll_notifier.dart';
 import '../widgets/loading.dart';
+import '../widgets/looks_empty_here.dart';
 import '../widgets/multi_animated_builder.dart';
 import '../widgets/package_menu_bottom_sheet.dart';
 
@@ -173,8 +174,8 @@ class _MainAppListState extends State<MainAppList>
       store.toggleSelect(item: package);
     } else {
       if (settingsStore.shouldExtractWithSingleClick) {
-        final ApkExtraction extraction =
-            await store.extractApk(packageInfo: package);
+        final SingleExtraction extraction =
+            await store.extractApk(package: package);
 
         if (mounted) {
           context.showApkResultMessage(extraction.result);
@@ -307,38 +308,41 @@ class _MainAppListState extends State<MainAppList>
     return SliverList(
       delegate: SliverChildListDelegate(
         <Widget>[
-          Wrap(
-            runAlignment: WrapAlignment.center,
-            alignment: WrapAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.all(k2dp),
-                child: RawChip(
+          Padding(
+            padding: const EdgeInsets.only(top: k5dp),
+            child: Wrap(
+              runAlignment: WrapAlignment.center,
+              alignment: WrapAlignment.center,
+              children: <Widget>[
+                Padding(
                   padding: const EdgeInsets.all(k2dp),
-                  label: AnimatedCount(
-                    duration: const Duration(milliseconds: 500),
-                    count: store.collection.length,
-                    curve: Curves.easeInOut,
-                    textStyle: TextStyle(
-                      color: context.primaryColor.withOpacity(.3),
+                  child: RawChip(
+                    padding: const EdgeInsets.all(k2dp),
+                    label: AnimatedCount(
+                      duration: const Duration(milliseconds: 500),
+                      count: store.collection.length,
+                      curve: Curves.easeInOut,
+                      textStyle: TextStyle(
+                        color: context.primaryColor.withOpacity(.3),
+                      ),
                     ),
+                    backgroundColor: context.theme.canvasColor,
                   ),
-                  backgroundColor: context.theme.canvasColor,
                 ),
-              ),
-              _buildInstalledAppsFilterChip(
-                'User',
-                SettingsBoolPreference.displayUserInstalledApps,
-              ),
-              _buildInstalledAppsFilterChip(
-                'Built-in',
-                SettingsBoolPreference.displayBuiltInApps,
-              ),
-              _buildInstalledAppsFilterChip(
-                'System',
-                SettingsBoolPreference.displaySystemApps,
-              ),
-            ],
+                _buildInstalledAppsFilterChip(
+                  'User',
+                  SettingsBoolPreference.displayUserInstalledApps,
+                ),
+                _buildInstalledAppsFilterChip(
+                  'Built-in',
+                  SettingsBoolPreference.displayBuiltInApps,
+                ),
+                _buildInstalledAppsFilterChip(
+                  'System',
+                  SettingsBoolPreference.displaySystemApps,
+                ),
+              ],
+            ),
           ),
         ],
       ),
@@ -410,9 +414,19 @@ class _MainAppListState extends State<MainAppList>
                   return SliverList(
                     delegate: SliverChildListDelegate(
                       <Widget>[
-                        const Padding(
-                          padding: EdgeInsets.all(k12dp),
-                          child: Center(child: AnimatedAppName()),
+                        if (store.collection.isEmpty)
+                          Padding(
+                            padding: const EdgeInsets.all(k8dp),
+                            child: LooksEmptyHere(
+                              message: store.isSearchMode
+                                  ? 'No results!'
+                                  : 'Try selecting at least one filter!',
+                            ),
+                          ),
+                        Padding(
+                          padding: const EdgeInsets.all(k12dp)
+                              .copyWith(bottom: k16dp),
+                          child: const Center(child: AnimatedAppName()),
                         ),
                       ],
                     ),

@@ -15,44 +15,16 @@ mixin DeviceAppsStoreMixin {
   DeviceAppsStore get store => _store ??= getIt<DeviceAppsStore>();
 }
 
-class ApkExtraction {
-  const ApkExtraction(this.apk, this.result);
+class SingleExtraction {
+  const SingleExtraction(this.package, this.result);
+  const SingleExtraction.notFound(this.package)
+      : result = SingleExtractionResult.notFound;
 
-  final File? apk;
-  final Result result;
+  final PackageInfo? package;
+  final SingleExtractionResult result;
 }
 
-class MultipleApkExtraction {
-  const MultipleApkExtraction(this.extractions);
-
-  /// You can analyze each extraction individually
-  final List<ApkExtraction> extractions;
-
-  /// Overall result based on [extractions] results
-  MultipleResult get result {
-    final bool permissionWasDenied = extractions.any(
-      (ApkExtraction extraction) => extraction.result.permissionWasDenied,
-    );
-
-    if (permissionWasDenied) return MultipleResult.permissionDenied;
-
-    final int successfulExtractionsCount = extractions
-        .where((ApkExtraction extraction) => extraction.result.success)
-        .length;
-
-    if (successfulExtractionsCount == 0) {
-      return MultipleResult.allFailed;
-    }
-
-    if (successfulExtractionsCount == extractions.length) {
-      return MultipleResult.allExtracted;
-    }
-
-    return MultipleResult.someFailed;
-  }
-}
-
-enum Result {
+enum SingleExtractionResult {
   queued,
   permissionDenied,
   permissionRestricted,
@@ -76,26 +48,52 @@ enum Result {
   bool get wasNotFound => this == notFound;
 }
 
-class MultipleResult {
-  const MultipleResult(this.value);
-  final int value;
-
-  static const MultipleResult allExtracted = MultipleResult(0);
-  static const MultipleResult allFailed = MultipleResult(1);
-  static const MultipleResult someFailed = MultipleResult(2);
-  static const MultipleResult permissionDenied = MultipleResult(3);
+enum MultipleExtractionResult {
+  allExtracted,
+  allFailed,
+  someFailed,
+  permissionDenied;
 
   /// Happy end, all apk's extracted successfully
-  bool get success => value == 0;
+  bool get success => this == allExtracted;
 
   /// All apk's extractions failed due one or more reasons
-  bool get failed => value == 1;
+  bool get failed => this == allFailed;
 
   /// Some apk's failed but others was successfully extracted
-  bool get someMayFailed => value == 2;
+  bool get someMayFailed => this == someFailed;
 
   /// User denied permission
-  bool get permissionWasDenied => value == 3;
+  bool get permissionWasDenied => this == permissionDenied;
+}
+
+class MultipleExtraction {
+  const MultipleExtraction(this.extractions);
+
+  final List<SingleExtraction> extractions;
+
+  /// Overall result based on [extractions] results
+  MultipleExtractionResult get result {
+    final bool permissionWasDenied = extractions.any(
+      (SingleExtraction extraction) => extraction.result.permissionWasDenied,
+    );
+
+    if (permissionWasDenied) return MultipleExtractionResult.permissionDenied;
+
+    final int successfulExtractionsCount = extractions
+        .where((SingleExtraction extraction) => extraction.result.success)
+        .length;
+
+    if (successfulExtractionsCount == 0) {
+      return MultipleExtractionResult.allFailed;
+    }
+
+    if (successfulExtractionsCount == extractions.length) {
+      return MultipleExtractionResult.allExtracted;
+    }
+
+    return MultipleExtractionResult.someFailed;
+  }
 }
 
 class DeviceAppsStore extends IndexedCollectionStore<PackageInfo>
@@ -342,48 +340,89 @@ class DeviceAppsStore extends IndexedCollectionStore<PackageInfo>
     await DevicePackages.uninstallPackage(packageId);
   }
 
-  Future<ApkExtraction> extractApk({
-    PackageInfo? packageInfo,
-    String? packageId,
+  Future<List<SingleExtraction>> _extractApks({
+    List<PackageInfo>? packages,
+    List<String>? packageIds,
     Uri? folder,
   }) async {
-    final PackageInfo? package =
-        packageInfo ?? collectionIndexedById[packageId!];
+    assert(packages != null || packageIds != null);
 
-    if (package == null) {
-      return const ApkExtraction(null, Result.notFound);
+    late Map<String, PackageInfo?> targets;
+    final List<ExtractApkBackgroundTask> tasks = <ExtractApkBackgroundTask>[];
+
+    if (packages != null) {
+      targets = <String, PackageInfo?>{
+        for (final PackageInfo package in packages)
+          if (package.id != null) package.id!: package,
+      };
+    } else {
+      targets = <String, PackageInfo?>{
+        for (final String packageId in packageIds!)
+          packageId: collectionIndexedById[packageId],
+      };
     }
 
-    final File apkFile = File(package.installerPath!);
+    final List<SingleExtraction> results = <SingleExtraction>[];
 
-    if (!apkFile.existsSync()) {
-      return ApkExtraction(apkFile, Result.notFound);
-    }
+    bool denied = false;
 
-    if (folder == null) {
-      await _settingsStore.requestExportLocationIfNotSet();
-    }
+    for (final MapEntry<String, PackageInfo?> entry in targets.entries) {
+      final PackageInfo? package = entry.value;
 
-    final Uri? parentFolder =
-        folder ?? await _settingsStore.getAndSetExportLocationIfItExists();
+      if (package == null) {
+        results.add(SingleExtraction.notFound(package));
+        continue;
+      }
 
-    if (parentFolder != null) {
-      unawaited(
-        _backgroundTaskStore.queue(
+      final File apkFile = File(package.installerPath!);
+
+      if (denied) {
+        results.add(
+          SingleExtraction(package, SingleExtractionResult.permissionDenied),
+        );
+        continue;
+      }
+
+      if (!apkFile.existsSync()) {
+        results.add(SingleExtraction(package, SingleExtractionResult.notFound));
+        continue;
+      }
+
+      if (folder == null) {
+        await _settingsStore.requestExportLocationIfNotSet();
+      }
+
+      final Uri? parentFolder =
+          folder ?? await _settingsStore.getAndSetExportLocationIfItExists();
+
+      if (parentFolder != null) {
+        tasks.add(
           ExtractApkBackgroundTask.create(
             packageId: package.id!,
             parentUri: parentFolder,
             createdAt: DateTime.now(),
           ),
-        ),
+        );
+
+        results.add(SingleExtraction(package, SingleExtractionResult.queued));
+
+        continue;
+      }
+
+      results.add(
+        SingleExtraction(package, SingleExtractionResult.permissionDenied),
       );
-      return ApkExtraction(apkFile, Result.queued);
+
+      denied = true;
     }
 
-    return ApkExtraction(apkFile, Result.permissionDenied);
+    // Queue all at once.
+    if (tasks.isNotEmpty) unawaited(_backgroundTaskStore.queueMany(tasks));
+
+    return results;
   }
 
-  Future<Uri?> requestExportLocation() async {
+  Future<Uri?> requestExportLocationIfNotSet() async {
     return _settingsStore.requestExportLocationIfNotSet();
   }
 
@@ -395,21 +434,34 @@ class DeviceAppsStore extends IndexedCollectionStore<PackageInfo>
   }
 
   /// Extract Apk of all [selected] apps
-  Future<MultipleApkExtraction> extractSelectedApks() async {
-    final List<ApkExtraction> extractions = <ApkExtraction>[];
+  Future<MultipleExtraction> extractSelectedApks() async {
+    return MultipleExtraction(await _extractApks(packages: selected.toList()));
+  }
 
-    final Uri? folder = await requestExportLocation();
+  Future<SingleExtraction> extractApk({
+    PackageInfo? package,
+    String? packageId,
+  }) async {
+    assert(package != null || packageId != null);
+    final PackageInfo? target = package ?? collectionIndexedById[packageId];
+
+    if (target == null) {
+      return SingleExtraction.notFound(package);
+    }
+
+    final Uri? folder = await requestExportLocationIfNotSet();
 
     if (folder != null) {
-      for (final PackageInfo selectedPackage in selected) {
-        extractions.add(
-          await extractApk(packageInfo: selectedPackage, folder: folder),
-        );
+      final List<SingleExtraction> extractions =
+          await _extractApks(packages: <PackageInfo>[target], folder: folder);
+
+      if (extractions.isEmpty) {
+        return SingleExtraction.notFound(package);
       }
 
-      return MultipleApkExtraction(extractions);
+      return extractions.first;
     } else {
-      return const MultipleApkExtraction(<ApkExtraction>[]);
+      return SingleExtraction(package, SingleExtractionResult.permissionDenied);
     }
   }
 

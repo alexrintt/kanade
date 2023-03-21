@@ -15,6 +15,7 @@ import '../utils/context_try_install_apk.dart';
 import '../utils/package_bytes.dart';
 import '../widgets/apk_file_menu_bottom_sheet.dart';
 import '../widgets/apk_list_progress_stepper.dart';
+import '../widgets/app_icon_button.dart';
 import '../widgets/app_list_tile.dart';
 import '../widgets/background_task_list_contextual_menu.dart';
 import '../widgets/current_selected_tree.dart';
@@ -217,13 +218,10 @@ class _BackgroundTaskTileState extends State<BackgroundTaskTile>
 
   Widget? _buildTrailing() {
     if (widget.task.progress.status.isPending) {
-      return SizedBox(
-        height: kToolbarHeight / 3,
-        width: kToolbarHeight / 3,
-        child: CircularProgressIndicator(
-          backgroundColor: context.theme.disabledColor,
-          strokeWidth: k1dp,
-        ),
+      return AppIconButton(
+        onTap: () => backgroundTaskStore.cancelBackgroundTask(widget.task),
+        icon: Icon(AppIcons.x.data, size: AppIcons.x.size),
+        tooltip: 'Cancel task',
       );
     }
 
@@ -260,6 +258,13 @@ class _BackgroundTaskTileState extends State<BackgroundTaskTile>
         showToast(
           context,
           'Not fully extracted yet, can not install right now',
+        );
+        break;
+      case TaskStatus.deleted:
+      case TaskStatus.deleteRequested:
+        showToast(
+          context,
+          'These tasks were deleted and will be removed soon',
         );
         break;
       case TaskStatus.finished:

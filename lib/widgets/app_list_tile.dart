@@ -391,8 +391,7 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
           selectedColor: widget.selectedColor,
           iconColor: widget.iconColor,
           textColor: widget.textColor,
-          contentPadding: widget.contentPadding ??
-              const EdgeInsets.symmetric(horizontal: k5dp, vertical: k2dp),
+          contentPadding: widget.contentPadding ?? const EdgeInsets.all(k4dp),
           enabled: widget.enabled,
           onTap: widget.onTap,
           onLongPress: widget.onLongPress,

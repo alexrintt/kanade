@@ -10,6 +10,7 @@ import '../utils/context_confirm.dart';
 import '../utils/context_of.dart';
 import 'app_icon_button.dart';
 import 'multi_animated_builder.dart';
+import 'sliver_app_bar_translucent.dart';
 import 'sliver_app_top_bar.dart';
 
 class BackgroundTaskListContextualMenu extends StatefulWidget {
@@ -33,7 +34,7 @@ class _BackgroundTaskListContextualMenuState
   ContextualMenuStore get _menuStore => context.of<ContextualMenuStore>();
 
   Widget _buildSelectionMenu() {
-    return SliverAppBar(
+    return SliverAppBarTranslucent(
       title: AnimatedBuilder(
         animation: backgroundTaskStore,
         builder: (BuildContext context, Widget? child) {
@@ -44,7 +45,6 @@ class _BackgroundTaskListContextualMenuState
       ),
       pinned: !settingsStore
           .getBoolPreference(SettingsBoolPreference.hideAppBarOnScroll),
-      floating: true,
       leading: IconButton(
         onPressed: () {
           _menuStore.popMenu();
@@ -97,8 +97,7 @@ class _BackgroundTaskListContextualMenuState
   }
 
   Widget _buildSearchMenu() {
-    return SliverAppBar(
-      // backgroundColor: _appBarColorOverride,
+    return SliverAppBarTranslucent(
       title: TextField(
         cursorColor: context.textTheme.bodyLarge!.color,
         autofocus: true,
@@ -109,7 +108,6 @@ class _BackgroundTaskListContextualMenuState
       ),
       pinned: !settingsStore
           .getBoolPreference(SettingsBoolPreference.hideAppBarOnScroll),
-      floating: true,
       leading: AppIconButton(
         onTap: () {
           _menuStore.popMenu();
@@ -128,7 +126,7 @@ class _BackgroundTaskListContextualMenuState
     return MultiAnimatedBuilder(
       animations: <Listenable>[backgroundTaskStore],
       builder: (_, __) {
-        return SliverAppTopBar(
+        return SliverAppBarGlobal(
           onSearch: widget.onSearch,
           pinned: !settingsStore
               .getBoolPreference(SettingsBoolPreference.hideAppBarOnScroll),
@@ -162,7 +160,8 @@ class _BackgroundTaskListContextualMenuState
                     );
 
                     if (confirmed) {
-                      await backgroundTaskStore.deleteAllBackgroundTasks();
+                      await backgroundTaskStore
+                          .cancelAllPendingBackgroundTasks();
                     }
                   }
                 },

@@ -13,6 +13,7 @@ import 'key_value_storage.dart';
 enum AppTheme {
   darkLightsOut,
   darkDimmed,
+  darkLight,
   lightDefault,
   darkHacker,
   darkBlood,
@@ -22,6 +23,8 @@ enum AppTheme {
     switch (this) {
       case AppTheme.darkDimmed:
         return strings.darkDimmed;
+      case AppTheme.darkLight:
+        return 'Dark light';
       case AppTheme.lightDefault:
         return strings.light;
       case AppTheme.followSystem:
@@ -170,24 +173,48 @@ class ThemeStore extends ChangeNotifier {
     );
   }
 
+  ThemeData _darkLightThemeData() {
+    const Color kCardColor = Color(0xFF313338);
+    const Color kBackgroundColor = Color(0xFF2B2D31);
+    const Color selectedTileColor = Color(0xff1E1F22);
+
+    const Color kCanvasColor = Color(0xff313338);
+    const Color kPrimaryColor = Color(0xffb8b9c5);
+    const Color kSecondaryColor = Colors.black;
+
+    return createThemeData(
+      canvasColor: kCanvasColor,
+      backgroundColor: kBackgroundColor,
+      cardColor: kCardColor,
+      primaryColor: kPrimaryColor,
+      secondaryColor: kSecondaryColor,
+      textColor: const Color(0xff84859B),
+      headlineColor: Colors.white,
+      disabledColor: const Color(0xff535466),
+      selectedTileColor: selectedTileColor,
+      base: ThemeData.dark(),
+      fontFamily: _currentFontFamily,
+    );
+  }
+
   ThemeData _lightDefaultThemeData() {
-    const Color kBackgroundColor = Color.fromARGB(255, 230, 230, 230);
-    const Color selectedTileColor = Color.fromARGB(255, 218, 218, 218);
-    const Color kCardColor = kBackgroundColor;
-    const Color kCanvasColor = Color(0xffEBEBEB);
+    const Color kBackgroundColor = Color(0xffe8e8e8);
+    const Color selectedTileColor = kBackgroundColor;
+    const Color kCardColor = Color(0xfff7f2f9);
+    const Color kCanvasColor = Color(0xfff7f2f9);
     const MaterialColor kPrimaryColor = MaterialColor(
-      0xff000000,
+      0xff262626,
       <int, Color>{
-        50: Color(0xff000000),
-        100: Color(0xff000000),
-        200: Color(0xff000000),
-        300: Color(0xff000000),
-        400: Color(0xff000000),
-        500: Color(0xff000000),
-        600: Color(0xff000000),
-        700: Color(0xff000000),
-        800: Color(0xff000000),
-        900: Color(0xff000000),
+        50: Color(0xff262626),
+        100: Color(0xff262626),
+        200: Color(0xff262626),
+        300: Color(0xff262626),
+        400: Color(0xff262626),
+        500: Color(0xff262626),
+        600: Color(0xff262626),
+        700: Color(0xff262626),
+        800: Color(0xff262626),
+        900: Color(0xff262626),
       },
     );
     const MaterialColor kSecondaryColor = Colors.blue;
@@ -211,7 +238,8 @@ class ThemeStore extends ChangeNotifier {
     const Color kBackgroundColor = Color.fromARGB(255, 8, 8, 8);
     const Color kCardColor = kBackgroundColor;
     const Color kPrimaryColor = Color(0xFFFFFFFF);
-    final Color kCanvasColor = kPrimaryColor.withOpacity(.05);
+    const Color kCanvasColor = Color.fromARGB(255, 14, 14, 14);
+    const Color kSelectedTileColor = Color.fromARGB(255, 24, 24, 24);
     const Color kSecondaryColor = Colors.white;
 
     return createThemeData(
@@ -223,7 +251,7 @@ class ThemeStore extends ChangeNotifier {
       textColor: Colors.white70,
       headlineColor: Colors.white,
       disabledColor: const Color.fromARGB(255, 78, 78, 78),
-      selectedTileColor: kPrimaryColor.withOpacity(.1),
+      selectedTileColor: kSelectedTileColor,
       base: ThemeData.dark(),
       fontFamily: _currentFontFamily,
     );
@@ -289,8 +317,10 @@ class ThemeStore extends ChangeNotifier {
         return _darkBloodThemeData();
       case AppTheme.followSystem:
         return currentThemeBrightness == Brightness.dark
-            ? _darkDimmedThemeData()
+            ? _darkLightThemeData()
             : _lightDefaultThemeData();
+      case AppTheme.darkLight:
+        return _darkLightThemeData();
     }
   }
 
@@ -308,6 +338,8 @@ class ThemeStore extends ChangeNotifier {
         return Brightness.dark;
       case AppTheme.followSystem:
         return SchedulerBinding.instance.platformDispatcher.platformBrightness;
+      case AppTheme.darkLight:
+        return Brightness.dark;
     }
   }
 
@@ -448,7 +480,7 @@ ThemeData createThemeData({
   return base.copyWith(
     bottomAppBarTheme: base.bottomAppBarTheme.copyWith(
       elevation: 0,
-      color: backgroundColor,
+      color: canvasColor,
       surfaceTintColor: Colors.transparent,
     ),
     chipTheme: base.chipTheme.copyWith(
@@ -496,8 +528,9 @@ ThemeData createThemeData({
     appBarTheme: base.appBarTheme.copyWith(
       surfaceTintColor: Colors.transparent,
       backgroundColor: cardColor,
+      shadowColor: backgroundColor,
       elevation: 0,
-      scrolledUnderElevation: 0,
+      scrolledUnderElevation: 1,
       centerTitle: true,
       titleTextStyle:
           (base.appBarTheme.titleTextStyle ?? textTheme.displayLarge)!
@@ -541,11 +574,11 @@ ThemeData createThemeData({
       surfaceTintColor: Colors.transparent,
     ),
     navigationBarTheme: base.navigationBarTheme.copyWith(
-      backgroundColor: backgroundColor,
-      elevation: 0,
+      backgroundColor: canvasColor,
+      elevation: 10,
       height: kToolbarHeight * 1.3,
       surfaceTintColor: Colors.transparent,
-      shadowColor: Colors.transparent,
+      shadowColor: backgroundColor,
       indicatorColor: primaryColor,
       labelTextStyle: MaterialStateProperty.resolveWith<TextStyle?>(
         (Set<MaterialState> states) {

@@ -5,31 +5,30 @@ import '../widgets/toast.dart';
 import 'app_localization_strings.dart';
 
 extension ContextShowApkResultMessage on BuildContext {
-  void showApkResultMessage(Result result) {
+  void showApkResultMessage(SingleExtractionResult result) {
     switch (result) {
-      case Result.permissionDenied:
+      case SingleExtractionResult.permissionDenied:
         showToast(this, strings.permissionDenied);
         break;
-      case Result.permissionRestricted:
+      case SingleExtractionResult.permissionRestricted:
         showToast(this, strings.permissionRestrictedByAndroid);
         break;
-      case Result.notAllowed:
+      case SingleExtractionResult.notAllowed:
         showToast(
           this,
           strings.operationNotAllowedMayBeProtectedPackage,
         );
         break;
-      case Result.notFound:
+      case SingleExtractionResult.notFound:
         showToast(
           this,
-          // TODO: Missing translation.
           'Could not extract, this apk was probably uninstalled because we did not found it is apk file',
         );
         break;
-      case Result.queued:
+      case SingleExtractionResult.queued:
         // The bottom navigation bar actually changes its badge indicator,
         // so we don't need to do anything here to indicate the apk is being extracted.
-        showToast(this, "Queued! Check the 'Apks' tab");
+        showToast(this, 'Success! check "Extracted" tab');
         break;
     }
   }

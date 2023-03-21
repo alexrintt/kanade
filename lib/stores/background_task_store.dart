@@ -23,12 +23,16 @@ enum TaskStatus {
   running,
   finished,
   partial,
-  failed;
+  failed,
+  deleteRequested,
+  deleted;
 
   bool get isPending =>
-      this == TaskStatus.queued ||
-      this == TaskStatus.running ||
-      this == TaskStatus.initial;
+      this == queued ||
+      this == running ||
+      this == initial ||
+      this == deleteRequested ||
+      this == deleted;
 }
 
 enum TaskException {
@@ -119,8 +123,23 @@ class ExtractApkBackgroundTask {
 
   Map<String, dynamic> toJson() => _$ExtractApkBackgroundTaskToJson(this);
 
-  Future<void> delete() async {
-    if (progress.status != TaskStatus.finished) return;
+  Stream<TaskProgress> delete() async* {
+    if (progress.status == TaskStatus.deleted) {
+      // already deleted, skip.
+      yield progress;
+      return;
+    }
+
+    if (progress.status != TaskStatus.deleteRequested) {
+      // we will only process tasks that were requested to delete.
+      yield progress;
+      return;
+    }
+
+    yield progress = TaskProgress(
+      percent: progress.percent,
+      status: TaskStatus.running,
+    );
 
     if (apkIconUri != null) {
       if (await saf.exists(apkIconUri!) ?? false) {
@@ -132,15 +151,34 @@ class ExtractApkBackgroundTask {
         await saf.delete(apkDestinationUri!);
       }
     }
+
+    yield progress = TaskProgress(
+      percent: progress.percent,
+      status: TaskStatus.deleted,
+    );
+  }
+
+  TaskProgress requestDelete() {
+    return progress = TaskProgress(
+      percent: progress.percent,
+      status: TaskStatus.deleteRequested,
+    );
   }
 
   // Run light computations, basically fetch the icon and the basic metadata.
-  Future<TaskProgress> prepare() async {
+  Stream<TaskProgress> prepare() async* {
+    yield progress = const TaskProgress(
+      // TODO: Add stream based API on shared_storage.
+      // So we can use the percent correctly instead of hardcoded values.
+      percent: 0,
+      status: TaskStatus.running,
+    );
+
     late final PackageInfo packageInfo;
 
     if (!(await saf.exists(parentUri) ?? false) ||
         !(await saf.canWrite(parentUri) ?? false)) {
-      return progress = const TaskProgress(
+      yield progress = const TaskProgress(
         // TODO: Add stream based API on shared_storage.
         // So we can use the percent correctly instead of hardcoded values.
         percent: 0,
@@ -156,14 +194,14 @@ class ExtractApkBackgroundTask {
         packageName = packageInfo.name;
 
         if (packageInfo.installerPath == null) {
-          return progress = const TaskProgress.notFound();
+          yield progress = const TaskProgress.notFound();
         } else {
           final File apkSourceFile = File(packageInfo.installerPath!).absolute;
 
           apkSourceFilePath = apkSourceFile.path;
 
           if (!apkSourceFile.existsSync()) {
-            return progress = const TaskProgress.notFound();
+            yield progress = const TaskProgress.notFound();
           } else {
             final String apkFilename =
                 packageInfo.name ?? basename(apkSourceFile.path);
@@ -184,7 +222,7 @@ class ExtractApkBackgroundTask {
             apkDestinationFileName = createdFile?.name;
 
             if (createdFile?.name == null) {
-              return progress = const TaskProgress(
+              yield progress = const TaskProgress(
                 percent: 0.9,
                 status: TaskStatus.failed,
                 exception: TaskException.unknown,
@@ -207,7 +245,7 @@ class ExtractApkBackgroundTask {
 
               apkIconUri = apkIconDocumentFile?.uri;
 
-              return progress = const TaskProgress(
+              yield progress = const TaskProgress(
                 percent: 0.0,
                 status: TaskStatus.queued,
               );
@@ -215,7 +253,7 @@ class ExtractApkBackgroundTask {
           }
         }
       } on PackageNotFoundException {
-        return progress = const TaskProgress.notFound();
+        yield progress = const TaskProgress.notFound();
       }
     }
   }
@@ -253,32 +291,6 @@ mixin BackgroundTaskStoreMixin {
   BackgroundTaskStore get backgroundTaskStore =>
       _backgroundTaskStore ??= getIt<BackgroundTaskStore>();
 }
-
-// /// Lightweight view model version of [ExtractApkBackgroundTask].
-// class BackgroundTaskDisplayInfo {
-//   const BackgroundTaskDisplayInfo({
-//     required this.title,
-//     required this.size,
-//     required this.createdAt,
-//     required this.targetUri,
-//     required this.id,
-//     required this.progress,
-//     required this.apkIconUri,
-//   });
-
-//   final String? title;
-//   final int size;
-//   final DateTime createdAt;
-
-//   /// The current apk uri.
-//   final Uri? targetUri;
-
-//   final String id;
-//   final TaskProgress progress;
-
-//   /// The linked icon Uri to this background task. Use it to display the apk icon.
-//   final Uri? apkIconUri;
-// }
 
 class BackgroundTaskStore
     extends IndexedCollectionStore<ExtractApkBackgroundTask>
@@ -337,25 +349,19 @@ class BackgroundTaskStore
 
   Future<void> deleteTasks(Set<ExtractApkBackgroundTask> tasks) async {
     for (final ExtractApkBackgroundTask task in tasks) {
-      await task.delete();
-
-      if (task.apkDestinationUri != null && task.apkIconUri != null) {
-        getIt<GlobalFileChangeStore>()
-          ..commit(action: FileAction.delete, uri: task.apkDestinationUri!)
-          ..commit(action: FileAction.delete, uri: task.apkIconUri!);
-      }
-
-      _tasks.remove(task.id);
-
-      notifyListeners();
+      task.requestDelete();
     }
+
+    unawaited(_runExecutorLooper());
   }
 
+  /// Prefer using [deleteTasks] instead if you are planning to delete several tasks.
   Future<void> deleteTask({
     ExtractApkBackgroundTask? task,
     String? taskId,
   }) async {
     assert(task != null || taskId != null);
+
     final String id = taskId ?? task!.id;
 
     if (collectionIndexedById[id] == null) return;
@@ -369,6 +375,17 @@ class BackgroundTaskStore
 
   Future<void> deleteAllBackgroundTasks() async {
     await deleteTasks(tasks.toSet());
+  }
+
+  Future<void> cancelAllPendingBackgroundTasks() async {
+    bool isPending(ExtractApkBackgroundTask task) =>
+        task.progress.status.isPending;
+
+    await deleteTasks(tasks.where(isPending).toSet());
+  }
+
+  Future<void> cancelBackgroundTask(ExtractApkBackgroundTask task) async {
+    await deleteTasks(<ExtractApkBackgroundTask>{task});
   }
 
   @override
@@ -499,29 +516,28 @@ class BackgroundTaskStore
     debounce(() => __saveTasks(tasks));
   }
 
-  Future<void> queue(ExtractApkBackgroundTask task) async {
-    _queueTask(task);
+  Future<void> queueMany(List<ExtractApkBackgroundTask> tasks) async {
+    for (final ExtractApkBackgroundTask task in tasks) {
+      _tasks[task.id] = task;
+    }
+
     unawaited(_runExecutorLooper());
     notifyListeners();
-  }
-
-  void _queueTask(ExtractApkBackgroundTask task) {
-    _tasks[task.id] = task;
   }
 
   bool get _hasPendingTasks => tasks
       .any((ExtractApkBackgroundTask task) => task.progress.status.isPending);
 
-  bool get _hasNotPendingTasks => !_hasPendingTasks;
+  bool get _hasNoPendingTasks => !_hasPendingTasks;
 
-  bool get idle => _hasNotPendingTasks;
+  bool get idle => _hasNoPendingTasks;
 
   StreamSubscription<TaskProgress>? _currentRunningTaskListener;
 
   Future<void> _runExecutorLooper() async {
     if (_currentRunningTaskListener != null) return;
 
-    if (tasks.isEmpty) return;
+    if (_hasNoPendingTasks) return;
 
     Future<void> cancel() async {
       await _currentRunningTaskListener!.cancel();
@@ -530,72 +546,125 @@ class BackgroundTaskStore
       await _runExecutorLooper();
     }
 
-    for (final ExtractApkBackgroundTask task in tasks.reversed) {
-      final bool hasPendingInitialTask = tasks.reversed.any(
-        (ExtractApkBackgroundTask task) =>
-            task.progress.status == TaskStatus.initial,
+    final List<ExtractApkBackgroundTask> pendingTasks = tasks.reversed
+        .where(
+          (ExtractApkBackgroundTask task) => task.progress.status.isPending,
+        )
+        .toList();
+
+    ExtractApkBackgroundTask? firstTaskWith(TaskStatus status) {
+      return pendingTasks.cast<ExtractApkBackgroundTask?>().firstWhere(
+            (ExtractApkBackgroundTask? task) => task?.progress.status == status,
+            orElse: () => null,
+          );
+    }
+
+    bool hasTaskWith(TaskStatus status) {
+      return firstTaskWith(status) != null;
+    }
+
+    final bool hasTasksAlreadyRunning = hasTaskWith(TaskStatus.running);
+
+    if (hasTasksAlreadyRunning) return;
+
+    final ExtractApkBackgroundTask? taskWithInitialStatus =
+        firstTaskWith(TaskStatus.initial);
+
+    if (taskWithInitialStatus != null) {
+      final ExtractApkBackgroundTask task = taskWithInitialStatus;
+
+      final Stream<TaskProgress> onTaskEnd = taskWithInitialStatus.prepare();
+
+      _currentRunningTaskListener = onTaskEnd.listen(
+        (TaskProgress _) {
+          if (task.apkDestinationUri != null && task.apkIconUri != null) {
+            getIt<GlobalFileChangeStore>()
+              ..commit(
+                action: FileAction.create,
+                uri: task.apkDestinationUri!,
+              )
+              ..commit(action: FileAction.create, uri: task.apkIconUri!);
+          }
+          notifyListeners();
+        },
+        cancelOnError: true,
+        onDone: cancel,
+        onError: (_) => cancel(),
       );
 
-      switch (task.progress.status) {
-        case TaskStatus.finished:
-        case TaskStatus.failed:
-        case TaskStatus.partial:
-          continue;
-        case TaskStatus.running:
-          // There is already a running task.
-          return;
-        case TaskStatus.queued:
-          if (hasPendingInitialTask) {
-            // Some tasks were not even "touched", so do it before starting heavy tasks.
-            continue;
+      return;
+    }
+
+    final ExtractApkBackgroundTask? queuedTask =
+        firstTaskWith(TaskStatus.queued);
+
+    if (queuedTask != null) {
+      final ExtractApkBackgroundTask task = queuedTask;
+
+      final Stream<TaskProgress> taskStream = task.run();
+
+      _currentRunningTaskListener = taskStream.listen(
+        (TaskProgress progress) {
+          if (!progress.status.isPending) {
+            if (task.apkDestinationUri != null && task.apkIconUri != null) {
+              getIt<GlobalFileChangeStore>()
+                ..commit(
+                  action: FileAction.update,
+                  uri: task.apkDestinationUri!,
+                )
+                ..commit(action: FileAction.update, uri: task.apkIconUri!);
+            }
+            notifyListeners();
           }
+        },
+        cancelOnError: true,
+        onDone: cancel,
+        onError: (_) => cancel(),
+      );
 
-          final Stream<TaskProgress> taskStream = task.run();
+      return;
+    }
 
-          _currentRunningTaskListener = taskStream.listen(
-            (TaskProgress progress) {
-              if (!progress.status.isPending) {
-                if (task.apkDestinationUri != null && task.apkIconUri != null) {
-                  getIt<GlobalFileChangeStore>()
-                    ..commit(
-                      action: FileAction.update,
-                      uri: task.apkDestinationUri!,
-                    )
-                    ..commit(action: FileAction.update, uri: task.apkIconUri!);
-                }
-              }
+    final ExtractApkBackgroundTask? taskAlreadyDeleted =
+        firstTaskWith(TaskStatus.deleted);
 
-              notifyListeners();
-            },
-            cancelOnError: true,
-            onDone: cancel,
-            onError: (_) => cancel(),
-          );
+    if (taskAlreadyDeleted != null) {
+      _tasks.remove(taskAlreadyDeleted.id);
+      notifyListeners();
+      unawaited(_runExecutorLooper());
+      return;
+    }
 
-          return;
+    final ExtractApkBackgroundTask? taskWaitingForDeletion =
+        firstTaskWith(TaskStatus.deleteRequested);
 
-        case TaskStatus.initial:
-          final Stream<TaskProgress> onTaskEnd =
-              Stream<TaskProgress>.fromFuture(task.prepare());
+    if (taskWaitingForDeletion != null) {
+      final ExtractApkBackgroundTask task = taskWaitingForDeletion;
 
-          _currentRunningTaskListener = onTaskEnd.listen(
-            (TaskProgress _) {
-              if (task.apkDestinationUri != null && task.apkIconUri != null) {
-                getIt<GlobalFileChangeStore>()
-                  ..commit(
-                    action: FileAction.create,
-                    uri: task.apkDestinationUri!,
-                  )
-                  ..commit(action: FileAction.create, uri: task.apkIconUri!);
-              }
-            },
-            cancelOnError: true,
-            onDone: cancel,
-            onError: (_) => cancel(),
-          );
+      final Stream<TaskProgress> onTaskEnd = taskWaitingForDeletion.delete();
 
-          return;
-      }
+      _currentRunningTaskListener = onTaskEnd.listen(
+        (TaskProgress _) {
+          if (task.progress.status == TaskStatus.deleted) {
+            if (task.apkDestinationUri != null && task.apkIconUri != null) {
+              getIt<GlobalFileChangeStore>()
+                ..commit(
+                  action: FileAction.delete,
+                  uri: task.apkDestinationUri!,
+                )
+                ..commit(action: FileAction.delete, uri: task.apkIconUri!);
+            }
+            _tasks.remove(task.id);
+
+            notifyListeners();
+          }
+        },
+        cancelOnError: true,
+        onDone: cancel,
+        onError: (_) => cancel(),
+      );
+
+      return;
     }
   }
 

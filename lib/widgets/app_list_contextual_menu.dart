@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 
@@ -9,8 +7,10 @@ import '../stores/settings_store.dart';
 import '../utils/app_icons.dart';
 import '../utils/app_localization_strings.dart';
 import '../utils/context_of.dart';
+import '../utils/stringify_uri_location.dart';
 import 'animated_flip_counter.dart';
 import 'app_icon_button.dart';
+import 'sliver_app_bar_translucent.dart';
 import 'sliver_app_top_bar.dart';
 import 'toast.dart';
 
@@ -36,7 +36,7 @@ class _AppListContextualMenuState extends State<AppListContextualMenu>
       store.apps.isEmpty ? Colors.transparent : null;
 
   Widget _buildSelectionMenu() {
-    return SliverAppBar(
+    return SliverAppBarTranslucent(
       backgroundColor: _appBarColorOverride,
       title: AnimatedBuilder(
         animation: store,
@@ -55,7 +55,6 @@ class _AppListContextualMenuState extends State<AppListContextualMenu>
       ),
       pinned: !settingsStore
           .getBoolPreference(SettingsBoolPreference.hideAppBarOnScroll),
-      floating: true,
       leading: IconButton(
         onPressed: () {
           _menuStore.popMenu();
@@ -73,14 +72,12 @@ class _AppListContextualMenuState extends State<AppListContextualMenu>
             try {
               store.showProgressIndicator();
 
-              final MultipleApkExtraction extractedApks =
+              final MultipleExtraction extractedApks =
                   await store.extractSelectedApks();
 
-              final MultipleResult result = extractedApks.result;
+              final MultipleExtractionResult result = extractedApks.result;
 
-              final Directory? extractedTo = extractedApks.extractions.isEmpty
-                  ? null
-                  : extractedApks.extractions.first.apk?.parent;
+              final Uri? extractedTo = settingsStore.exportLocation;
 
               if (!mounted) return;
 
@@ -100,7 +97,7 @@ class _AppListContextualMenuState extends State<AppListContextualMenu>
                   showToast(
                     context,
                     context.strings.someApkWereNotExtracted(
-                      extractedTo.absolute.toString(),
+                      stringifyTreeUri(extractedTo)!,
                     ),
                   );
                 } else {
@@ -144,7 +141,7 @@ class _AppListContextualMenuState extends State<AppListContextualMenu>
   }
 
   Widget _buildSearchMenu() {
-    return SliverAppBar(
+    return SliverAppBarTranslucent(
       backgroundColor: _appBarColorOverride,
       title: TextField(
         cursorColor: context.textTheme.bodyLarge!.color,
@@ -156,7 +153,6 @@ class _AppListContextualMenuState extends State<AppListContextualMenu>
       ),
       pinned: !settingsStore
           .getBoolPreference(SettingsBoolPreference.hideAppBarOnScroll),
-      floating: true,
       leading: AppIconButton(
         onTap: () {
           _menuStore.popMenu();
@@ -172,7 +168,7 @@ class _AppListContextualMenuState extends State<AppListContextualMenu>
   }
 
   Widget _buildNormalMenu() {
-    return SliverAppTopBar(
+    return SliverAppBarGlobal(
       backgroundColor: _appBarColorOverride,
       onSearch: widget.onSearch,
       pinned: !settingsStore

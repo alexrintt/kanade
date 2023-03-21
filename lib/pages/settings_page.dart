@@ -17,6 +17,7 @@ import '../widgets/animated_app_name.dart';
 import '../widgets/app_icon_button.dart';
 import '../widgets/app_list_tile.dart';
 import '../widgets/horizontal_rule.dart';
+import '../widgets/sliver_app_bar_translucent.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -38,9 +39,7 @@ class _SettingsPageState extends State<SettingsPage>
           AnimatedBuilder(
             animation: settingsStore,
             builder: (BuildContext context, Widget? child) {
-              return SliverAppBar(
-                automaticallyImplyLeading: false,
-                floating: true,
+              return SliverAppBarTranslucent(
                 pinned: !settingsStore.getBoolPreference(
                   SettingsBoolPreference.hideAppBarOnScroll,
                 ),

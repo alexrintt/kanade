@@ -28,6 +28,9 @@ class SettingsStore extends ChangeNotifier {
   bool get shouldConfirmIrreversibleActions =>
       getBoolPreference(SettingsBoolPreference.confirmIrreversibleActions);
 
+  bool get transparentNavigationBar =>
+      getBoolPreference(SettingsBoolPreference.transparentNavigationBar);
+
   bool get shouldExtractWithSingleClick =>
       getBoolPreference(SettingsBoolPreference.extractWithSingleClick);
 
@@ -168,7 +171,7 @@ enum SettingsBoolPreference {
     defaultValue: true,
     category: SettingsBoolPreferenceCategory.behavior,
   ),
-  transparentBottomNavigationBar(
+  transparentNavigationBar(
     defaultValue: false,
     category: SettingsBoolPreferenceCategory.appearance,
   ),
@@ -214,8 +217,8 @@ enum SettingsBoolPreference {
         return 'Show built-in apps';
       case SettingsBoolPreference.displayUserInstalledApps:
         return 'Show user installed apps';
-      case SettingsBoolPreference.transparentBottomNavigationBar:
-        return 'Transparent bottom navigation bar';
+      case SettingsBoolPreference.transparentNavigationBar:
+        return 'Translucent glass effect';
     }
   }
 
@@ -231,7 +234,7 @@ enum SettingsBoolPreference {
         return 'If enabled the home list will include built-in apps, they are like system apps but openable.';
       case SettingsBoolPreference.displayUserInstalledApps:
         return 'If enabled the home list will include apps installed by you.';
-      case SettingsBoolPreference.transparentBottomNavigationBar:
+      case SettingsBoolPreference.transparentNavigationBar:
         return 'Apply a blur transparent effect to the home navigation bar.';
       case SettingsBoolPreference.extractWithSingleClick:
         return 'If enabled, the app list will extract apk with a single click instead of opening the details page.';

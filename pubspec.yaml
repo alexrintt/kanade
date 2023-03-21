@@ -205,8 +205,8 @@ flutter:
           weight: 700
     - family: Segoe UI
       fonts:
-        - asset: Segoe UI.ttf
-        - asset: Segoe UI Bold.ttf
+        - asset: assets/fonts/Segoe UI.ttf
+        - asset: assets/fonts/Segoe UI Bold.ttf
           weight: 700
     - family: Forward
       fonts:

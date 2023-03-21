@@ -64,7 +64,7 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
     switch (action) {
       case InstalledAppTileAction.extract:
         if (widget.packageId == null) return;
-        final ApkExtraction extraction =
+        final SingleExtraction extraction =
             await store.extractApk(packageId: widget.packageId);
 
         if (mounted) {
@@ -215,6 +215,7 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
                 color: Colors.red,
               ),
               onTap: () {
+                context.pop();
                 perform(InstalledAppTileAction.uninstall);
               },
             ),
@@ -224,12 +225,18 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
     );
   }
 
+  void _pop() {
+    if (context.canPop()) {
+      context.pop();
+    }
+  }
+
   Widget _buildScaffoldWrapper(Widget child) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTap: () => context.pop(),
+      onTap: () => _pop(),
       child: Scaffold(
-        backgroundColor: Colors.black.withOpacity(.5),
+        backgroundColor: Colors.black.withOpacity(.2),
         body: SizedBox.expand(
           child: DraggableScrollableSheet(
             builder: (
@@ -238,6 +245,7 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
             ) =>
                 // Do not use [ColoredBox] here, it will block the ListTile from displaying the ink effect...
                 Material(
+              elevation: 10,
               color: context.theme.scaffoldBackgroundColor,
               child: SingleChildScrollView(
                 controller: scrollController,
@@ -252,7 +260,7 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
 
   Widget _buildMainActionButtons() {
     return Padding(
-      padding: const EdgeInsets.all(k4dp),
+      padding: const EdgeInsets.all(k4dp).copyWith(top: 0),
       child: SizedBox(
         height: kToolbarHeight * 1.4,
         child: ListView(
@@ -340,49 +348,6 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
   }
 }
 
-// class BottomSheetWithAnimationController extends StatefulWidget {
-//   const BottomSheetWithAnimationController({
-//     super.key,
-//     this.child,
-//     this.builder,
-//   }) : assert(child != null || builder != null);
-
-//   final Widget Function(BuildContext, ScrollController)? builder;
-//   final Widget? child;
-
-//   @override
-//   State<BottomSheetWithAnimationController> createState() =>
-//       _BottomSheetWithAnimationControllerState();
-// }
-
-// class _BottomSheetWithAnimationControllerState
-//     extends State<BottomSheetWithAnimationController>
-//     with ThemeStoreMixin<BottomSheetWithAnimationController> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-//       behavior: HitTestBehavior.opaque,
-//       onTap: () => context.pop(),
-//       child: Scaffold(
-//         backgroundColor: Colors.black.withOpacity(.4),
-//         body: SizedBox.expand(
-//           child: DraggableScrollableSheet(
-//             // sna
-//             builder: widget.builder ??
-//                 (_, ScrollController scrollController) => ColoredBox(
-//                       color: context.theme.scaffoldBackgroundColor,
-//                       child: SingleChildScrollView(
-//                         controller: scrollController,
-//                         child: widget.child,
-//                       ),
-//                     ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 class ActionButton extends StatelessWidget {
   const ActionButton({
     super.key,
@@ -415,7 +380,7 @@ class ActionButton extends StatelessWidget {
               Icon(
                 icon,
                 size: iconSize,
-                color: context.theme.primaryColor,
+                color: context.theme.textTheme.labelSmall!.color,
               ),
               Text(text),
             ],

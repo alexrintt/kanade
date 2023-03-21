@@ -9,6 +9,7 @@ import '../utils/app_localization_strings.dart';
 import '../utils/context_confirm.dart';
 import '../utils/context_of.dart';
 import 'app_icon_button.dart';
+import 'sliver_app_bar_translucent.dart';
 import 'sliver_app_top_bar.dart';
 
 class FileListContextualMenu extends StatefulWidget {
@@ -30,7 +31,7 @@ class _FileListContextualMenuState extends State<FileListContextualMenu>
   ContextualMenuStore get _menuStore => context.of<ContextualMenuStore>();
 
   Widget _buildSelectionMenu() {
-    return SliverAppBar(
+    return SliverAppBarTranslucent(
       title: AnimatedBuilder(
         animation: fileListStore,
         builder: (BuildContext context, Widget? child) {
@@ -41,7 +42,6 @@ class _FileListContextualMenuState extends State<FileListContextualMenu>
       ),
       pinned: !settingsStore
           .getBoolPreference(SettingsBoolPreference.hideAppBarOnScroll),
-      floating: true,
       leading: IconButton(
         onPressed: () {
           _menuStore.popMenu();
@@ -94,7 +94,7 @@ class _FileListContextualMenuState extends State<FileListContextualMenu>
   }
 
   Widget _buildSearchMenu() {
-    return SliverAppBar(
+    return SliverAppBarTranslucent(
       title: TextField(
         cursorColor: context.textTheme.bodyLarge!.color,
         autofocus: true,
@@ -105,7 +105,6 @@ class _FileListContextualMenuState extends State<FileListContextualMenu>
       ),
       pinned: !settingsStore
           .getBoolPreference(SettingsBoolPreference.hideAppBarOnScroll),
-      floating: true,
       leading: AppIconButton(
         onTap: () {
           _menuStore.popMenu();
@@ -121,7 +120,7 @@ class _FileListContextualMenuState extends State<FileListContextualMenu>
   }
 
   Widget _buildNormalMenu() {
-    return SliverAppTopBar(
+    return SliverAppBarGlobal(
       onSearch: widget.onSearch,
       pinned: !settingsStore
           .getBoolPreference(SettingsBoolPreference.hideAppBarOnScroll),

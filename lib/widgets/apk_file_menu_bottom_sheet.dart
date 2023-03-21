@@ -234,7 +234,7 @@ class _ApkFileMenuOptionsState extends State<ApkFileMenuOptions>
       behavior: HitTestBehavior.opaque,
       onTap: () => context.pop(),
       child: Scaffold(
-        backgroundColor: Colors.black.withOpacity(.4),
+        backgroundColor: Colors.black.withOpacity(.2),
         body: SizedBox.expand(
           child: DraggableScrollableSheet(
             builder: (
@@ -257,7 +257,7 @@ class _ApkFileMenuOptionsState extends State<ApkFileMenuOptions>
 
   Widget _buildMainActionButtons() {
     return Padding(
-      padding: const EdgeInsets.all(k4dp),
+      padding: const EdgeInsets.all(k4dp).copyWith(top: 0),
       child: SizedBox(
         height: kToolbarHeight * 1.4,
         child: ListView(

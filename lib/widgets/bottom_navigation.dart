@@ -36,16 +36,15 @@ class _BottomNavigationState extends State<BottomNavigation>
         backgroundTaskStore,
       ],
       builder: (BuildContext context, Widget? child) {
-        final bool transparentBottomNavigationBar =
-            settingsStore.getBoolPreference(
-          SettingsBoolPreference.transparentBottomNavigationBar,
-        );
+        final bool transparentNavigationBar =
+            settingsStore.transparentNavigationBar;
 
         Widget navigationBar = NavigationBar(
-          backgroundColor:
-              transparentBottomNavigationBar ? Colors.transparent : null,
-          surfaceTintColor: Colors.transparent,
-          shadowColor: Colors.transparent,
+          backgroundColor: transparentNavigationBar ? Colors.transparent : null,
+          shadowColor: transparentNavigationBar ? Colors.transparent : null,
+          surfaceTintColor:
+              transparentNavigationBar ? Colors.transparent : null,
+          elevation: transparentNavigationBar ? 0.0 : null,
           selectedIndex: widget.index,
           onDestinationSelected: _select,
           destinations: <Widget>[
@@ -77,8 +76,16 @@ class _BottomNavigationState extends State<BottomNavigation>
           ],
         );
 
-        if (transparentBottomNavigationBar) {
-          navigationBar = SizedBox(
+        if (transparentNavigationBar) {
+          navigationBar = Container(
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide(
+                  color: context.primaryColor,
+                  width: 2,
+                ),
+              ),
+            ),
             height: context.theme.navigationBarTheme.height,
             child: ClipRect(
               child: BackdropFilter(

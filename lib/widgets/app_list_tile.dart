@@ -360,13 +360,12 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
   }
 
   ShapeBorder? get _defaultShape {
-    if (widget.flat) {
-      return null;
+    if (!widget.flat) {
+      return ContinuousRectangleBorder(
+        borderRadius: BorderRadius.circular(k8dp),
+      );
     }
-
-    return ContinuousRectangleBorder(
-      borderRadius: BorderRadius.circular(k8dp),
-    );
+    return null;
   }
 
   Color? get _defaultTileColor {
@@ -415,7 +414,7 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
 
     if (!widget.flat) {
       child = Card(
-        clipBehavior: Clip.hardEdge,
+        shape: _defaultShape,
         child: child,
       );
     }

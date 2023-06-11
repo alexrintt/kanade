@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_storage/saf.dart';
+import 'package:shared_storage/shared_storage.dart';
 
 import '../pages/home_page.dart';
 import '../setup.dart';
@@ -277,6 +277,8 @@ class _DocumentFileTileState extends State<DocumentFileTile>
       title: Text(widget.file.name ?? widget.file.uri.toString()),
       subtitle: Text('$formattedBytes, $formattedDate'),
       selected: fileListStore.selected.isNotEmpty && widget.isSelected,
+      onSelectionChange: (bool value) =>
+          fileListStore.toggleSelect(item: widget.file),
       inSelectionMode: fileListStore.inSelectionMode,
       leading: DocumentFileThumbnail(file: widget.file),
     );

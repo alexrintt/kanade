@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
-import 'package:shared_storage/saf.dart';
+import 'package:shared_storage/shared_storage.dart';
 
 import '../stores/device_apps_store.dart';
 import '../utils/app_icons.dart';
@@ -70,7 +70,7 @@ class _ApkFileMenuOptionsState extends State<ApkFileMenuOptions>
         widget.onDelete();
         break;
       case ApkFileTileAction.share:
-        await shareFile(
+        await tryShareFile(
           uri: widget.packageInstallerUri,
           file: widget.packageInstallerFile,
         );
@@ -92,26 +92,27 @@ class _ApkFileMenuOptionsState extends State<ApkFileMenuOptions>
           return;
         }
 
-        try {
-          await openDocumentFile(
-            // This removes the "document" part
-            // which is used to identify the apk. And takes only the [tree]
-            // part which is used to (generally) identify the directory.
-            // This may not work on all devices.
-            widget.packageInstallerUri!.replace(
-              pathSegments: widget.packageInstallerUri!.pathSegments
-                  .takeWhile((String value) => value != 'document')
-                  .toList(),
-            ),
-          );
-        } on PlatformException catch (e) {
+        final bool success = await openDocumentFile(
+          // This removes the "document" part
+          // which is used to identify the apk. And takes only the [tree]
+          // part which is used to (generally) identify the directory.
+          // This may not work on all devices.
+          widget.packageInstallerUri!.replace(
+            pathSegments: widget.packageInstallerUri!.pathSegments
+                .takeWhile((String value) => value != 'document')
+                .toList(),
+          ),
+        );
+
+        if (!success) {
           if (mounted) {
             showToast(
               context,
-              'Could not find the file location this either was deleted or we have no permission over the folder. Exception: $e',
+              'Could not find the file location this either was deleted or we have no permission over the folder.',
             );
           }
         }
+
         break;
     }
   }

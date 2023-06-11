@@ -6,7 +6,7 @@ import 'package:device_packages/device_packages.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:path/path.dart';
-import 'package:shared_storage/saf.dart' as saf;
+import 'package:shared_storage/shared_storage.dart' as shared_storage;
 
 import '../setup.dart';
 import '../utils/debounce.dart';
@@ -142,13 +142,13 @@ class ExtractApkBackgroundTask {
     );
 
     if (apkIconUri != null) {
-      if (await saf.exists(apkIconUri!) ?? false) {
-        await saf.delete(apkIconUri!);
+      if (await shared_storage.exists(apkIconUri!) ?? false) {
+        await shared_storage.delete(apkIconUri!);
       }
     }
     if (apkDestinationUri != null) {
-      if (await saf.exists(apkDestinationUri!) ?? false) {
-        await saf.delete(apkDestinationUri!);
+      if (await shared_storage.exists(apkDestinationUri!) ?? false) {
+        await shared_storage.delete(apkDestinationUri!);
       }
     }
 
@@ -176,8 +176,8 @@ class ExtractApkBackgroundTask {
 
     late final PackageInfo packageInfo;
 
-    if (!(await saf.exists(parentUri) ?? false) ||
-        !(await saf.canWrite(parentUri) ?? false)) {
+    if (!(await shared_storage.exists(parentUri) ?? false) ||
+        !(await shared_storage.canWrite(parentUri) ?? false)) {
       yield progress = const TaskProgress(
         // TODO: Add stream based API on shared_storage.
         // So we can use the percent correctly instead of hardcoded values.
@@ -207,7 +207,8 @@ class ExtractApkBackgroundTask {
                 packageInfo.name ?? basename(apkSourceFile.path);
 
             // Touch the container file we will use to copy the apk.
-            final saf.DocumentFile? createdFile = await saf.createFile(
+            final shared_storage.DocumentFile? createdFile =
+                await shared_storage.createFile(
               parentUri,
               mimeType: kApkMimeType,
               displayName: apkFilename,
@@ -235,8 +236,8 @@ class ExtractApkBackgroundTask {
               // it is far more performant to just load a simple icon from a file.
               // Note that this effort is to keep the app far away from MANAGE_EXTERNAL_STORAGE permission
               // and keep it valid for PlayStore.
-              final saf.DocumentFile? apkIconDocumentFile =
-                  await saf.createFile(
+              final shared_storage.DocumentFile? apkIconDocumentFile =
+                  await shared_storage.createFile(
                 parentUri,
                 mimeType: 'application/octet-stream',
                 displayName: '${createdFile!.name!}_icon',
@@ -264,7 +265,10 @@ class ExtractApkBackgroundTask {
       status: TaskStatus.running,
     );
 
-    await saf.copy(Uri.file(apkSourceFile!.path), apkDestinationUri!);
+    await shared_storage.copy(
+      Uri.file(apkSourceFile!.path),
+      apkDestinationUri!,
+    );
 
     yield progress = const TaskProgress(
       percent: 0.9,

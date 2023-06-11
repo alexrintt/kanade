@@ -76,7 +76,7 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
         await store.uninstallApp(widget.packageId!);
         break;
       case InstalledAppTileAction.share:
-        await shareFile(
+        await tryShareFile(
           uri: widget.packageInstallerUri,
           file: widget.packageInstallerFile,
         );

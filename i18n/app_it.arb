@@ -32,5 +32,5 @@
   "allApksWereSuccessfullyExtracted": "Tutti gli apk sono stati estratti in {apkLocation}",
   "allApksWereSuccessfullyExtractedPlain": "Tutti gli apk sono stati estratti",
   "toggleSelect": "Spunta selezione",
-  "isNotSupportedYet": "non è ancora supportata",
+  "isNotSupportedYet": "non è ancora supportata"
 }

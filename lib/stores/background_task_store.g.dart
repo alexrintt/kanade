@@ -26,6 +26,8 @@ const _$TaskStatusEnumMap = {
   TaskStatus.finished: 'finished',
   TaskStatus.partial: 'partial',
   TaskStatus.failed: 'failed',
+  TaskStatus.deleteRequested: 'deleteRequested',
+  TaskStatus.deleted: 'deleted',
 };
 
 const _$TaskExceptionEnumMap = {

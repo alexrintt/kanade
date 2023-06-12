@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:shared_storage/shared_storage.dart';
 
 import '../stores/localization_store.dart';
+import '../utils/app_localization_strings.dart';
 import '../utils/package_bytes.dart';
 import 'app_list_tile.dart';
 import 'image_uri.dart';
@@ -41,7 +42,7 @@ class _ApkFileTileState extends State<ApkFileTile> with LocalizationStoreMixin {
         try {
           await DevicePackages.installPackage(installerUri: widget.file.uri);
         } on InvalidInstallerException {
-          showToast(context, 'Invalid apk, is was probably deleted.');
+          showToast(context, context.strings.invalidApkItWasProbablyDeleted);
         }
       },
     );

@@ -1,4 +1,5 @@
 {
+  "@@locale": "it",
   "settings": "Impostazioni",
   "selectOutputFolder": "Seleziona cartella di output",
   "notDefined": "Non definita",

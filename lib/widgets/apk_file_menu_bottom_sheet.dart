@@ -8,6 +8,7 @@ import 'package:shared_storage/shared_storage.dart';
 
 import '../stores/device_apps_store.dart';
 import '../utils/app_icons.dart';
+import '../utils/app_localization_strings.dart';
 import '../utils/copy_to_clipboard.dart';
 import '../utils/generate_play_store_uri.dart';
 import '../utils/install_package.dart';
@@ -82,12 +83,12 @@ class _ApkFileMenuOptionsState extends State<ApkFileMenuOptions>
         );
         break;
       case ApkFileTileAction.analyze:
-        showToast(context, 'Soon...');
+        showToast(context, context.strings.soonEllipsis);
         break;
       case ApkFileTileAction.openFileLocation:
         if (widget.packageInstallerUri == null) {
           if (mounted) {
-            showToast(context, 'We could not find the target file');
+            showToast(context, context.strings.couldNotFindTargetFile);
           }
           return;
         }
@@ -108,7 +109,7 @@ class _ApkFileMenuOptionsState extends State<ApkFileMenuOptions>
           if (mounted) {
             showToast(
               context,
-              'Could not find the file location this either was deleted or we have no permission over the folder.',
+              context.strings.couldNotFindFileLocationWithExplanation,
             );
           }
         }
@@ -143,7 +144,7 @@ class _ApkFileMenuOptionsState extends State<ApkFileMenuOptions>
             const Divider(height: 1),
             AppListTile(
               dense: true,
-              title: const Text('Search online'),
+              title: Text(context.strings.searchOnline),
               leading: Icon(
                 AppIcons.browser.data,
                 size: AppIcons.browser.size,
@@ -157,7 +158,7 @@ class _ApkFileMenuOptionsState extends State<ApkFileMenuOptions>
             ),
             AppListTile(
               dense: true,
-              title: const Text('Open on F-Droid'),
+              title: Text(context.strings.openOnFDroid),
               onLongPress: () {},
               leading: Icon(
                 AppIcons.android.data,
@@ -171,7 +172,7 @@ class _ApkFileMenuOptionsState extends State<ApkFileMenuOptions>
             ),
             AppListTile(
               dense: true,
-              title: const Text('Open on Play Store'),
+              title: Text(context.strings.openOnPlayStore),
               onLongPress: () {},
               leading:
                   Icon(AppIcons.playStore.data, size: AppIcons.playStore.size),
@@ -185,36 +186,37 @@ class _ApkFileMenuOptionsState extends State<ApkFileMenuOptions>
             ),
             AppListTile(
               dense: true,
-              title: const Text('Copy package ID'),
+              title: Text(context.strings.copyPackageId),
               enabled: widget.packageId != null,
-              subtitle: Text(widget.packageId ?? 'Not available'),
+              subtitle: Text(widget.packageId ?? context.strings.notAvailable),
               leading:
                   Icon(AppIcons.clipboard.data, size: AppIcons.clipboard.size),
               onTap: () {
                 if (widget.packageId != null) {
                   context.copyTextToClipboardAndShowToast(widget.packageId!);
                 } else {
-                  showToast(context, 'Package ID is not available');
+                  showToast(context, context.strings.packageIdIsNotAvailable);
                 }
               },
             ),
             AppListTile(
               dense: true,
-              title: const Text('Copy package name'),
+              title: Text(context.strings.copyPackageName),
               enabled: widget.packageName != null,
-              subtitle: Text(widget.packageName ?? 'Not available'),
+              subtitle:
+                  Text(widget.packageName ?? context.strings.notAvailable),
               leading: Icon(AppIcons.name.data, size: AppIcons.name.size),
               onTap: () {
                 if (widget.packageName != null) {
                   context.copyTextToClipboardAndShowToast(widget.packageName!);
                 } else {
-                  showToast(context, 'Package name is not available');
+                  showToast(context, context.strings.packageNameIsNotAvailable);
                 }
               },
             ),
             AppListTile(
               dense: true,
-              title: const Text('Delete'),
+              title: Text(context.strings.delete),
               leading: Icon(
                 AppIcons.delete.data,
                 size: kDefaultIconSize,
@@ -270,8 +272,8 @@ class _ApkFileMenuOptionsState extends State<ApkFileMenuOptions>
               onTap: () {
                 perform(ApkFileTileAction.install);
               },
-              text: 'Install',
-              tooltip: 'Install apk',
+              text: context.strings.install,
+              tooltip: context.strings.installApk,
             ),
             ActionButton(
               icon: AppIcons.share.data,
@@ -279,8 +281,8 @@ class _ApkFileMenuOptionsState extends State<ApkFileMenuOptions>
               onTap: () {
                 perform(ApkFileTileAction.share);
               },
-              text: 'Share',
-              tooltip: 'Share apk',
+              text: context.strings.share,
+              tooltip: context.strings.shareApk,
             ),
             ActionButton(
               icon: AppIcons.folder.data,
@@ -288,8 +290,8 @@ class _ApkFileMenuOptionsState extends State<ApkFileMenuOptions>
               onTap: () {
                 perform(ApkFileTileAction.openFileLocation);
               },
-              text: 'Open file location',
-              tooltip: 'Open file location',
+              text: context.strings.openFileLocation,
+              tooltip: context.strings.openFileLocation,
             ),
           ],
         ),

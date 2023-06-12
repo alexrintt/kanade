@@ -6,6 +6,7 @@ import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import '../stores/background_task_store.dart';
 import '../stores/settings_store.dart';
 import '../utils/app_icons.dart';
+import '../utils/app_localization_strings.dart';
 import 'multi_animated_builder.dart';
 
 class BottomNavigation extends StatefulWidget {
@@ -53,7 +54,7 @@ class _BottomNavigationState extends State<BottomNavigation>
                 AppIcons.apps.data,
                 size: kDefaultIconSize,
               ),
-              label: 'Apps',
+              label: context.strings.apps,
             ),
             NavigationDestination(
               icon: Badge(
@@ -64,14 +65,14 @@ class _BottomNavigationState extends State<BottomNavigation>
                   size: kDefaultIconSize,
                 ),
               ),
-              label: 'Extracted',
+              label: context.strings.extracted,
             ),
             NavigationDestination(
               icon: Icon(
                 AppIcons.folder.data,
                 size: kDefaultIconSize,
               ),
-              label: 'All files',
+              label: context.strings.allFiles,
             ),
           ],
         );

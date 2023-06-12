@@ -95,7 +95,11 @@ PlayStore link, add again when the new version is available.
 
 There are several ways to contribute:
 
-- To improve the translation: 1. open the `/i18n` folder, 2. create a file `app_<thelangcodeyouwanttoaddorimprove>.arb` and 3. translate the keys 4. then open a PR, that's it.
+- To improve the translation:
+  1. Open the `/i18n` folder.
+  2. Create/edit a file `<the-lang-code-you-want-to-add-or-improve>.arb` (e.g `en.arb`).
+  3. Translate the keys.
+  4. Open a PR, that's it.
 - To report a bug, create a new issue with an screenshot or a small description of the bug.
 - To request a feature please add an issue to further discuss.
 
@@ -103,9 +107,11 @@ If you wanna contribute in private, you can also ping me on my email [kanade@ale
 
 ## Contributors
 
-- Glad to have your work here [@WSTxda](https://linktr.ee/wstxda)! Thanks for your efforts on the [app icon](https://t.me/WSTprojects/1401), banner and the download badges.
+- [Fantazzj](https://github.com/Fantazzj) added Italian language support.
+- [@WSTxda](https://linktr.ee/wstxda) made the v0.4.0 app icon and provided support in the v0.5.0 icon.
+- [IzzySoft](https://gitlab.com/IzzySoft) reported a issue with android version code [#13](https://github.com/alexrintt/kanade/issues/13) and added fastlane docs [#15](https://github.com/alexrintt/kanade/pull/15).
 
-- I wanna thanks [IzzySoft](https://gitlab.com/IzzySoft) for taking time to point the [version code issue #13](https://github.com/alexrintt/kanade/issues/13), indexing this app to the [IzzyOnDroid app repository](https://gitlab.com/IzzyOnDroid/repo) and [helping with fastlane docs #15](https://github.com/alexrintt/kanade/pull/15), thanks man!
+Thanks to all contributors!
 
 ## Credits
 

@@ -54,7 +54,7 @@ class _FileListContextualMenuState extends State<FileListContextualMenu>
       ),
       actions: <Widget>[
         AppIconButton(
-          tooltip: 'Delete all selected',
+          tooltip: context.strings.deleteAllSelected,
           onTap: () async {
             final bool confirm = await showConfirmationModal(context: context);
 

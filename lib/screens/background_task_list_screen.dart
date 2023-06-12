@@ -10,6 +10,7 @@ import '../stores/contextual_menu_store.dart';
 import '../stores/localization_store.dart';
 import '../stores/settings_store.dart';
 import '../utils/app_icons.dart';
+import '../utils/app_localization_strings.dart';
 import '../utils/context_of.dart';
 import '../utils/context_try_install_apk.dart';
 import '../utils/package_bytes.dart';
@@ -221,7 +222,7 @@ class _BackgroundTaskTileState extends State<BackgroundTaskTile>
       return AppIconButton(
         onTap: () => backgroundTaskStore.cancelBackgroundTask(widget.task),
         icon: Icon(AppIcons.x.data, size: AppIcons.x.size),
-        tooltip: 'Cancel task',
+        tooltip: context.strings.cancelTask,
       );
     }
 
@@ -257,14 +258,14 @@ class _BackgroundTaskTileState extends State<BackgroundTaskTile>
       case TaskStatus.initial:
         showToast(
           context,
-          'Not fully extracted yet, can not install right now',
+          context.strings.extractionIsNotFinishedCanNotInstallYet,
         );
         break;
       case TaskStatus.deleted:
       case TaskStatus.deleteRequested:
         showToast(
           context,
-          'These tasks were deleted and will be removed soon',
+          context.strings.tasksAreAlreadyBeingDeleted,
         );
         break;
       case TaskStatus.finished:
@@ -283,7 +284,7 @@ class _BackgroundTaskTileState extends State<BackgroundTaskTile>
   Widget build(BuildContext context) {
     return AppListTile(
       onTap: _onBackgroundTaskTileTapped,
-      title: Text(widget.task.title ?? 'Loading info...'),
+      title: Text(widget.task.title ?? context.strings.loadingInfoEllipsis),
       subtitle: Text(_taskSubtitle),
       trailing: _buildTrailing(),
       onPopupMenuTapped: () async {
@@ -304,7 +305,7 @@ class _BackgroundTaskTileState extends State<BackgroundTaskTile>
             packageInstallerUri: widget.task.targetUri,
             iconUri: widget.task.apkIconUri,
             subtitle: _taskSubtitle,
-            title: widget.task.title ?? 'Not available',
+            title: widget.task.title ?? context.strings.notAvailable,
           ),
         );
       },

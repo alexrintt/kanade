@@ -203,41 +203,41 @@ enum SettingsBoolPreference {
 
   final SettingsBoolPreferenceCategory category;
 
-  String getNameString(AppLocalizations localizations) {
+  String getNameString(AppLocalizations strings) {
     switch (this) {
       case SettingsBoolPreference.hideAppBarOnScroll:
-        return 'Hide app bar on scroll';
+        return strings.hideAppBarOnScroll;
       case SettingsBoolPreference.extractWithSingleClick:
-        return 'Extract with single click';
+        return strings.extractWithSingleClick;
       case SettingsBoolPreference.confirmIrreversibleActions:
-        return 'Ask for confirmation';
+        return strings.confirmIrreversibleActions;
       case SettingsBoolPreference.displaySystemApps:
-        return 'Show system apps';
+        return strings.displaySystemApps;
       case SettingsBoolPreference.displayBuiltInApps:
-        return 'Show built-in apps';
+        return strings.displayBuiltInApps;
       case SettingsBoolPreference.displayUserInstalledApps:
-        return 'Show user installed apps';
+        return strings.displayUserInstalledApps;
       case SettingsBoolPreference.transparentNavigationBar:
-        return 'Translucent glass effect';
+        return strings.transparentNavigationBar;
     }
   }
 
-  String getDescriptionString(AppLocalizations localizations) {
+  String getDescriptionString(AppLocalizations strings) {
     switch (this) {
       case SettingsBoolPreference.confirmIrreversibleActions:
-        return 'Ask for confirmation whenever the user tries to do any irreversible action like deleting a file.';
+        return strings.confirmIrreversibleActionsExplanation;
       case SettingsBoolPreference.hideAppBarOnScroll:
-        return 'If enabled, the app bar will automatically hide when scroll down.';
+        return strings.hideAppBarOnScrollExplanation;
       case SettingsBoolPreference.displaySystemApps:
-        return 'If enabled the home list will include system apps, they may not be launchable.';
+        return strings.displaySystemAppsExplanation;
       case SettingsBoolPreference.displayBuiltInApps:
-        return 'If enabled the home list will include built-in apps, they are like system apps but openable.';
+        return strings.displayBuiltInAppsExplanation;
       case SettingsBoolPreference.displayUserInstalledApps:
-        return 'If enabled the home list will include apps installed by you.';
+        return strings.displayUserInstalledAppsExplanation;
       case SettingsBoolPreference.transparentNavigationBar:
-        return 'Apply a blur transparent effect to the home navigation bar.';
+        return strings.transparentNavigationBarExplanation;
       case SettingsBoolPreference.extractWithSingleClick:
-        return 'If enabled, the app list will extract apk with a single click instead of opening the details page.';
+        return strings.extractWithSingleClickExplanation;
     }
   }
 

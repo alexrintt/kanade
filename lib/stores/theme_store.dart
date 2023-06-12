@@ -13,28 +13,28 @@ import 'key_value_storage.dart';
 enum AppTheme {
   darkLightsOut,
   darkDimmed,
-  darkLight,
+  darkSimple,
   lightDefault,
-  darkHacker,
-  darkBlood,
+  greenDark,
+  redDark,
   followSystem;
 
   String getNameString(AppLocalizations strings) {
     switch (this) {
       case AppTheme.darkDimmed:
         return strings.darkDimmed;
-      case AppTheme.darkLight:
-        return 'Dark light';
+      case AppTheme.darkSimple:
+        return strings.darkSimple;
       case AppTheme.lightDefault:
         return strings.light;
       case AppTheme.followSystem:
         return strings.followTheSystem;
       case AppTheme.darkLightsOut:
         return strings.darkLightsOut;
-      case AppTheme.darkHacker:
-        return strings.darkHacker;
-      case AppTheme.darkBlood:
-        return strings.darkBlood;
+      case AppTheme.greenDark:
+        return strings.greenDark;
+      case AppTheme.redDark:
+        return strings.redDark;
     }
   }
 
@@ -311,15 +311,15 @@ class ThemeStore extends ChangeNotifier {
         return _lightDefaultThemeData();
       case AppTheme.darkLightsOut:
         return _darkLightsOutThemeData();
-      case AppTheme.darkHacker:
+      case AppTheme.greenDark:
         return _darkHackerThemeData();
-      case AppTheme.darkBlood:
+      case AppTheme.redDark:
         return _darkBloodThemeData();
       case AppTheme.followSystem:
         return currentThemeBrightness == Brightness.dark
             ? _darkLightThemeData()
             : _lightDefaultThemeData();
-      case AppTheme.darkLight:
+      case AppTheme.darkSimple:
         return _darkLightThemeData();
     }
   }
@@ -332,13 +332,13 @@ class ThemeStore extends ChangeNotifier {
         return Brightness.light;
       case AppTheme.darkLightsOut:
         return Brightness.dark;
-      case AppTheme.darkHacker:
+      case AppTheme.greenDark:
         return Brightness.dark;
-      case AppTheme.darkBlood:
+      case AppTheme.redDark:
         return Brightness.dark;
       case AppTheme.followSystem:
         return SchedulerBinding.instance.platformDispatcher.platformBrightness;
-      case AppTheme.darkLight:
+      case AppTheme.darkSimple:
         return Brightness.dark;
     }
   }
@@ -420,14 +420,14 @@ enum OverscrollPhysics {
       OverscrollPhysics.none;
 
   /// Font family name decribed in the pubspec.yaml
-  String getNameString(AppLocalizations localizations) {
+  String getNameString(AppLocalizations strings) {
     switch (this) {
       case OverscrollPhysics.bouncing:
-        return 'Bouncing';
+        return strings.bouncing;
       case OverscrollPhysics.glow:
-        return 'Glow';
+        return strings.glow;
       case OverscrollPhysics.none:
-        return 'None';
+        return strings.none;
     }
   }
 

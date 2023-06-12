@@ -79,8 +79,7 @@ class _StorageRequirementsProgressStepperState
         child = Row(
           children: <Widget>[
             _buildFilledButton(
-              // TODO: Add translation.
-              'Go to app list',
+              context.strings.goToAppList,
               AppIcons.apps.data,
               onPressed: bottomNavigationStore.navigateToAppList,
             ),
@@ -92,8 +91,7 @@ class _StorageRequirementsProgressStepperState
                   borderRadius: BorderRadius.circular(k20dp),
                 ),
               ),
-              // TODO: Add translation.
-              child: const Text('Reset folder'),
+              child: Text(context.strings.resetFolder),
             )
           ],
         );
@@ -123,15 +121,12 @@ class _StorageRequirementsProgressStepperState
     return Text.rich(
       TextSpan(
         children: <InlineSpan>[
-          // TODO: Add translation.
-          const TextSpan(
-            text:
-                'The apk list will appear here, to get start try to click over a tile on the app list screen! It will create a new export job that will copy the app apk to the folder you chose.\n\n',
+          TextSpan(
+            text: '${context.strings.exportApkExplanationMessage}\n\n',
           ),
           TextSpan(
-            // TODO: Add translation.
             text:
-                '${stringifyTreeUri(settingsStore.exportLocation) ?? 'Not set.'}.',
+                '${stringifyTreeUri(settingsStore.exportLocation) ?? context.strings.notSet}.',
             recognizer: TapGestureRecognizer()
               ..onTap = settingsStore.requestExportLocation,
             style: context.textTheme.labelLarge!.copyWith(
@@ -150,7 +145,7 @@ class _StorageRequirementsProgressStepperState
 
   Widget _buildPermissionExplanationMessage() {
     return Text(
-      'To extract the apks this app needs access permission to a folder. It is recommended to select an empty folder or create a new one. It is also important to not select folders that are reserved by the system, such as the Android or Downloads folder.',
+      context.strings.storagePermissionExplanationMessage,
       style: context.isDark
           ? TextStyle(color: context.theme.disabledColor)
           : TextStyle(
@@ -191,7 +186,7 @@ class _StorageRequirementsProgressStepperState
                 child: _buildPermissionExplanationMessage(),
               ),
               _createStep(
-                title: 'Export apk',
+                title: context.strings.exportApk,
                 index: 1,
                 child: _buildExportApkExplanationMessage(),
               ),

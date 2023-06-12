@@ -71,7 +71,7 @@ class _SettingsPageState extends State<SettingsPage>
                     onTap: () async {
                       final bool confirmed = await showConfirmationModal(
                         context: context,
-                        message: 'Reset all preferences?',
+                        message: context.strings.resetAllPreferencesQuestion,
                       );
 
                       if (confirmed) {
@@ -96,14 +96,14 @@ class _SettingsPageState extends State<SettingsPage>
                 const AppFontFamilySettingsTile(),
                 const AppLocalizationSettingsTile(),
                 const HorizontalRule(),
-                const SettingsTileTitle('Behavior preferences'),
+                SettingsTileTitle(context.strings.behaviorPreferences),
                 AppBooleanPreferencesSettingsTile(
                   values: SettingsBoolPreference.filterBy(
                     category: SettingsBoolPreferenceCategory.behavior,
                   ),
                 ),
                 const HorizontalRule(),
-                const SettingsTileTitle('Appearance preferences'),
+                SettingsTileTitle(context.strings.appearancePreferences),
                 const AppOverscrollPhysicsTile(),
                 AppBooleanPreferencesSettingsTile(
                   values: SettingsBoolPreference.filterBy(
@@ -111,10 +111,10 @@ class _SettingsPageState extends State<SettingsPage>
                   ),
                 ),
                 const HorizontalRule(),
-                const SettingsTileTitle('Donate'),
+                SettingsTileTitle(context.strings.donate),
                 const DonationSettingsTile(),
                 const HorizontalRule(),
-                const SettingsTileTitle('Links'),
+                SettingsTileTitle(context.strings.links),
                 const RelatedLinks(),
                 const HorizontalRule(),
                 const Padding(
@@ -170,25 +170,25 @@ class _RelatedLinksState extends State<RelatedLinks>
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         buildTile(
-          title: 'Open source licenses',
+          title: context.strings.openSourceLicenses,
           onTap: () => showLicensePage(context: context),
         ),
         buildTile(
-          title: 'Report a issue',
+          title: context.strings.reportIssue,
           onTap: openThisLink('https://github.com/alexrintt/kanade/issues'),
         ),
         buildTile(
-          title: 'Follow me on GitHub',
+          title: context.strings.followMeOnGitHub,
           onTap: openThisLink('https://github.com/alexrintt'),
           description: '@alexrintt',
         ),
         buildTile(
-          title: 'GitHub repository',
+          title: context.strings.githubRepository,
           onTap: openThisLink('https://github.com/alexrintt/kanade'),
           description: 'github.com/alexrintt/kanade',
         ),
         buildTile(
-          title: 'Package and version',
+          title: context.strings.packageAndVersion,
           onTap: copyThisText(_packageVersion),
           description: _packageVersion,
         ),
@@ -333,7 +333,7 @@ class _AppOverscrollPhysicsTileState extends State<AppOverscrollPhysicsTile>
           horizontal: k10dp,
         ),
         enableFeedback: true,
-        title: const Text('Overscroll indicator'),
+        title: Text(context.strings.overscrollIndicator),
         subtitle: AnimatedBuilder(
           animation: themeStore,
           builder: (BuildContext context, Widget? child) {
@@ -514,28 +514,28 @@ class _DonationSettingsTileState extends State<DonationSettingsTile>
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
         buildTile(
-          title: 'Donate on GitHub (Card)',
+          title: context.strings.donateOnGitHub,
           onTap: openThisLink(_githubSponsor.toString()),
           description: _githubSponsor.host + _githubSponsor.path,
         ),
         buildTile(
-          title: 'Ko-fi (Card or PayPal)',
+          title: context.strings.donateOnKofi,
           onTap: openThisLink(_kofi.toString()),
           description: _kofi.host + _kofi.path,
         ),
         buildTile(
-          title: 'Pix donation (Brazil only)',
+          title: context.strings.donateUsingPix,
           onTap: openThisLink(_livePix.toString()),
           description: _livePix.host + _livePix.path,
         ),
         buildTile(
-          title: 'BTC donation',
+          title: context.strings.donateUsingBtc,
           onLongPress: copyThisText(_btcAddress),
           onTap: copyThisText(_btcAddress),
           description: _btcAddress,
         ),
         buildTile(
-          title: 'Other donation methods',
+          title: context.strings.otherDonationMethods,
           onTap: openThisLink('https://donate.alexrintt.io'),
           description: 'donate.alexrintt.io',
         ),

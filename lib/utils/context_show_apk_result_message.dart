@@ -22,13 +22,13 @@ extension ContextShowApkResultMessage on BuildContext {
       case SingleExtractionResult.notFound:
         showToast(
           this,
-          'Could not extract, this apk was probably uninstalled because we did not found it is apk file',
+          strings.couldNotExtractWithExplanation,
         );
         break;
       case SingleExtractionResult.queued:
         // The bottom navigation bar actually changes its badge indicator,
         // so we don't need to do anything here to indicate the apk is being extracted.
-        showToast(this, 'Success! check "Extracted" tab');
+        showToast(this, strings.successQueued);
         break;
     }
   }

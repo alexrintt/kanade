@@ -13,6 +13,7 @@ import '../stores/contextual_menu_store.dart';
 import '../stores/device_apps_store.dart';
 import '../stores/settings_store.dart';
 import '../stores/theme_store.dart';
+import '../utils/app_localization_strings.dart';
 import '../utils/context_confirm.dart';
 import '../utils/context_of.dart';
 import '../utils/context_show_apk_result_message.dart';
@@ -210,7 +211,7 @@ class _MainAppListState extends State<MainAppList>
       builder: (_) => InstalledAppMenuOptions(
         iconBytes: package.icon,
         packageId: package.id,
-        title: package.name ?? package.id ?? 'Unnamed package',
+        title: package.name ?? package.id ?? context.strings.unnamedPackage,
         subtitle: _generatePackageSubtitle(package),
         packageInstallerFile:
             package.installerPath != null ? File(package.installerPath!) : null,
@@ -266,8 +267,7 @@ class _MainAppListState extends State<MainAppList>
             final bool confirmed = await showConfirmationModal(
               context: context,
               force: true,
-              message:
-                  'This filter will erase some of your selected items, and you will need to re-select them again',
+              message: context.strings.filterWillRemoveSomeSelectedItems,
             );
 
             if (!confirmed) return;
@@ -290,7 +290,9 @@ class _MainAppListState extends State<MainAppList>
     if (package.versionName != null) {
       final String before = subtitle.isNotEmpty ? ' (' : '';
       final String after = subtitle.isNotEmpty ? ')' : '';
-      subtitle.write('${before}Version: ${package.versionName}$after');
+      subtitle.write(
+        '$before${context.strings.version}: ${package.versionName}$after',
+      );
     }
 
     if (subtitle.isEmpty && package.name != null) {
@@ -301,7 +303,7 @@ class _MainAppListState extends State<MainAppList>
       return subtitle.toString();
     }
 
-    return 'Unavailable';
+    return context.strings.unavailable;
   }
 
   Widget _buildFilterChips() {
@@ -330,15 +332,15 @@ class _MainAppListState extends State<MainAppList>
                   ),
                 ),
                 _buildInstalledAppsFilterChip(
-                  'User',
+                  context.strings.user,
                   SettingsBoolPreference.displayUserInstalledApps,
                 ),
                 _buildInstalledAppsFilterChip(
-                  'Built-in',
+                  context.strings.builtIn,
                   SettingsBoolPreference.displayBuiltInApps,
                 ),
                 _buildInstalledAppsFilterChip(
-                  'System',
+                  context.strings.system,
                   SettingsBoolPreference.displaySystemApps,
                 ),
               ],
@@ -419,8 +421,9 @@ class _MainAppListState extends State<MainAppList>
                             padding: const EdgeInsets.all(k8dp),
                             child: LooksEmptyHere(
                               message: store.isSearchMode
-                                  ? 'No results!'
-                                  : 'Try selecting at least one filter!',
+                                  ? context.strings.noResults
+                                  : context
+                                      .strings.trySelectingAtLeastOneFilter,
                             ),
                           ),
                         Padding(

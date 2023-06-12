@@ -3,6 +3,7 @@ import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 
 import '../setup.dart';
 import '../stores/settings_store.dart';
+import 'app_localization_strings.dart';
 
 Future<bool> showConfirmationModal({
   required BuildContext context,
@@ -19,10 +20,9 @@ Future<bool> showConfirmationModal({
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text('Are you sure?'),
+        title: Text(context.strings.areYouSure),
         content: Text(
-          message ??
-              'This is a irreversible action, be sure you want to do it.',
+          message ?? context.strings.thisIsIrreversible,
           style: const TextStyle(
             fontSize: 12,
           ),
@@ -32,15 +32,15 @@ Future<bool> showConfirmationModal({
             onPressed: () {
               context.pop<bool>(false);
             },
-            child: const Text('Cancel'),
+            child: Text(context.strings.cancel),
           ),
           TextButton(
             onPressed: () {
               context.pop<bool>(true);
             },
-            child: const Text(
-              'Confirm',
-              style: TextStyle(color: Colors.red),
+            child: Text(
+              context.strings.confirm,
+              style: const TextStyle(color: Colors.red),
             ),
           ),
         ],

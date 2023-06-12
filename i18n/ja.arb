@@ -1,4 +1,5 @@
 {
+  "@@locale": "ja",
   "settings": "設定",
   "selectOutputFolder": "出力フォルダを選択",
   "notDefined": "定義されていません",

@@ -13,6 +13,10 @@ To run the code generation (that generates the `flutter_gen` library used for i1
 
 ```shell
 flutter gen-l10n
+
+# Use nodemon if you are developing (watch for changes).
+# https://www.npmjs.com/package/nodemon
+nodemon --watch i18n --ext arb --exec "flutter gen-l10n"
 ```
 
 ### 2. Generate binaries

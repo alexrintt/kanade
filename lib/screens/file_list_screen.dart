@@ -11,6 +11,7 @@ import '../stores/file_list_store.dart';
 import '../stores/localization_store.dart';
 import '../stores/settings_store.dart';
 import '../utils/app_icons.dart';
+import '../utils/app_localization_strings.dart';
 import '../utils/context_of.dart';
 import '../utils/mime_types.dart';
 import '../utils/package_bytes.dart';
@@ -261,14 +262,14 @@ class _DocumentFileTileState extends State<DocumentFileTile>
           _toggleSelect();
         } else {
           if (widget.file.isDirectory ?? false) {
-            showToast(context, 'Opening a folder is not supported yet');
+            showToast(context, context.strings.openingFolderIsNotSupportedYet);
           } else {
             try {
               await widget.file.open();
             } on PlatformException {
               showToast(
                 context,
-                "There's no activity that can handle this file",
+                context.strings.noActivityFoundThatCanHandleThisFileType,
               );
             }
           }

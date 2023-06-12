@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../stores/background_task_store.dart';
 import '../stores/indexed_collection_store.dart';
 import '../widgets/toast.dart';
+import 'app_localization_strings.dart';
 
 extension ContextTryInstallApk on BuildContext {
   Future<void> tryInstallPackage({
@@ -11,7 +12,7 @@ extension ContextTryInstallApk on BuildContext {
     Uri? packageUri,
   }) async {
     if (packageUri == null) {
-      return showToast(this, 'Invalid package Uri, got null');
+      return showToast(this, strings.invalidPackageUri);
     }
 
     final PackageInstallationIntentResult result =
@@ -24,7 +25,7 @@ extension ContextTryInstallApk on BuildContext {
       if (mounted) {
         showToast(
           this,
-          'Invalid apk, it is was probably deleted.',
+          strings.invalidApkItWasProbablyDeleted,
         );
       }
     }

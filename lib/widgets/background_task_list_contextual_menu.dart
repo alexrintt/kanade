@@ -57,7 +57,7 @@ class _BackgroundTaskListContextualMenuState
       ),
       actions: <Widget>[
         AppIconButton(
-          tooltip: 'Delete all selected',
+          tooltip: context.strings.deleteAllSelected,
           onTap: () async {
             final bool confirm = await showConfirmationModal(context: context);
 
@@ -140,13 +140,13 @@ class _BackgroundTaskListContextualMenuState
                   size: kDefaultIconSize,
                   color: Colors.red,
                 ),
-                tooltip: 'Remove',
+                tooltip: context.strings.remove,
                 onTap: () async {
                   if (backgroundTaskStore.idle) {
                     final bool confirmed = await showConfirmationModal(
                       context: context,
-                      message:
-                          'Do you want force a bulk delete on all these tasks?',
+                      message: context
+                          .strings.doYouWantToForceBulkDeleteAllTheseTasks,
                     );
 
                     if (confirmed) {
@@ -155,8 +155,8 @@ class _BackgroundTaskListContextualMenuState
                   } else {
                     final bool confirmed = await showConfirmationModal(
                       context: context,
-                      message:
-                          'Do you want force a bulk cancel on all these tasks?',
+                      message: context
+                          .strings.doYouWantToForceBulkCancelAllTheseTasks,
                     );
 
                     if (confirmed) {

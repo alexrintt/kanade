@@ -8,6 +8,7 @@ import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 
 import '../stores/device_apps_store.dart';
 import '../utils/app_icons.dart';
+import '../utils/app_localization_strings.dart';
 import '../utils/context_show_apk_result_message.dart';
 import '../utils/copy_to_clipboard.dart';
 import '../utils/generate_play_store_uri.dart';
@@ -179,22 +180,22 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
             ),
             AppListTile(
               dense: true,
-              title: const Text('Copy package ID'),
+              title: Text(context.strings.copyPackageId),
               enabled: widget.packageId != null,
-              subtitle: Text(widget.packageId ?? 'Not available'),
+              subtitle: Text(widget.packageId ?? context.strings.notAvailable),
               leading:
                   Icon(AppIcons.clipboard.data, size: AppIcons.clipboard.size),
               onTap: () {
                 if (widget.packageId != null) {
                   context.copyTextToClipboardAndShowToast(widget.packageId!);
                 } else {
-                  showToast(context, 'Package ID is not available');
+                  showToast(context, context.strings.packageIdIsNotAvailable);
                 }
               },
             ),
             AppListTile(
               dense: true,
-              title: const Text('Copy package name'),
+              title: Text(context.strings.copyPackageName),
               enabled: widget.packageName != null,
               subtitle: Text(widget.packageName ?? 'Not available'),
               leading: Icon(AppIcons.name.data, size: AppIcons.name.size),
@@ -202,13 +203,13 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
                 if (widget.packageName != null) {
                   context.copyTextToClipboardAndShowToast(widget.packageName!);
                 } else {
-                  showToast(context, 'Package name is not available');
+                  showToast(context, context.strings.packageNameIsNotAvailable);
                 }
               },
             ),
             AppListTile(
               dense: true,
-              title: const Text('Uninstall'),
+              title: Text(context.strings.uninstall),
               leading: Icon(
                 AppIcons.delete.data,
                 size: kDefaultIconSize,
@@ -272,8 +273,8 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
               onTap: () {
                 perform(InstalledAppTileAction.extract);
               },
-              text: 'Extract',
-              tooltip: 'Extract apk',
+              text: context.strings.extract,
+              tooltip: context.strings.extractApk,
             ),
             ActionButton(
               icon: AppIcons.share.data,
@@ -281,8 +282,8 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
               onTap: () {
                 perform(InstalledAppTileAction.share);
               },
-              text: 'Share',
-              tooltip: 'Share apk',
+              text: context.strings.share,
+              tooltip: context.strings.shareApk,
             ),
             ActionButton(
               icon: AppIcons.externalLink.data,
@@ -290,8 +291,8 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
               onTap: () {
                 perform(InstalledAppTileAction.open);
               },
-              text: 'Open app',
-              tooltip: 'Open app',
+              text: context.strings.launchApp,
+              tooltip: context.strings.launchApp,
             ),
             ActionButton(
               icon: AppIcons.settings.data,
@@ -299,8 +300,8 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
               onTap: () {
                 perform(InstalledAppTileAction.openSettings);
               },
-              text: 'Settings',
-              tooltip: 'Open app settings',
+              text: context.strings.settings,
+              tooltip: context.strings.openSettingsPage,
             ),
           ],
         ),

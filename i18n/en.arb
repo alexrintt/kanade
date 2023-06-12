@@ -132,7 +132,7 @@
   "copiedToClipboard": "Copied to clipboard",
   "copyPackageId": "Copy package ID",
   "copyPackageName": "Copy package name",
-  "couldNotExtractWithExplanation": "Could not extract, this apk was probably uninstalled because we did not found it is apk file",
+  "couldNotExtractWithExplanation": "Could not extract, this apk was probably uninstalled because we did not found it's apk file",
   "couldNotFindFileLocationWithExplanation": "Could not find the file location this either was deleted or we have no permission over the folder.",
   "couldNotFindTargetFile": "We could not find the target file",
   "darkDimmed": "Dark dimmed",

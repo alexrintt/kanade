@@ -16,6 +16,13 @@ scripts:
   # dart run derry gen-i18n
   gen-i18n: flutter gen-l10n
 
+  setup:
+    - flutter pub get
+    - cd scripts/googletranslate && python -m venv venv && python install -r requirements.txt
+
+  # dart run derry gt-i18n
+  gen-i18n-keys: python scripts/gtranslate/main.py
+
   # dart run derry watch-i18n (requires npm and nodemon installed, see https://alexrintt.io/obsidian/using-nodemon-to-watch-translation-files-and-automatically-re-run-code-generation-in-flutter/)
   watch-i18n: nodemon --watch i18n --ext arb --exec "flutter gen-l10n"
 
@@ -33,7 +40,7 @@ dependencies:
       ref: master
   fluttertoast: ^8.0.8
   get_it: ^7.2.0
-  intl: ^0.17.0
+  intl: ^0.18.0
   json_annotation: ^4.8.0
   nanoid: ^1.0.0
   package_info_plus: ^3.0.1
@@ -41,7 +48,9 @@ dependencies:
   provider: ^6.0.5
   shared_preferences: ^2.0.15
   shared_storage:
-    path: ../shared-storage
+    git:
+      url: https://github.com/alexrintt/shared-storage
+      ref: "91"
   string_similarity: ^2.0.0
   url_launcher: ^6.1.6
 
@@ -221,10 +230,9 @@ flutter:
       fonts:
         - asset: assets/fonts/RobotoMono-Regular.ttf
           weight: 700
-    - family: Segoe UI
+    - family: Inconsolata
       fonts:
-        - asset: assets/fonts/Segoe UI.ttf
-        - asset: assets/fonts/Segoe UI Bold.ttf
+        - asset: assets/fonts/Inconsolata-Regular.ttf
           weight: 700
     - family: Forward
       fonts:

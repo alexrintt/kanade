@@ -185,14 +185,14 @@ class AppBar extends StatefulWidget implements PreferredSizeWidget {
       'This property is no longer used, please use systemOverlayStyle instead. '
       'This feature was deprecated after v2.4.0-0.0.pre.',
     )
-        this.brightness,
+    this.brightness,
     this.iconTheme,
     this.actionsIconTheme,
     @Deprecated(
       'This property is no longer used, please use toolbarTextStyle and titleTextStyle instead. '
       'This feature was deprecated after v2.4.0-0.0.pre.',
     )
-        this.textTheme,
+    this.textTheme,
     this.primary = true,
     this.centerTitle,
     this.excludeHeaderSemantics = false,
@@ -205,7 +205,7 @@ class AppBar extends StatefulWidget implements PreferredSizeWidget {
       'This property is obsolete and is false by default. '
       'This feature was deprecated after v2.4.0-0.0.pre.',
     )
-        this.backwardsCompatibility,
+    this.backwardsCompatibility,
     this.toolbarTextStyle,
     this.titleTextStyle,
     this.systemOverlayStyle,
@@ -908,20 +908,13 @@ class _AppBarState extends State<AppBar> {
 
     final double toolbarHeight =
         widget.toolbarHeight ?? appBarTheme.toolbarHeight ?? kToolbarHeight;
-    final bool backwardsCompatibility = widget.backwardsCompatibility ??
-        appBarTheme.backwardsCompatibility ??
-        false;
 
-    final Color backgroundColor = backwardsCompatibility
-        ? widget.backgroundColor ??
-            appBarTheme.backgroundColor ??
-            theme.primaryColor
-        : _resolveColor(
-            states,
-            widget.backgroundColor,
-            appBarTheme.backgroundColor,
-            defaults.backgroundColor!,
-          );
+    final Color backgroundColor = _resolveColor(
+      states,
+      widget.backgroundColor,
+      appBarTheme.backgroundColor,
+      defaults.backgroundColor!,
+    );
 
     final Color foregroundColor = widget.foregroundColor ??
         appBarTheme.foregroundColor ??
@@ -938,11 +931,9 @@ class _AppBarState extends State<AppBar> {
                 elevation
             : elevation;
 
-    IconThemeData overallIconTheme = backwardsCompatibility
-        ? widget.iconTheme ?? appBarTheme.iconTheme ?? theme.primaryIconTheme
-        : widget.iconTheme ??
-            appBarTheme.iconTheme ??
-            defaults.iconTheme!.copyWith(color: foregroundColor);
+    IconThemeData overallIconTheme = widget.iconTheme ??
+        appBarTheme.iconTheme ??
+        defaults.iconTheme!.copyWith(color: foregroundColor);
 
     final Color? actionForegroundColor =
         widget.foregroundColor ?? appBarTheme.foregroundColor;
@@ -953,21 +944,13 @@ class _AppBarState extends State<AppBar> {
         defaults.actionsIconTheme?.copyWith(color: actionForegroundColor) ??
         overallIconTheme;
 
-    TextStyle? toolbarTextStyle = backwardsCompatibility
-        ? widget.textTheme?.bodyMedium ??
-            appBarTheme.textTheme?.bodyMedium ??
-            theme.primaryTextTheme.bodyMedium
-        : widget.toolbarTextStyle ??
-            appBarTheme.toolbarTextStyle ??
-            defaults.toolbarTextStyle?.copyWith(color: foregroundColor);
+    TextStyle? toolbarTextStyle = widget.toolbarTextStyle ??
+        appBarTheme.toolbarTextStyle ??
+        defaults.toolbarTextStyle?.copyWith(color: foregroundColor);
 
-    TextStyle? titleTextStyle = backwardsCompatibility
-        ? widget.textTheme?.titleLarge ??
-            appBarTheme.textTheme?.titleLarge ??
-            theme.primaryTextTheme.titleLarge
-        : widget.titleTextStyle ??
-            appBarTheme.titleTextStyle ??
-            defaults.titleTextStyle?.copyWith(color: foregroundColor);
+    TextStyle? titleTextStyle = widget.titleTextStyle ??
+        appBarTheme.titleTextStyle ??
+        defaults.titleTextStyle?.copyWith(color: foregroundColor);
 
     if (widget.toolbarOpacity != 1.0) {
       final double opacity =
@@ -1183,21 +1166,15 @@ class _AppBarState extends State<AppBar> {
       );
     }
 
-    final SystemUiOverlayStyle overlayStyle = backwardsCompatibility
-        ? _systemOverlayStyleForBrightness(
-            widget.brightness ??
-                appBarTheme.brightness ??
-                ThemeData.estimateBrightnessForColor(backgroundColor),
-          )
-        : widget.systemOverlayStyle ??
-            appBarTheme.systemOverlayStyle ??
-            defaults.systemOverlayStyle ??
-            _systemOverlayStyleForBrightness(
-              ThemeData.estimateBrightnessForColor(backgroundColor),
-              // Make the status bar transparent for M3 so the elevation overlay
-              // color is picked up by the statusbar.
-              theme.useMaterial3 ? const Color(0x00000000) : null,
-            );
+    final SystemUiOverlayStyle overlayStyle = widget.systemOverlayStyle ??
+        appBarTheme.systemOverlayStyle ??
+        defaults.systemOverlayStyle ??
+        _systemOverlayStyleForBrightness(
+          ThemeData.estimateBrightnessForColor(backgroundColor),
+          // Make the status bar transparent for M3 so the elevation overlay
+          // color is picked up by the statusbar.
+          theme.useMaterial3 ? const Color(0x00000000) : null,
+        );
 
     return Semantics(
       container: true,
@@ -1557,14 +1534,14 @@ class SliverAppBar extends StatefulWidget {
       'This property is no longer used, please use systemOverlayStyle instead. '
       'This feature was deprecated after v2.4.0-0.0.pre.',
     )
-        this.brightness,
+    this.brightness,
     this.iconTheme,
     this.actionsIconTheme,
     @Deprecated(
       'This property is no longer used, please use toolbarTextStyle and titleTextStyle instead. '
       'This feature was deprecated after v2.4.0-0.0.pre.',
     )
-        this.textTheme,
+    this.textTheme,
     this.primary = true,
     this.centerTitle,
     this.excludeHeaderSemantics = false,
@@ -1584,7 +1561,7 @@ class SliverAppBar extends StatefulWidget {
       'This property is obsolete and is false by default. '
       'This feature was deprecated after v2.4.0-0.0.pre.',
     )
-        this.backwardsCompatibility,
+    this.backwardsCompatibility,
     this.toolbarTextStyle,
     this.titleTextStyle,
     this.systemOverlayStyle,

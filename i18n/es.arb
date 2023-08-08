@@ -1,24 +1,21 @@
 {
   "@@locale": "es",
-  "allApksWereSuccessfullyExtracted": "Todas las aplicaciones fueron extraídas a {apkLocation}",
+  "allApksWereSuccessfullyExtracted": "Todas las aplicaciones se extrajeron a {apkLocation}",
   "allApksWereSuccessfullyExtractedPlain": "Todas las aplicaciones fueron extraídas",
-  "changeTheme": "Cambiar tema",
-  "darkBlood": "Sangre oscura",
+  "changeTheme": "Cambiar de tema",
   "darkDimmed": "Oscuro atenuado",
-  "darkHacker": "Hacker oscuro",
-  "darkLightsOut": "Oscuro con las luces apagadas",
-  "display": "Pantalla",
+  "display": "Mostrar",
   "exitSearch": "Salir de la búsqueda",
   "export": "Exportar",
   "extractAllSelected": "Extraer todo lo seleccionado",
-  "extractedTo": "Extraído en",
-  "extractingApks": "Extrayendo aplicaciones",
+  "extractedTo": "Extraído a",
+  "extractingApks": "Extracción de aplicaciones",
   "followTheSystem": "Sigue el sistema",
-  "fontFamily": "Familia de fuentes",
+  "fontFamily": "Familia tipográfica",
   "isNotSupportedYet": "aún no es compatible",
   "language": "Idioma",
-  "light": "Claro",
-  "notDefined": "No definido",
+  "light": "Luz",
+  "notDefined": "No definida",
   "ofN": "de",
   "openSettingsPage": "Abrir página de configuración",
   "operationNotAllowedMayBeProtectedPackage": "Operación no permitida, probablemente este es un paquete protegido",
@@ -26,12 +23,783 @@
   "permissionRestrictedByAndroid": "Permiso restringido por Android",
   "resetAllPreferences": "Restablecer todas las preferencias",
   "searchPackagesAndApps": "Buscar paquetes y aplicaciones",
-  "selectOutputFolder": "Seleccionar carpeta de salida",
+  "selectOutputFolder": "Seleccione la carpeta de salida",
   "selectUnselectAll": "Seleccionar/Deseleccionar todo",
-  "settings": "Configuraciones",
+  "settings": "Ajustes",
   "someApkWereNotExtracted": "Algunas aplicaciones se encuentran en {apkLocation} pero algunas no se pudieron extraer",
   "someApkWereNotExtractedPlain": "Algunas aplicaciones se extrajeron con éxito, pero algunas no se pudieron extraer",
-  "sorryWeCouldNotExportAnyApkBecauseTheyAreRestrictedByTheOS": "Lo sentimos, no pudimos exportar ninguna de estas aplicaciones porque están restringidas por el sistema operativo",
+  "sorryWeCouldNotExportAnyApkBecauseTheyAreRestrictedByTheOS": "Lo sentimos, no pudimos exportar ninguna de estas aplicaciones porque están restringidas por el sistema operativo.",
   "theme": "Tema",
-  "toggleSelect": "Alternar seleccionar"
+  "toggleSelect": "Seleccionar alternar",
+  "allFiles": "Todos los archivos",
+  "appearancePreferences": "Preferencias de apariencia",
+  "apps": "Aplicaciones",
+  "areYouSure": "¿Está seguro?",
+  "behaviorPreferences": "Preferencias de comportamiento",
+  "bouncing": "Rebote",
+  "cancel": "Cancelar",
+  "cancelTask": "Cancelar tarea",
+  "confirm": "Confirmar",
+  "confirmIrreversibleActions": "Pide confirmación",
+  "confirmIrreversibleActionsExplanation": "Solicite confirmación cada vez que el usuario intente realizar alguna acción irreversible, como eliminar un archivo.",
+  "copiedToClipboard": "Copiado al portapapeles",
+  "copyPackageId": "Copiar ID de paquete",
+  "copyPackageName": "Copiar el nombre del paquete",
+  "couldNotExtractWithExplanation": "No se pudo extraer, esta aplicación probablemente se desinstaló porque no encontramos su archivo apk",
+  "couldNotFindFileLocationWithExplanation": "No se pudo encontrar la ubicación del archivo, se eliminó o no tenemos permiso sobre la carpeta.",
+  "couldNotFindTargetFile": "No pudimos encontrar el archivo de destino.",
+  "darkSimple": "Tema oscuro predeterminado",
+  "delete": "Borrar",
+  "deleteAllSelected": "Eliminar todo lo seleccionado",
+  "displayBuiltInApps": "Mostrar aplicaciones integradas",
+  "displayBuiltInAppsExplanation": "Si está habilitada, la lista de inicio incluirá aplicaciones integradas, son como aplicaciones del sistema pero se pueden abrir.",
+  "displaySystemApps": "Mostrar aplicaciones del sistema",
+  "displaySystemAppsExplanation": "Si está habilitado, la lista de inicio incluirá aplicaciones del sistema, es posible que no se puedan iniciar.",
+  "displayUserInstalledApps": "Mostrar aplicaciones instaladas por el usuario",
+  "displayUserInstalledAppsExplanation": "Si está habilitada, la lista de inicio incluirá las aplicaciones instaladas por usted.",
+  "doYouWantToForceBulkCancelAllTheseTasks": "¿Quieres forzar una cancelación masiva en todas estas tareas?",
+  "doYouWantToForceBulkDeleteAllTheseTasks": "¿Quieres forzar una eliminación masiva en todas estas tareas?",
+  "donate": "Donar",
+  "donateOnGitHub": "Donar en GitHub (Tarjeta)",
+  "donateOnKofi": "Ko-fi (Tarjeta o PayPal)",
+  "donateUsingBtc": "Donación de BTC",
+  "donateUsingPix": "Donación de Pix (solo Brasil)",
+  "exportApk": "Exportar aplicación",
+  "exportApkExplanationMessage": "La lista de aplicaciones aparecerá aquí, para comenzar, intente hacer clic en un mosaico en la pantalla de la lista de aplicaciones. Creará un nuevo trabajo de exportación que copiará la aplicación a la carpeta que elija.",
+  "extract": "Extracto",
+  "extractApk": "Extraer apk",
+  "extractWithSingleClick": "Extraer con un solo clic",
+  "extractWithSingleClickExplanation": "Si está habilitado, la lista de aplicaciones extraerá apk con un solo clic en lugar de abrir la página de detalles.",
+  "extractionIsNotFinishedCanNotInstallYet": "Todavía no se extrajo por completo, no se puede instalar en este momento",
+  "filterWillRemoveSomeSelectedItems": "Este filtro borrará algunos de los elementos seleccionados y deberá volver a seleccionarlos.",
+  "followMeOnGitHub": "Sígueme en GitHub",
+  "githubRepository": "Repositorio GitHub",
+  "glow": "Brillo",
+  "goToAppList": "Ir a la lista de aplicaciones",
+  "greenDark": "Verde oscuro",
+  "hideAppBarOnScroll": "Ocultar barra de aplicaciones al desplazarse",
+  "hideAppBarOnScrollExplanation": "Si está habilitada, la barra de la aplicación se ocultará automáticamente cuando se desplace hacia abajo.",
+  "install": "Instalar",
+  "installApk": "Instalar apk",
+  "invalidApkItWasProbablyDeleted": "APK no válido, probablemente se eliminó.",
+  "invalidPackageUri": "Uri de paquete no válido",
+  "launchApp": "Ejecutar aplicación",
+  "links": "Enlaces",
+  "loadingInfo": "Cargando",
+  "loadingInfoEllipsis": "Cargando...",
+  "noActivityFoundThatCanHandleThisFileType": "No hay actividad que pueda manejar este archivo.",
+  "noResults": "¡No hay resultados!",
+  "notAvailable": "No disponible",
+  "notSet": "No establecido",
+  "openFileLocation": "Abrir localización de archivo",
+  "openOnFDroid": "Abrir en F-Droid",
+  "openOnPlayStore": "Abrir en Play Store",
+  "openSourceLicenses": "Licencias de código abierto",
+  "openingFolderIsNotSupportedYet": "Todavía no se admite la apertura de una carpeta",
+  "otherDonationMethods": "Otros métodos de donación",
+  "overscrollIndicator": "Indicador de desplazamiento excesivo",
+  "packageAndVersion": "Paquete y versión",
+  "packageIdIsNotAvailable": "El ID del paquete no está disponible",
+  "packageNameIsNotAvailable": "El nombre del paquete no está disponible",
+  "paymentMethodCard": "Tarjeta",
+  "redDark": "Rojo oscuro",
+  "remove": "Eliminar",
+  "reportIssue": "Reportar problema",
+  "resetAllPreferencesQuestion": "¿Restablecer todas las preferencias?",
+  "resetFolder": "Restablecer carpeta",
+  "searchOnline": "Buscar en línea",
+  "share": "Compartir",
+  "shareApk": "Compartir apk",
+  "soon": "Pronto",
+  "soonEllipsis": "Pronto...",
+  "storagePermissionExplanationMessage": "Para extraer las aplicaciones, esta aplicación necesita permiso de acceso a una carpeta. Se recomienda seleccionar una carpeta vacía o crear una nueva. También es importante no seleccionar carpetas que estén reservadas por el sistema, como la carpeta Android o Descargas.",
+  "successQueued": "¡Éxito! marque la pestaña \"Extraído\"",
+  "system": "Sistema",
+  "tasksAreAlreadyBeingDeleted": "Estas tareas se eliminaron y se eliminarán pronto",
+  "thisIsIrreversible": "Esta es una acción irreversible, asegúrese de querer hacerla.",
+  "transparentNavigationBar": "Efecto de cristal translúcido",
+  "transparentNavigationBarExplanation": "Aplique un efecto de desenfoque transparente a la barra de navegación de inicio.",
+  "trySelectingAtLeastOneFilter": "¡Intenta seleccionar al menos un filtro!",
+  "unavailable": "Indisponible",
+  "uninstall": "Desinstalar",
+  "unnamedPackage": "Paquete sin nombre",
+  "version": "Versión",
+  "preInstalled": "Pre instalado",
+  "installed": "Instalado",
+  "extracted": "Extraído",
+  "none": "Ninguno",
+  "user": "Usuario",
+  "@installed": {
+    "info": {
+      "source": "Installed"
+    }
+  },
+  "@preInstalled": {
+    "info": {
+      "source": "Pre-installed"
+    }
+  },
+  "@allApksWereSuccessfullyExtracted": {
+    "info": {
+      "source": "All apks were extracted to {apkLocation}"
+    }
+  },
+  "@allApksWereSuccessfullyExtractedPlain": {
+    "info": {
+      "source": "All apks were extracted"
+    }
+  },
+  "@allFiles": {
+    "info": {
+      "source": "All files"
+    }
+  },
+  "@appearancePreferences": {
+    "info": {
+      "source": "Appearance preferences"
+    }
+  },
+  "@apps": {
+    "info": {
+      "source": "Apps"
+    }
+  },
+  "@areYouSure": {
+    "info": {
+      "source": "Are you sure?"
+    }
+  },
+  "@behaviorPreferences": {
+    "info": {
+      "source": "Behavior preferences"
+    }
+  },
+  "@bouncing": {
+    "info": {
+      "source": "Bouncing"
+    }
+  },
+  "@builtIn": {
+    "info": {
+      "source": "Built-in"
+    }
+  },
+  "@cancel": {
+    "info": {
+      "source": "Cancel"
+    }
+  },
+  "@cancelTask": {
+    "info": {
+      "source": "Cancel task"
+    }
+  },
+  "@changeTheme": {
+    "info": {
+      "source": "Change theme"
+    }
+  },
+  "@confirm": {
+    "info": {
+      "source": "Confirm"
+    }
+  },
+  "@confirmIrreversibleActions": {
+    "info": {
+      "source": "Ask for confirmation"
+    }
+  },
+  "@confirmIrreversibleActionsExplanation": {
+    "info": {
+      "source": "Ask for confirmation whenever the user tries to do any irreversible action like deleting a file."
+    }
+  },
+  "@copiedToClipboard": {
+    "info": {
+      "source": "Copied to clipboard"
+    }
+  },
+  "@copyPackageId": {
+    "info": {
+      "source": "Copy package ID"
+    }
+  },
+  "@copyPackageName": {
+    "info": {
+      "source": "Copy package name"
+    }
+  },
+  "@couldNotExtractWithExplanation": {
+    "info": {
+      "source": "Could not extract, this apk was probably uninstalled because we did not found it's apk file"
+    }
+  },
+  "@couldNotFindFileLocationWithExplanation": {
+    "info": {
+      "source": "Could not find the file location this either was deleted or we have no permission over the folder."
+    }
+  },
+  "@couldNotFindTargetFile": {
+    "info": {
+      "source": "We could not find the target file"
+    }
+  },
+  "@darkDimmed": {
+    "info": {
+      "source": "Dark dimmed"
+    }
+  },
+  "@darkLightsOut": {
+    "info": {
+      "source": "Dark lights out"
+    }
+  },
+  "@darkSimple": {
+    "info": {
+      "source": "Default dark theme"
+    }
+  },
+  "@delete": {
+    "info": {
+      "source": "Delete"
+    }
+  },
+  "@deleteAllSelected": {
+    "info": {
+      "source": "Delete all selected"
+    }
+  },
+  "@display": {
+    "info": {
+      "source": "Display"
+    }
+  },
+  "@displayBuiltInApps": {
+    "info": {
+      "source": "Show built-in apps"
+    }
+  },
+  "@displayBuiltInAppsExplanation": {
+    "info": {
+      "source": "If enabled the home list will include built-in apps, they are like system apps but openable."
+    }
+  },
+  "@displaySystemApps": {
+    "info": {
+      "source": "Show system apps"
+    }
+  },
+  "@displaySystemAppsExplanation": {
+    "info": {
+      "source": "If enabled the home list will include system apps, they may not be launchable."
+    }
+  },
+  "@displayUserInstalledApps": {
+    "info": {
+      "source": "Show user installed apps"
+    }
+  },
+  "@displayUserInstalledAppsExplanation": {
+    "info": {
+      "source": "If enabled the home list will include apps installed by you."
+    }
+  },
+  "@doYouWantToForceBulkCancelAllTheseTasks": {
+    "info": {
+      "source": "Do you want force a bulk cancel on all these tasks?"
+    }
+  },
+  "@doYouWantToForceBulkDeleteAllTheseTasks": {
+    "info": {
+      "source": "Do you want force a bulk delete on all these tasks?"
+    }
+  },
+  "@donate": {
+    "info": {
+      "source": "Donate"
+    }
+  },
+  "@donateOnGitHub": {
+    "info": {
+      "source": "Donate on GitHub (Card)"
+    }
+  },
+  "@donateOnKofi": {
+    "info": {
+      "source": "Ko-fi (Card or PayPal)"
+    }
+  },
+  "@donateUsingBtc": {
+    "info": {
+      "source": "BTC donation"
+    }
+  },
+  "@donateUsingPix": {
+    "info": {
+      "source": "Pix donation (Brazil only)"
+    }
+  },
+  "@exitSearch": {
+    "info": {
+      "source": "Exit search"
+    }
+  },
+  "@export": {
+    "info": {
+      "source": "Export"
+    }
+  },
+  "@exportApk": {
+    "info": {
+      "source": "Export apk"
+    }
+  },
+  "@exportApkExplanationMessage": {
+    "info": {
+      "source": "The apk list will appear here, to get start try to click over a tile on the app list screen! It will create a new export job that will copy the app apk to the folder you chose."
+    }
+  },
+  "@extract": {
+    "info": {
+      "source": "Extract"
+    }
+  },
+  "@extractAllSelected": {
+    "info": {
+      "source": "Extract all selected"
+    }
+  },
+  "@extractApk": {
+    "info": {
+      "source": "Extract apk"
+    }
+  },
+  "@extractWithSingleClick": {
+    "info": {
+      "source": "Extract with single click"
+    }
+  },
+  "@extractWithSingleClickExplanation": {
+    "info": {
+      "source": "If enabled, the app list will extract apk with a single click instead of opening the details page."
+    }
+  },
+  "@extracted": {
+    "info": {
+      "source": "Extracted"
+    }
+  },
+  "@extractedTo": {
+    "info": {
+      "source": "Extracted to"
+    }
+  },
+  "@extractingApks": {
+    "info": {
+      "source": "Extracting Apks"
+    }
+  },
+  "@extractionIsNotFinishedCanNotInstallYet": {
+    "info": {
+      "source": "Not fully extracted yet, can not install right now"
+    }
+  },
+  "@filterWillRemoveSomeSelectedItems": {
+    "info": {
+      "source": "This filter will erase some of your selected items, and you will need to re-select them again"
+    }
+  },
+  "@followMeOnGitHub": {
+    "info": {
+      "source": "Follow me on GitHub"
+    }
+  },
+  "@followTheSystem": {
+    "info": {
+      "source": "Follow the system"
+    }
+  },
+  "@fontFamily": {
+    "info": {
+      "source": "Font family"
+    }
+  },
+  "@githubRepository": {
+    "info": {
+      "source": "GitHub repository"
+    }
+  },
+  "@glow": {
+    "info": {
+      "source": "Glow"
+    }
+  },
+  "@goToAppList": {
+    "info": {
+      "source": "Go to app list"
+    }
+  },
+  "@greenDark": {
+    "info": {
+      "source": "Dark green"
+    }
+  },
+  "@hideAppBarOnScroll": {
+    "info": {
+      "source": "Hide app bar on scroll"
+    }
+  },
+  "@hideAppBarOnScrollExplanation": {
+    "info": {
+      "source": "If enabled, the app bar will automatically hide when scroll down."
+    }
+  },
+  "@install": {
+    "info": {
+      "source": "Install"
+    }
+  },
+  "@installApk": {
+    "info": {
+      "source": "Install apk"
+    }
+  },
+  "@invalidApkItWasProbablyDeleted": {
+    "info": {
+      "source": "Invalid apk, is was probably deleted."
+    }
+  },
+  "@invalidPackageUri": {
+    "info": {
+      "source": "Invalid package Uri"
+    }
+  },
+  "@isNotSupportedYet": {
+    "info": {
+      "source": "is not supported yet"
+    }
+  },
+  "@language": {
+    "info": {
+      "source": "Language"
+    }
+  },
+  "@launchApp": {
+    "info": {
+      "source": "Execute application"
+    }
+  },
+  "@light": {
+    "info": {
+      "source": "Light"
+    }
+  },
+  "@links": {
+    "info": {
+      "source": "Links"
+    }
+  },
+  "@loadingInfo": {
+    "info": {
+      "source": "Loading"
+    }
+  },
+  "@loadingInfoEllipsis": {
+    "info": {
+      "source": "Loading..."
+    }
+  },
+  "@noActivityFoundThatCanHandleThisFileType": {
+    "info": {
+      "source": "There's no activity that can handle this file"
+    }
+  },
+  "@noResults": {
+    "info": {
+      "source": "No results!"
+    }
+  },
+  "@none": {
+    "info": {
+      "source": "None"
+    }
+  },
+  "@notAvailable": {
+    "info": {
+      "source": "Not available"
+    }
+  },
+  "@notDefined": {
+    "info": {
+      "source": "Not defined"
+    }
+  },
+  "@notSet": {
+    "info": {
+      "source": "Not set"
+    }
+  },
+  "@ofN": {
+    "info": {
+      "source": "of"
+    }
+  },
+  "@openFileLocation": {
+    "info": {
+      "source": "Open file location"
+    }
+  },
+  "@openOnFDroid": {
+    "info": {
+      "source": "Open on F-Droid"
+    }
+  },
+  "@openOnPlayStore": {
+    "info": {
+      "source": "Open on Play Store"
+    }
+  },
+  "@openSettingsPage": {
+    "info": {
+      "source": "Open settings page"
+    }
+  },
+  "@openSourceLicenses": {
+    "info": {
+      "source": "Open source licenses"
+    }
+  },
+  "@openingFolderIsNotSupportedYet": {
+    "info": {
+      "source": "Opening a folder is not supported yet"
+    }
+  },
+  "@operationNotAllowedMayBeProtectedPackage": {
+    "info": {
+      "source": "Operation not allowed, probably this is a protected package"
+    }
+  },
+  "@otherDonationMethods": {
+    "info": {
+      "source": "Other donation methods"
+    }
+  },
+  "@overscrollIndicator": {
+    "info": {
+      "source": "Overscroll indicator"
+    }
+  },
+  "@packageAndVersion": {
+    "info": {
+      "source": "Package and version"
+    }
+  },
+  "@packageIdIsNotAvailable": {
+    "info": {
+      "source": "Package ID is not available"
+    }
+  },
+  "@packageNameIsNotAvailable": {
+    "info": {
+      "source": "Package name is not available"
+    }
+  },
+  "@paymentMethodCard": {
+    "info": {
+      "source": "Card"
+    }
+  },
+  "@permissionDenied": {
+    "info": {
+      "source": "Permission denied"
+    }
+  },
+  "@permissionRestrictedByAndroid": {
+    "info": {
+      "source": "Permission restricted by Android"
+    }
+  },
+  "@redDark": {
+    "info": {
+      "source": "Red dark"
+    }
+  },
+  "@remove": {
+    "info": {
+      "source": "Remove"
+    }
+  },
+  "@reportIssue": {
+    "info": {
+      "source": "Report issue"
+    }
+  },
+  "@resetAllPreferences": {
+    "info": {
+      "source": "Reset all preferences"
+    }
+  },
+  "@resetAllPreferencesQuestion": {
+    "info": {
+      "source": "Reset all preferences?"
+    }
+  },
+  "@resetFolder": {
+    "info": {
+      "source": "Reset folder"
+    }
+  },
+  "@searchOnline": {
+    "info": {
+      "source": "Search online"
+    }
+  },
+  "@searchPackagesAndApps": {
+    "info": {
+      "source": "Search packages and apps"
+    }
+  },
+  "@selectOutputFolder": {
+    "info": {
+      "source": "Select output folder"
+    }
+  },
+  "@selectUnselectAll": {
+    "info": {
+      "source": "Select/Unselect all"
+    }
+  },
+  "@settings": {
+    "info": {
+      "source": "Settings"
+    }
+  },
+  "@share": {
+    "info": {
+      "source": "Share"
+    }
+  },
+  "@shareApk": {
+    "info": {
+      "source": "Share apk"
+    }
+  },
+  "@someApkWereNotExtracted": {
+    "info": {
+      "source": "Some apks are located in {apkLocation} but some could not be extracted"
+    }
+  },
+  "@someApkWereNotExtractedPlain": {
+    "info": {
+      "source": "Some apks are were successfully extracted but some could not be extracted"
+    }
+  },
+  "@soon": {
+    "info": {
+      "source": "Soon"
+    }
+  },
+  "@soonEllipsis": {
+    "info": {
+      "source": "Soon..."
+    }
+  },
+  "@sorryWeCouldNotExportAnyApkBecauseTheyAreRestrictedByTheOS": {
+    "info": {
+      "source": "Sorry, we could not export any of these apks because they are restricted by the OS"
+    }
+  },
+  "@storagePermissionExplanationMessage": {
+    "info": {
+      "source": "To extract the apks this app needs access permission to a folder. It is recommended to select an empty folder or create a new one. It is also important to not select folders that are reserved by the system, such as the Android or Downloads folder."
+    }
+  },
+  "@successQueued": {
+    "info": {
+      "source": "Success! check \"Extracted\" tab"
+    }
+  },
+  "@system": {
+    "info": {
+      "source": "System"
+    }
+  },
+  "@tasksAreAlreadyBeingDeleted": {
+    "info": {
+      "source": "These tasks were deleted and will be removed soon"
+    }
+  },
+  "@theme": {
+    "info": {
+      "source": "Theme"
+    }
+  },
+  "@thisIsIrreversible": {
+    "info": {
+      "source": "This is a irreversible action, be sure you want to do it."
+    }
+  },
+  "@toggleSelect": {
+    "info": {
+      "source": "Toggle select"
+    }
+  },
+  "@transparentNavigationBar": {
+    "info": {
+      "source": "Translucent glass effect"
+    }
+  },
+  "@transparentNavigationBarExplanation": {
+    "info": {
+      "source": "Apply a blur transparent effect to the home navigation bar."
+    }
+  },
+  "@trySelectingAtLeastOneFilter": {
+    "info": {
+      "source": "Try selecting at least one filter!"
+    }
+  },
+  "@unavailable": {
+    "info": {
+      "source": "Unavailable"
+    }
+  },
+  "@uninstall": {
+    "info": {
+      "source": "Uninstall"
+    }
+  },
+  "@unnamedPackage": {
+    "info": {
+      "source": "Unnamed package"
+    }
+  },
+  "@user": {
+    "info": {
+      "source": "User"
+    }
+  },
+  "@version": {
+    "info": {
+      "source": "Version"
+    }
+  },
+  "couldNotStartApp": "No se pudo iniciar la aplicación, probablemente porque no tiene interfaz de usuario (no se declara ninguna intención de inicio)",
+  "@couldNotStartApp": {
+    "info": {
+      "source": "Could not start app, probably because it has no UI (no launch intent is declared)"
+    }
+  },
+  "fullDark": "Completamente oscuro",
+  "@fullDark": {
+    "info": {
+      "source": "Full dark"
+    }
+  },
+  "modify": "Modificar",
+  "@modify": {
+    "info": {
+      "source": "Modify"
+    }
+  }
 }

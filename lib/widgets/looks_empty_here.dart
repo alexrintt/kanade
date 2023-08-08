@@ -21,10 +21,23 @@ const List<String> kDiscontentEmoticons = <String>[
 String randomEmoticon([List<String> source = kDiscontentEmoticons]) =>
     source[Random().nextInt(source.length)];
 
-class LooksEmptyHere extends StatelessWidget {
+class LooksEmptyHere extends StatefulWidget {
   const LooksEmptyHere({super.key, this.message});
 
   final String? message;
+
+  @override
+  State<LooksEmptyHere> createState() => _LooksEmptyHereState();
+}
+
+class _LooksEmptyHereState extends State<LooksEmptyHere> {
+  late String _emoji;
+
+  @override
+  void initState() {
+    super.initState();
+    _emoji = randomEmoticon();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,16 +46,16 @@ class LooksEmptyHere extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
-          randomEmoticon(),
+          _emoji,
           textAlign: TextAlign.center,
           style: TextStyle(
             color: context.theme.disabledColor,
             fontSize: 22,
           ),
         ),
-        if (message != null && message!.isNotEmpty)
+        if (widget.message != null && widget.message!.isNotEmpty)
           Text(
-            message!,
+            widget.message!,
             textAlign: TextAlign.center,
             style: TextStyle(
               color: context.theme.disabledColor,

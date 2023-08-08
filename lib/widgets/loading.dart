@@ -10,10 +10,10 @@ class Loading extends StatefulWidget {
 
 class _LoadingState extends State<Loading> {
   Widget _buildLoading() {
-    return Center(
+    return const Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const <Widget>[
+        children: <Widget>[
           AnimatedAppName(),
         ],
       ),

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
@@ -267,8 +266,8 @@ class _DragSelectScrollNotifierState extends State<DragSelectScrollNotifier> {
 
   double _velocity = 4.0;
 
-  double get _pixelRatio => window.devicePixelRatio;
-  Size get _logicalScreenSize => window.physicalSize / _pixelRatio;
+  double get _pixelRatio => View.of(context).devicePixelRatio;
+  Size get _logicalScreenSize => View.of(context).physicalSize / _pixelRatio;
   double get _logicalHeight => _logicalScreenSize.height;
 
   void _autoscrollListener() {

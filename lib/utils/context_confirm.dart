@@ -23,9 +23,6 @@ Future<bool> showConfirmationModal({
         title: Text(context.strings.areYouSure),
         content: Text(
           message ?? context.strings.thisIsIrreversible,
-          style: const TextStyle(
-            fontSize: 12,
-          ),
         ),
         actions: <Widget>[
           TextButton(

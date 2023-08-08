@@ -14,7 +14,6 @@ import '../utils/copy_to_clipboard.dart';
 import '../utils/generate_play_store_uri.dart';
 import '../utils/open_url.dart';
 import '../utils/share_file.dart';
-import 'app_icon_button.dart';
 import 'app_list_tile.dart';
 import 'image_uri.dart';
 import 'toast.dart';
@@ -95,7 +94,7 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
         } on PackageIsNotOpenableException {
           showToast(
             context,
-            'Could not start app, probably because it has no UI (no launch intent is declared)',
+            context.strings.couldNotStartApp,
           );
         }
         break;
@@ -367,27 +366,30 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1,
-      child: AppIconButton(
-        onTap: onTap,
-        icon: SizedBox(
-          height: kToolbarHeight,
-          width: kToolbarHeight,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Icon(
-                icon,
-                size: iconSize,
-                color: context.theme.textTheme.labelSmall!.color,
-              ),
-              Text(text),
-            ],
+    return ConstrainedBox(
+      constraints: const BoxConstraints(
+        minHeight: kToolbarHeight,
+        minWidth: kToolbarHeight,
+      ),
+      child: Center(
+        child: Semantics(
+          tooltip: tooltip,
+          child: TextButton(
+            onPressed: onTap,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Icon(
+                  icon,
+                  size: iconSize,
+                  color: context.theme.textTheme.labelSmall!.color,
+                ),
+                Text(text),
+              ],
+            ),
           ),
         ),
-        tooltip: tooltip,
       ),
     );
   }

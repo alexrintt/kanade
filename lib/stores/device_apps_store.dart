@@ -118,7 +118,7 @@ class DeviceAppsStore extends IndexedCollectionStore<PackageInfo>
     required bool displayUserInstalledApps,
   }) {
     if (displaySystemApps) {
-      if (package.isSystemPackage == true) {
+      if (package.isSystemPackage == true && package.isOpenable == false) {
         return true;
       }
     }

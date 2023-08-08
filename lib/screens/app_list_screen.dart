@@ -224,59 +224,56 @@ class _MainAppListState extends State<MainAppList>
     String text,
     SettingsBoolPreference preference,
   ) {
-    return Padding(
+    return FilterChip(
       padding: const EdgeInsets.all(k2dp),
-      child: FilterChip(
-        padding: const EdgeInsets.all(k2dp),
-        label: Text(
-          text,
-          style: TextStyle(
-            color: settingsStore.getBoolPreference(preference)
-                ? context.scaffoldBackgroundColor
-                : null,
-          ),
+      label: Text(
+        text,
+        style: TextStyle(
+          color: settingsStore.getBoolPreference(preference)
+              ? context.scaffoldBackgroundColor
+              : null,
         ),
-        backgroundColor: context.dividerColor,
-        selectedColor: context.primaryColor,
-        onSelected: (bool value) async {
-          final bool displaySystemApps = settingsStore
-              .getBoolPreference(SettingsBoolPreference.displaySystemApps);
-          final bool displayBuiltInApps = settingsStore
-              .getBoolPreference(SettingsBoolPreference.displayBuiltInApps);
-          final bool displayUserInstalledApps = settingsStore.getBoolPreference(
-            SettingsBoolPreference.displayUserInstalledApps,
-          );
-
-          final bool hasRiskOfUnintentionalUnselect =
-              store.hasRiskOfUnintentionalUnselect(
-            displaySystemApps:
-                preference == SettingsBoolPreference.displaySystemApps
-                    ? value
-                    : displaySystemApps,
-            displayBuiltInApps:
-                preference == SettingsBoolPreference.displayBuiltInApps
-                    ? value
-                    : displayBuiltInApps,
-            displayUserInstalledApps:
-                preference == SettingsBoolPreference.displayUserInstalledApps
-                    ? value
-                    : displayUserInstalledApps,
-          );
-
-          if (hasRiskOfUnintentionalUnselect) {
-            final bool confirmed = await showConfirmationModal(
-              context: context,
-              force: true,
-              message: context.strings.filterWillRemoveSomeSelectedItems,
-            );
-
-            if (!confirmed) return;
-          }
-
-          await settingsStore.setBoolPreference(preference, value: value);
-        },
-        selected: settingsStore.getBoolPreference(preference),
       ),
+      backgroundColor: context.dividerColor,
+      selectedColor: context.primaryColor,
+      onSelected: (bool value) async {
+        final bool displaySystemApps = settingsStore
+            .getBoolPreference(SettingsBoolPreference.displaySystemApps);
+        final bool displayBuiltInApps = settingsStore
+            .getBoolPreference(SettingsBoolPreference.displayBuiltInApps);
+        final bool displayUserInstalledApps = settingsStore.getBoolPreference(
+          SettingsBoolPreference.displayUserInstalledApps,
+        );
+
+        final bool hasRiskOfUnintentionalUnselect =
+            store.hasRiskOfUnintentionalUnselect(
+          displaySystemApps:
+              preference == SettingsBoolPreference.displaySystemApps
+                  ? value
+                  : displaySystemApps,
+          displayBuiltInApps:
+              preference == SettingsBoolPreference.displayBuiltInApps
+                  ? value
+                  : displayBuiltInApps,
+          displayUserInstalledApps:
+              preference == SettingsBoolPreference.displayUserInstalledApps
+                  ? value
+                  : displayUserInstalledApps,
+        );
+
+        if (hasRiskOfUnintentionalUnselect) {
+          final bool confirmed = await showConfirmationModal(
+            context: context,
+            force: true,
+            message: context.strings.filterWillRemoveSomeSelectedItems,
+          );
+
+          if (!confirmed) return;
+        }
+
+        await settingsStore.setBoolPreference(preference, value: value);
+      },
+      selected: settingsStore.getBoolPreference(preference),
     );
   }
 
@@ -288,10 +285,10 @@ class _MainAppListState extends State<MainAppList>
     }
 
     if (package.versionName != null) {
-      final String before = subtitle.isNotEmpty ? ' (' : '';
-      final String after = subtitle.isNotEmpty ? ')' : '';
+      const String before = '';
+      const String after = '';
       subtitle.write(
-        '$before${context.strings.version}: ${package.versionName}$after',
+        '$before\n${context.strings.version}: ${package.versionName}$after',
       );
     }
 
@@ -313,30 +310,28 @@ class _MainAppListState extends State<MainAppList>
           Padding(
             padding: const EdgeInsets.only(top: k5dp),
             child: Wrap(
+              spacing: k2dp,
               runAlignment: WrapAlignment.center,
               alignment: WrapAlignment.center,
               children: <Widget>[
-                Padding(
+                RawChip(
                   padding: const EdgeInsets.all(k2dp),
-                  child: RawChip(
-                    padding: const EdgeInsets.all(k2dp),
-                    label: AnimatedCount(
-                      duration: const Duration(milliseconds: 500),
-                      count: store.collection.length,
-                      curve: Curves.easeInOut,
-                      textStyle: TextStyle(
-                        color: context.primaryColor.withOpacity(.3),
-                      ),
+                  label: AnimatedCount(
+                    duration: const Duration(milliseconds: 500),
+                    count: store.collection.length,
+                    curve: Curves.easeInOut,
+                    textStyle: TextStyle(
+                      color: context.primaryColor.withOpacity(.3),
                     ),
-                    backgroundColor: context.theme.canvasColor,
                   ),
+                  backgroundColor: context.theme.canvasColor,
                 ),
                 _buildInstalledAppsFilterChip(
-                  context.strings.user,
+                  context.strings.installed,
                   SettingsBoolPreference.displayUserInstalledApps,
                 ),
                 _buildInstalledAppsFilterChip(
-                  context.strings.builtIn,
+                  context.strings.preInstalled,
                   SettingsBoolPreference.displayBuiltInApps,
                 ),
                 _buildInstalledAppsFilterChip(

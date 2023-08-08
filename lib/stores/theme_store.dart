@@ -11,10 +11,10 @@ import '../widgets/no_glow_scroll_behavior.dart';
 import 'key_value_storage.dart';
 
 enum AppTheme {
-  darkLightsOut,
+  fullDark,
   darkDimmed,
   darkSimple,
-  lightDefault,
+  defaultLight,
   greenDark,
   redDark,
   followSystem;
@@ -25,12 +25,12 @@ enum AppTheme {
         return strings.darkDimmed;
       case AppTheme.darkSimple:
         return strings.darkSimple;
-      case AppTheme.lightDefault:
+      case AppTheme.defaultLight:
         return strings.light;
       case AppTheme.followSystem:
         return strings.followTheSystem;
-      case AppTheme.darkLightsOut:
-        return strings.darkLightsOut;
+      case AppTheme.fullDark:
+        return strings.fullDark;
       case AppTheme.greenDark:
         return strings.greenDark;
       case AppTheme.redDark:
@@ -128,7 +128,7 @@ class ThemeStore extends ChangeNotifier {
       _currentTheme = AppTheme.parseCurrentThemeFromString(previousTheme);
     }
 
-    window.onPlatformBrightnessChanged = () {
+    PlatformDispatcher.instance.onPlatformBrightnessChanged = () {
       if (currentTheme == AppTheme.followSystem) {
         notifyListeners();
       }
@@ -173,7 +173,7 @@ class ThemeStore extends ChangeNotifier {
     );
   }
 
-  ThemeData _darkLightThemeData() {
+  ThemeData _defaultDarkThemeData() {
     const Color kCardColor = Color(0xFF313338);
     const Color kBackgroundColor = Color(0xFF2B2D31);
     const Color selectedTileColor = Color(0xff1E1F22);
@@ -197,7 +197,7 @@ class ThemeStore extends ChangeNotifier {
     );
   }
 
-  ThemeData _lightDefaultThemeData() {
+  ThemeData _defaultLightThemeData() {
     const Color kBackgroundColor = Color(0xffe8e8e8);
     const Color selectedTileColor = kBackgroundColor;
     const Color kCardColor = Color(0xfff7f2f9);
@@ -225,16 +225,16 @@ class ThemeStore extends ChangeNotifier {
       cardColor: kCardColor,
       primaryColor: kPrimaryColor,
       secondaryColor: kSecondaryColor,
-      textColor: Colors.black54,
+      textColor: Colors.black,
       headlineColor: const Color(0xff111111),
       selectedTileColor: selectedTileColor,
-      disabledColor: Colors.black12,
+      disabledColor: Colors.black87,
       base: ThemeData.light(),
       fontFamily: _currentFontFamily,
     );
   }
 
-  ThemeData _darkLightsOutThemeData() {
+  ThemeData _fullDarkThemeData() {
     const Color kBackgroundColor = Color.fromARGB(255, 8, 8, 8);
     const Color kCardColor = kBackgroundColor;
     const Color kPrimaryColor = Color(0xFFFFFFFF);
@@ -257,7 +257,7 @@ class ThemeStore extends ChangeNotifier {
     );
   }
 
-  ThemeData _darkHackerThemeData() {
+  ThemeData _darkGreenThemeData() {
     const Color kBackgroundColor = Color.fromARGB(255, 8, 8, 8);
     const Color kCardColor = kBackgroundColor;
     const Color kPrimaryColor = Color(0xFF69F0AE);
@@ -307,20 +307,20 @@ class ThemeStore extends ChangeNotifier {
     switch (_currentTheme) {
       case AppTheme.darkDimmed:
         return _darkDimmedThemeData();
-      case AppTheme.lightDefault:
-        return _lightDefaultThemeData();
-      case AppTheme.darkLightsOut:
-        return _darkLightsOutThemeData();
+      case AppTheme.defaultLight:
+        return _defaultLightThemeData();
+      case AppTheme.fullDark:
+        return _fullDarkThemeData();
       case AppTheme.greenDark:
-        return _darkHackerThemeData();
+        return _darkGreenThemeData();
       case AppTheme.redDark:
         return _darkBloodThemeData();
       case AppTheme.followSystem:
         return currentThemeBrightness == Brightness.dark
-            ? _darkLightThemeData()
-            : _lightDefaultThemeData();
+            ? _defaultDarkThemeData()
+            : _defaultLightThemeData();
       case AppTheme.darkSimple:
-        return _darkLightThemeData();
+        return _defaultDarkThemeData();
     }
   }
 
@@ -328,9 +328,9 @@ class ThemeStore extends ChangeNotifier {
     switch (_currentTheme) {
       case AppTheme.darkDimmed:
         return Brightness.dark;
-      case AppTheme.lightDefault:
+      case AppTheme.defaultLight:
         return Brightness.light;
-      case AppTheme.darkLightsOut:
+      case AppTheme.fullDark:
         return Brightness.dark;
       case AppTheme.greenDark:
         return Brightness.dark;
@@ -376,9 +376,8 @@ class ThemeStore extends ChangeNotifier {
 }
 
 enum AppFontFamily {
-  segoe('Segoe UI', 0.9, displayable: true),
-  robotoMono('Roboto Mono', 0.9, displayable: true),
-  zenKakuGothicAntique('Zen Kaku Gothic Antique', 1, displayable: true),
+  robotoMono('Roboto Mono', 1, displayable: true),
+  inconsolata('Inconsolata', 1, displayable: true),
   // This font is used in the logo only, so it is not displayable.
   forward('Forward', 1, displayable: false);
 
@@ -388,7 +387,7 @@ enum AppFontFamily {
     required this.displayable,
   });
 
-  static const AppFontFamily defaultFont = AppFontFamily.segoe;
+  static const AppFontFamily defaultFont = AppFontFamily.inconsolata;
 
   final double preferableFontSizeDelta;
 
@@ -471,10 +470,9 @@ ThemeData createThemeData({
   final String fontFamilyName = fontFamily.fontKey;
 
   final TextTheme textTheme =
-      base.textTheme.merge(Typography.material2021().black).applyWithTextSize(
+      base.textTheme.merge(Typography.material2021().black).apply(
             fontFamily: fontFamilyName,
             bodyColor: textColor,
-            fontSize: 12,
           );
 
   return base.copyWith(
@@ -616,203 +614,4 @@ ThemeData createThemeData({
     ),
     useMaterial3: true,
   );
-}
-
-extension TextThemeApplyWithTextSize on TextTheme {
-  /// Creates a copy of this text theme but with the given field replaced in
-  /// each of the individual text styles.
-  ///
-  /// The `displayColor` is applied to [displayLarge], [displayMedium],
-  /// [displaySmall], [headlineLarge], [headlineMedium], and [bodySmall]. The
-  /// `bodyColor` is applied to the remaining text styles.
-  ///
-  /// Consider using [Typography.black] or [Typography.white], which implement
-  /// the typography styles in the Material Design specification, as a starting
-  /// point.
-  TextTheme applyWithTextSize({
-    String? fontFamily,
-    List<String>? fontFamilyFallback,
-    String? package,
-    double fontSizeFactor = 1.0,
-    double fontSizeDelta = 0.0,
-    Color? displayColor,
-    Color? bodyColor,
-    TextDecoration? decoration,
-    Color? decorationColor,
-    TextDecorationStyle? decorationStyle,
-    double? fontSize,
-  }) {
-    return TextTheme(
-      displayLarge: displayLarge?.copyWith(fontSize: fontSize).apply(
-            color: displayColor,
-            decoration: decoration,
-            decorationColor: decorationColor,
-            decorationStyle: decorationStyle,
-            fontFamily: fontFamily,
-            fontFamilyFallback: fontFamilyFallback,
-            fontSizeFactor: fontSizeFactor,
-            fontSizeDelta: fontSizeDelta,
-            package: package,
-          ),
-      displayMedium: displayMedium?.copyWith(fontSize: fontSize).apply(
-            color: displayColor,
-            decoration: decoration,
-            decorationColor: decorationColor,
-            decorationStyle: decorationStyle,
-            fontFamily: fontFamily,
-            fontFamilyFallback: fontFamilyFallback,
-            fontSizeFactor: fontSizeFactor,
-            fontSizeDelta: fontSizeDelta,
-            package: package,
-          ),
-      displaySmall: displaySmall?.copyWith(fontSize: fontSize).apply(
-            color: displayColor,
-            decoration: decoration,
-            decorationColor: decorationColor,
-            decorationStyle: decorationStyle,
-            fontFamily: fontFamily,
-            fontFamilyFallback: fontFamilyFallback,
-            fontSizeFactor: fontSizeFactor,
-            fontSizeDelta: fontSizeDelta,
-            package: package,
-          ),
-      headlineLarge: headlineLarge?.apply(
-        color: displayColor,
-        decoration: decoration,
-        decorationColor: decorationColor,
-        decorationStyle: decorationStyle,
-        fontFamily: fontFamily,
-        fontFamilyFallback: fontFamilyFallback,
-        fontSizeFactor: fontSizeFactor,
-        fontSizeDelta: fontSizeDelta,
-        package: package,
-      ),
-      headlineMedium: headlineMedium?.apply(
-        color: displayColor,
-        decoration: decoration,
-        decorationColor: decorationColor,
-        decorationStyle: decorationStyle,
-        fontFamily: fontFamily,
-        fontFamilyFallback: fontFamilyFallback,
-        fontSizeFactor: fontSizeFactor,
-        fontSizeDelta: fontSizeDelta,
-        package: package,
-      ),
-      headlineSmall: headlineSmall?.apply(
-        color: bodyColor,
-        decoration: decoration,
-        decorationColor: decorationColor,
-        decorationStyle: decorationStyle,
-        fontFamily: fontFamily,
-        fontFamilyFallback: fontFamilyFallback,
-        fontSizeFactor: fontSizeFactor,
-        fontSizeDelta: fontSizeDelta,
-        package: package,
-      ),
-      titleLarge: titleLarge?.copyWith(fontSize: fontSize).apply(
-            color: bodyColor,
-            decoration: decoration,
-            decorationColor: decorationColor,
-            decorationStyle: decorationStyle,
-            fontFamily: fontFamily,
-            fontFamilyFallback: fontFamilyFallback,
-            fontSizeFactor: fontSizeFactor,
-            fontSizeDelta: fontSizeDelta,
-            package: package,
-          ),
-      titleMedium: titleMedium
-          ?.copyWith(
-            fontSize: fontSize,
-            fontWeight: FontWeight.bold,
-          )
-          .apply(
-            color: bodyColor,
-            decoration: decoration,
-            decorationColor: decorationColor,
-            decorationStyle: decorationStyle,
-            fontFamily: fontFamily,
-            fontFamilyFallback: fontFamilyFallback,
-            fontSizeFactor: fontSizeFactor,
-            fontSizeDelta: fontSizeDelta,
-            package: package,
-          ),
-      titleSmall: titleSmall?.apply(
-        color: bodyColor,
-        decoration: decoration,
-        decorationColor: decorationColor,
-        decorationStyle: decorationStyle,
-        fontFamily: fontFamily,
-        fontFamilyFallback: fontFamilyFallback,
-        fontSizeFactor: fontSizeFactor,
-        fontSizeDelta: fontSizeDelta,
-        package: package,
-      ),
-      bodyLarge: bodyLarge?.copyWith(fontSize: fontSize).apply(
-            color: bodyColor,
-            decoration: decoration,
-            decorationColor: decorationColor,
-            decorationStyle: decorationStyle,
-            fontFamily: fontFamily,
-            fontFamilyFallback: fontFamilyFallback,
-            fontSizeFactor: fontSizeFactor,
-            fontSizeDelta: fontSizeDelta,
-            package: package,
-          ),
-      bodyMedium: bodyMedium?.copyWith(fontSize: 11).apply(
-            color: bodyColor,
-            decoration: decoration,
-            decorationColor: decorationColor,
-            decorationStyle: decorationStyle,
-            fontFamily: fontFamily,
-            fontFamilyFallback: fontFamilyFallback,
-            fontSizeFactor: fontSizeFactor,
-            fontSizeDelta: fontSizeDelta,
-            package: package,
-          ),
-      bodySmall: bodySmall?.copyWith(fontSize: fontSize).apply(
-            color: displayColor,
-            decoration: decoration,
-            decorationColor: decorationColor,
-            decorationStyle: decorationStyle,
-            fontFamily: fontFamily,
-            fontFamilyFallback: fontFamilyFallback,
-            fontSizeFactor: fontSizeFactor,
-            fontSizeDelta: fontSizeDelta,
-            package: package,
-          ),
-      labelLarge: labelLarge?.copyWith(fontSize: fontSize).apply(
-            color: bodyColor,
-            decoration: decoration,
-            decorationColor: decorationColor,
-            decorationStyle: decorationStyle,
-            fontFamily: fontFamily,
-            fontFamilyFallback: fontFamilyFallback,
-            fontSizeFactor: fontSizeFactor,
-            fontSizeDelta: fontSizeDelta,
-            package: package,
-          ),
-      labelMedium: labelMedium?.copyWith(fontSize: fontSize).apply(
-            color: bodyColor,
-            decoration: decoration,
-            decorationColor: decorationColor,
-            decorationStyle: decorationStyle,
-            fontFamily: fontFamily,
-            fontFamilyFallback: fontFamilyFallback,
-            fontSizeFactor: fontSizeFactor,
-            fontSizeDelta: fontSizeDelta,
-            package: package,
-          ),
-      labelSmall: labelSmall?.copyWith(fontSize: fontSize).apply(
-            color: bodyColor,
-            decoration: decoration,
-            decorationColor: decorationColor,
-            decorationStyle: decorationStyle,
-            fontFamily: fontFamily,
-            fontFamilyFallback: fontFamilyFallback,
-            fontSizeFactor: fontSizeFactor,
-            fontSizeDelta: fontSizeDelta,
-            package: package,
-          ),
-    );
-  }
 }

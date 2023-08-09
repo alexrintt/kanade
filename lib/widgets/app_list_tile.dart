@@ -413,9 +413,12 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
     );
 
     if (!widget.flat) {
-      child = Card(
-        shape: _defaultShape,
-        child: child,
+      child = Padding(
+        padding: const EdgeInsets.symmetric(horizontal: k3dp),
+        child: Card(
+          shape: _defaultShape,
+          child: child,
+        ),
       );
     }
 

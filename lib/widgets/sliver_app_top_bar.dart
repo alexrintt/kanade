@@ -63,18 +63,6 @@ class _SliverAppBarGlobalState extends State<SliverAppBarGlobal>
       bottom: widget.bottom,
       actions: <Widget>[
         ...?widget.actions,
-        AppIconButton(
-          onTap: () => showDialog(
-            context: context,
-            builder: (BuildContext context) => const ChangeThemeDialog(),
-          ),
-          icon: Icon(
-            AppIcons.styling.data,
-            color: context.isDark ? null : context.primaryColor,
-            size: kDefaultIconSize,
-          ),
-          tooltip: context.strings.changeTheme,
-        ),
         if (widget.onSearch != null)
           AppIconButton(
             onTap: widget.onSearch,

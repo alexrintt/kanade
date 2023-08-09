@@ -366,29 +366,17 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: const BoxConstraints(
-        minHeight: kToolbarHeight,
-        minWidth: kToolbarHeight,
-      ),
-      child: Center(
-        child: Semantics(
+    return Center(
+      child: TextButton.icon(
+        onPressed: onTap,
+        icon: Icon(
+          icon,
+          size: iconSize,
+          color: context.theme.textTheme.labelSmall!.color,
+        ),
+        label: Semantics(
           tooltip: tooltip,
-          child: TextButton(
-            onPressed: onTap,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                Icon(
-                  icon,
-                  size: iconSize,
-                  color: context.theme.textTheme.labelSmall!.color,
-                ),
-                Text(text),
-              ],
-            ),
-          ),
+          child: Text(text),
         ),
       ),
     );

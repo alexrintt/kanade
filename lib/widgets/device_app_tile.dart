@@ -36,7 +36,7 @@ class _DeviceAppTileState extends State<DeviceAppTile>
   Widget _buildTileTitle() {
     return Text(
       widget.package.nameWithFormattedSize,
-      maxLines: 2,
+      maxLines: 3,
       overflow: TextOverflow.ellipsis,
     );
   }
@@ -44,7 +44,7 @@ class _DeviceAppTileState extends State<DeviceAppTile>
   Widget _buildTileSubtitle() {
     return Text(
       widget.subtitle,
-      maxLines: 2,
+      maxLines: 3,
       overflow: TextOverflow.ellipsis,
     );
   }
@@ -53,7 +53,8 @@ class _DeviceAppTileState extends State<DeviceAppTile>
     return AppListTile(
       onSelectionChange: (_) => store.toggleSelect(item: widget.package),
       selected: _isSelected,
-      leading: PackageImageBytes(icon: widget.package.icon),
+      leading: Center(child: PackageImageBytes(icon: widget.package.icon)),
+      isThreeLine: true,
       title: _buildTileTitle(),
       subtitle: _buildTileSubtitle(),
       inSelectionMode: widget.showCheckbox,

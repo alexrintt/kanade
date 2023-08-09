@@ -357,30 +357,21 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 1,
-      child: AppIconButton(
-        onTap: onTap,
-        icon: SizedBox(
-          height: kToolbarHeight,
-          width: kToolbarHeight,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Icon(
-                icon,
-                size: iconSize,
-                color: context.theme.primaryColor,
-              ),
-              Text(
-                text,
-                textAlign: TextAlign.center,
-              ),
-            ],
+    return Center(
+      child: Semantics(
+        tooltip: tooltip,
+        child: TextButton.icon(
+          onPressed: onTap,
+          icon: Icon(
+            icon,
+            size: iconSize,
+            color: context.theme.primaryColor.withOpacity(.7),
+          ),
+          label: Text(
+            text,
+            textAlign: TextAlign.center,
           ),
         ),
-        tooltip: tooltip,
       ),
     );
   }

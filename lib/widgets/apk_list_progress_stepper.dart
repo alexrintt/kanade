@@ -76,7 +76,7 @@ class _StorageRequirementsProgressStepperState
         break;
       case 1:
       default:
-        child = Row(
+        child = Wrap(
           children: <Widget>[
             _buildFilledButton(
               context.strings.goToAppList,

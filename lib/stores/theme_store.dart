@@ -164,7 +164,7 @@ class ThemeStore extends ChangeNotifier {
       cardColor: kCardColor,
       primaryColor: kPrimaryColor,
       secondaryColor: kSecondaryColor,
-      textColor: const Color(0xff84859B),
+      textColor: Color.fromARGB(255, 176, 178, 206),
       headlineColor: Colors.white,
       disabledColor: const Color(0xff535466),
       selectedTileColor: selectedTileColor,
@@ -188,7 +188,7 @@ class ThemeStore extends ChangeNotifier {
       cardColor: kCardColor,
       primaryColor: kPrimaryColor,
       secondaryColor: kSecondaryColor,
-      textColor: const Color(0xff84859B),
+      textColor: Color.fromARGB(255, 176, 177, 206),
       headlineColor: Colors.white,
       disabledColor: const Color(0xff535466),
       selectedTileColor: selectedTileColor,
@@ -467,11 +467,11 @@ ThemeData createThemeData({
   required Color headlineColor,
   required Color selectedTileColor,
 }) {
-  final String fontFamilyName = fontFamily.fontKey;
+  // final String fontFamilyName = fontFamily.fontKey;
 
   final TextTheme textTheme =
       base.textTheme.merge(Typography.material2021().black).apply(
-            fontFamily: fontFamilyName,
+            // fontFamily: fontFamilyName,
             bodyColor: textColor,
           );
 
@@ -519,7 +519,7 @@ ThemeData createThemeData({
     disabledColor: disabledColor,
     textTheme: textTheme,
     primaryColor: primaryColor,
-    dividerColor: disabledColor.withOpacity(.1),
+    dividerColor: disabledColor.withOpacity(.2),
     dividerTheme: base.dividerTheme.copyWith(
       color: disabledColor,
     ),
@@ -543,13 +543,15 @@ ThemeData createThemeData({
       ),
     ),
     listTileTheme: base.listTileTheme.copyWith(
-      iconColor: textColor.withOpacity(0.5),
+      iconColor: textColor.withOpacity(0.8),
       textColor: textColor,
+      titleTextStyle:
+          base.textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
       enableFeedback: true,
       selectedTileColor: selectedTileColor,
     ),
-    splashColor: primaryColor.withOpacity(0.025),
-    highlightColor: primaryColor.withOpacity(0.025),
+    splashColor: primaryColor.withOpacity(0.2),
+    highlightColor: primaryColor.withOpacity(0.2),
     radioTheme: base.radioTheme.copyWith(
       fillColor: MaterialStateProperty.all(primaryColor),
     ),

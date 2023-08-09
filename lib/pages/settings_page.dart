@@ -93,7 +93,7 @@ class _SettingsPageState extends State<SettingsPage>
                 const HorizontalRule(),
                 SettingsTileTitle(context.strings.display),
                 const AppThemeSettingsTile(),
-                const AppFontFamilySettingsTile(),
+                // const AppFontFamilySettingsTile(),
                 const AppLocalizationSettingsTile(),
                 const HorizontalRule(),
                 SettingsTileTitle(context.strings.behaviorPreferences),

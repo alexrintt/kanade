@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../stores/contextual_menu_store.dart';
 import '../stores/device_apps_store.dart';
 import '../stores/settings_store.dart';
+import '../utils/app_localization_strings.dart';
 import 'app_list_tile.dart';
 import 'image_uri.dart';
 
@@ -35,7 +36,7 @@ class _DeviceAppTileState extends State<DeviceAppTile>
 
   Widget _buildTileTitle() {
     return Text(
-      widget.package.nameWithFormattedSize,
+      widget.package.name ?? context.strings.notDefined,
       maxLines: 3,
       overflow: TextOverflow.ellipsis,
     );
@@ -43,7 +44,7 @@ class _DeviceAppTileState extends State<DeviceAppTile>
 
   Widget _buildTileSubtitle() {
     return Text(
-      widget.subtitle,
+      '${widget.subtitle} ${widget.package.formattedSize}',
       maxLines: 3,
       overflow: TextOverflow.ellipsis,
     );

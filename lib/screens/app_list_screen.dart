@@ -304,12 +304,12 @@ class _MainAppListState extends State<MainAppList>
   }
 
   Widget _buildFilterChips() {
-    return SliverList(
-      delegate: SliverChildListDelegate(
-        <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: k5dp),
-            child: Wrap(
+    return SliverPadding(
+      padding: const EdgeInsets.all(k4dp),
+      sliver: SliverList(
+        delegate: SliverChildListDelegate(
+          <Widget>[
+            Wrap(
               spacing: k2dp,
               runAlignment: WrapAlignment.center,
               alignment: WrapAlignment.center,
@@ -340,8 +340,8 @@ class _MainAppListState extends State<MainAppList>
                 ),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

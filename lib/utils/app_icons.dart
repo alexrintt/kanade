@@ -1,44 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_octicons/flutter_octicons.dart';
 
-const double kDefaultIconSize = 18;
+const double kDefaultIconSize = 24;
 
 enum AppIcons {
-  browser(OctIcons.browser_16),
-  playStore(Icons.play_arrow_outlined, 26),
-  search(OctIcons.search_16),
-  checkboxSelected(OctIcons.check_circle_fill_16),
-  checkboxUnselected(OctIcons.circle_16),
-  apk(OctIcons.file_zip_16),
-  android(Icons.android, 20),
-  name(OctIcons.typography_16),
-  clipboard(OctIcons.copy_16),
-  styling(OctIcons.paintbrush_16),
-  language(OctIcons.globe_16),
-  apps(OctIcons.apps_16),
-  share(OctIcons.share_android_16),
-  folder(OctIcons.file_directory_16),
-  settings(OctIcons.gear_16),
-  reset(OctIcons.sync_16),
-  delete(OctIcons.trash_16),
-  more(Icons.more_vert, 24),
-  arrowLeft(OctIcons.arrow_left_16),
-  arrowRight(OctIcons.arrow_right_16),
-  chevronLeft(OctIcons.chevron_left_16),
-  chevronRight(OctIcons.chevron_right_16),
-  fontFamily(OctIcons.italic_16),
-  checkmark(OctIcons.check_16),
-  download(OctIcons.download_16),
-  x(OctIcons.x_16),
-  arrowDown(OctIcons.arrow_down_16),
-  externalLink(OctIcons.link_external_16);
+  browser(Icons.open_in_browser),
+  playStore(Icons.play_arrow_outlined),
+  search(Icons.search),
+  checkboxSelected(Icons.check_box),
+  checkboxUnselected(Icons.check_box_outline_blank),
+  apk(Icons.file_download_outlined),
+  android(Icons.android),
+  name(Icons.abc),
+  clipboard(Icons.content_copy_outlined),
+  styling(Icons.color_lens_outlined),
+  language(Icons.language),
+  apps(Icons.dashboard_outlined),
+  share(Icons.share_outlined),
+  folder(Icons.folder_copy_outlined),
+  settings(Icons.settings_outlined),
+  reset(Icons.restore_outlined),
+  delete(Icons.delete_outline_outlined),
+  more(Icons.more_vert),
+  arrowLeft(Icons.arrow_back_outlined),
+  arrowRight(Icons.arrow_forward_outlined),
+  chevronLeft(Icons.chevron_left_outlined),
+  chevronRight(Icons.chevron_right_outlined),
+  fontFamily(Icons.font_download_outlined),
+  checkmark(Icons.check),
+  download(Icons.download_outlined),
+  x(Icons.close_outlined),
+  arrowDown(Icons.arrow_downward_outlined),
+  externalLink(Icons.open_in_new_outlined);
 
   const AppIcons(this.data, [this.size = kDefaultSize]);
 
   final IconData data;
   final double size;
 
-  static const double kDefaultSize = 18.0;
+  static const double kDefaultSize = kDefaultIconSize;
 }
 
 // class AppIcons {

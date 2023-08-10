@@ -74,20 +74,11 @@ dev_dependencies:
   json_serializable: ^6.6.0
   lint: ^2.0.1
 
-# Use this tool to generate the mipmap and the drawables automatically, but do not rely on it to configure the Android xml styles!!!
-flutter_icons:
-  android: "ic_launcher"
-  ios: false
-  image_path: "assets/icons/fg.png"
-  adaptive_icon_background: "#232229"
-  adaptive_icon_foreground: "assets/icons/icon.png"
-  min_sdk_android: 21 # android min sdk min:16, default 21
-  web:
-    generate: false
-  windows:
-    generate: false
-  macos:
-    generate: false
+# Flutter Launcher Icons:
+# 1. Open the android folder inside Android Studio.
+# 2. Right click on the res folder and select New -> Image Asset
+# 3. Select Launcher Icons (Adaptive and Legacy)
+# 4. Select the path to your image and click Next
 
 # Use this tool to generate the mipmap and the drawables automatically, but do not rely on it to configure the Android xml styles!!!
 flutter_native_splash:
@@ -125,7 +116,7 @@ flutter_native_splash:
   # parameters from above. If the image_dark parameter is specified, color_dark or
   # background_image_dark must be specified.  color_dark and background_image_dark cannot both be
   # set.
-  color_dark: "#232229"
+  color_dark: "#2B2D31"
   #background_image_dark: "assets/dark-background.png"
   image_dark: assets/icons/splash.png
   #branding_dark: assets/dart_dark.png
@@ -141,13 +132,13 @@ flutter_native_splash:
     # 640 pixels in diameter.
     # App icon without an icon background: This should be 1152×1152 pixels, and fit within a circle
     # 768 pixels in diameter.
-    #image: assets/android12splash.png
+    image: assets/icons/splash-light.png
 
     # Splash screen background color.
-    #color: "#42a5f5"
+    color: "#f0f0f0"
 
     # App icon background color.
-    #icon_background_color: "#111111"
+    icon_background_color: "#ff0000"
 
     # The branding property allows you to specify an image used as branding in the splash screen.
     #branding: assets/dart.png
@@ -155,9 +146,9 @@ flutter_native_splash:
     # The image_dark, color_dark, icon_background_color_dark, and branding_dark set values that
     # apply when the device is in dark mode. If they are not specified, the app will use the
     # parameters from above.
-    #image_dark: assets/android12splash-invert.png
-    #color_dark: "#042a49"
-    #icon_background_color_dark: "#eeeeee"
+    image_dark: assets/icons/splash.png
+    color_dark: "#2B2D31"
+    icon_background_color_dark: "#00ff00"
 
   # The android, ios and web parameters can be used to disable generating a splash screen on a given
   # platform.

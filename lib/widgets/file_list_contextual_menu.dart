@@ -132,7 +132,7 @@ class _FileListContextualMenuState extends State<FileListContextualMenu>
     return AnimatedBuilder(
       animation: _menuStore,
       builder: (BuildContext context, Widget? child) {
-        final MenuContext current = _menuStore.context;
+        final MenuContext current = _menuStore.menuContext;
 
         switch (current) {
           case MenuContext.selection:

@@ -84,7 +84,7 @@ class _FileListScreenConsumerState extends State<FileListScreenConsumer>
 
   void _selectionMenuHandler() {
     if (fileListStore.selected.isEmpty) {
-      if (_menuStore.context.isSelection) _menuStore.popMenu();
+      if (_menuStore.menuContext.isSelection) _menuStore.popMenu();
     } else {
       _menuStore.pushSelectionMenu();
     }
@@ -163,7 +163,7 @@ class _FileListScreenConsumerState extends State<FileListScreenConsumer>
         onRefresh: fileListStore.reload,
         child: DragSelectScrollNotifier(
           isItemSelected: (String id) => fileListStore.isSelected(itemId: id),
-          enableSelect: _menuStore.context.isSelection,
+          enableSelect: _menuStore.menuContext.isSelection,
           scrollController: _scrollController,
           sliverLisKey: _sliverListKey,
           onChangeSelection: (List<String> itemIds, bool isSelecting) {

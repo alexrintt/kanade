@@ -171,7 +171,7 @@ class _MainAppListState extends State<MainAppList>
   late ScrollController _scrollController;
 
   Future<void> _onPressed(PackageInfo package) async {
-    if (_menuStore.context.isSelection) {
+    if (_menuStore.menuContext.isSelection) {
       store.toggleSelect(item: package);
     } else {
       if (settingsStore.shouldExtractWithSingleClick) {
@@ -354,7 +354,7 @@ class _MainAppListState extends State<MainAppList>
       child: DragSelectScrollNotifier(
         scrollController: _scrollController,
         sliverLisKey: _kMainAppListViewKey,
-        enableSelect: _menuStore.context.isSelection,
+        enableSelect: _menuStore.menuContext.isSelection,
         isItemSelected: (String id) => store.isSelected(itemId: id),
         onChangeSelection: (List<String> selectedPackageIds, bool isSelecting) {
           if (selectedPackageIds.isNotEmpty) {
@@ -389,9 +389,9 @@ class _MainAppListState extends State<MainAppList>
                             key: Key(current.id!),
                             current,
                             subtitle: _generatePackageSubtitle(current),
-                            showCheckbox: _menuStore.context.isSelection,
+                            showCheckbox: _menuStore.menuContext.isSelection,
                             onTap: () => _onPressed(current),
-                            isSelected: _menuStore.context.isSelection &&
+                            isSelected: _menuStore.menuContext.isSelection &&
                                 store.isSelected(item: current),
                             onPopupMenuTapped:
                                 settingsStore.shouldExtractWithSingleClick

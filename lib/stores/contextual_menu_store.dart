@@ -23,7 +23,7 @@ mixin ContextualMenuStoreMixin {
 
 /// Store to manage the current active menu.
 class ContextualMenuStore extends ChangeNotifier {
-  MenuContext get context => _stack.last;
+  MenuContext get menuContext => _stack.last;
 
   final List<MenuContext> _stack = <MenuContext>[MenuContext.normal];
 
@@ -84,7 +84,7 @@ class _DefaultContextualMenuPopHandlerState<T>
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        switch (_menuStore.context) {
+        switch (_menuStore.menuContext) {
           case MenuContext.normal:
             return true;
           case MenuContext.search:

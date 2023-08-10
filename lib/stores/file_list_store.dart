@@ -11,7 +11,7 @@ import 'global_file_change_store.dart';
 import 'indexed_collection_store.dart';
 import 'settings_store.dart';
 
-class FileListStoreMixin {
+mixin class FileListStoreMixin {
   FileListStore? _fileListStore;
   FileListStore get fileListStore => _fileListStore ??= getIt<FileListStore>();
 }

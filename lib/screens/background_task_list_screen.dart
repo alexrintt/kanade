@@ -90,7 +90,7 @@ class _BackgroundTaskListScreenConsumerState
 
   void _selectionMenuHandler() {
     if (backgroundTaskStore.selected.isEmpty) {
-      if (_menuStore.context.isSelection) _menuStore.popMenu();
+      if (_menuStore.menuContext.isSelection) _menuStore.popMenu();
     } else {
       _menuStore.pushSelectionMenu();
     }
@@ -111,7 +111,7 @@ class _BackgroundTaskListScreenConsumerState
       child: DragSelectScrollNotifier(
         isItemSelected: (String id) =>
             backgroundTaskStore.isSelected(itemId: id),
-        enableSelect: _menuStore.context.isSelection,
+        enableSelect: _menuStore.menuContext.isSelection,
         scrollController: _scrollController,
         sliverLisKey: _sliverListKey,
         onChangeSelection: (List<String> itemIds, bool isSelecting) {

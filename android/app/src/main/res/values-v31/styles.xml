@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- Theme applied to the Android Window while the process is starting when the OS's Dark Mode
+  setting is on -->
+  <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
+    <!-- Show a splash screen on the activity. Automatically removed when
+             the Flutter engine draws its first frame -->
+    <item name="android:windowBackground">@drawable/launch_background</item>
+    <item name="android:forceDarkAllowed">false</item>
+
+    <!-- If you want full screen (no system overlays) -->
+    <!-- <item name="android:windowFullscreen">true</item> -->
+
+    <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+    <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+
+    <!-- Set status bar color -->
+    <item name="android:statusBarColor">@color/splash_color</item>
+
+    <!-- Set true to use status bar icons as grey, false otherwise.
+    Basically: set false for dark mode and true for light mode. -->
+    <item name="android:windowLightStatusBar">true</item>
+
+    <!-- Navigation bar background color -->
+    <item name="android:navigationBarColor">@color/splash_color</item>
+
+    <!-- Navigation bar brightness
+    Set true to use navigation bar icons as grey, false otherise
+    Basically: set false for dark mode and true for light mode. -->
+    <item name="android:windowLightNavigationBar">true</item>
+  </style>
+  <!-- Theme applied to the Android Window as soon as the process has started.
+         This theme determines the color of the Android Window while your
+         Flutter UI initializes, as well as behind your Flutter UI while its
+         running.
+
+         This Theme is only used starting with V2 of Flutter's Android embedding. -->
+  <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
+    <item name="android:windowBackground">@color/splash_color</item>
+    <item name="android:colorBackground">@color/splash_color</item>
+  </style>
+</resources>

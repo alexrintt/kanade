@@ -14,7 +14,6 @@ import '../utils/generate_play_store_uri.dart';
 import '../utils/install_package.dart';
 import '../utils/open_url.dart';
 import '../utils/share_file.dart';
-import 'app_icon_button.dart';
 import 'app_list_tile.dart';
 import 'image_uri.dart';
 import 'toast.dart';
@@ -69,22 +68,20 @@ class _ApkFileMenuOptionsState extends State<ApkFileMenuOptions>
         // Unfortunalelly I cannot listen for file deletions using SAF,
         // so the solution is let the parent handle the deletion and broadcast to other storages.
         widget.onDelete();
-        break;
       case ApkFileTileAction.share:
         await tryShareFile(
           uri: widget.packageInstallerUri,
           file: widget.packageInstallerFile,
         );
-        break;
       case ApkFileTileAction.install:
         await installPackage(
           file: widget.packageInstallerFile,
           uri: widget.packageInstallerUri,
         );
-        break;
       case ApkFileTileAction.analyze:
-        showToast(context, context.strings.soonEllipsis);
-        break;
+        if (mounted) {
+          showToast(context, context.strings.soonEllipsis);
+        }
       case ApkFileTileAction.openFileLocation:
         if (widget.packageInstallerUri == null) {
           if (mounted) {
@@ -113,8 +110,6 @@ class _ApkFileMenuOptionsState extends State<ApkFileMenuOptions>
             );
           }
         }
-
-        break;
     }
   }
 

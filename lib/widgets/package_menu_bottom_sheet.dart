@@ -70,44 +70,45 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
         if (mounted) {
           context.showApkResultMessage(extraction.result);
         }
-        break;
       case InstalledAppTileAction.uninstall:
         if (widget.packageId == null) return;
         await store.uninstallApp(widget.packageId!);
-        break;
       case InstalledAppTileAction.share:
         await tryShareFile(
           uri: widget.packageInstallerUri,
           file: widget.packageInstallerFile,
         );
-        break;
       case InstalledAppTileAction.open:
         if (widget.packageId == null) {
-          showToast(
-            context,
-            'Package ID is not defined, try reloading the list',
-          );
+          if (mounted) {
+            showToast(
+              context,
+              'Package ID is not defined, try reloading the list',
+            );
+          }
           return;
         }
         try {
           await DevicePackages.openPackage(widget.packageId!);
         } on PackageIsNotOpenableException {
-          showToast(
-            context,
-            context.strings.couldNotStartApp,
-          );
+          if (mounted) {
+            showToast(
+              context,
+              context.strings.couldNotStartApp,
+            );
+          }
         }
-        break;
       case InstalledAppTileAction.openSettings:
         if (widget.packageId != null) {
           await DevicePackages.openPackageSettings(widget.packageId!);
         } else {
-          showToast(
-            context,
-            'The current tile has no ID thus invalid, try reloading the list',
-          );
+          if (mounted) {
+            showToast(
+              context,
+              'The current tile has no ID thus invalid, try reloading the list',
+            );
+          }
         }
-        break;
     }
   }
 

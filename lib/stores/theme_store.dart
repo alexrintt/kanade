@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_shared_tools/constant/constant.dart';
+import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 
 import '../setup.dart';
 import '../widgets/no_glow_scroll_behavior.dart';
@@ -48,12 +48,6 @@ enum AppTheme {
   }
 
   static const AppTheme kDefaultAppTheme = AppTheme.followSystem;
-}
-
-extension BrightnessInverse on Brightness {
-  Brightness get inverse => isDark ? Brightness.light : Brightness.dark;
-  bool get isDark => this == Brightness.dark;
-  bool get isLight => this == Brightness.light;
 }
 
 mixin ThemeStoreMixin<T extends StatefulWidget> on State<T> {
@@ -164,7 +158,7 @@ class ThemeStore extends ChangeNotifier {
       cardColor: kCardColor,
       primaryColor: kPrimaryColor,
       secondaryColor: kSecondaryColor,
-      textColor: Color.fromARGB(255, 176, 178, 206),
+      textColor: const Color.fromARGB(255, 176, 178, 206),
       headlineColor: Colors.white,
       disabledColor: const Color(0xff535466),
       selectedTileColor: selectedTileColor,
@@ -188,7 +182,7 @@ class ThemeStore extends ChangeNotifier {
       cardColor: kCardColor,
       primaryColor: kPrimaryColor,
       secondaryColor: kSecondaryColor,
-      textColor: Color.fromARGB(255, 176, 177, 206),
+      textColor: const Color.fromARGB(255, 176, 177, 206),
       headlineColor: Colors.white,
       disabledColor: const Color(0xff535466),
       selectedTileColor: selectedTileColor,

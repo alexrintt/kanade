@@ -22,7 +22,7 @@ class FileCommit {
   String get id => <String>[
         uri.toString(),
         action.toString(),
-        commitedAt.microsecondsSinceEpoch.toString()
+        commitedAt.microsecondsSinceEpoch.toString(),
       ].join();
 }
 

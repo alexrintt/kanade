@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_shared_tools/constant/constant.dart';
-import 'package:flutter_shared_tools/extensions/extensions.dart';
+import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 
 class HorizontalRule extends StatelessWidget {
   const HorizontalRule({super.key});

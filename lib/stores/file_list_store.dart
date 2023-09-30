@@ -181,13 +181,11 @@ class FileListStore extends IndexedCollectionStore<DocumentFile>
           notifyListeners();
         }
 
-        break;
       case FileAction.delete:
         _files.removeWhere(
           (String id, DocumentFile file) => file.uri == commit.uri,
         );
         notifyListeners();
-        break;
     }
   }
 }

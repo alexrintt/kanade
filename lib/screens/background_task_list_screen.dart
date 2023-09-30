@@ -151,7 +151,7 @@ class _BackgroundTaskListScreenConsumerState
                 animations: <Listenable>[
                   backgroundTaskStore,
                   localizationStore,
-                  settingsStore
+                  settingsStore,
                 ],
                 builder: (BuildContext context, Widget? child) {
                   final List<ExtractApkBackgroundTask> tasks =
@@ -260,21 +260,18 @@ class _BackgroundTaskTileState extends State<BackgroundTaskTile>
           context,
           context.strings.extractionIsNotFinishedCanNotInstallYet,
         );
-        break;
       case TaskStatus.deleted:
       case TaskStatus.deleteRequested:
         showToast(
           context,
           context.strings.tasksAreAlreadyBeingDeleted,
         );
-        break;
       case TaskStatus.finished:
         await context.tryInstallPackage(
           backgroundTaskStore: backgroundTaskStore,
           taskId: widget.task.id,
           packageUri: widget.task.targetUri,
         );
-        break;
     }
   }
 

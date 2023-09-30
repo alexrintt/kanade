@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_octicons/flutter_octicons.dart';
 
 const double kDefaultIconSize = 24;
 
@@ -33,6 +32,7 @@ enum AppIcons {
   arrowDown(Icons.arrow_downward_outlined),
   externalLink(Icons.open_in_new_outlined);
 
+  // ignore: unused_element
   const AppIcons(this.data, [this.size = kDefaultSize]);
 
   final IconData data;

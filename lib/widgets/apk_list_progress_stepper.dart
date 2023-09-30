@@ -1,6 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart'
-    hide Stepper, Step, StepperType, ControlsDetails, StepState;
+    hide ControlsDetails, Step, StepState, Stepper, StepperType;
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 
 import '../stores/background_task_store.dart';
@@ -73,7 +73,6 @@ class _StorageRequirementsProgressStepperState
             onPressed: settingsStore.requestExportLocation,
           ),
         );
-        break;
       case 1:
       default:
         child = Wrap(
@@ -92,7 +91,7 @@ class _StorageRequirementsProgressStepperState
                 ),
               ),
               child: Text(context.strings.resetFolder),
-            )
+            ),
           ],
         );
         break;

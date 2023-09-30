@@ -42,7 +42,9 @@ class _ApkFileTileState extends State<ApkFileTile> with LocalizationStoreMixin {
         try {
           await DevicePackages.installPackage(installerUri: widget.file.uri);
         } on InvalidInstallerException {
-          showToast(context, context.strings.invalidApkItWasProbablyDeleted);
+          if (mounted) {
+            showToast(context, context.strings.invalidApkItWasProbablyDeleted);
+          }
         }
       },
     );

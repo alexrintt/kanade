@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart' hide SliverAppBar;
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 
-import '../pages/settings_page.dart';
 import '../stores/settings_store.dart';
 import '../stores/theme_store.dart';
 import '../utils/app_icons.dart';

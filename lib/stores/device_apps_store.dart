@@ -217,7 +217,6 @@ class DeviceAppsStore extends IndexedCollectionStore<PackageInfo>
 
             notifyListeners();
 
-            break;
           case PackageAction.update:
             _apps[event.packageId] = await DevicePackages.getPackage(
               event.packageId,
@@ -226,15 +225,12 @@ class DeviceAppsStore extends IndexedCollectionStore<PackageInfo>
 
             notifyListeners();
 
-            break;
           case PackageAction.uninstall:
             _apps.remove(event.packageId);
 
             defineTotalItemsCount(totalCount ?? 0 - 1);
 
             notifyListeners();
-
-            break;
         }
       },
       cancelOnError: true,

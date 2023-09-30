@@ -106,7 +106,7 @@ class _FileListScreenConsumerState extends State<FileListScreenConsumer>
         animations: <Listenable>[
           fileListStore,
           localizationStore,
-          settingsStore
+          settingsStore,
         ],
         builder: (BuildContext context, Widget? child) {
           final List<DocumentFile> files = fileListStore.collection.toList()
@@ -267,10 +267,12 @@ class _DocumentFileTileState extends State<DocumentFileTile>
             try {
               await widget.file.open();
             } on PlatformException {
-              showToast(
-                context,
-                context.strings.noActivityFoundThatCanHandleThisFileType,
-              );
+              if (mounted) {
+                showToast(
+                  context,
+                  context.strings.noActivityFoundThatCanHandleThisFileType,
+                );
+              }
             }
           }
         }

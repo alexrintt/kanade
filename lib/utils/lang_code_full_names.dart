@@ -182,5 +182,5 @@ const Map<String, String> langCodeToFullName = <String, String>{
   'za': 'Cuengh / Tôô / 壮语',
   'zh': '中文',
   'zu': 'isiZulu',
-  'nb': 'Norsk (bokmål)'
+  'nb': 'Norsk (bokmål)',
 };

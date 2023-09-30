@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_shared_tools/constant/constant.dart';
-import 'package:flutter_shared_tools/extensions/extensions.dart';
+import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 
 import '../setup.dart';
 import '../stores/localization_store.dart';

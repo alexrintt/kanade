@@ -110,7 +110,7 @@ class ExtractApkBackgroundTask {
   String get id => <String>[
         '$parentUri',
         packageId,
-        '${createdAt.microsecondsSinceEpoch}'
+        '${createdAt.microsecondsSinceEpoch}',
       ].join();
 
   File? get apkSourceFile =>
@@ -418,8 +418,6 @@ class BackgroundTaskStore
         ).toList();
 
         deleteTasks(ids.map((String id) => _tasks[id]!).toSet());
-
-        break;
     }
   }
 
@@ -510,7 +508,7 @@ class BackgroundTaskStore
       jsonEncode(
         <String, dynamic>{
           'tasks':
-              tasks.map((ExtractApkBackgroundTask e) => e.toJson()).toList()
+              tasks.map((ExtractApkBackgroundTask e) => e.toJson()).toList(),
         },
       ),
     );

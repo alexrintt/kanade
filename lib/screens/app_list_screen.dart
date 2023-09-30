@@ -3,8 +3,7 @@ import 'dart:io';
 import 'package:device_packages/device_packages.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter_shared_tools/constant/constant.dart';
-import 'package:flutter_shared_tools/extensions/extensions.dart';
+import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:provider/provider.dart';
 
 import '../pages/home_page.dart';

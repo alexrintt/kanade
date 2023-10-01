@@ -14,7 +14,7 @@ import '../utils/app_localization_strings.dart';
 import '../utils/context_of.dart';
 import '../utils/context_try_install_apk.dart';
 import '../utils/package_bytes.dart';
-import '../widgets/apk_file_menu_bottom_sheet.dart';
+import '../widgets/apk_file_menu_options.dart';
 import '../widgets/apk_list_progress_stepper.dart';
 import '../widgets/app_icon_button.dart';
 import '../widgets/app_list_tile.dart';
@@ -287,12 +287,8 @@ class _BackgroundTaskTileState extends State<BackgroundTaskTile>
       onPopupMenuTapped: () async {
         if (widget.task.progress.status.isPending) return;
 
-        await showModalBottomSheet<void>(
-          isScrollControlled: true,
+        await showDialog<void>(
           context: context,
-          useRootNavigator: true,
-          barrierColor: Colors.transparent,
-          backgroundColor: Colors.transparent,
           builder: (_) => ApkFileMenuOptions(
             onDelete: () {
               backgroundTaskStore.deleteTask(taskId: widget.task.id);

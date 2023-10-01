@@ -6,6 +6,7 @@ import '../stores/device_apps_store.dart';
 import '../stores/settings_store.dart';
 import '../utils/app_icons.dart';
 import '../utils/app_localization_strings.dart';
+import '../utils/context_confirm.dart';
 import '../utils/context_of.dart';
 import '../utils/stringify_uri_location.dart';
 import 'animated_flip_counter.dart';
@@ -66,6 +67,27 @@ class _AppListContextualMenuState extends State<AppListContextualMenu>
         ),
       ),
       actions: <Widget>[
+        AppIconButton(
+          tooltip: context.strings.uninstall,
+          onTap: () async {
+            final bool confirmed =
+                await showConfirmationModal(context: context);
+
+            if (!confirmed) return;
+
+            try {
+              store.showProgressIndicator();
+              await store.uninstallSelectedApps();
+            } finally {
+              store.hideProgressIndicator();
+            }
+          },
+          icon: Icon(
+            AppIcons.delete.data,
+            size: AppIcons.delete.size,
+            color: context.colorScheme.error,
+          ),
+        ),
         AppIconButton(
           tooltip: context.strings.extractAllSelected,
           onTap: () async {

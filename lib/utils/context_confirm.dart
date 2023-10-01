@@ -20,9 +20,9 @@ Future<bool> showConfirmationModal({
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text(message ?? context.strings.thisIsIrreversible),
+        title: Text(message ?? context.strings.areYouSure),
         content: Text(
-          context.strings.areYouSure,
+          context.strings.thisIsIrreversible,
         ),
         actions: <Widget>[
           TextButton(

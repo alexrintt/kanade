@@ -111,6 +111,12 @@ class DeviceAppsStore extends IndexedCollectionStore<PackageInfo>
   bool get _displayUserInstalledApps => settingsStore
       .getBoolPreference(SettingsBoolPreference.displayUserInstalledApps);
 
+  Future<void> uninstallSelectedApps() async {
+    for (final PackageInfo package in selected) {
+      await uninstallApp(package.id!);
+    }
+  }
+
   bool _filterAppsByPreferences(
     PackageInfo package, {
     required bool displaySystemApps,

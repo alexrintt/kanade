@@ -38,6 +38,7 @@ dependencies:
       url: https://github.com/alexrintt/device-packages
       ref: master
       path: device_packages
+  dynamic_color: ^1.6.7
   flutter:
     sdk: flutter
   flutter_localizations:

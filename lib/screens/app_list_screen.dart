@@ -24,7 +24,7 @@ import '../widgets/drag_select_scroll_notifier.dart';
 import '../widgets/loading.dart';
 import '../widgets/looks_empty_here.dart';
 import '../widgets/multi_animated_builder.dart';
-import '../widgets/package_menu_bottom_sheet.dart';
+import '../widgets/installed_app_menu_options.dart';
 
 class AppListScreen extends StatefulWidget {
   const AppListScreen({super.key});
@@ -201,12 +201,8 @@ class _MainAppListState extends State<MainAppList>
   }
 
   Future<void> _openModalBottomSheet(PackageInfo package) async {
-    await showModalBottomSheet<void>(
-      isScrollControlled: true,
+    await showDialog<void>(
       context: context,
-      useRootNavigator: true,
-      barrierColor: Colors.transparent,
-      backgroundColor: Colors.transparent,
       builder: (_) => InstalledAppMenuOptions(
         iconBytes: package.icon,
         packageId: package.id,

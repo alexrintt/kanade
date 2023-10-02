@@ -24,7 +24,7 @@ class _CurrentSelectedTreeState extends State<CurrentSelectedTree>
     return AnimatedBuilder(
       animation: settingsStore,
       builder: (BuildContext context, Widget? child) {
-        return GestureDetector(
+        return InkWell(
           onTap: () {
             settingsStore.requestExportLocation();
           },
@@ -33,7 +33,6 @@ class _CurrentSelectedTreeState extends State<CurrentSelectedTree>
               vertical: k3dp,
               horizontal: k8dp,
             ),
-            color: context.theme.canvasColor,
             child: Text.rich(
               TextSpan(
                 children: <InlineSpan>[
@@ -43,7 +42,7 @@ class _CurrentSelectedTreeState extends State<CurrentSelectedTree>
                       child: Icon(
                         AppIcons.folder.data,
                         size: kDefaultIconSize,
-                        color: context.theme.primaryColor.withOpacity(.5),
+                        color: context.colorScheme.onSurfaceVariant,
                       ),
                     ),
                     alignment: PlaceholderAlignment.middle,
@@ -52,8 +51,8 @@ class _CurrentSelectedTreeState extends State<CurrentSelectedTree>
                     text: settingsStore.exportLocation == null
                         ? context.strings.selectOutputFolder
                         : stringifyTreeUri(settingsStore.exportLocation),
-                    style: context.textTheme.labelMedium!.copyWith(
-                      color: context.theme.primaryColor,
+                    style: context.textTheme.labelLarge!.copyWith(
+                      color: context.colorScheme.onSurfaceVariant,
                     ),
                   ),
                 ],

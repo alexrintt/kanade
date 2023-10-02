@@ -207,17 +207,20 @@ class _MainAppListState extends State<MainAppList>
   }
 
   Future<void> _openModalBottomSheet(PackageInfo package) async {
-    await showDialog<void>(
+    await showBottomDialog<void>(
       context: context,
-      builder: (_) => InstalledAppMenuOptions(
-        iconBytes: package.icon,
-        packageId: package.id,
-        title: package.name ?? package.id ?? context.strings.unnamedPackage,
-        subtitle: _generatePackageSubtitle(package),
-        packageInstallerFile:
-            package.installerPath != null ? File(package.installerPath!) : null,
-        packageName: package.name,
-      ),
+      builder: (_) {
+        return InstalledAppMenuOptions(
+          iconBytes: package.icon,
+          packageId: package.id,
+          title: package.name ?? package.id ?? context.strings.unnamedPackage,
+          subtitle: _generatePackageSubtitle(package),
+          packageInstallerFile: package.installerPath != null
+              ? File(package.installerPath!)
+              : null,
+          packageName: package.name,
+        );
+      },
     );
   }
 
@@ -427,4 +430,34 @@ class _MainAppListState extends State<MainAppList>
       ),
     );
   }
+}
+
+Future<T?> showBottomDialog<T>({
+  required BuildContext context,
+  required WidgetBuilder builder,
+}) async {
+  return showGeneralDialog<T>(
+    context: context,
+    transitionBuilder: (BuildContext context, Animation<double> animation,
+        Animation<double> secondaryAnimation, Widget child) {
+      final Animation<double> curve =
+          CurvedAnimation(parent: animation, curve: Curves.easeInOut);
+
+      return Opacity(
+        opacity: curve.value,
+        child: Transform.scale(
+          scale: curve.value * 0.05 + 0.95,
+          child: Transform.translate(
+            offset: Offset(0, k24dp + -k32dp * curve.value),
+            filterQuality: FilterQuality.low,
+            child: child,
+          ),
+        ),
+      );
+    },
+    transitionDuration: const Duration(milliseconds: 75),
+    barrierDismissible: true,
+    barrierLabel: 'Dismiss',
+    pageBuilder: (BuildContext context, __, ___) => builder(context),
+  );
 }

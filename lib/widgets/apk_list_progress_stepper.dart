@@ -161,6 +161,7 @@ class _StorageRequirementsProgressStepperState
         return SizedBox(
           height: context.height,
           child: Stepper(
+            dividerColor: context.theme.disabledColor,
             controlsBuilder: _buildStepperControls,
             currentStep: _currentStep,
             stepIconBuilder:

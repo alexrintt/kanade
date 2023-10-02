@@ -342,16 +342,7 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
       );
     }
 
-    return SizedBox(
-      width: kLeadingSize.width,
-      height: kLeadingSize.height,
-      child: AspectRatio(
-        aspectRatio: 1,
-        child: Center(
-          child: child,
-        ),
-      ),
-    );
+    return child;
   }
 
   Widget? _buildTileLeading() {
@@ -378,9 +369,8 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
           title: widget.title,
           subtitle: widget.subtitle,
           trailing: widget.trailing ?? _buildTileTrailing(),
-          isThreeLine: widget.isThreeLine,
-          dense: widget.dense,
-          visualDensity: widget.visualDensity ?? VisualDensity.compact,
+          dense: false,
+          visualDensity: widget.visualDensity ?? VisualDensity.comfortable,
           shape: widget.shape ?? _defaultShape,
           enabled: widget.enabled,
           onTap: widget.flat ? widget.onTap : null,

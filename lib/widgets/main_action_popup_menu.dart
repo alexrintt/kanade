@@ -41,12 +41,16 @@ class _MainActionPopupMenu extends State<MainActionPopupMenu>
     const double kChipSpacing = k4dp;
 
     return Dialog(
-      backgroundColor: context.colorScheme.background,
+      backgroundColor: context.theme.scaffoldBackgroundColor,
+      insetPadding: const EdgeInsets.all(k4dp),
+      surfaceTintColor: Colors.transparent,
+      alignment: Alignment.bottomCenter,
       clipBehavior: Clip.hardEdge,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
+          const SizedBox(height: kChipSpacing),
           AppListTile(
             contentPadding:
                 const EdgeInsets.all(kChipSpacing).copyWith(bottom: 0),
@@ -57,19 +61,12 @@ class _MainActionPopupMenu extends State<MainActionPopupMenu>
           const Divider(height: k1dp),
           Flexible(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: kChipSpacing),
-              child: ListView(
-                shrinkWrap: true,
+              padding: const EdgeInsets.all(kChipSpacing),
+              child: Wrap(
+                spacing: kChipSpacing,
+                runSpacing: kChipSpacing,
                 children: <Widget>[
-                  const SizedBox(height: kChipSpacing),
-                  Wrap(
-                    spacing: kChipSpacing,
-                    runSpacing: kChipSpacing,
-                    children: <Widget>[
-                      ...widget.tiles,
-                    ],
-                  ),
-                  const SizedBox(height: kChipSpacing),
+                  ...widget.tiles,
                 ],
               ),
             ),
@@ -89,10 +86,8 @@ class _MainActionPopupMenu extends State<MainActionPopupMenu>
             ),
           ),
           const SizedBox(height: kChipSpacing),
-          const Padding(
-            padding: EdgeInsets.only(bottom: kChipSpacing),
-            child: Divider(height: k1dp),
-          ),
+          const SizedBox(height: kChipSpacing),
+          const SizedBox(height: kChipSpacing),
         ],
       ),
     );
@@ -125,7 +120,7 @@ class ActionButton extends StatelessWidget {
       labelPadding: const EdgeInsets.only(right: k4dp),
       tooltip: tooltip,
       avatar: Transform.scale(
-        scale: 0.6,
+        scale: 0.7,
         child: icon,
       ),
       label: Text(

@@ -23,6 +23,7 @@ import '../widgets/drag_select_scroll_notifier.dart';
 import '../widgets/image_uri.dart';
 import '../widgets/multi_animated_builder.dart';
 import '../widgets/toast.dart';
+import 'app_list_screen.dart';
 
 class BackgroundTaskListScreen extends StatefulWidget {
   const BackgroundTaskListScreen({super.key});
@@ -284,7 +285,7 @@ class _BackgroundTaskTileState extends State<BackgroundTaskTile>
       onPopupMenuTapped: () async {
         if (widget.task.progress.status.isPending) return;
 
-        await showDialog<void>(
+        await showBottomDialog<void>(
           context: context,
           builder: (_) => ApkFileMenuOptions(
             onDelete: () {

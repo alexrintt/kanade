@@ -23,6 +23,7 @@ class AppIconButtonState extends State<AppIconButton> {
   @override
   Widget build(BuildContext context) {
     return IconButton(
+      padding: EdgeInsets.zero,
       onPressed: widget.onTap,
       splashColor: context.theme.splashColor,
       highlightColor: context.theme.highlightColor,

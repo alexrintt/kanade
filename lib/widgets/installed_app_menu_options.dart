@@ -220,7 +220,7 @@ class _InstalledAppMenuOptionsState extends State<InstalledAppMenuOptions>
           icon: Icon(
             AppIcons.delete.data,
             size: kDefaultIconSize,
-            color: Colors.red,
+            color: context.colorScheme.error,
           ),
           onTap: () {
             context.pop();

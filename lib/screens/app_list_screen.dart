@@ -21,10 +21,10 @@ import '../widgets/animated_flip_counter.dart';
 import '../widgets/app_list_contextual_menu.dart';
 import '../widgets/device_app_tile.dart';
 import '../widgets/drag_select_scroll_notifier.dart';
+import '../widgets/installed_app_menu_options.dart';
 import '../widgets/loading.dart';
 import '../widgets/looks_empty_here.dart';
 import '../widgets/multi_animated_builder.dart';
-import '../widgets/installed_app_menu_options.dart';
 
 class AppListScreen extends StatefulWidget {
   const AppListScreen({super.key});
@@ -33,13 +33,19 @@ class AppListScreen extends StatefulWidget {
   State<AppListScreen> createState() => _AppListScreenState();
 }
 
-class _AppListScreenState extends State<AppListScreen> {
+class _AppListScreenState extends State<AppListScreen>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return const AppListScreenProvider(
       child: AppListScreenConsumer(),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class AppListScreenProvider extends StatefulWidget {
@@ -221,16 +227,7 @@ class _MainAppListState extends State<MainAppList>
   ) {
     return FilterChip(
       padding: const EdgeInsets.all(k2dp),
-      label: Text(
-        text,
-        style: TextStyle(
-          color: settingsStore.getBoolPreference(preference)
-              ? context.scaffoldBackgroundColor
-              : null,
-        ),
-      ),
-      backgroundColor: context.dividerColor,
-      selectedColor: context.primaryColor,
+      label: Text(text),
       onSelected: (bool value) async {
         final bool displaySystemApps = settingsStore
             .getBoolPreference(SettingsBoolPreference.displaySystemApps);
@@ -315,9 +312,6 @@ class _MainAppListState extends State<MainAppList>
                     duration: const Duration(milliseconds: 500),
                     count: store.collection.length,
                     curve: Curves.easeInOut,
-                    textStyle: TextStyle(
-                      color: context.primaryColor.withOpacity(.3),
-                    ),
                   ),
                   backgroundColor: context.theme.canvasColor,
                 ),

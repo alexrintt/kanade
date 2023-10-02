@@ -28,9 +28,6 @@ class SettingsStore extends ChangeNotifier {
   bool get shouldConfirmIrreversibleActions =>
       getBoolPreference(SettingsBoolPreference.confirmIrreversibleActions);
 
-  bool get transparentNavigationBar =>
-      getBoolPreference(SettingsBoolPreference.transparentNavigationBar);
-
   bool get shouldExtractWithSingleClick =>
       getBoolPreference(SettingsBoolPreference.extractWithSingleClick);
 
@@ -171,10 +168,6 @@ enum SettingsBoolPreference {
     defaultValue: true,
     category: SettingsBoolPreferenceCategory.behavior,
   ),
-  transparentNavigationBar(
-    defaultValue: false,
-    category: SettingsBoolPreferenceCategory.appearance,
-  ),
   hideAppBarOnScroll(
     defaultValue: true,
     category: SettingsBoolPreferenceCategory.appearance,
@@ -217,8 +210,6 @@ enum SettingsBoolPreference {
         return strings.displayBuiltInApps;
       case SettingsBoolPreference.displayUserInstalledApps:
         return strings.displayUserInstalledApps;
-      case SettingsBoolPreference.transparentNavigationBar:
-        return strings.transparentNavigationBar;
     }
   }
 
@@ -234,8 +225,6 @@ enum SettingsBoolPreference {
         return strings.displayBuiltInAppsExplanation;
       case SettingsBoolPreference.displayUserInstalledApps:
         return strings.displayUserInstalledAppsExplanation;
-      case SettingsBoolPreference.transparentNavigationBar:
-        return strings.transparentNavigationBarExplanation;
       case SettingsBoolPreference.extractWithSingleClick:
         return strings.extractWithSingleClickExplanation;
     }

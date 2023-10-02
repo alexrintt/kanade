@@ -37,7 +37,7 @@ Future<bool> showConfirmationModal({
             },
             child: Text(
               context.strings.confirm,
-              style: const TextStyle(color: Colors.red),
+              style: TextStyle(color: context.colorScheme.error),
             ),
           ),
         ],

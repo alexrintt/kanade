@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart' hide SliverAppBar;
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 
@@ -23,9 +21,9 @@ class SliverAppBarTranslucent extends StatefulWidget {
     this.foregroundColor,
     this.translucentBorderWidth = 2,
     this.translucentBlurSigma = 4,
-    this.translucentBackgroundColor,
     this.leading,
     this.automaticallyImplyLeading = false,
+    this.large = false,
   });
 
   final Color? backgroundColor;
@@ -44,10 +42,7 @@ class SliverAppBarTranslucent extends StatefulWidget {
   final double translucentBlurSigma;
   final Widget? leading;
   final bool automaticallyImplyLeading;
-
-  /// Default to transparent. The background color of the app bar when the app bar
-  /// is translucent, the alpha channel will be ignored.
-  final Color? translucentBackgroundColor;
+  final bool large;
 
   @override
   State<SliverAppBarTranslucent> createState() =>
@@ -56,67 +51,43 @@ class SliverAppBarTranslucent extends StatefulWidget {
 
 class _SliverAppBarTranslucentState extends State<SliverAppBarTranslucent>
     with SettingsStoreMixin {
-  Color get _translucentBackgroundColor =>
-      widget.translucentBackgroundColor ?? Colors.transparent;
-
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: settingsStore,
-      builder: (BuildContext context, Widget? child) => SliverAppBar(
+    if (widget.large) {
+      return SliverAppBar.large(
         automaticallyImplyLeading: widget.automaticallyImplyLeading,
         leading: widget.leading,
-        wrapperBuilder: (BuildContext context, Widget appBar) {
-          if (settingsStore.transparentNavigationBar) {
-            return Container(
-              decoration: BoxDecoration(
-                color: _translucentBackgroundColor == Colors.transparent
-                    ? null
-                    : _translucentBackgroundColor.withOpacity(.4),
-                border: Border(
-                  bottom: BorderSide(
-                    color: context.primaryColor,
-                    width: widget.translucentBorderWidth,
-                  ),
-                ),
-              ),
-              child: ClipRect(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(
-                    sigmaX: widget.translucentBlurSigma,
-                    sigmaY: widget.translucentBlurSigma,
-                  ),
-                  child: appBar,
-                ),
-              ),
-            );
-          }
-          return appBar;
-        },
         titleSpacing: widget.titleSpacing ?? k10dp,
-        scrolledUnderElevation: settingsStore.transparentNavigationBar
-            ? 0.0
-            : widget.scrolledUnderElevation,
-        backgroundColor: settingsStore.transparentNavigationBar
-            ? Colors.transparent
-            : widget.backgroundColor,
-        elevation:
-            settingsStore.transparentNavigationBar ? 0.0 : widget.elevation,
-        shadowColor: settingsStore.transparentNavigationBar
-            ? Colors.transparent
-            : widget.shadowColor,
-        surfaceTintColor: settingsStore.transparentNavigationBar
-            ? Colors.transparent
-            : widget.surfaceTintColor,
-        foregroundColor: settingsStore.transparentNavigationBar
-            ? Colors.transparent
-            : widget.foregroundColor,
+        scrolledUnderElevation: widget.scrolledUnderElevation,
+        backgroundColor: widget.backgroundColor,
+        elevation: widget.elevation,
+        shadowColor: widget.shadowColor,
+        surfaceTintColor: widget.surfaceTintColor,
+        foregroundColor: widget.foregroundColor,
         title: widget.title,
         bottom: widget.bottom,
         actions: widget.actions,
-        floating: widget.floating,
-        pinned: widget.pinned,
-      ),
+        // Large implies this config:
+        // floating: false,
+        // pinned: true,
+      );
+    }
+
+    return SliverAppBar(
+      automaticallyImplyLeading: widget.automaticallyImplyLeading,
+      leading: widget.leading,
+      titleSpacing: widget.titleSpacing ?? k10dp,
+      scrolledUnderElevation: widget.scrolledUnderElevation,
+      backgroundColor: widget.backgroundColor,
+      elevation: widget.elevation,
+      shadowColor: widget.shadowColor,
+      surfaceTintColor: widget.surfaceTintColor,
+      foregroundColor: widget.foregroundColor,
+      title: widget.title,
+      bottom: widget.bottom,
+      actions: widget.actions,
+      floating: widget.floating,
+      pinned: widget.pinned,
     );
   }
 }

@@ -1,7 +1,4 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 
 import '../stores/background_task_store.dart';
 import '../stores/settings_store.dart';
@@ -37,15 +34,7 @@ class _BottomNavigationState extends State<BottomNavigation>
         backgroundTaskStore,
       ],
       builder: (BuildContext context, Widget? child) {
-        final bool transparentNavigationBar =
-            settingsStore.transparentNavigationBar;
-
-        Widget navigationBar = NavigationBar(
-          backgroundColor: transparentNavigationBar ? Colors.transparent : null,
-          shadowColor: transparentNavigationBar ? Colors.transparent : null,
-          surfaceTintColor:
-              transparentNavigationBar ? Colors.transparent : null,
-          elevation: transparentNavigationBar ? 0.0 : null,
+        final Widget navigationBar = NavigationBar(
           selectedIndex: widget.index,
           onDestinationSelected: _select,
           destinations: <Widget>[
@@ -76,26 +65,6 @@ class _BottomNavigationState extends State<BottomNavigation>
             ),
           ],
         );
-
-        if (transparentNavigationBar) {
-          navigationBar = Container(
-            decoration: BoxDecoration(
-              border: Border(
-                top: BorderSide(
-                  color: context.primaryColor,
-                  width: 2,
-                ),
-              ),
-            ),
-            height: context.theme.navigationBarTheme.height,
-            child: ClipRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: k3dp, sigmaY: k3dp),
-                child: navigationBar,
-              ),
-            ),
-          );
-        }
 
         return navigationBar;
       },

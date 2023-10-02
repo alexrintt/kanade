@@ -163,7 +163,6 @@ class _StorageRequirementsProgressStepperState
           child: Stepper(
             dividerColor: context.theme.disabledColor,
             indexedTextColor: context.isDark ? context.primaryColor : null,
-            elevation: 0,
             controlsBuilder: _buildStepperControls,
             currentStep: _currentStep,
             stepIconBuilder:

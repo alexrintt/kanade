@@ -68,7 +68,7 @@ class _BackgroundTaskListContextualMenuState
           icon: Icon(
             AppIcons.delete.data,
             size: kDefaultIconSize,
-            color: Colors.red,
+            color: context.colorScheme.error,
           ),
         ),
         AppIconButton(
@@ -138,7 +138,7 @@ class _BackgroundTaskListContextualMenuState
                       ? AppIcons.delete.data
                       : AppIcons.x.data,
                   size: kDefaultIconSize,
-                  color: Colors.red,
+                  color: context.colorScheme.error,
                 ),
                 tooltip: context.strings.remove,
                 onTap: () async {

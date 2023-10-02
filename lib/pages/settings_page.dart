@@ -39,6 +39,7 @@ class _SettingsPageState extends State<SettingsPage>
             animation: settingsStore,
             builder: (BuildContext context, Widget? child) {
               return SliverAppBarTranslucent(
+                large: true,
                 pinned: !settingsStore.getBoolPreference(
                   SettingsBoolPreference.hideAppBarOnScroll,
                 ),
@@ -51,14 +52,9 @@ class _SettingsPageState extends State<SettingsPage>
                           size: kDefaultIconSize,
                           color: context.isDark ? null : context.primaryColor,
                         ),
-                        onPressed: () => Navigator.pop(context),
+                        onPressed: () => Navigator.maybePop(context),
                       ),
-                title: Text(
-                  context.strings.settings,
-                  style: context.theme.appBarTheme.titleTextStyle!.copyWith(
-                    color: context.theme.textTheme.labelSmall!.color,
-                  ),
-                ),
+                title: Text(context.strings.settings),
                 actions: <Widget>[
                   AppIconButton(
                     icon: Icon(
@@ -89,19 +85,16 @@ class _SettingsPageState extends State<SettingsPage>
               <Widget>[
                 SettingsTileTitle(context.strings.export),
                 const ExportLocationSettingsTile(),
-                const HorizontalRule(),
                 SettingsTileTitle(context.strings.display),
                 const AppThemeSettingsTile(),
                 // const AppFontFamilySettingsTile(),
                 const AppLocalizationSettingsTile(),
-                const HorizontalRule(),
                 SettingsTileTitle(context.strings.behaviorPreferences),
                 AppBooleanPreferencesSettingsTile(
                   values: SettingsBoolPreference.filterBy(
                     category: SettingsBoolPreferenceCategory.behavior,
                   ),
                 ),
-                const HorizontalRule(),
                 SettingsTileTitle(context.strings.appearancePreferences),
                 const AppOverscrollPhysicsTile(),
                 AppBooleanPreferencesSettingsTile(
@@ -109,13 +102,8 @@ class _SettingsPageState extends State<SettingsPage>
                     category: SettingsBoolPreferenceCategory.appearance,
                   ),
                 ),
-                const HorizontalRule(),
-                SettingsTileTitle(context.strings.donate),
-                const DonationSettingsTile(),
-                const HorizontalRule(),
                 SettingsTileTitle(context.strings.links),
                 const RelatedLinks(),
-                const HorizontalRule(),
                 const Padding(
                   padding: EdgeInsets.all(k20dp),
                   child: Center(child: AnimatedAppName()),
@@ -178,13 +166,8 @@ class _RelatedLinksState extends State<RelatedLinks>
         ),
         buildTile(
           title: context.strings.followMeOnGitHub,
-          onTap: openThisLink('https://github.com/alexrintt'),
+          onTap: openThisLink('https://tree.alexrintt.io'),
           description: '@alexrintt',
-        ),
-        buildTile(
-          title: context.strings.githubRepository,
-          onTap: openThisLink('https://github.com/alexrintt/kanade'),
-          description: 'github.com/alexrintt/kanade',
         ),
         buildTile(
           title: context.strings.packageAndVersion,
@@ -208,30 +191,28 @@ class _ExportLocationSettingsTileState extends State<ExportLocationSettingsTile>
     with SettingsStoreMixin {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: settingsStore.requestExportLocation,
-      child: AnimatedBuilder(
-        animation: settingsStore,
-        builder: (BuildContext context, Widget? child) {
-          final String? exportLocation = stringifyTreeUri(
-            settingsStore.exportLocation,
-          );
+    return AnimatedBuilder(
+      animation: settingsStore,
+      builder: (BuildContext context, Widget? child) {
+        final String? exportLocation = stringifyTreeUri(
+          settingsStore.exportLocation,
+        );
 
-          return AppListTile(
-            contentPadding: const EdgeInsets.symmetric(
-              horizontal: k10dp,
-            ),
-            enableFeedback: true,
-            leading: Icon(AppIcons.folder.data, size: AppIcons.folder.size),
-            title: Text(context.strings.selectOutputFolder),
-            subtitle: Text(exportLocation ?? context.strings.notDefined),
-            trailing: Icon(
-              AppIcons.chevronRight.data,
-              size: AppIcons.chevronRight.size,
-            ),
-          );
-        },
-      ),
+        return AppListTile(
+          onTap: settingsStore.requestExportLocation,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: k10dp,
+          ),
+          enableFeedback: true,
+          leading: Icon(AppIcons.folder.data, size: AppIcons.folder.size),
+          title: Text(context.strings.selectOutputFolder),
+          subtitle: Text(exportLocation ?? context.strings.notDefined),
+          trailing: Icon(
+            AppIcons.chevronRight.data,
+            size: AppIcons.chevronRight.size,
+          ),
+        );
+      },
     );
   }
 }
@@ -247,29 +228,27 @@ class _AppThemeSettingsTileState extends State<AppThemeSettingsTile>
     with ThemeStoreMixin<AppThemeSettingsTile> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return AppListTile(
       onTap: () {
         showDialog(
           context: context,
           builder: (BuildContext context) => const ChangeThemeDialog(),
         );
       },
-      child: AppListTile(
-        tileColor: Colors.transparent,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: k10dp,
-        ),
-        enableFeedback: true,
-        leading: Icon(AppIcons.styling.data, size: AppIcons.styling.size),
-        title: Text(context.strings.theme),
-        subtitle: AnimatedBuilder(
-          animation: themeStore,
-          builder: (BuildContext context, Widget? child) {
-            return Text(
-              themeStore.currentTheme.getNameString(context.strings),
-            );
-          },
-        ),
+      tileColor: Colors.transparent,
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: k10dp,
+      ),
+      enableFeedback: true,
+      leading: Icon(AppIcons.styling.data, size: AppIcons.styling.size),
+      title: Text(context.strings.theme),
+      subtitle: AnimatedBuilder(
+        animation: themeStore,
+        builder: (BuildContext context, Widget? child) {
+          return Text(
+            themeStore.currentTheme.getNameString(context.strings),
+          );
+        },
       ),
     );
   }
@@ -318,7 +297,7 @@ class _AppOverscrollPhysicsTileState extends State<AppOverscrollPhysicsTile>
     with ThemeStoreMixin<AppOverscrollPhysicsTile> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return AppListTile(
       onTap: () {
         showDialog(
           context: context,
@@ -326,22 +305,19 @@ class _AppOverscrollPhysicsTileState extends State<AppOverscrollPhysicsTile>
               const ChangeOverscrollPhysicsDialog(),
         );
       },
-      child: AppListTile(
-        tileColor: Colors.transparent,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: k10dp,
-        ),
-        enableFeedback: true,
-        title: Text(context.strings.overscrollIndicator),
-        subtitle: AnimatedBuilder(
-          animation: themeStore,
-          builder: (BuildContext context, Widget? child) {
-            return Text(
-              themeStore.currentOverscrollPhysics
-                  .getNameString(context.strings),
-            );
-          },
-        ),
+      tileColor: Colors.transparent,
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: k10dp,
+      ),
+      enableFeedback: true,
+      title: Text(context.strings.overscrollIndicator),
+      subtitle: AnimatedBuilder(
+        animation: themeStore,
+        builder: (BuildContext context, Widget? child) {
+          return Text(
+            themeStore.currentOverscrollPhysics.getNameString(context.strings),
+          );
+        },
       ),
     );
   }
@@ -394,7 +370,7 @@ class _AppFontFamilySettingsTileState extends State<AppFontFamilySettingsTile>
     with ThemeStoreMixin<AppFontFamilySettingsTile> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return AppListTile(
       onTap: () {
         showDialog(
           context: context,
@@ -402,22 +378,20 @@ class _AppFontFamilySettingsTileState extends State<AppFontFamilySettingsTile>
               const ChangeThemeFontFamilyDialog(),
         );
       },
-      child: AppListTile(
-        tileColor: Colors.transparent,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: k10dp,
-        ),
-        enableFeedback: true,
-        leading: Icon(AppIcons.fontFamily.data, size: AppIcons.fontFamily.size),
-        title: Text(context.strings.fontFamily),
-        subtitle: AnimatedBuilder(
-          animation: themeStore,
-          builder: (BuildContext context, Widget? child) {
-            return Text(
-              themeStore.currentFontFamily.fontKey,
-            );
-          },
-        ),
+      tileColor: Colors.transparent,
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: k10dp,
+      ),
+      enableFeedback: true,
+      leading: Icon(AppIcons.fontFamily.data, size: AppIcons.fontFamily.size),
+      title: Text(context.strings.fontFamily),
+      subtitle: AnimatedBuilder(
+        animation: themeStore,
+        builder: (BuildContext context, Widget? child) {
+          return Text(
+            themeStore.currentFontFamily.fontKey,
+          );
+        },
       ),
     );
   }
@@ -467,18 +441,15 @@ mixin BasicTileBuilderMixin<T extends StatefulWidget> on State<T> {
     VoidCallback? onTap,
     VoidCallback? onLongPress,
   }) {
-    return InkWell(
+    return AppListTile(
       onTap: onTap,
-      onLongPress: onLongPress,
-      child: AppListTile(
-        tileColor: Colors.transparent,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: k10dp,
-        ),
-        enableFeedback: true,
-        title: Text(title),
-        subtitle: description != null ? Text(description) : null,
+      tileColor: Colors.transparent,
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: k10dp,
       ),
+      enableFeedback: true,
+      title: Text(title),
+      subtitle: description != null ? Text(description) : null,
     );
   }
 
@@ -490,56 +461,6 @@ mixin BasicTileBuilderMixin<T extends StatefulWidget> on State<T> {
     return () async {
       await context.copyTextToClipboardAndShowToast(text);
     };
-  }
-}
-
-class DonationSettingsTile extends StatefulWidget {
-  const DonationSettingsTile({super.key});
-
-  @override
-  State<DonationSettingsTile> createState() => _DonationSettingsTileState();
-}
-
-class _DonationSettingsTileState extends State<DonationSettingsTile>
-    with BasicTileBuilderMixin<DonationSettingsTile> {
-  final String _btcAddress = 'bc1qacmk9z48m7upaaq2jl80u6dxsyld443jdjufv9';
-  final Uri _livePix = Uri.parse('https://livepix.gg/alexrintt');
-  final Uri _githubSponsor = Uri.parse('https://github.com/sponsors/alexrintt');
-  final Uri _kofi = Uri.parse('https://ko-fi.com/alexrintt');
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        buildTile(
-          title: context.strings.donateOnGitHub,
-          onTap: openThisLink(_githubSponsor.toString()),
-          description: _githubSponsor.host + _githubSponsor.path,
-        ),
-        buildTile(
-          title: context.strings.donateOnKofi,
-          onTap: openThisLink(_kofi.toString()),
-          description: _kofi.host + _kofi.path,
-        ),
-        buildTile(
-          title: context.strings.donateUsingPix,
-          onTap: openThisLink(_livePix.toString()),
-          description: _livePix.host + _livePix.path,
-        ),
-        buildTile(
-          title: context.strings.donateUsingBtc,
-          onLongPress: copyThisText(_btcAddress),
-          onTap: copyThisText(_btcAddress),
-          description: _btcAddress,
-        ),
-        buildTile(
-          title: context.strings.otherDonationMethods,
-          onTap: openThisLink('https://donate.alexrintt.io'),
-          description: 'donate.alexrintt.io',
-        ),
-      ],
-    );
   }
 }
 
@@ -564,65 +485,26 @@ class _AppBooleanPreferencesSettingsTileState
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             for (final SettingsBoolPreference preference in widget.values)
-              InkWell(
+              AppListTile(
+                tileColor: Colors.transparent,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: k10dp,
+                ),
                 onTap: () => settingsStore.toggleBoolPreference(preference),
-                child: AppListTile(
-                  tileColor: Colors.transparent,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: k10dp,
-                  ),
-                  enableFeedback: true,
-                  isThreeLine: true,
-                  trailing: Switch(
-                    trackColor: MaterialStateProperty.resolveWith(
-                      (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.selected)) {
-                          return context.primaryColor;
-                        }
-                        return context.scaffoldBackgroundColor;
-                      },
-                    ),
-                    overlayColor: MaterialStateProperty.resolveWith(
-                      (Set<MaterialState> states) {
-                        return context.theme.highlightColor;
-                      },
-                    ),
-                    thumbColor: MaterialStateProperty.resolveWith(
-                      (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.selected)) {
-                          if (context.isDark) {
-                            return context.theme.disabledColor;
-                          }
-                          return context.theme.dividerColor;
-                        }
-
-                        return context.isDark
-                            ? context.theme.disabledColor
-                            : context.theme.disabledColor.withOpacity(.2);
-                      },
-                    ),
-                    splashRadius: k12dp,
-                    thumbIcon: MaterialStateProperty.resolveWith(
-                      (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.selected)) {
-                          return Icon(Icons.check, color: context.primaryColor);
-                        }
-                        return null;
-                      },
-                    ),
-                    activeColor: context.primaryColor,
-                    value: settingsStore.getBoolPreference(preference),
-                    onChanged: (bool value) => settingsStore
-                        .setBoolPreference(preference, value: value),
-                  ),
-                  title: Text(preference.getNameString(context.strings)),
-                  subtitle: Text(
-                    preference.getDescriptionString(context.strings),
-                    style: context.textTheme.labelLarge!.copyWith(
-                      color: context.isDark
-                          ? context.theme.disabledColor
-                          : context.theme.disabledColor.withOpacity(.35),
-                    ),
+                enableFeedback: true,
+                isThreeLine: true,
+                trailing: Switch(
+                  value: settingsStore.getBoolPreference(preference),
+                  onChanged: (bool value) =>
+                      settingsStore.setBoolPreference(preference, value: value),
+                ),
+                title: Text(preference.getNameString(context.strings)),
+                subtitle: Text(
+                  preference.getDescriptionString(context.strings),
+                  style: context.textTheme.labelLarge!.copyWith(
+                    color: context.isDark
+                        ? context.theme.disabledColor
+                        : context.theme.disabledColor.withOpacity(.35),
                   ),
                 ),
               ),
@@ -645,7 +527,7 @@ class _AppLocalizationSettingsTileState
     extends State<AppLocalizationSettingsTile> with LocalizationStoreMixin {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return AppListTile(
       onTap: () {
         showDialog(
           context: context,
@@ -653,32 +535,30 @@ class _AppLocalizationSettingsTileState
               const ChangeAppLocalizationDialog(),
         );
       },
-      child: AppListTile(
-        tileColor: Colors.transparent,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: k10dp,
-        ),
-        enableFeedback: true,
-        leading: Icon(AppIcons.language.data, size: AppIcons.language.size),
-        title: Text(context.strings.language),
-        subtitle: AnimatedBuilder(
-          animation: localizationStore,
-          builder: (BuildContext context, Widget? child) {
-            if (localizationStore.fixedLocale == null) {
-              String systemLanguageNotSupportedWarn = '';
+      tileColor: Colors.transparent,
+      contentPadding: const EdgeInsets.symmetric(
+        horizontal: k10dp,
+      ),
+      enableFeedback: true,
+      leading: Icon(AppIcons.language.data, size: AppIcons.language.size),
+      title: Text(context.strings.language),
+      subtitle: AnimatedBuilder(
+        animation: localizationStore,
+        builder: (BuildContext context, Widget? child) {
+          if (localizationStore.fixedLocale == null) {
+            String systemLanguageNotSupportedWarn = '';
 
-              if (!localizationStore.isSystemLocalizationSupported) {
-                systemLanguageNotSupportedWarn =
-                    ', ${localizationStore.deviceLocale.fullName} ${context.strings.isNotSupportedYet}';
-              }
-
-              return Text(
-                '${context.strings.followTheSystem} (${localizationStore.locale.fullName}$systemLanguageNotSupportedWarn)',
-              );
+            if (!localizationStore.isSystemLocalizationSupported) {
+              systemLanguageNotSupportedWarn =
+                  ', ${localizationStore.deviceLocale.fullName} ${context.strings.isNotSupportedYet}';
             }
-            return Text(localizationStore.fixedLocale!.fullName);
-          },
-        ),
+
+            return Text(
+              '${context.strings.followTheSystem} (${localizationStore.locale.fullName}$systemLanguageNotSupportedWarn)',
+            );
+          }
+          return Text(localizationStore.fixedLocale!.fullName);
+        },
       ),
     );
   }

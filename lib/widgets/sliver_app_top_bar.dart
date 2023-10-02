@@ -39,19 +39,8 @@ class _SliverAppBarGlobalState extends State<SliverAppBarGlobal>
   @override
   Widget build(BuildContext context) {
     return SliverAppBarTranslucent(
-      scrolledUnderElevation:
-          settingsStore.transparentNavigationBar ? 0.0 : null,
       titleSpacing: k10dp,
-      backgroundColor: settingsStore.transparentNavigationBar
-          ? Colors.transparent
-          : widget.backgroundColor,
-      elevation: settingsStore.transparentNavigationBar ? 0.0 : null,
-      shadowColor:
-          settingsStore.transparentNavigationBar ? Colors.transparent : null,
-      surfaceTintColor:
-          settingsStore.transparentNavigationBar ? Colors.transparent : null,
-      foregroundColor:
-          settingsStore.transparentNavigationBar ? Colors.transparent : null,
+      backgroundColor: widget.backgroundColor,
       title: const SizedBox(
         height: kToolbarHeight,
         child: Align(

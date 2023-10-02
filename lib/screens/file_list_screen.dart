@@ -49,14 +49,20 @@ class FileListScreenProvider extends StatefulWidget {
   State<FileListScreenProvider> createState() => _FileListScreenProviderState();
 }
 
-class _FileListScreenProviderState extends State<FileListScreenProvider> {
+class _FileListScreenProviderState extends State<FileListScreenProvider>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return ChangeNotifierProvider<ContextualMenuStore>(
       create: (BuildContext context) => getIt<ContextualMenuStore>(),
       child: const FileListScreenConsumer(),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class FileListScreenConsumer extends StatefulWidget {

@@ -1347,7 +1347,6 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
                   )
                 : flexibleSpace,
         bottom: bottom,
-        elevation: isScrolledUnder ? elevation : 0.0,
         scrolledUnderElevation: scrolledUnderElevation,
         shadowColor: shadowColor,
         surfaceTintColor: surfaceTintColor,

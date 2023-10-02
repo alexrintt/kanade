@@ -1,40 +1,30 @@
 import 'dart:ui';
 
+import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_shared_tools/flutter_shared_tools.dart';
+import 'package:material_color_utilities/material_color_utilities.dart';
 
 import '../setup.dart';
 import '../widgets/no_glow_scroll_behavior.dart';
 import 'key_value_storage.dart';
 
 enum AppTheme {
-  fullDark,
   darkDimmed,
-  darkSimple,
   defaultLight,
-  greenDark,
-  redDark,
   followSystem;
 
   String getNameString(AppLocalizations strings) {
     switch (this) {
       case AppTheme.darkDimmed:
         return strings.darkDimmed;
-      case AppTheme.darkSimple:
-        return strings.darkSimple;
       case AppTheme.defaultLight:
         return strings.light;
       case AppTheme.followSystem:
         return strings.followTheSystem;
-      case AppTheme.fullDark:
-        return strings.fullDark;
-      case AppTheme.greenDark:
-        return strings.greenDark;
-      case AppTheme.redDark:
-        return strings.redDark;
     }
   }
 
@@ -78,10 +68,64 @@ class ThemeStore extends ChangeNotifier {
 
   ScrollBehavior get scrollBehavior => _currentOverscrollPhysics.behavior;
 
+  late (ColorScheme?, ColorScheme?) _platformAdaptiveColorPalettes;
+
   Future<void> load() async {
+    await _loadOSPalette();
     await _loadAppFontFamily();
     await _loadAppTheme();
     await _loadOverscrollPhysics();
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<(ColorScheme?, ColorScheme?)>
+      _getPlatformDynamicColorPalettes() async {
+    try {
+      final CorePalette? corePalette =
+          await DynamicColorPlugin.getCorePalette();
+
+      if (corePalette != null) {
+        debugPrint('dynamic_color: Core palette detected.');
+
+        return (
+          corePalette.toColorScheme(),
+          corePalette.toColorScheme(brightness: Brightness.dark)
+        );
+      }
+    } on PlatformException {
+      debugPrint('dynamic_color: Failed to obtain core palette.');
+    }
+
+    try {
+      final Color? accentColor = await DynamicColorPlugin.getAccentColor();
+
+      if (accentColor != null) {
+        debugPrint('dynamic_color: Accent color detected.');
+
+        return (
+          ColorScheme.fromSeed(
+            seedColor: accentColor,
+            brightness: Brightness.light,
+          ),
+          ColorScheme.fromSeed(
+            seedColor: accentColor,
+            brightness: Brightness.dark,
+          ),
+        );
+      }
+    } on PlatformException {
+      debugPrint('dynamic_color: Failed to obtain accent color.');
+    }
+
+    debugPrint('dynamic_color: Dynamic color not detected on this device.');
+
+    return (null, null);
+  }
+
+  Future<void> _loadOSPalette() async {
+    final (ColorScheme?, ColorScheme?) p =
+        await _getPlatformDynamicColorPalettes();
+    _platformAdaptiveColorPalettes = p;
   }
 
   Future<void> _loadOverscrollPhysics() async {
@@ -144,156 +188,41 @@ class ThemeStore extends ChangeNotifier {
   }
 
   ThemeData _darkDimmedThemeData() {
-    const Color kCardColor = Color(0xFF25262E);
-    const Color kBackgroundColor = Color(0xFF25262E);
-    const Color selectedTileColor = Color.fromARGB(255, 34, 35, 43);
-
-    const Color kCanvasColor = Color(0xff282931);
-    const Color kPrimaryColor = Color(0xffb8b9c5);
-    const Color kSecondaryColor = Colors.black;
+    final (ColorScheme? _, ColorScheme? darkAdaptivePalette) =
+        _platformAdaptiveColorPalettes;
 
     return createThemeData(
-      canvasColor: kCanvasColor,
-      backgroundColor: kBackgroundColor,
-      cardColor: kCardColor,
-      primaryColor: kPrimaryColor,
-      secondaryColor: kSecondaryColor,
-      textColor: const Color.fromARGB(255, 176, 178, 206),
-      headlineColor: Colors.white,
-      disabledColor: const Color(0xff535466),
-      selectedTileColor: selectedTileColor,
-      base: ThemeData.dark(),
-      fontFamily: _currentFontFamily,
+      base: ThemeData.from(
+        useMaterial3: true,
+        colorScheme: darkAdaptivePalette ??
+            ColorScheme.fromSeed(
+              seedColor: Colors.blue,
+              brightness: Brightness.dark,
+            ),
+      ),
     );
   }
 
   ThemeData _defaultDarkThemeData() {
-    const Color kCardColor = Color(0xFF313338);
-    const Color kBackgroundColor = Color(0xFF2B2D31);
-    const Color selectedTileColor = Color(0xff1E1F22);
+    final (ColorScheme? _, ColorScheme? darkAdaptivePalette) =
+        _platformAdaptiveColorPalettes;
 
-    const Color kCanvasColor = Color(0xff313338);
-    const Color kPrimaryColor = Color(0xffb8b9c5);
-    const Color kSecondaryColor = Colors.black;
-
-    return createThemeData(
-      canvasColor: kCanvasColor,
-      backgroundColor: kBackgroundColor,
-      cardColor: kCardColor,
-      primaryColor: kPrimaryColor,
-      secondaryColor: kSecondaryColor,
-      textColor: const Color.fromARGB(255, 176, 177, 206),
-      headlineColor: Colors.white,
-      disabledColor: const Color(0xff535466),
-      selectedTileColor: selectedTileColor,
-      base: ThemeData.dark(),
-      fontFamily: _currentFontFamily,
-    );
+    return _darkDimmedThemeData();
   }
 
   ThemeData _defaultLightThemeData() {
-    const Color kBackgroundColor = Color(0xffe8e8e8);
-    const Color selectedTileColor = kBackgroundColor;
-    const Color kCardColor = Color(0xfff7f2f9);
-    const Color kCanvasColor = Color(0xfff7f2f9);
-    const MaterialColor kPrimaryColor = MaterialColor(
-      0xff262626,
-      <int, Color>{
-        50: Color(0xff262626),
-        100: Color(0xff262626),
-        200: Color(0xff262626),
-        300: Color(0xff262626),
-        400: Color(0xff262626),
-        500: Color(0xff262626),
-        600: Color(0xff262626),
-        700: Color(0xff262626),
-        800: Color(0xff262626),
-        900: Color(0xff262626),
-      },
-    );
-    const MaterialColor kSecondaryColor = Colors.blue;
+    final (ColorScheme? lightAdaptivePalette, ColorScheme? _) =
+        _platformAdaptiveColorPalettes;
 
     return createThemeData(
-      canvasColor: kCanvasColor,
-      backgroundColor: kBackgroundColor,
-      cardColor: kCardColor,
-      primaryColor: kPrimaryColor,
-      secondaryColor: kSecondaryColor,
-      textColor: Colors.black,
-      headlineColor: const Color(0xff111111),
-      selectedTileColor: selectedTileColor,
-      disabledColor: Colors.black87,
-      base: ThemeData.light(),
-      fontFamily: _currentFontFamily,
-    );
-  }
-
-  ThemeData _fullDarkThemeData() {
-    const Color kBackgroundColor = Color.fromARGB(255, 8, 8, 8);
-    const Color kCardColor = kBackgroundColor;
-    const Color kPrimaryColor = Color(0xFFFFFFFF);
-    const Color kCanvasColor = Color.fromARGB(255, 14, 14, 14);
-    const Color kSelectedTileColor = Color.fromARGB(255, 24, 24, 24);
-    const Color kSecondaryColor = Colors.white;
-
-    return createThemeData(
-      canvasColor: kCanvasColor,
-      backgroundColor: kBackgroundColor,
-      cardColor: kCardColor,
-      primaryColor: kPrimaryColor,
-      secondaryColor: kSecondaryColor,
-      textColor: Colors.white70,
-      headlineColor: Colors.white,
-      disabledColor: const Color.fromARGB(255, 78, 78, 78),
-      selectedTileColor: kSelectedTileColor,
-      base: ThemeData.dark(),
-      fontFamily: _currentFontFamily,
-    );
-  }
-
-  ThemeData _darkGreenThemeData() {
-    const Color kBackgroundColor = Color.fromARGB(255, 8, 8, 8);
-    const Color kCardColor = kBackgroundColor;
-    const Color kPrimaryColor = Color(0xFF69F0AE);
-    const Color kCanvasColor = Color.fromARGB(255, 10, 14, 10);
-    const Color selectedTileColor = Color.fromARGB(255, 15, 25, 15);
-    const MaterialColor kSecondaryColor = Colors.green;
-
-    return createThemeData(
-      canvasColor: kCanvasColor,
-      backgroundColor: kBackgroundColor,
-      cardColor: kCardColor,
-      primaryColor: kPrimaryColor,
-      secondaryColor: kSecondaryColor,
-      textColor: kPrimaryColor.withOpacity(0.7),
-      headlineColor: kPrimaryColor,
-      disabledColor: const Color.fromARGB(255, 44, 75, 59),
-      selectedTileColor: selectedTileColor,
-      base: ThemeData.dark(),
-      fontFamily: _currentFontFamily,
-    );
-  }
-
-  ThemeData _darkBloodThemeData() {
-    const Color kBackgroundColor = Color.fromARGB(255, 8, 8, 8);
-    const Color kCardColor = kBackgroundColor;
-    const Color kPrimaryColor = Color(0xFFFF5252);
-    const Color kCanvasColor = Color.fromARGB(255, 15, 10, 10);
-    const Color selectedTileColor = Color.fromARGB(255, 25, 15, 15);
-    const Color kSecondaryColor = kPrimaryColor;
-
-    return createThemeData(
-      canvasColor: kCanvasColor,
-      backgroundColor: kBackgroundColor,
-      cardColor: kCardColor,
-      primaryColor: kPrimaryColor,
-      secondaryColor: kSecondaryColor,
-      textColor: kPrimaryColor.withOpacity(0.7),
-      headlineColor: kPrimaryColor,
-      disabledColor: const Color.fromARGB(255, 87, 36, 36),
-      selectedTileColor: selectedTileColor,
-      base: ThemeData.dark(),
-      fontFamily: _currentFontFamily,
+      base: ThemeData.from(
+        useMaterial3: true,
+        colorScheme: lightAdaptivePalette ??
+            ColorScheme.fromSeed(
+              seedColor: Colors.blue,
+              // brightness: Brightness.light,
+            ),
+      ),
     );
   }
 
@@ -303,18 +232,11 @@ class ThemeStore extends ChangeNotifier {
         return _darkDimmedThemeData();
       case AppTheme.defaultLight:
         return _defaultLightThemeData();
-      case AppTheme.fullDark:
-        return _fullDarkThemeData();
-      case AppTheme.greenDark:
-        return _darkGreenThemeData();
-      case AppTheme.redDark:
-        return _darkBloodThemeData();
+
       case AppTheme.followSystem:
         return currentThemeBrightness == Brightness.dark
             ? _defaultDarkThemeData()
             : _defaultLightThemeData();
-      case AppTheme.darkSimple:
-        return _defaultDarkThemeData();
     }
   }
 
@@ -324,16 +246,8 @@ class ThemeStore extends ChangeNotifier {
         return Brightness.dark;
       case AppTheme.defaultLight:
         return Brightness.light;
-      case AppTheme.fullDark:
-        return Brightness.dark;
-      case AppTheme.greenDark:
-        return Brightness.dark;
-      case AppTheme.redDark:
-        return Brightness.dark;
       case AppTheme.followSystem:
         return SchedulerBinding.instance.platformDispatcher.platformBrightness;
-      case AppTheme.darkSimple:
-        return Brightness.dark;
     }
   }
 
@@ -370,8 +284,8 @@ class ThemeStore extends ChangeNotifier {
 }
 
 enum AppFontFamily {
-  robotoMono('Roboto Mono', 1, displayable: true),
-  inconsolata('Inconsolata', 1, displayable: true),
+  robotoMono('Roboto Mono', 1, displayable: false),
+  inconsolata('Inconsolata', 1, displayable: false),
   // This font is used in the logo only, so it is not displayable.
   forward('Forward', 1, displayable: false);
 
@@ -449,165 +363,7 @@ enum OverscrollPhysics {
 }
 
 ThemeData createThemeData({
-  required AppFontFamily fontFamily,
-  required Color backgroundColor,
-  required Color cardColor,
-  required Color canvasColor,
   required ThemeData base,
-  required Color secondaryColor,
-  required Color primaryColor,
-  required Color textColor,
-  required Color disabledColor,
-  required Color headlineColor,
-  required Color selectedTileColor,
 }) {
-  // final String fontFamilyName = fontFamily.fontKey;
-
-  final TextTheme textTheme =
-      base.textTheme.merge(Typography.material2021().black).apply(
-            // fontFamily: fontFamilyName,
-            bodyColor: textColor,
-          );
-
-  return base.copyWith(
-    bottomAppBarTheme: base.bottomAppBarTheme.copyWith(
-      elevation: 0,
-      color: canvasColor,
-      surfaceTintColor: Colors.transparent,
-    ),
-    chipTheme: base.chipTheme.copyWith(
-      // shadowColor: Colors.transparent,
-      // surfaceTintColor: Colors.transparent,
-      // elevation: ,
-      backgroundColor: canvasColor,
-      selectedColor: disabledColor,
-      // elevation: 0.0,
-      // pressElevation: 0.0,
-      side: BorderSide.none,
-      shape: ContinuousRectangleBorder(
-        borderRadius: BorderRadius.circular(k8dp),
-        side: const BorderSide(
-          color: Colors.transparent,
-          width: 0.0,
-        ),
-      ),
-    ),
-    textButtonTheme: TextButtonThemeData(
-      style: (base.textButtonTheme.style ?? const ButtonStyle()).copyWith(
-        foregroundColor:
-            MaterialStateProperty.resolveWith<Color?>((_) => textColor),
-        surfaceTintColor: MaterialStateProperty.resolveWith<Color?>(
-          (_) => Colors.transparent,
-        ),
-        overlayColor: MaterialStateProperty.resolveWith<Color?>(
-          (Set<MaterialState> states) {
-            if (states.isNotEmpty) {
-              return canvasColor;
-            }
-            return null;
-          },
-        ),
-      ),
-    ),
-    scaffoldBackgroundColor: backgroundColor,
-    disabledColor: disabledColor,
-    textTheme: textTheme,
-    primaryColor: primaryColor,
-    dividerColor: disabledColor.withOpacity(.2),
-    dividerTheme: base.dividerTheme.copyWith(
-      color: disabledColor,
-    ),
-    appBarTheme: base.appBarTheme.copyWith(
-      surfaceTintColor: Colors.transparent,
-      backgroundColor: cardColor,
-      shadowColor: backgroundColor,
-      elevation: 0,
-      scrolledUnderElevation: 1,
-      centerTitle: true,
-      titleTextStyle:
-          (base.appBarTheme.titleTextStyle ?? textTheme.displayLarge)!
-              .copyWith(color: textColor, fontSize: k8dp),
-      iconTheme: (base.appBarTheme.iconTheme ?? const IconThemeData.fallback())
-          .copyWith(
-        color: textColor,
-      ),
-      systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarBrightness: base.brightness.inverse,
-        statusBarColor: Colors.transparent,
-      ),
-    ),
-    listTileTheme: base.listTileTheme.copyWith(
-      iconColor: textColor.withOpacity(0.8),
-      textColor: textColor,
-      titleTextStyle:
-          base.textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
-      enableFeedback: true,
-      selectedTileColor: selectedTileColor,
-    ),
-    splashColor: primaryColor.withOpacity(0.2),
-    highlightColor: primaryColor.withOpacity(0.2),
-    radioTheme: base.radioTheme.copyWith(
-      fillColor: MaterialStateProperty.all(primaryColor),
-    ),
-    popupMenuTheme: base.popupMenuTheme.copyWith(elevation: 0),
-    bottomSheetTheme: base.bottomSheetTheme.copyWith(
-      backgroundColor: backgroundColor,
-      elevation: 0,
-      modalBackgroundColor: backgroundColor,
-      surfaceTintColor: Colors.transparent,
-      modalElevation: 0,
-      shape: const ContinuousRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(k20dp),
-          topRight: Radius.circular(k20dp),
-        ),
-      ),
-      // modalBarrierColor: Colors.black.withOpacity(.75),
-    ),
-    dialogTheme: base.dialogTheme.copyWith(
-      surfaceTintColor: Colors.transparent,
-    ),
-    navigationBarTheme: base.navigationBarTheme.copyWith(
-      backgroundColor: canvasColor,
-      elevation: 10,
-      height: kToolbarHeight * 1.3,
-      surfaceTintColor: Colors.transparent,
-      shadowColor: backgroundColor,
-      indicatorColor: primaryColor,
-      labelTextStyle: MaterialStateProperty.resolveWith<TextStyle?>(
-        (Set<MaterialState> states) {
-          return textTheme.labelLarge!.copyWith(color: primaryColor);
-        },
-      ),
-      iconTheme: MaterialStateProperty.resolveWith<IconThemeData?>(
-        (Set<MaterialState> states) {
-          if (states.contains(MaterialState.selected)) {
-            return base.iconTheme.copyWith(color: backgroundColor);
-          }
-          return base.iconTheme.copyWith(color: primaryColor);
-        },
-      ),
-      labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
-    ),
-    dialogBackgroundColor: backgroundColor,
-    canvasColor: canvasColor,
-    cardColor: cardColor,
-    tooltipTheme: base.tooltipTheme.copyWith(
-      textStyle: TextStyle(color: backgroundColor),
-      decoration: BoxDecoration(
-        color: textColor,
-        borderRadius: BorderRadius.circular(k1dp),
-      ),
-    ),
-    cardTheme: base.cardTheme.copyWith(
-      shadowColor: backgroundColor,
-    ),
-    colorScheme: base.colorScheme.copyWith(
-      primary: primaryColor,
-      secondary: secondaryColor,
-      background: backgroundColor,
-      outline: disabledColor,
-    ),
-    useMaterial3: true,
-  );
+  return base.copyWith(useMaterial3: true);
 }

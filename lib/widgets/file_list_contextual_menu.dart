@@ -65,7 +65,7 @@ class _FileListContextualMenuState extends State<FileListContextualMenu>
           icon: Icon(
             AppIcons.delete.data,
             size: kDefaultIconSize,
-            color: Colors.red,
+            color: context.colorScheme.error,
           ),
         ),
         AppIconButton(

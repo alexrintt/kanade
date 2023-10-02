@@ -42,6 +42,7 @@ class _MainActionPopupMenu extends State<MainActionPopupMenu>
     const double kChipSpacing = k4dp;
 
     return Dialog(
+      backgroundColor: context.colorScheme.background,
       clipBehavior: Clip.hardEdge,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -117,7 +118,6 @@ class ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Container(color: Colors.red, width: 100, height: 50);
     Widget result = RawChip(
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
       visualDensity: VisualDensity.compact,

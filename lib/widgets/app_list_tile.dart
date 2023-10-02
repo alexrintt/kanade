@@ -4,6 +4,7 @@ import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import '../stores/settings_store.dart';
 import '../utils/app_icons.dart';
 import '../utils/app_localization_strings.dart';
+import '../utils/please_translate_me_extension.dart';
 import 'app_icon_button.dart';
 
 const Size kLeadingSize = Size.square(55);
@@ -328,7 +329,7 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
         widget.onPopupMenuTapped != null) {
       child = AppIconButton(
         icon: Icon(AppIcons.more.data, size: AppIcons.more.size),
-        tooltip: 'Show more options',
+        tooltip: 'Show more options'.pleaseTranslateMe,
         onTap: () {
           if (widget.popupMenuBuilder != null) {
             showModalBottomSheet<void>(
@@ -360,16 +361,7 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
   }
 
   ShapeBorder? get _defaultShape {
-    if (!widget.flat) {
-      return ContinuousRectangleBorder(
-        borderRadius: BorderRadius.circular(k8dp),
-      );
-    }
     return null;
-  }
-
-  Color? get _defaultTileColor {
-    return widget.flat ? null : context.theme.canvasColor;
   }
 
   @override
@@ -386,28 +378,14 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
           dense: widget.dense,
           visualDensity: widget.visualDensity ?? VisualDensity.compact,
           shape: widget.shape ?? _defaultShape,
-          style: widget.style,
-          selectedColor: widget.selectedColor,
-          iconColor: widget.iconColor,
-          textColor: widget.textColor,
-          contentPadding: widget.contentPadding ?? const EdgeInsets.all(k4dp),
           enabled: widget.enabled,
-          onTap: widget.onTap,
-          onLongPress: widget.onLongPress,
-          onFocusChange: widget.onFocusChange,
+          onTap: widget.flat ? widget.onTap : null,
+          onLongPress: widget.flat ? widget.onLongPress : null,
           mouseCursor: widget.mouseCursor,
           selected: widget.selected,
-          focusColor: widget.focusColor,
-          hoverColor: widget.hoverColor,
-          splashColor: widget.splashColor,
-          focusNode: widget.focusNode,
-          autofocus: widget.autofocus,
-          tileColor: widget.tileColor ?? _defaultTileColor,
+          tileColor: widget.tileColor,
           selectedTileColor: widget.selectedTileColor,
-          enableFeedback: widget.enableFeedback,
           horizontalTitleGap: widget.horizontalTitleGap,
-          minVerticalPadding: widget.minVerticalPadding,
-          minLeadingWidth: widget.minLeadingWidth,
         );
       },
     );
@@ -417,7 +395,12 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
         padding: const EdgeInsets.symmetric(horizontal: k3dp),
         child: Card(
           shape: _defaultShape,
-          child: child,
+          clipBehavior: Clip.hardEdge,
+          child: InkWell(
+            onTap: widget.onTap,
+            onLongPress: widget.onLongPress,
+            child: child,
+          ),
         ),
       );
     }

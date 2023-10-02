@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import 'package:shared_storage/shared_storage.dart';
 
 import '../stores/device_apps_store.dart';
@@ -185,7 +186,7 @@ class _ApkFileMenuOptionsState extends State<ApkFileMenuOptions>
           icon: Icon(
             AppIcons.delete.data,
             size: kDefaultIconSize,
-            color: Colors.red,
+            color: context.colorScheme.error,
           ),
           tooltip: context.strings.delete,
           onTap: () {

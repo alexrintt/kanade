@@ -33,13 +33,19 @@ class BackgroundTaskListScreen extends StatefulWidget {
       _BackgroundTaskListScreenState();
 }
 
-class _BackgroundTaskListScreenState extends State<BackgroundTaskListScreen> {
+class _BackgroundTaskListScreenState extends State<BackgroundTaskListScreen>
+    with AutomaticKeepAliveClientMixin {
   @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return const BackgroundTaskListScreenProvider(
       child: BackgroundTaskListScreenConsumer(),
     );
   }
+
+  @override
+  bool get wantKeepAlive => true;
 }
 
 class BackgroundTaskListScreenProvider extends StatefulWidget {
@@ -231,16 +237,8 @@ class _BackgroundTaskTileState extends State<BackgroundTaskTile>
     }
 
     return widget.isSelected
-        ? Icon(
-            AppIcons.checkboxSelected.data,
-            size: kDefaultIconSize,
-            color: context.primaryColor,
-          )
-        : Icon(
-            AppIcons.checkboxUnselected.data,
-            size: kDefaultIconSize,
-            color: context.primaryColor,
-          );
+        ? Icon(AppIcons.checkboxSelected.data, size: kDefaultIconSize)
+        : Icon(AppIcons.checkboxUnselected.data, size: kDefaultIconSize);
   }
 
   Widget _buildLeading() => PackageImageUri(uri: widget.task.apkIconUri);

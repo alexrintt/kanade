@@ -10,7 +10,7 @@ import '../widgets/bottom_navigation.dart';
 extension BottomSpacer on BuildContext {
   Widget get bottomSpacer => Padding(
         padding: EdgeInsets.only(
-          bottom: theme.navigationBarTheme.height!,
+          bottom: theme.navigationBarTheme.height ?? kToolbarHeight * 2,
         ),
       );
 
@@ -44,6 +44,31 @@ class _HomePageState extends State<HomePage> with BottomNavigationStoreMixin {
     );
   }
 
+  late PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _pageController = PageController();
+
+    bottomNavigationStore.addListener(() {
+      if (_pageController.hasClients) {
+        if (_pageController.page!.toInt() !=
+            bottomNavigationStore.currentIndex) {
+          _pageController.jumpToPage(bottomNavigationStore.currentIndex);
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,11 +82,13 @@ class _HomePageState extends State<HomePage> with BottomNavigationStoreMixin {
         },
       ),
       extendBody: true,
-      body: Stack(
-        children: <Widget>[
-          _buildTab(const AppListScreen(), 0),
-          _buildTab(const BackgroundTaskListScreen(), 1),
-          _buildTab(const FileListScreen(), 2),
+      body: PageView(
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: const <Widget>[
+          AppListScreen(),
+          BackgroundTaskListScreen(),
+          FileListScreen(),
         ],
       ),
     );

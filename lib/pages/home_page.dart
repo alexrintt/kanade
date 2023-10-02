@@ -29,21 +29,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> with BottomNavigationStoreMixin {
-  Widget _buildTab(Widget child, int index) {
-    return Positioned.fill(
-      child: AnimatedBuilder(
-        animation: bottomNavigationStore,
-        builder: (BuildContext context, Widget? _) {
-          return Visibility(
-            maintainState: true,
-            visible: bottomNavigationStore.currentIndex == index,
-            child: child,
-          );
-        },
-      ),
-    );
-  }
-
   late PageController _pageController;
 
   @override

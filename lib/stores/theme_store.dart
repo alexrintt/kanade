@@ -105,7 +105,7 @@ class ThemeStore extends ChangeNotifier {
         return (
           ColorScheme.fromSeed(
             seedColor: accentColor,
-            brightness: Brightness.light,
+            // brightness: Brightness.light,
           ),
           ColorScheme.fromSeed(
             seedColor: accentColor,

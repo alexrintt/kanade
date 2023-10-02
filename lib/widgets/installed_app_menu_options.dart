@@ -14,7 +14,6 @@ import '../utils/copy_to_clipboard.dart';
 import '../utils/generate_play_store_uri.dart';
 import '../utils/open_url.dart';
 import '../utils/share_file.dart';
-import 'app_list_tile.dart';
 import 'image_uri.dart';
 import 'main_action_popup_menu.dart';
 import 'toast.dart';

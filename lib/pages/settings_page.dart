@@ -15,7 +15,6 @@ import '../utils/stringify_uri_location.dart';
 import '../widgets/animated_app_name.dart';
 import '../widgets/app_icon_button.dart';
 import '../widgets/app_list_tile.dart';
-import '../widgets/horizontal_rule.dart';
 import '../widgets/sliver_app_bar_translucent.dart';
 
 class SettingsPage extends StatefulWidget {

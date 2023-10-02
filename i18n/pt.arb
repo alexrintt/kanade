@@ -801,5 +801,17 @@
     "info": {
       "source": "Modify"
     }
+  },
+  "showMoreOptions": "Mostrar mais opções",
+  "@showMoreOptions": {
+    "info": {
+      "source": "Show more options"
+    }
+  },
+  "dark": "Escuro",
+  "@dark": {
+    "info": {
+      "source": "Dark"
+    }
   }
 }

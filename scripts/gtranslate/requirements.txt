@@ -1,0 +1,2 @@
+googletranslate_python==1.0.3
+PyYAML==6.0.1

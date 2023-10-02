@@ -18,6 +18,9 @@
   "@changeTheme": {
     "description": "String that is displayed as tooltip for the theme button at homepage appbar."
   },
+  "@showMoreOptions": {
+    "description": "String that is displayed as tooltip for the three dot menu button in the app list tile."
+  },
   "@darkDimmed": {
     "description": "One of the available themes representing a dark yet not too dark theme."
   },
@@ -127,6 +130,11 @@
   "cancel": "Cancel",
   "cancelTask": "Cancel task",
   "changeTheme": "Change theme",
+  "showMoreOptions": "Show more options",
+  "@dark": {
+    "description": "'Dark' string"
+  },
+  "dark": "Dark",
   "confirm": "Confirm",
   "confirmIrreversibleActions": "Ask for confirmation",
   "confirmIrreversibleActionsExplanation": "Ask for confirmation whenever the user tries to do any irreversible action like deleting a file.",

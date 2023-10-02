@@ -13,14 +13,14 @@ import '../widgets/no_glow_scroll_behavior.dart';
 import 'key_value_storage.dart';
 
 enum AppTheme {
-  darkDimmed,
+  defaultDark,
   defaultLight,
   followSystem;
 
   String getNameString(AppLocalizations strings) {
     switch (this) {
-      case AppTheme.darkDimmed:
-        return strings.darkDimmed;
+      case AppTheme.defaultDark:
+        return strings.dark;
       case AppTheme.defaultLight:
         return strings.light;
       case AppTheme.followSystem:
@@ -187,7 +187,7 @@ class ThemeStore extends ChangeNotifier {
     );
   }
 
-  ThemeData _darkDimmedThemeData() {
+  ThemeData _darkDefaultThemeData() {
     final (ColorScheme? _, ColorScheme? darkAdaptivePalette) =
         _platformAdaptiveColorPalettes;
 
@@ -203,14 +203,11 @@ class ThemeStore extends ChangeNotifier {
     );
   }
 
-  ThemeData _defaultDarkThemeData() {
-    final (ColorScheme? _, ColorScheme? darkAdaptivePalette) =
-        _platformAdaptiveColorPalettes;
-
-    return _darkDimmedThemeData();
+  ThemeData _darkFallbackThemeData() {
+    return _darkDefaultThemeData();
   }
 
-  ThemeData _defaultLightThemeData() {
+  ThemeData _lightDefaultThemeData() {
     final (ColorScheme? lightAdaptivePalette, ColorScheme? _) =
         _platformAdaptiveColorPalettes;
 
@@ -226,23 +223,27 @@ class ThemeStore extends ChangeNotifier {
     );
   }
 
+  ThemeData _lightFallbackThemeData() {
+    return _lightDefaultThemeData();
+  }
+
   ThemeData get currentThemeData {
     switch (_currentTheme) {
-      case AppTheme.darkDimmed:
-        return _darkDimmedThemeData();
+      case AppTheme.defaultDark:
+        return _darkDefaultThemeData();
       case AppTheme.defaultLight:
-        return _defaultLightThemeData();
+        return _lightFallbackThemeData();
 
       case AppTheme.followSystem:
         return currentThemeBrightness == Brightness.dark
-            ? _defaultDarkThemeData()
-            : _defaultLightThemeData();
+            ? _darkFallbackThemeData()
+            : _lightFallbackThemeData();
     }
   }
 
   Brightness get currentThemeBrightness {
     switch (_currentTheme) {
-      case AppTheme.darkDimmed:
+      case AppTheme.defaultDark:
         return Brightness.dark;
       case AppTheme.defaultLight:
         return Brightness.light;

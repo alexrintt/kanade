@@ -801,5 +801,17 @@
     "info": {
       "source": "Modify"
     }
+  },
+  "showMoreOptions": "さらにオプションを表示",
+  "@showMoreOptions": {
+    "info": {
+      "source": "Show more options"
+    }
+  },
+  "dark": "暗い",
+  "@dark": {
+    "info": {
+      "source": "Dark"
+    }
   }
 }

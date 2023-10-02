@@ -801,5 +801,17 @@
     "info": {
       "source": "Modify"
     }
+  },
+  "showMoreOptions": "और विकल्प दिखाएँ",
+  "@showMoreOptions": {
+    "info": {
+      "source": "Show more options"
+    }
+  },
+  "dark": "अँधेरा",
+  "@dark": {
+    "info": {
+      "source": "Dark"
+    }
   }
 }

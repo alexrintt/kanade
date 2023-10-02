@@ -4,10 +4,9 @@ import 'package:flutter_shared_tools/flutter_shared_tools.dart';
 import '../stores/settings_store.dart';
 import '../utils/app_icons.dart';
 import '../utils/app_localization_strings.dart';
-import '../utils/please_translate_me_extension.dart';
 import 'app_icon_button.dart';
 
-const Size kLeadingSize = Size.square(55);
+const Size kLeadingSize = Size.square(45);
 
 class AppListTile extends StatefulWidget {
   const AppListTile({
@@ -329,7 +328,7 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
         widget.onPopupMenuTapped != null) {
       child = AppIconButton(
         icon: Icon(AppIcons.more.data, size: AppIcons.more.size),
-        tooltip: 'Show more options'.pleaseTranslateMe,
+        tooltip: context.strings.showMoreOptions,
         onTap: () {
           if (widget.popupMenuBuilder != null) {
             showModalBottomSheet<void>(
@@ -346,7 +345,12 @@ class _AppListTileState extends State<AppListTile> with SettingsStoreMixin {
     return SizedBox(
       width: kLeadingSize.width,
       height: kLeadingSize.height,
-      child: AspectRatio(aspectRatio: 1, child: child),
+      child: AspectRatio(
+        aspectRatio: 1,
+        child: Center(
+          child: child,
+        ),
+      ),
     );
   }
 

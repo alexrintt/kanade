@@ -22,12 +22,13 @@ scripts:
 
   gen-skin: dart run derry run gen-launcher && dart run derry run gen-splash
 
-  setup:
+  preinstall:
     - flutter pub get
-    - cd scripts/googletranslate && python -m venv venv && python install -r requirements.txt
+    - cd scripts/gtranslate && python -m venv venv && python install -r requirements.txt
 
-  # dart run derry gt-i18n
-  gen-i18n-keys: python scripts/gtranslate/main.py
+  # dart run derry auto-translate
+  auto-translate:
+    - cd scripts/gtranslate/venv/Scripts && activate && cd ../.. && python main.py
 
   # dart run derry watch-i18n (requires npm and nodemon installed, see https://alexrintt.io/obsidian/using-nodemon-to-watch-translation-files-and-automatically-re-run-code-generation-in-flutter/)
   watch-i18n: nodemon --watch i18n --ext arb --exec "flutter gen-l10n"

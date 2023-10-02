@@ -161,8 +161,6 @@ class _StorageRequirementsProgressStepperState
         return SizedBox(
           height: context.height,
           child: Stepper(
-            dividerColor: context.theme.disabledColor,
-            indexedTextColor: context.isDark ? context.primaryColor : null,
             controlsBuilder: _buildStepperControls,
             currentStep: _currentStep,
             stepIconBuilder:
@@ -176,7 +174,6 @@ class _StorageRequirementsProgressStepperState
               }
               return null;
             },
-            backgroundColor: context.theme.splashColor,
             steps: <Step>[
               _createStep(
                 title: context.strings.selectOutputFolder,

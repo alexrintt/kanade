@@ -1,17 +1,15 @@
-<kbd>
-  <img src="https://user-images.githubusercontent.com/51419598/222720499-97c1dff7-3fa6-45f1-962f-4e0576a12c29.png" />
-</kbd>
+<sub>App icon by <a href="https://github.com/WSTxda">@WSTxda</a></sub>
+
+![Frame 2608137](https://github.com/alexrintt/kanade/assets/51419598/9d05fe77-7283-477b-ab3f-32543f6a575d)
 
 <br>
 <br>
 
 <p align="center">
-  <a href="https://github.com/alexrintt/kanade/releases"><b>Download</b></a> •
-  <a href="https://alexrintt.io/kanade"><b>User Guide</b></a> •
-  <a href="https://donate.alexrintt.io"><b>Donate</b></a>
-</p>
-
-<p align="center">
+  <a href="https://apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade">
+    <img src="https://github.com/alexrintt/kanade/assets/51419598/dee431c5-943c-4c66-bbe5-ce4fbdb9e00d" />
+  </a>
+  <br />
   <a href="https://apt.izzysoft.de/fdroid/index/apk/io.alexrintt.kanade">
     <img height="80" src="https://user-images.githubusercontent.com/51419598/202963424-371af9f5-e433-4f23-8cd0-537fe6fc013f.png">
   </a>
@@ -19,6 +17,13 @@
     <img height="80" src="https://user-images.githubusercontent.com/51419598/202963419-6095ee98-88a5-486f-9c84-a0bd2d8c700e.png">
   </a>
 </p>
+
+<p align="center">
+  <a href="https://github.com/alexrintt/kanade/releases"><b>Download</b></a> •
+  <a href="https://alexrintt.io/kanade"><b>User Guide</b></a> •
+  <a href="https://donate.alexrintt.io"><b>Donate</b></a>
+</p>
+
 
 ---
 
@@ -35,10 +40,9 @@ Kanade is a simple app that allows you to extract apk from your apps list. Fully
 
 ## How it looks
 
-- Multiple themes.
-- Multiple fonts.
-- English, Japanese, Portuguese, German and Spanish supported.
-- Minimal UI.
+- Material 3.
+- Dynamic Colors (Android 13+).
+- [Several languages](https://github.com/alexrintt/kanade/tree/master/i18n) supported.
 
 <!--
 

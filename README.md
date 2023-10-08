@@ -1,6 +1,6 @@
 <sub>App icon by <a href="https://github.com/WSTxda">@WSTxda</a></sub>
 
-![Frame 2608138](https://github.com/alexrintt/kanade/assets/51419598/495ea34c-89d8-4700-a2e5-ffa323c86b2f)
+![Frame 2608137](https://github.com/alexrintt/kanade/assets/51419598/d86915a4-b591-43c7-b846-263b8188fb53)
 
 <br>
 <br>

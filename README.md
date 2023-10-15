@@ -3,8 +3,8 @@
 
 ![Frame 2608137](https://github.com/alexrintt/kanade/assets/51419598/8b41d900-5ba0-42a3-9403-53a70f633546)
 
-[![](https://alexrintt.io/static/get-it-badge/github-small-flat-square.png)](https://alexrintt.io/r/kanade/download-on-github)
-[![](https://alexrintt.io/static/get-it-badge/telegram-small-flat-square.png)](https://alexrintt.io/r/kanade/download-on-telegram)
+[![](https://alexrintt.io/static/get-it-badge/github-small-flat-square.png)](https://alexrintt.io/r/kanade/github)
+[![](https://alexrintt.io/static/get-it-badge/telegram-small-flat-square.png)](https://alexrintt.io/r/telegram)
 
 <p align="center">
   <img src="https://alexrintt.io/sponsors/banner.svg" /> 

@@ -1,0 +1,59 @@
+name: Setup app and i18n modules
+
+jobs:
+  setup_flutter_app:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+      - name: Install Flutter app dependencies and generate code
+        working-directory: modules/flutter_app
+        run: |
+          flutter pub get
+          dart run build_runner build --delete-conflicting-outputs
+
+  setup_flutter_i18n:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+      - name: Setup project
+        shell: bash
+        working-directory: modules/flutter_app
+        run: |-
+          flutter pub get
+          flutter pub run build_runner build --delete-conflicting-outputs
+          flutter gen-l10n
+
+  setup_flutter_i18n_auto_translate:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+      - name: Setup project
+        steps:
+          - name: "Delete venv on if it exists"
+            working-directory: modules/flutter_i18n/auto_translate
+            run: |-
+              if [ -d "venv" ]; then
+                rm -rf venv
+              fi
+
+          - name: "Create venv"
+            shell: bash
+            working-directory: modules/flutter_i18n/auto_translate
+            run: |-
+              python -m venv venv
+
+          - name: "Install requirements"
+            shell: bash
+            working-directory: modules/flutter_i18n/auto_translate
+            run: |-
+              ./venv/Scripts/activate
+              pip install -r requirements.txt

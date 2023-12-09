@@ -1,0 +1,26 @@
+name: Build MkDocs
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ["Publish new app doc version"]
+    types:
+      - completed
+  push:
+    branches:
+      - master
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    # defaults:
+    #   run:
+    #     working-directory: ./modules/website
+    steps:
+      - uses: actions/checkout@v2
+      - name: Deploy docs
+        uses: mhausenblas/mkdocs-deploy-gh-pages@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CONFIG_FILE: modules/website/mkdocs.yaml
+          REQUIREMENTS: modules/website/requirements.txt
+          EXTRA_PACKAGES: build-base

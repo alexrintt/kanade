@@ -1,0 +1,807 @@
+  {
+    "@@locale": "tr",
+    "installed": "Kurulmuş",
+    "@installed": {
+      "info": {
+        "source": "Installed"
+      }
+    },
+    "preInstalled": "Önceden yüklenmiş",
+    "@preInstalled": {
+      "info": {
+        "source": "Pre-installed"
+      }
+    },
+    "allApksWereSuccessfullyExtracted": "Tüm apk'ler {apkLocation} konumuna çıkarıldı",
+    "@allApksWereSuccessfullyExtracted": {
+      "info": {
+        "source": "All apks were extracted to {apkLocation}"
+      }
+    },
+    "allApksWereSuccessfullyExtractedPlain": "Tüm apk'ler çıkarıldı",
+    "@allApksWereSuccessfullyExtractedPlain": {
+      "info": {
+        "source": "All apks were extracted"
+      }
+    },
+    "allFiles": "Tüm dosyalar",
+    "@allFiles": {
+      "info": {
+        "source": "All files"
+      }
+    },
+    "appearancePreferences": "Görünüm tercihleri",
+    "@appearancePreferences": {
+      "info": {
+        "source": "Appearance preferences"
+      }
+    },
+    "apps": "Uygulamalar",
+    "@apps": {
+      "info": {
+        "source": "Apps"
+      }
+    },
+    "areYouSure": "Emin misin?",
+    "@areYouSure": {
+      "info": {
+        "source": "Are you sure?"
+      }
+    },
+    "behaviorPreferences": "Davranış tercihleri",
+    "@behaviorPreferences": {
+      "info": {
+        "source": "Behavior preferences"
+      }
+    },
+    "bouncing": "Zıplayan",
+    "@bouncing": {
+      "info": {
+        "source": "Bouncing"
+      }
+    },
+    "cancel": "İptal etmek",
+    "@cancel": {
+      "info": {
+        "source": "Cancel"
+      }
+    },
+    "cancelTask": "Görevi iptal et",
+    "@cancelTask": {
+      "info": {
+        "source": "Cancel task"
+      }
+    },
+    "changeTheme": "Temayı değiştir",
+    "@changeTheme": {
+      "info": {
+        "source": "Change theme"
+      }
+    },
+    "showMoreOptions": "Daha fazla seçenek göster",
+    "@showMoreOptions": {
+      "info": {
+        "source": "Show more options"
+      }
+    },
+    "dark": "Karanlık",
+    "@dark": {
+      "info": {
+        "source": "Dark"
+      }
+    },
+    "confirm": "Onaylamak",
+    "@confirm": {
+      "info": {
+        "source": "Confirm"
+      }
+    },
+    "confirmIrreversibleActions": "Onay isteyin",
+    "@confirmIrreversibleActions": {
+      "info": {
+        "source": "Ask for confirmation"
+      }
+    },
+    "confirmIrreversibleActionsExplanation": "Kullanıcı bir dosyayı silmek gibi geri dönüşü olmayan bir işlem yapmaya çalıştığında onay isteyin.",
+    "@confirmIrreversibleActionsExplanation": {
+      "info": {
+        "source": "Ask for confirmation whenever the user tries to do any irreversible action like deleting a file."
+      }
+    },
+    "copiedToClipboard": "Panoya kopyalandı",
+    "@copiedToClipboard": {
+      "info": {
+        "source": "Copied to clipboard"
+      }
+    },
+    "copyPackageId": "Paket kimliğini kopyala",
+    "@copyPackageId": {
+      "info": {
+        "source": "Copy package ID"
+      }
+    },
+    "copyPackageName": "Paket adını kopyala",
+    "@copyPackageName": {
+      "info": {
+        "source": "Copy package name"
+      }
+    },
+    "couldNotExtractWithExplanation": "Çıkarılamadı, bu apk muhtemelen apk dosyasını bulamadığımız için kaldırıldı",
+    "@couldNotExtractWithExplanation": {
+      "info": {
+        "source": "Could not extract, this apk was probably uninstalled because we did not found it's apk file"
+      }
+    },
+    "couldNotFindFileLocationWithExplanation": "Dosya konumu bulunamadı ya silindi ya da klasör üzerinde iznimiz yok.",
+    "@couldNotFindFileLocationWithExplanation": {
+      "info": {
+        "source": "Could not find the file location this either was deleted or we have no permission over the folder."
+      }
+    },
+    "couldNotFindTargetFile": "Hedef dosyayı bulamadık",
+    "@couldNotFindTargetFile": {
+      "info": {
+        "source": "We could not find the target file"
+      }
+    },
+    "darkDimmed": "Koyu soluk",
+    "@darkDimmed": {
+      "info": {
+        "source": "Dark dimmed"
+      }
+    },
+    "fullDark": "Tamamen karanlık",
+    "@fullDark": {
+      "info": {
+        "source": "Full dark"
+      }
+    },
+    "darkSimple": "Varsayılan koyu tema",
+    "@darkSimple": {
+      "info": {
+        "source": "Default dark theme"
+      }
+    },
+    "delete": "Silmek",
+    "@delete": {
+      "info": {
+        "source": "Delete"
+      }
+    },
+    "deleteAllSelected": "Seçilenlerin tümünü sil",
+    "@deleteAllSelected": {
+      "info": {
+        "source": "Delete all selected"
+      }
+    },
+    "display": "Görüntülemek",
+    "@display": {
+      "info": {
+        "source": "Display"
+      }
+    },
+    "displayBuiltInApps": "Yerleşik uygulamaları göster",
+    "@displayBuiltInApps": {
+      "info": {
+        "source": "Show built-in apps"
+      }
+    },
+    "displayBuiltInAppsExplanation": "Etkinleştirilirse ana liste yerleşik uygulamaları içerecektir; bunlar sistem uygulamalarına benzer ancak açılabilir.",
+    "@displayBuiltInAppsExplanation": {
+      "info": {
+        "source": "If enabled the home list will include built-in apps, they are like system apps but openable."
+      }
+    },
+    "displaySystemApps": "Sistem uygulamalarını göster",
+    "@displaySystemApps": {
+      "info": {
+        "source": "Show system apps"
+      }
+    },
+    "displaySystemAppsExplanation": "Etkinleştirilirse ana liste sistem uygulamalarını içerecektir; bunlar başlatılamayabilir.",
+    "@displaySystemAppsExplanation": {
+      "info": {
+        "source": "If enabled the home list will include system apps, they may not be launchable."
+      }
+    },
+    "displayUserInstalledApps": "Kullanıcının yüklediği uygulamaları göster",
+    "@displayUserInstalledApps": {
+      "info": {
+        "source": "Show user installed apps"
+      }
+    },
+    "displayUserInstalledAppsExplanation": "Etkinleştirilirse ana liste sizin tarafınızdan yüklenen uygulamaları içerecektir.",
+    "@displayUserInstalledAppsExplanation": {
+      "info": {
+        "source": "If enabled the home list will include apps installed by you."
+      }
+    },
+    "doYouWantToForceBulkCancelAllTheseTasks": "Tüm bu görevleri toplu olarak iptal etmeye zorlamak istiyor musunuz?",
+    "@doYouWantToForceBulkCancelAllTheseTasks": {
+      "info": {
+        "source": "Do you want force a bulk cancel on all these tasks?"
+      }
+    },
+    "doYouWantToForceBulkDeleteAllTheseTasks": "Tüm bu görevleri toplu silmeye zorlamak istiyor musunuz?",
+    "@doYouWantToForceBulkDeleteAllTheseTasks": {
+      "info": {
+        "source": "Do you want force a bulk delete on all these tasks?"
+      }
+    },
+    "donate": "Bağış yapmak",
+    "@donate": {
+      "info": {
+        "source": "Donate"
+      }
+    },
+    "donateOnGitHub": "GitHub'da bağış yapın (Kart)",
+    "@donateOnGitHub": {
+      "info": {
+        "source": "Donate on GitHub (Card)"
+      }
+    },
+    "donateOnKofi": "Ko-fi (Kart veya PayPal)",
+    "@donateOnKofi": {
+      "info": {
+        "source": "Ko-fi (Card or PayPal)"
+      }
+    },
+    "donateUsingBtc": "Bitcoin bağışı",
+    "@donateUsingBtc": {
+      "info": {
+        "source": "BTC donation"
+      }
+    },
+    "donateUsingPix": "Pix bağışı (yalnızca Brezilya)",
+    "@donateUsingPix": {
+      "info": {
+        "source": "Pix donation (Brazil only)"
+      }
+    },
+    "exitSearch": "Aramadan çık",
+    "@exitSearch": {
+      "info": {
+        "source": "Exit search"
+      }
+    },
+    "export": "İhracat",
+    "@export": {
+      "info": {
+        "source": "Export"
+      }
+    },
+    "exportApk": "APK'yı dışa aktar",
+    "@exportApk": {
+      "info": {
+        "source": "Export apk"
+      }
+    },
+    "exportApkExplanationMessage": "Apk listesi burada görünecek, başlamak için uygulama listesi ekranındaki bir kutucuğa tıklamayı deneyin! Uygulama apk'sini seçtiğiniz klasöre kopyalayacak yeni bir dışa aktarma işi oluşturacaktır.",
+    "@exportApkExplanationMessage": {
+      "info": {
+        "source": "The apk list will appear here, to get start try to click over a tile on the app list screen! It will create a new export job that will copy the app apk to the folder you chose."
+      }
+    },
+    "extract": "Çıkarmak",
+    "@extract": {
+      "info": {
+        "source": "Extract"
+      }
+    },
+    "extractAllSelected": "Seçilenlerin tümünü çıkar",
+    "@extractAllSelected": {
+      "info": {
+        "source": "Extract all selected"
+      }
+    },
+    "extractApk": "APK'yi çıkart",
+    "@extractApk": {
+      "info": {
+        "source": "Extract apk"
+      }
+    },
+    "extractWithSingleClick": "Tek tıklamayla çıkartın",
+    "@extractWithSingleClick": {
+      "info": {
+        "source": "Extract with single click"
+      }
+    },
+    "extractWithSingleClickExplanation": "Etkinleştirilirse uygulama listesi, ayrıntılar sayfasını açmak yerine tek tıklamayla apk'yi çıkarır.",
+    "@extractWithSingleClickExplanation": {
+      "info": {
+        "source": "If enabled, the app list will extract apk with a single click instead of opening the details page."
+      }
+    },
+    "extracted": "Çıkarıldı",
+    "@extracted": {
+      "info": {
+        "source": "Extracted"
+      }
+    },
+    "extractedTo": "Şuraya çıkarıldı:",
+    "@extractedTo": {
+      "info": {
+        "source": "Extracted to"
+      }
+    },
+    "extractingApks": "Apks ayıklanıyor",
+    "@extractingApks": {
+      "info": {
+        "source": "Extracting Apks"
+      }
+    },
+    "extractionIsNotFinishedCanNotInstallYet": "Henüz tam olarak çıkarılmadı, şu anda yüklenemiyor",
+    "@extractionIsNotFinishedCanNotInstallYet": {
+      "info": {
+        "source": "Not fully extracted yet, can not install right now"
+      }
+    },
+    "filterWillRemoveSomeSelectedItems": "Bu filtre seçtiğiniz öğelerden bazılarını silecek ve bunları yeniden seçmeniz gerekecek",
+    "@filterWillRemoveSomeSelectedItems": {
+      "info": {
+        "source": "This filter will erase some of your selected items, and you will need to re-select them again"
+      }
+    },
+    "followMeOnGitHub": "Beni GitHub'da takip edin",
+    "@followMeOnGitHub": {
+      "info": {
+        "source": "Follow me on GitHub"
+      }
+    },
+    "followTheSystem": "Sistemi takip edin",
+    "@followTheSystem": {
+      "info": {
+        "source": "Follow the system"
+      }
+    },
+    "fontFamily": "Font ailesi",
+    "@fontFamily": {
+      "info": {
+        "source": "Font family"
+      }
+    },
+    "githubRepository": "GitHub deposu",
+    "@githubRepository": {
+      "info": {
+        "source": "GitHub repository"
+      }
+    },
+    "glow": "Parıltı",
+    "@glow": {
+      "info": {
+        "source": "Glow"
+      }
+    },
+    "goToAppList": "Uygulama listesine git",
+    "@goToAppList": {
+      "info": {
+        "source": "Go to app list"
+      }
+    },
+    "greenDark": "Koyu yeşil",
+    "@greenDark": {
+      "info": {
+        "source": "Dark green"
+      }
+    },
+    "modify": "Değiştir",
+    "@modify": {
+      "info": {
+        "source": "Modify"
+      }
+    },
+    "hideAppBarOnScroll": "Kaydırma sırasında uygulama çubuğunu gizle",
+    "@hideAppBarOnScroll": {
+      "info": {
+        "source": "Hide app bar on scroll"
+      }
+    },
+    "hideAppBarOnScrollExplanation": "Etkinleştirilirse uygulama çubuğu aşağı kaydırıldığında otomatik olarak gizlenir.",
+    "@hideAppBarOnScrollExplanation": {
+      "info": {
+        "source": "If enabled, the app bar will automatically hide when scroll down."
+      }
+    },
+    "install": "Düzenlemek",
+    "@install": {
+      "info": {
+        "source": "Install"
+      }
+    },
+    "installApk": "APK'yı yükle",
+    "@installApk": {
+      "info": {
+        "source": "Install apk"
+      }
+    },
+    "invalidApkItWasProbablyDeleted": "Geçersiz apk muhtemelen silinmiştir.",
+    "@invalidApkItWasProbablyDeleted": {
+      "info": {
+        "source": "Invalid apk, is was probably deleted."
+      }
+    },
+    "invalidPackageUri": "Geçersiz paket Uri'si",
+    "@invalidPackageUri": {
+      "info": {
+        "source": "Invalid package Uri"
+      }
+    },
+    "isNotSupportedYet": "henüz desteklenmiyor",
+    "@isNotSupportedYet": {
+      "info": {
+        "source": "is not supported yet"
+      }
+    },
+    "language": "Dil",
+    "@language": {
+      "info": {
+        "source": "Language"
+      }
+    },
+    "launchApp": "Uygulamayı çalıştır",
+    "@launchApp": {
+      "info": {
+        "source": "Execute application"
+      }
+    },
+    "light": "Işık",
+    "@light": {
+      "info": {
+        "source": "Light"
+      }
+    },
+    "couldNotStartApp": "Muhtemelen kullanıcı arayüzü olmadığı için uygulama başlatılamadı (başlatma amacı bildirilmedi)",
+    "@couldNotStartApp": {
+      "info": {
+        "source": "Could not start app, probably because it has no UI (no launch intent is declared)"
+      }
+    },
+    "links": "Bağlantılar",
+    "@links": {
+      "info": {
+        "source": "Links"
+      }
+    },
+    "loadingInfo": "Yükleniyor",
+    "@loadingInfo": {
+      "info": {
+        "source": "Loading"
+      }
+    },
+    "loadingInfoEllipsis": "Yükleniyor...",
+    "@loadingInfoEllipsis": {
+      "info": {
+        "source": "Loading..."
+      }
+    },
+    "noActivityFoundThatCanHandleThisFileType": "Bu dosyayı işleyebilecek etkinlik yok",
+    "@noActivityFoundThatCanHandleThisFileType": {
+      "info": {
+        "source": "There's no activity that can handle this file"
+      }
+    },
+    "noResults": "Sonuç yok!",
+    "@noResults": {
+      "info": {
+        "source": "No results!"
+      }
+    },
+    "none": "Hiçbiri",
+    "@none": {
+      "info": {
+        "source": "None"
+      }
+    },
+    "notAvailable": "Müsait değil",
+    "@notAvailable": {
+      "info": {
+        "source": "Not available"
+      }
+    },
+    "notDefined": "Tanımlanmamış",
+    "@notDefined": {
+      "info": {
+        "source": "Not defined"
+      }
+    },
+    "notSet": "Ayarlanmadı",
+    "@notSet": {
+      "info": {
+        "source": "Not set"
+      }
+    },
+    "ofN": "ile ilgili",
+    "@ofN": {
+      "info": {
+        "source": "of"
+      }
+    },
+    "openFileLocation": "Dosya konumunu aç",
+    "@openFileLocation": {
+      "info": {
+        "source": "Open file location"
+      }
+    },
+    "openOnFDroid": "F-Droid'de aç",
+    "@openOnFDroid": {
+      "info": {
+        "source": "Open on F-Droid"
+      }
+    },
+    "openOnPlayStore": "Play Store'da aç",
+    "@openOnPlayStore": {
+      "info": {
+        "source": "Open on Play Store"
+      }
+    },
+    "openSettingsPage": "Ayarlar sayfasını aç",
+    "@openSettingsPage": {
+      "info": {
+        "source": "Open settings page"
+      }
+    },
+    "openSourceLicenses": "Açık kaynak lisansları",
+    "@openSourceLicenses": {
+      "info": {
+        "source": "Open source licenses"
+      }
+    },
+    "openingFolderIsNotSupportedYet": "Klasör açma henüz desteklenmiyor",
+    "@openingFolderIsNotSupportedYet": {
+      "info": {
+        "source": "Opening a folder is not supported yet"
+      }
+    },
+    "operationNotAllowedMayBeProtectedPackage": "İşleme izin verilmiyor, muhtemelen bu korumalı bir pakettir",
+    "@operationNotAllowedMayBeProtectedPackage": {
+      "info": {
+        "source": "Operation not allowed, probably this is a protected package"
+      }
+    },
+    "otherDonationMethods": "Diğer bağış yöntemleri",
+    "@otherDonationMethods": {
+      "info": {
+        "source": "Other donation methods"
+      }
+    },
+    "overscrollIndicator": "Aşırı kaydırma göstergesi",
+    "@overscrollIndicator": {
+      "info": {
+        "source": "Overscroll indicator"
+      }
+    },
+    "packageAndVersion": "Paket ve sürüm",
+    "@packageAndVersion": {
+      "info": {
+        "source": "Package and version"
+      }
+    },
+    "packageIdIsNotAvailable": "Paket kimliği mevcut değil",
+    "@packageIdIsNotAvailable": {
+      "info": {
+        "source": "Package ID is not available"
+      }
+    },
+    "packageNameIsNotAvailable": "Paket adı mevcut değil",
+    "@packageNameIsNotAvailable": {
+      "info": {
+        "source": "Package name is not available"
+      }
+    },
+    "paymentMethodCard": "Kart",
+    "@paymentMethodCard": {
+      "info": {
+        "source": "Card"
+      }
+    },
+    "permissionDenied": "İzin reddedildi",
+    "@permissionDenied": {
+      "info": {
+        "source": "Permission denied"
+      }
+    },
+    "permissionRestrictedByAndroid": "İzin Android tarafından kısıtlandı",
+    "@permissionRestrictedByAndroid": {
+      "info": {
+        "source": "Permission restricted by Android"
+      }
+    },
+    "redDark": "Kırmızı koyu",
+    "@redDark": {
+      "info": {
+        "source": "Red dark"
+      }
+    },
+    "remove": "Kaldırmak",
+    "@remove": {
+      "info": {
+        "source": "Remove"
+      }
+    },
+    "reportIssue": "Rapor bildir",
+    "@reportIssue": {
+      "info": {
+        "source": "Report issue"
+      }
+    },
+    "resetAllPreferences": "Tüm tercihleri ​​sıfırla",
+    "@resetAllPreferences": {
+      "info": {
+        "source": "Reset all preferences"
+      }
+    },
+    "resetAllPreferencesQuestion": "Tüm tercihler sıfırlansın mı?",
+    "@resetAllPreferencesQuestion": {
+      "info": {
+        "source": "Reset all preferences?"
+      }
+    },
+    "resetFolder": "Klasörü sıfırla",
+    "@resetFolder": {
+      "info": {
+        "source": "Reset folder"
+      }
+    },
+    "searchOnline": "Çevrimiçi ara",
+    "@searchOnline": {
+      "info": {
+        "source": "Search online"
+      }
+    },
+    "searchPackagesAndApps": "Paketleri ve uygulamaları arayın",
+    "@searchPackagesAndApps": {
+      "info": {
+        "source": "Search packages and apps"
+      }
+    },
+    "selectOutputFolder": "Çıkış klasörünü seçin",
+    "@selectOutputFolder": {
+      "info": {
+        "source": "Select output folder"
+      }
+    },
+    "selectUnselectAll": "Tümünü seç/seçimi kaldır",
+    "@selectUnselectAll": {
+      "info": {
+        "source": "Select/Unselect all"
+      }
+    },
+    "settings": "Ayarlar",
+    "@settings": {
+      "info": {
+        "source": "Settings"
+      }
+    },
+    "share": "Paylaşmak",
+    "@share": {
+      "info": {
+        "source": "Share"
+      }
+    },
+    "shareApk": "APK'yı paylaş",
+    "@shareApk": {
+      "info": {
+        "source": "Share apk"
+      }
+    },
+    "someApkWereNotExtracted": "Bazı apk'ler {apkLocation} konumunda bulunuyor ancak bazıları çıkarılamadı",
+    "@someApkWereNotExtracted": {
+      "info": {
+        "source": "Some apks are located in {apkLocation} but some could not be extracted"
+      }
+    },
+    "someApkWereNotExtractedPlain": "Bazı apk'ler başarıyla çıkarıldı ancak bazıları çıkarılamadı",
+    "@someApkWereNotExtractedPlain": {
+      "info": {
+        "source": "Some apks are were successfully extracted but some could not be extracted"
+      }
+    },
+    "soon": "Yakında",
+    "@soon": {
+      "info": {
+        "source": "Soon"
+      }
+    },
+    "soonEllipsis": "Yakında...",
+    "@soonEllipsis": {
+      "info": {
+        "source": "Soon..."
+      }
+    },
+    "sorryWeCouldNotExportAnyApkBecauseTheyAreRestrictedByTheOS": "Üzgünüz, işletim sistemi tarafından kısıtlandığından bu apk'lerin hiçbirini dışa aktaramadık",
+    "@sorryWeCouldNotExportAnyApkBecauseTheyAreRestrictedByTheOS": {
+      "info": {
+        "source": "Sorry, we could not export any of these apks because they are restricted by the OS"
+      }
+    },
+    "storagePermissionExplanationMessage": "APK'ları çıkarmak için bu uygulamanın bir klasöre erişim iznine ihtiyacı var. Boş bir klasör seçmeniz veya yeni bir tane oluşturmanız önerilir. Android veya İndirilenler klasörü gibi sistem tarafından ayrılmış klasörleri seçmemek de önemlidir.",
+    "@storagePermissionExplanationMessage": {
+      "info": {
+        "source": "To extract the apks this app needs access permission to a folder. It is recommended to select an empty folder or create a new one. It is also important to not select folders that are reserved by the system, such as the Android or Downloads folder."
+      }
+    },
+    "successQueued": "Başarı! \"Çıkartılmış\" sekmesini kontrol edin",
+    "@successQueued": {
+      "info": {
+        "source": "Success! check \"Extracted\" tab"
+      }
+    },
+    "system": "Sistem",
+    "@system": {
+      "info": {
+        "source": "System"
+      }
+    },
+    "tasksAreAlreadyBeingDeleted": "Bu görevler silindi ve yakında kaldırılacak",
+    "@tasksAreAlreadyBeingDeleted": {
+      "info": {
+        "source": "These tasks were deleted and will be removed soon"
+      }
+    },
+    "theme": "Tema",
+    "@theme": {
+      "info": {
+        "source": "Theme"
+      }
+    },
+    "thisIsIrreversible": "Bu geri dönüşü olmayan bir eylemdir, bunu yapmak istediğinizden emin olun.",
+    "@thisIsIrreversible": {
+      "info": {
+        "source": "This is a irreversible action, be sure you want to do it."
+      }
+    },
+    "toggleSelect": "Seçimi değiştir",
+    "@toggleSelect": {
+      "info": {
+        "source": "Toggle select"
+      }
+    },
+    "transparentNavigationBar": "Yarı saydam cam efekti",
+    "@transparentNavigationBar": {
+      "info": {
+        "source": "Translucent glass effect"
+      }
+    },
+    "transparentNavigationBarExplanation": "Ana gezinme çubuğuna bulanıklaştırma şeffaf efekti uygulayın.",
+    "@transparentNavigationBarExplanation": {
+      "info": {
+        "source": "Apply a blur transparent effect to the home navigation bar."
+      }
+    },
+    "trySelectingAtLeastOneFilter": "En az bir filtre seçmeyi deneyin!",
+    "@trySelectingAtLeastOneFilter": {
+      "info": {
+        "source": "Try selecting at least one filter!"
+      }
+    },
+    "unavailable": "Kullanım dışı",
+    "@unavailable": {
+      "info": {
+        "source": "Unavailable"
+      }
+    },
+    "uninstall": "Kaldır",
+    "@uninstall": {
+      "info": {
+        "source": "Uninstall"
+      }
+    },
+    "unnamedPackage": "Adsız paket",
+    "@unnamedPackage": {
+      "info": {
+        "source": "Unnamed package"
+      }
+    },
+    "user": "Kullanıcı",
+    "@user": {
+      "info": {
+        "source": "User"
+      }
+    },
+    "version": "Sürüm",
+    "@version": {
+      "info": {
+        "source": "Version"
+      }
+    }
+  }

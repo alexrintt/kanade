@@ -1,0 +1,29 @@
+name: Continuous development mode
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  gen_code_watch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run project code generation in watch mode
+        shell: bash
+        working-directory: ./modules/flutter_app
+        run: |-
+          flutter pub get
+          dart run build_runner watch --delete-conflicting-outputs
+
+  gen_i18n_watch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run project i18n code generation in watch mode
+        shell: bash
+        working-directory: ./modules/flutter_app
+        run: |
+          nodemon --watch "../flutter_i18n/assets" --ext arb --exec "flutter gen-l10n"

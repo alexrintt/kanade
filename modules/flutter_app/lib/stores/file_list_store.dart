@@ -8,6 +8,7 @@ import '../setup.dart';
 import '../utils/is_disposed_mixin.dart';
 import '../utils/mime_types.dart';
 import '../utils/throttle.dart';
+import 'background_task_store.dart';
 import 'global_file_change_store.dart';
 import 'indexed_collection_store.dart';
 import 'settings_store.dart';
@@ -25,10 +26,14 @@ class FileListStore extends IndexedCollectionStore<DocumentFile>
         SelectableStoreMixin<DocumentFile>,
         ProgressIndicatorMixin,
         FileChangeAwareMixin {
+  FileListStore({
+    required this.settingsStore,
+  });
+
   final void Function(void Function()) throttle =
       throttleIt(const Duration(milliseconds: 250));
 
-  SettingsStore get _settingsStore => getIt<SettingsStore>();
+  final SettingsStore settingsStore;
 
   Stream<DocumentFile>? _filesStream;
   StreamSubscription<DocumentFile>? _filesStreamSubscription;
@@ -66,22 +71,22 @@ class FileListStore extends IndexedCollectionStore<DocumentFile>
 
   Uri? currentUri;
 
-  @postConstruct
+  @asyncPostConstruct
   Future<void> load() async {
-    _settingsStore.addListener(reload);
+    settingsStore.addListener(reload);
     await startListeningToFileChanges();
     await reload();
   }
 
   @override
   Future<void> dispose() async {
-    _settingsStore.removeListener(reload);
+    settingsStore.removeListener(reload);
     await stopListeningToFileChanges();
     super.dispose();
   }
 
   Future<void> reload() async {
-    currentUri = await _settingsStore.getAndSetExportLocationIfItExists();
+    currentUri = await settingsStore.getAndSetExportLocationIfItExists();
 
     await _filesStreamSubscription?.cancel();
     _filesStream = null;

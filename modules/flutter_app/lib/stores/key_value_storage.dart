@@ -2,6 +2,7 @@ import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../setup.dart';
+import 'background_task_store.dart';
 
 /// Helper mixin to avoid code repetition through stores.
 ///
@@ -61,7 +62,7 @@ abstract class KeyValueStorage<K, V> {
 class SharedPreferencesStorage extends KeyValueStorage<String, String?> {
   late SharedPreferences _sharedPreferences;
 
-  @postConstruct
+  @asyncPostConstruct
   @override
   Future<void> setup() async {
     _sharedPreferences = await SharedPreferences.getInstance();

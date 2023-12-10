@@ -10,9 +10,9 @@ mixin BottomNavigationStoreMixin {
 
 @Singleton()
 class BottomNavigationStore extends ChangeNotifier {
-  BottomNavigationStore({this.initialIndex = 0});
+  BottomNavigationStore();
 
-  int initialIndex;
+  int initialIndex = 0;
 
   int? _index;
 

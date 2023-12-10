@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:injectable/injectable.dart';
 import '../setup.dart';
+import 'background_task_store.dart';
 import 'key_value_storage.dart';
 
 mixin LocalizationStoreMixin {
@@ -84,7 +85,7 @@ class LocalizationStore extends ChangeNotifier
     return null;
   }
 
-  @postConstruct
+  @asyncPostConstruct
   Future<void> load() async {
     final Locale? localeFromCache = await _cachedLocale;
 

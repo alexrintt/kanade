@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
+import 'background_task_store.dart';
+
 enum FileAction {
   update,
   create,
@@ -31,7 +33,7 @@ class FileCommit {
 /// this is intended to be a middleware between any stores that works with file
 @Singleton()
 class GlobalFileChangeStore extends ChangeNotifier {
-  @postConstruct
+  @asyncPostConstruct
   Future<void> load() {
     _controller = StreamController<FileCommit>.broadcast();
 

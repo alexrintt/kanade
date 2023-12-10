@@ -184,6 +184,12 @@ class BackgroundTaskStore
         SearchableStoreMixin<ExtractApkBackgroundTask>,
         FileChangeAwareMixin,
         PackageInstallerMixin {
+  BackgroundTaskStore({
+    required this.bottomNavigationStore,
+  });
+
+  final BottomNavigationStore bottomNavigationStore;
+
   final Map<String, ExtractApkBackgroundTask> _tasks =
       <String, ExtractApkBackgroundTask>{};
 
@@ -316,20 +322,17 @@ class BackgroundTaskStore
   }
 
   void _bottomNavigationListener() {
-    if (_bottomNavigationStore.currentIndex == 1) {
+    if (bottomNavigationStore.currentIndex == 1) {
       markAsViewed();
     }
   }
 
-  BottomNavigationStore get _bottomNavigationStore =>
-      getIt<BottomNavigationStore>();
-
   void _startNavigationTabListener() {
-    _bottomNavigationStore.addListener(_bottomNavigationListener);
+    bottomNavigationStore.addListener(_bottomNavigationListener);
   }
 
   void _stopNavigationTabListener() {
-    _bottomNavigationStore.removeListener(_bottomNavigationListener);
+    bottomNavigationStore.removeListener(_bottomNavigationListener);
   }
 
   @asyncPostConstruct

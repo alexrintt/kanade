@@ -11,6 +11,7 @@ import 'package:material_color_utilities/material_color_utilities.dart';
 
 import '../setup.dart';
 import '../widgets/no_glow_scroll_behavior.dart';
+import 'background_task_store.dart';
 import 'key_value_storage.dart';
 
 enum AppTheme {
@@ -72,7 +73,7 @@ class ThemeStore extends ChangeNotifier {
 
   late (ColorScheme?, ColorScheme?) _platformAdaptiveColorPalettes;
 
-  @postConstruct
+  @asyncPostConstruct
   Future<void> load() async {
     await _loadOSPalette();
     await _loadAppFontFamily();

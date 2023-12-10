@@ -6,6 +6,7 @@ import 'package:shared_storage/shared_storage.dart';
 
 import '../setup.dart';
 import '../utils/apply_if_not_null.dart';
+import 'background_task_store.dart';
 
 mixin SettingsStoreMixin {
   SettingsStore? _settingsStore;
@@ -13,7 +14,6 @@ mixin SettingsStoreMixin {
 }
 
 @Singleton()
-@preResolve
 class SettingsStore extends ChangeNotifier {
   /// Use it for display only features, do not rely on it to create files
   /// because it can no longer exists if the user deleted.
@@ -62,7 +62,7 @@ class SettingsStore extends ChangeNotifier {
     return savedLocation;
   }
 
-  @postConstruct
+  @asyncPostConstruct
   Future<void> load() async {
     prefs = await SharedPreferences.getInstance();
 

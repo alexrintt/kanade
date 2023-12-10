@@ -1,252 +1,8 @@
 {
   "@@locale": "ja",
-  "allApksWereSuccessfullyExtracted": "すべての APK が {apkLocation} に抽出されました",
-  "allApksWereSuccessfullyExtractedPlain": "すべてのapkが抽出されました",
-  "changeTheme": "テーマの変更",
-  "darkDimmed": "暗く薄暗くなった",
-  "display": "画面",
-  "exitSearch": "検索を終了する",
-  "export": "輸出",
-  "extractAllSelected": "選択したものをすべて抽出",
-  "extractedTo": "に抽出されました",
-  "extractingApks": "APK を抽出する",
-  "followTheSystem": "システムに従ってください",
-  "fontFamily": "フォントファミリー",
-  "isNotSupportedYet": "まだサポートされていません",
-  "language": "言語",
-  "light": "ライト",
-  "notDefined": "定義されていません",
-  "ofN": "の",
-  "openSettingsPage": "設定ページを開く",
-  "operationNotAllowedMayBeProtectedPackage": "操作は許可されていません。おそらくこれは保護されたパッケージです",
-  "permissionDenied": "アクセス拒否",
-  "permissionRestrictedByAndroid": "Androidによる権限制限",
-  "resetAllPreferences": "すべての設定をリセットする",
-  "searchPackagesAndApps": "パッケージとアプリを検索する",
-  "selectOutputFolder": "出力フォルダーの選択",
-  "selectUnselectAll": "すべて選択/選択解除",
-  "settings": "設定",
-  "someApkWereNotExtracted": "一部の APK は {apkLocation} にありますが、一部を抽出できませんでした",
-  "someApkWereNotExtractedPlain": "一部の APK は正常に抽出されましたが、一部の APK は抽出できませんでした",
-  "sorryWeCouldNotExportAnyApkBecauseTheyAreRestrictedByTheOS": "申し訳ありませんが、OS によって制限されているため、これらの APK はエクスポートできませんでした",
-  "theme": "テーマ",
-  "toggleSelect": "選択を切り替えます",
-  "allFiles": "すべてのファイル",
-  "appearancePreferences": "外観の設定",
-  "apps": "アプリ",
-  "areYouSure": "本気ですか？",
-  "behaviorPreferences": "行動の好み",
-  "bouncing": "跳ねる",
-  "cancel": "キャンセル",
-  "cancelTask": "タスクをキャンセルする",
-  "confirm": "確認",
-  "confirmIrreversibleActions": "確認を求める",
-  "confirmIrreversibleActionsExplanation": "ユーザーがファイルの削除など、取り消しできないアクションを実行しようとするたびに確認を求めます。",
-  "copiedToClipboard": "クリップボードにコピーされました",
-  "copyPackageId": "パッケージIDをコピーする",
-  "copyPackageName": "パッケージ名をコピーする",
-  "couldNotExtractWithExplanation": "抽出できませんでした。apk ファイルが見つからなかったため、この apk はアンインストールされた可能性があります",
-  "couldNotFindFileLocationWithExplanation": "ファイルの場所が見つかりませんでした。削除されたか、フォルダーに対する権限がありません。",
-  "couldNotFindTargetFile": "目的のファイルが見つかりませんでした",
-  "darkSimple": "デフォルトのダークテーマ",
-  "delete": "消去",
-  "deleteAllSelected": "選択したものをすべて削除",
-  "displayBuiltInApps": "内蔵アプリを表示する",
-  "displayBuiltInAppsExplanation": "有効にすると、ホーム リストに組み込みアプリが含まれます。これらはシステム アプリに似ていますが、開くことができます。",
-  "displaySystemApps": "システムアプリを表示",
-  "displaySystemAppsExplanation": "有効にすると、ホーム リストにシステム アプリが含まれるため、起動できない場合があります。",
-  "displayUserInstalledApps": "ユーザーがインストールしたアプリを表示する",
-  "displayUserInstalledAppsExplanation": "有効にすると、ホーム リストにはユーザーがインストールしたアプリが含まれます。",
-  "doYouWantToForceBulkCancelAllTheseTasks": "これらすべてのタスクを強制的に一括キャンセルしますか?",
-  "doYouWantToForceBulkDeleteAllTheseTasks": "これらすべてのタスクを強制的に一括削除しますか?",
-  "donate": "寄付",
-  "donateOnGitHub": "GitHub で寄付する (カード)",
-  "donateOnKofi": "Ko-fi (カードまたは PayPal)",
-  "donateUsingBtc": "BTC寄付",
-  "donateUsingPix": "Pix の寄付 (ブラジルのみ)",
-  "exportApk": "APKをエクスポート",
-  "exportApkExplanationMessage": "ここに APK リストが表示されます。まず、アプリ リスト画面のタイルをクリックしてみてください。選択したフォルダーにアプリ APK をコピーする新しいエクスポート ジョブが作成されます。",
-  "extract": "エキス",
-  "extractApk": "Apkを抽出する",
-  "extractWithSingleClick": "シングルクリックで抽出",
-  "extractWithSingleClickExplanation": "有効にすると、詳細ページを開く代わりに、アプリ リストで 1 回のクリックで APK が抽出されます。",
-  "extracted": "抽出された",
-  "extractionIsNotFinishedCanNotInstallYet": "まだ完全に解凍されていないため、すぐにはインストールできません",
-  "filterWillRemoveSomeSelectedItems": "このフィルターでは選択した項目の一部が消去されるため、再度選択する必要があります。",
-  "followMeOnGitHub": "GitHub でフォローしてください",
-  "githubRepository": "GitHub リポジトリ",
-  "glow": "グロー",
-  "goToAppList": "アプリ一覧へ",
-  "greenDark": "濃い緑色",
-  "hideAppBarOnScroll": "スクロール時にアプリバーを非表示にする",
-  "hideAppBarOnScrollExplanation": "有効にすると、下にスクロールするとアプリ バーが自動的に非表示になります。",
-  "install": "インストール",
-  "installApk": "APKをインストールする",
-  "invalidApkItWasProbablyDeleted": "無効な APK です。削除された可能性があります。",
-  "invalidPackageUri": "無効なパッケージ URI",
-  "launchApp": "アプリケーションの実行",
-  "links": "リンク",
-  "loadingInfo": "読み込み中",
-  "loadingInfoEllipsis": "読み込み中...",
-  "noActivityFoundThatCanHandleThisFileType": "このファイルを処理できるアクティビティはありません",
-  "noResults": "結果がありません！",
-  "none": "なし",
-  "notAvailable": "利用不可",
-  "notSet": "設定されていません",
-  "openFileLocation": "開いているファイルの場所",
-  "openOnFDroid": "F-Droid で開く",
-  "openOnPlayStore": "Play ストアで開く",
-  "openSourceLicenses": "オープンソースライセンス",
-  "openingFolderIsNotSupportedYet": "フォルダーを開くことはまだサポートされていません",
-  "otherDonationMethods": "その他の寄付方法",
-  "overscrollIndicator": "オーバースクロールインジケーター",
-  "packageAndVersion": "パッケージとバージョン",
-  "packageIdIsNotAvailable": "パッケージIDが利用できません",
-  "packageNameIsNotAvailable": "パッケージ名が利用できません",
-  "paymentMethodCard": "カード",
-  "redDark": "赤濃い",
-  "remove": "削除",
-  "reportIssue": "問題を報告する",
-  "resetAllPreferencesQuestion": "すべての設定をリセットしますか?",
-  "resetFolder": "フォルダをリセットする",
-  "searchOnline": "オンラインで検索",
-  "share": "共有",
-  "shareApk": "APKを共有する",
-  "soon": "すぐ",
-  "soonEllipsis": "すぐ...",
-  "storagePermissionExplanationMessage": "APK を抽出するには、このアプリにはフォルダーへのアクセス許可が必要です。空のフォルダーを選択するか、新しいフォルダーを作成することをお勧めします。 Android フォルダーやダウンロード フォルダーなど、システムによって予約されているフォルダーを選択しないことも重要です。",
-  "successQueued": "成功！ 「抽出済み」タブを確認してください",
-  "system": "システム",
-  "tasksAreAlreadyBeingDeleted": "これらのタスクは削除されました。まもなく削除されます",
-  "thisIsIrreversible": "これは元に戻せない操作なので、必ず実行してください。",
-  "transparentNavigationBar": "半透明のガラス効果",
-  "transparentNavigationBarExplanation": "ホーム ナビゲーション バーにぼかし透明効果を適用します。",
-  "trySelectingAtLeastOneFilter": "少なくとも 1 つのフィルターを選択してみてください。",
-  "unavailable": "利用不可",
-  "uninstall": "アンインストール",
-  "unnamedPackage": "名前のないパッケージ",
-  "user": "ユーザー",
-  "version": "バージョン",
-  "installed": "インストール済み",
-  "preInstalled": "プリインストール済み",
-  "@installed": {
-    "info": {
-      "source": "Installed"
-    }
-  },
-  "@preInstalled": {
-    "info": {
-      "source": "Pre-installed"
-    }
-  },
-  "@allApksWereSuccessfullyExtracted": {
-    "info": {
-      "source": "All apks were extracted to {apkLocation}"
-    }
-  },
-  "@allApksWereSuccessfullyExtractedPlain": {
-    "info": {
-      "source": "All apks were extracted"
-    }
-  },
-  "@allFiles": {
-    "info": {
-      "source": "All files"
-    }
-  },
-  "@appearancePreferences": {
-    "info": {
-      "source": "Appearance preferences"
-    }
-  },
-  "@apps": {
-    "info": {
-      "source": "Apps"
-    }
-  },
-  "@areYouSure": {
-    "info": {
-      "source": "Are you sure?"
-    }
-  },
-  "@behaviorPreferences": {
-    "info": {
-      "source": "Behavior preferences"
-    }
-  },
-  "@bouncing": {
-    "info": {
-      "source": "Bouncing"
-    }
-  },
   "@builtIn": {
     "info": {
       "source": "Built-in"
-    }
-  },
-  "@cancel": {
-    "info": {
-      "source": "Cancel"
-    }
-  },
-  "@cancelTask": {
-    "info": {
-      "source": "Cancel task"
-    }
-  },
-  "@changeTheme": {
-    "info": {
-      "source": "Change theme"
-    }
-  },
-  "@confirm": {
-    "info": {
-      "source": "Confirm"
-    }
-  },
-  "@confirmIrreversibleActions": {
-    "info": {
-      "source": "Ask for confirmation"
-    }
-  },
-  "@confirmIrreversibleActionsExplanation": {
-    "info": {
-      "source": "Ask for confirmation whenever the user tries to do any irreversible action like deleting a file."
-    }
-  },
-  "@copiedToClipboard": {
-    "info": {
-      "source": "Copied to clipboard"
-    }
-  },
-  "@copyPackageId": {
-    "info": {
-      "source": "Copy package ID"
-    }
-  },
-  "@copyPackageName": {
-    "info": {
-      "source": "Copy package name"
-    }
-  },
-  "@couldNotExtractWithExplanation": {
-    "info": {
-      "source": "Could not extract, this apk was probably uninstalled because we did not found it's apk file"
-    }
-  },
-  "@couldNotFindFileLocationWithExplanation": {
-    "info": {
-      "source": "Could not find the file location this either was deleted or we have no permission over the folder."
-    }
-  },
-  "@couldNotFindTargetFile": {
-    "info": {
-      "source": "We could not find the target file"
-    }
-  },
-  "@darkDimmed": {
-    "info": {
-      "source": "Dark dimmed"
     }
   },
   "@darkLightsOut": {
@@ -254,534 +10,124 @@
       "source": "Dark lights out"
     }
   },
-  "@darkSimple": {
+  "allApksWereSuccessfullyExtracted": "すべての APK が {apkLocation} に抽出されました",
+  "@allApksWereSuccessfullyExtracted": {
     "info": {
-      "source": "Default dark theme"
+      "source": "All apks were extracted to {apkLocation}"
     }
   },
-  "@delete": {
+  "allApksWereSuccessfullyExtractedPlain": "すべてのapkが抽出されました",
+  "@allApksWereSuccessfullyExtractedPlain": {
     "info": {
-      "source": "Delete"
+      "source": "All apks were extracted"
     }
   },
-  "@deleteAllSelected": {
+  "allFiles": "すべてのファイル",
+  "@allFiles": {
     "info": {
-      "source": "Delete all selected"
+      "source": "All files"
     }
   },
-  "@display": {
+  "appearancePreferences": "外観の設定",
+  "@appearancePreferences": {
     "info": {
-      "source": "Display"
+      "source": "Appearance preferences"
     }
   },
-  "@displayBuiltInApps": {
+  "apps": "アプリ",
+  "@apps": {
     "info": {
-      "source": "Show built-in apps"
+      "source": "Apps"
     }
   },
-  "@displayBuiltInAppsExplanation": {
+  "areYouSure": "本気ですか？",
+  "@areYouSure": {
     "info": {
-      "source": "If enabled the home list will include built-in apps, they are like system apps but openable."
+      "source": "Are you sure?"
     }
   },
-  "@displaySystemApps": {
+  "behaviorPreferences": "行動の好み",
+  "@behaviorPreferences": {
     "info": {
-      "source": "Show system apps"
+      "source": "Behavior preferences"
     }
   },
-  "@displaySystemAppsExplanation": {
+  "bouncing": "跳ねる",
+  "@bouncing": {
     "info": {
-      "source": "If enabled the home list will include system apps, they may not be launchable."
+      "source": "Bouncing"
     }
   },
-  "@displayUserInstalledApps": {
+  "cancel": "キャンセル",
+  "@cancel": {
     "info": {
-      "source": "Show user installed apps"
+      "source": "Cancel"
     }
   },
-  "@displayUserInstalledAppsExplanation": {
+  "cancelTask": "タスクをキャンセルする",
+  "@cancelTask": {
     "info": {
-      "source": "If enabled the home list will include apps installed by you."
+      "source": "Cancel task"
     }
   },
-  "@doYouWantToForceBulkCancelAllTheseTasks": {
+  "changeTheme": "テーマの変更",
+  "@changeTheme": {
     "info": {
-      "source": "Do you want force a bulk cancel on all these tasks?"
+      "source": "Change theme"
     }
   },
-  "@doYouWantToForceBulkDeleteAllTheseTasks": {
+  "confirm": "確認",
+  "@confirm": {
     "info": {
-      "source": "Do you want force a bulk delete on all these tasks?"
+      "source": "Confirm"
     }
   },
-  "@donate": {
+  "confirmIrreversibleActions": "確認を求める",
+  "@confirmIrreversibleActions": {
     "info": {
-      "source": "Donate"
+      "source": "Ask for confirmation"
     }
   },
-  "@donateOnGitHub": {
+  "confirmIrreversibleActionsExplanation": "ユーザーがファイルの削除など、取り消しできないアクションを実行しようとするたびに確認を求めます。",
+  "@confirmIrreversibleActionsExplanation": {
     "info": {
-      "source": "Donate on GitHub (Card)"
+      "source": "Ask for confirmation whenever the user tries to do any irreversible action like deleting a file."
     }
   },
-  "@donateOnKofi": {
+  "copiedToClipboard": "クリップボードにコピーされました",
+  "@copiedToClipboard": {
     "info": {
-      "source": "Ko-fi (Card or PayPal)"
+      "source": "Copied to clipboard"
     }
   },
-  "@donateUsingBtc": {
+  "copyPackageId": "パッケージIDをコピーする",
+  "@copyPackageId": {
     "info": {
-      "source": "BTC donation"
+      "source": "Copy package ID"
     }
   },
-  "@donateUsingPix": {
+  "copyPackageName": "パッケージ名をコピーする",
+  "@copyPackageName": {
     "info": {
-      "source": "Pix donation (Brazil only)"
+      "source": "Copy package name"
     }
   },
-  "@exitSearch": {
+  "couldNotExtractWithExplanation": "抽出できませんでした。apk ファイルが見つからなかったため、この apk はアンインストールされた可能性があります",
+  "@couldNotExtractWithExplanation": {
     "info": {
-      "source": "Exit search"
+      "source": "Could not extract, this apk was probably uninstalled because we did not found it's apk file"
     }
   },
-  "@export": {
+  "couldNotFindFileLocationWithExplanation": "ファイルの場所が見つかりませんでした。削除されたか、フォルダーに対する権限がありません。",
+  "@couldNotFindFileLocationWithExplanation": {
     "info": {
-      "source": "Export"
+      "source": "Could not find the file location this either was deleted or we have no permission over the folder."
     }
   },
-  "@exportApk": {
+  "couldNotFindTargetFile": "目的のファイルが見つかりませんでした",
+  "@couldNotFindTargetFile": {
     "info": {
-      "source": "Export apk"
-    }
-  },
-  "@exportApkExplanationMessage": {
-    "info": {
-      "source": "The apk list will appear here, to get start try to click over a tile on the app list screen! It will create a new export job that will copy the app apk to the folder you chose."
-    }
-  },
-  "@extract": {
-    "info": {
-      "source": "Extract"
-    }
-  },
-  "@extractAllSelected": {
-    "info": {
-      "source": "Extract all selected"
-    }
-  },
-  "@extractApk": {
-    "info": {
-      "source": "Extract apk"
-    }
-  },
-  "@extractWithSingleClick": {
-    "info": {
-      "source": "Extract with single click"
-    }
-  },
-  "@extractWithSingleClickExplanation": {
-    "info": {
-      "source": "If enabled, the app list will extract apk with a single click instead of opening the details page."
-    }
-  },
-  "@extracted": {
-    "info": {
-      "source": "Extracted"
-    }
-  },
-  "@extractedTo": {
-    "info": {
-      "source": "Extracted to"
-    }
-  },
-  "@extractingApks": {
-    "info": {
-      "source": "Extracting Apks"
-    }
-  },
-  "@extractionIsNotFinishedCanNotInstallYet": {
-    "info": {
-      "source": "Not fully extracted yet, can not install right now"
-    }
-  },
-  "@filterWillRemoveSomeSelectedItems": {
-    "info": {
-      "source": "This filter will erase some of your selected items, and you will need to re-select them again"
-    }
-  },
-  "@followMeOnGitHub": {
-    "info": {
-      "source": "Follow me on GitHub"
-    }
-  },
-  "@followTheSystem": {
-    "info": {
-      "source": "Follow the system"
-    }
-  },
-  "@fontFamily": {
-    "info": {
-      "source": "Font family"
-    }
-  },
-  "@githubRepository": {
-    "info": {
-      "source": "GitHub repository"
-    }
-  },
-  "@glow": {
-    "info": {
-      "source": "Glow"
-    }
-  },
-  "@goToAppList": {
-    "info": {
-      "source": "Go to app list"
-    }
-  },
-  "@greenDark": {
-    "info": {
-      "source": "Dark green"
-    }
-  },
-  "@hideAppBarOnScroll": {
-    "info": {
-      "source": "Hide app bar on scroll"
-    }
-  },
-  "@hideAppBarOnScrollExplanation": {
-    "info": {
-      "source": "If enabled, the app bar will automatically hide when scroll down."
-    }
-  },
-  "@install": {
-    "info": {
-      "source": "Install"
-    }
-  },
-  "@installApk": {
-    "info": {
-      "source": "Install apk"
-    }
-  },
-  "@invalidApkItWasProbablyDeleted": {
-    "info": {
-      "source": "Invalid apk, is was probably deleted."
-    }
-  },
-  "@invalidPackageUri": {
-    "info": {
-      "source": "Invalid package Uri"
-    }
-  },
-  "@isNotSupportedYet": {
-    "info": {
-      "source": "is not supported yet"
-    }
-  },
-  "@language": {
-    "info": {
-      "source": "Language"
-    }
-  },
-  "@launchApp": {
-    "info": {
-      "source": "Execute application"
-    }
-  },
-  "@light": {
-    "info": {
-      "source": "Light"
-    }
-  },
-  "@links": {
-    "info": {
-      "source": "Links"
-    }
-  },
-  "@loadingInfo": {
-    "info": {
-      "source": "Loading"
-    }
-  },
-  "@loadingInfoEllipsis": {
-    "info": {
-      "source": "Loading..."
-    }
-  },
-  "@noActivityFoundThatCanHandleThisFileType": {
-    "info": {
-      "source": "There's no activity that can handle this file"
-    }
-  },
-  "@noResults": {
-    "info": {
-      "source": "No results!"
-    }
-  },
-  "@none": {
-    "info": {
-      "source": "None"
-    }
-  },
-  "@notAvailable": {
-    "info": {
-      "source": "Not available"
-    }
-  },
-  "@notDefined": {
-    "info": {
-      "source": "Not defined"
-    }
-  },
-  "@notSet": {
-    "info": {
-      "source": "Not set"
-    }
-  },
-  "@ofN": {
-    "info": {
-      "source": "of"
-    }
-  },
-  "@openFileLocation": {
-    "info": {
-      "source": "Open file location"
-    }
-  },
-  "@openOnFDroid": {
-    "info": {
-      "source": "Open on F-Droid"
-    }
-  },
-  "@openOnPlayStore": {
-    "info": {
-      "source": "Open on Play Store"
-    }
-  },
-  "@openSettingsPage": {
-    "info": {
-      "source": "Open settings page"
-    }
-  },
-  "@openSourceLicenses": {
-    "info": {
-      "source": "Open source licenses"
-    }
-  },
-  "@openingFolderIsNotSupportedYet": {
-    "info": {
-      "source": "Opening a folder is not supported yet"
-    }
-  },
-  "@operationNotAllowedMayBeProtectedPackage": {
-    "info": {
-      "source": "Operation not allowed, probably this is a protected package"
-    }
-  },
-  "@otherDonationMethods": {
-    "info": {
-      "source": "Other donation methods"
-    }
-  },
-  "@overscrollIndicator": {
-    "info": {
-      "source": "Overscroll indicator"
-    }
-  },
-  "@packageAndVersion": {
-    "info": {
-      "source": "Package and version"
-    }
-  },
-  "@packageIdIsNotAvailable": {
-    "info": {
-      "source": "Package ID is not available"
-    }
-  },
-  "@packageNameIsNotAvailable": {
-    "info": {
-      "source": "Package name is not available"
-    }
-  },
-  "@paymentMethodCard": {
-    "info": {
-      "source": "Card"
-    }
-  },
-  "@permissionDenied": {
-    "info": {
-      "source": "Permission denied"
-    }
-  },
-  "@permissionRestrictedByAndroid": {
-    "info": {
-      "source": "Permission restricted by Android"
-    }
-  },
-  "@redDark": {
-    "info": {
-      "source": "Red dark"
-    }
-  },
-  "@remove": {
-    "info": {
-      "source": "Remove"
-    }
-  },
-  "@reportIssue": {
-    "info": {
-      "source": "Report issue"
-    }
-  },
-  "@resetAllPreferences": {
-    "info": {
-      "source": "Reset all preferences"
-    }
-  },
-  "@resetAllPreferencesQuestion": {
-    "info": {
-      "source": "Reset all preferences?"
-    }
-  },
-  "@resetFolder": {
-    "info": {
-      "source": "Reset folder"
-    }
-  },
-  "@searchOnline": {
-    "info": {
-      "source": "Search online"
-    }
-  },
-  "@searchPackagesAndApps": {
-    "info": {
-      "source": "Search packages and apps"
-    }
-  },
-  "@selectOutputFolder": {
-    "info": {
-      "source": "Select output folder"
-    }
-  },
-  "@selectUnselectAll": {
-    "info": {
-      "source": "Select/Unselect all"
-    }
-  },
-  "@settings": {
-    "info": {
-      "source": "Settings"
-    }
-  },
-  "@share": {
-    "info": {
-      "source": "Share"
-    }
-  },
-  "@shareApk": {
-    "info": {
-      "source": "Share apk"
-    }
-  },
-  "@someApkWereNotExtracted": {
-    "info": {
-      "source": "Some apks are located in {apkLocation} but some could not be extracted"
-    }
-  },
-  "@someApkWereNotExtractedPlain": {
-    "info": {
-      "source": "Some apks are were successfully extracted but some could not be extracted"
-    }
-  },
-  "@soon": {
-    "info": {
-      "source": "Soon"
-    }
-  },
-  "@soonEllipsis": {
-    "info": {
-      "source": "Soon..."
-    }
-  },
-  "@sorryWeCouldNotExportAnyApkBecauseTheyAreRestrictedByTheOS": {
-    "info": {
-      "source": "Sorry, we could not export any of these apks because they are restricted by the OS"
-    }
-  },
-  "@storagePermissionExplanationMessage": {
-    "info": {
-      "source": "To extract the apks this app needs access permission to a folder. It is recommended to select an empty folder or create a new one. It is also important to not select folders that are reserved by the system, such as the Android or Downloads folder."
-    }
-  },
-  "@successQueued": {
-    "info": {
-      "source": "Success! check \"Extracted\" tab"
-    }
-  },
-  "@system": {
-    "info": {
-      "source": "System"
-    }
-  },
-  "@tasksAreAlreadyBeingDeleted": {
-    "info": {
-      "source": "These tasks were deleted and will be removed soon"
-    }
-  },
-  "@theme": {
-    "info": {
-      "source": "Theme"
-    }
-  },
-  "@thisIsIrreversible": {
-    "info": {
-      "source": "This is a irreversible action, be sure you want to do it."
-    }
-  },
-  "@toggleSelect": {
-    "info": {
-      "source": "Toggle select"
-    }
-  },
-  "@transparentNavigationBar": {
-    "info": {
-      "source": "Translucent glass effect"
-    }
-  },
-  "@transparentNavigationBarExplanation": {
-    "info": {
-      "source": "Apply a blur transparent effect to the home navigation bar."
-    }
-  },
-  "@trySelectingAtLeastOneFilter": {
-    "info": {
-      "source": "Try selecting at least one filter!"
-    }
-  },
-  "@unavailable": {
-    "info": {
-      "source": "Unavailable"
-    }
-  },
-  "@uninstall": {
-    "info": {
-      "source": "Uninstall"
-    }
-  },
-  "@unnamedPackage": {
-    "info": {
-      "source": "Unnamed package"
-    }
-  },
-  "@user": {
-    "info": {
-      "source": "User"
-    }
-  },
-  "@version": {
-    "info": {
-      "source": "Version"
+      "source": "We could not find the target file"
     }
   },
   "couldNotStartApp": "おそらく UI がない (起動意図が宣言されていない) ため、アプリを起動できませんでした。",
@@ -790,10 +136,334 @@
       "source": "Could not start app, probably because it has no UI (no launch intent is declared)"
     }
   },
+  "dark": "暗い",
+  "@dark": {
+    "info": {
+      "source": "Dark"
+    }
+  },
+  "darkDimmed": "暗く薄暗くなった",
+  "@darkDimmed": {
+    "info": {
+      "source": "Dark dimmed"
+    }
+  },
+  "darkSimple": "デフォルトのダークテーマ",
+  "@darkSimple": {
+    "info": {
+      "source": "Default dark theme"
+    }
+  },
+  "delete": "消去",
+  "@delete": {
+    "info": {
+      "source": "Delete"
+    }
+  },
+  "deleteAllSelected": "選択したものをすべて削除",
+  "@deleteAllSelected": {
+    "info": {
+      "source": "Delete all selected"
+    }
+  },
+  "display": "画面",
+  "@display": {
+    "info": {
+      "source": "Display"
+    }
+  },
+  "displayBuiltInApps": "内蔵アプリを表示する",
+  "@displayBuiltInApps": {
+    "info": {
+      "source": "Show built-in apps"
+    }
+  },
+  "displayBuiltInAppsExplanation": "有効にすると、ホーム リストに組み込みアプリが含まれます。これらはシステム アプリに似ていますが、開くことができます。",
+  "@displayBuiltInAppsExplanation": {
+    "info": {
+      "source": "If enabled the home list will include built-in apps, they are like system apps but openable."
+    }
+  },
+  "displaySystemApps": "システムアプリを表示",
+  "@displaySystemApps": {
+    "info": {
+      "source": "Show system apps"
+    }
+  },
+  "displaySystemAppsExplanation": "有効にすると、ホーム リストにシステム アプリが含まれるため、起動できない場合があります。",
+  "@displaySystemAppsExplanation": {
+    "info": {
+      "source": "If enabled the home list will include system apps, they may not be launchable."
+    }
+  },
+  "displayUserInstalledApps": "ユーザーがインストールしたアプリを表示する",
+  "@displayUserInstalledApps": {
+    "info": {
+      "source": "Show user installed apps"
+    }
+  },
+  "displayUserInstalledAppsExplanation": "有効にすると、ホーム リストにはユーザーがインストールしたアプリが含まれます。",
+  "@displayUserInstalledAppsExplanation": {
+    "info": {
+      "source": "If enabled the home list will include apps installed by you."
+    }
+  },
+  "doYouWantToForceBulkCancelAllTheseTasks": "これらすべてのタスクを強制的に一括キャンセルしますか?",
+  "@doYouWantToForceBulkCancelAllTheseTasks": {
+    "info": {
+      "source": "Do you want force a bulk cancel on all these tasks?"
+    }
+  },
+  "doYouWantToForceBulkDeleteAllTheseTasks": "これらすべてのタスクを強制的に一括削除しますか?",
+  "@doYouWantToForceBulkDeleteAllTheseTasks": {
+    "info": {
+      "source": "Do you want force a bulk delete on all these tasks?"
+    }
+  },
+  "donate": "寄付",
+  "@donate": {
+    "info": {
+      "source": "Donate"
+    }
+  },
+  "donateOnGitHub": "GitHub で寄付する (カード)",
+  "@donateOnGitHub": {
+    "info": {
+      "source": "Donate on GitHub (Card)"
+    }
+  },
+  "donateOnKofi": "Ko-fi (カードまたは PayPal)",
+  "@donateOnKofi": {
+    "info": {
+      "source": "Ko-fi (Card or PayPal)"
+    }
+  },
+  "donateUsingBtc": "BTC寄付",
+  "@donateUsingBtc": {
+    "info": {
+      "source": "BTC donation"
+    }
+  },
+  "donateUsingPix": "Pix の寄付 (ブラジルのみ)",
+  "@donateUsingPix": {
+    "info": {
+      "source": "Pix donation (Brazil only)"
+    }
+  },
+  "exitSearch": "検索を終了する",
+  "@exitSearch": {
+    "info": {
+      "source": "Exit search"
+    }
+  },
+  "export": "輸出",
+  "@export": {
+    "info": {
+      "source": "Export"
+    }
+  },
+  "exportApk": "APKをエクスポート",
+  "@exportApk": {
+    "info": {
+      "source": "Export apk"
+    }
+  },
+  "exportApkExplanationMessage": "ここに APK リストが表示されます。まず、アプリ リスト画面のタイルをクリックしてみてください。選択したフォルダーにアプリ APK をコピーする新しいエクスポート ジョブが作成されます。",
+  "@exportApkExplanationMessage": {
+    "info": {
+      "source": "The apk list will appear here, to get start try to click over a tile on the app list screen! It will create a new export job that will copy the app apk to the folder you chose."
+    }
+  },
+  "extract": "エキス",
+  "@extract": {
+    "info": {
+      "source": "Extract"
+    }
+  },
+  "extractAllSelected": "選択したものをすべて抽出",
+  "@extractAllSelected": {
+    "info": {
+      "source": "Extract all selected"
+    }
+  },
+  "extractApk": "Apkを抽出する",
+  "@extractApk": {
+    "info": {
+      "source": "Extract apk"
+    }
+  },
+  "extractWithSingleClick": "シングルクリックで抽出",
+  "@extractWithSingleClick": {
+    "info": {
+      "source": "Extract with single click"
+    }
+  },
+  "extractWithSingleClickExplanation": "有効にすると、詳細ページを開く代わりに、アプリ リストで 1 回のクリックで APK が抽出されます。",
+  "@extractWithSingleClickExplanation": {
+    "info": {
+      "source": "If enabled, the app list will extract apk with a single click instead of opening the details page."
+    }
+  },
+  "extracted": "抽出された",
+  "@extracted": {
+    "info": {
+      "source": "Extracted"
+    }
+  },
+  "extractedTo": "に抽出されました",
+  "@extractedTo": {
+    "info": {
+      "source": "Extracted to"
+    }
+  },
+  "extractingApks": "APK を抽出する",
+  "@extractingApks": {
+    "info": {
+      "source": "Extracting Apks"
+    }
+  },
+  "extractionIsNotFinishedCanNotInstallYet": "まだ完全に解凍されていないため、すぐにはインストールできません",
+  "@extractionIsNotFinishedCanNotInstallYet": {
+    "info": {
+      "source": "Not fully extracted yet, can not install right now"
+    }
+  },
+  "filterWillRemoveSomeSelectedItems": "このフィルターでは選択した項目の一部が消去されるため、再度選択する必要があります。",
+  "@filterWillRemoveSomeSelectedItems": {
+    "info": {
+      "source": "This filter will erase some of your selected items, and you will need to re-select them again"
+    }
+  },
+  "followMeOnGitHub": "GitHub でフォローしてください",
+  "@followMeOnGitHub": {
+    "info": {
+      "source": "Follow me on GitHub"
+    }
+  },
+  "followTheSystem": "システムに従ってください",
+  "@followTheSystem": {
+    "info": {
+      "source": "Follow the system"
+    }
+  },
+  "fontFamily": "フォントファミリー",
+  "@fontFamily": {
+    "info": {
+      "source": "Font family"
+    }
+  },
   "fullDark": "完全な暗闇",
   "@fullDark": {
     "info": {
       "source": "Full dark"
+    }
+  },
+  "githubRepository": "GitHub リポジトリ",
+  "@githubRepository": {
+    "info": {
+      "source": "GitHub repository"
+    }
+  },
+  "glow": "グロー",
+  "@glow": {
+    "info": {
+      "source": "Glow"
+    }
+  },
+  "goToAppList": "アプリ一覧へ",
+  "@goToAppList": {
+    "info": {
+      "source": "Go to app list"
+    }
+  },
+  "greenDark": "濃い緑色",
+  "@greenDark": {
+    "info": {
+      "source": "Dark green"
+    }
+  },
+  "hideAppBarOnScroll": "スクロール時にアプリバーを非表示にする",
+  "@hideAppBarOnScroll": {
+    "info": {
+      "source": "Hide app bar on scroll"
+    }
+  },
+  "hideAppBarOnScrollExplanation": "有効にすると、下にスクロールするとアプリ バーが自動的に非表示になります。",
+  "@hideAppBarOnScrollExplanation": {
+    "info": {
+      "source": "If enabled, the app bar will automatically hide when scroll down."
+    }
+  },
+  "install": "インストール",
+  "@install": {
+    "info": {
+      "source": "Install"
+    }
+  },
+  "installApk": "APKをインストールする",
+  "@installApk": {
+    "info": {
+      "source": "Install apk"
+    }
+  },
+  "installed": "インストール済み",
+  "@installed": {
+    "info": {
+      "source": "Installed"
+    }
+  },
+  "invalidApkItWasProbablyDeleted": "無効な APK です。削除された可能性があります。",
+  "@invalidApkItWasProbablyDeleted": {
+    "info": {
+      "source": "Invalid apk, is was probably deleted."
+    }
+  },
+  "invalidPackageUri": "無効なパッケージ URI",
+  "@invalidPackageUri": {
+    "info": {
+      "source": "Invalid package Uri"
+    }
+  },
+  "isNotSupportedYet": "まだサポートされていません",
+  "@isNotSupportedYet": {
+    "info": {
+      "source": "is not supported yet"
+    }
+  },
+  "language": "言語",
+  "@language": {
+    "info": {
+      "source": "Language"
+    }
+  },
+  "launchApp": "アプリケーションの実行",
+  "@launchApp": {
+    "info": {
+      "source": "Execute application"
+    }
+  },
+  "light": "ライト",
+  "@light": {
+    "info": {
+      "source": "Light"
+    }
+  },
+  "links": "リンク",
+  "@links": {
+    "info": {
+      "source": "Links"
+    }
+  },
+  "loadingInfo": "読み込み中",
+  "@loadingInfo": {
+    "info": {
+      "source": "Loading"
+    }
+  },
+  "loadingInfoEllipsis": "読み込み中...",
+  "@loadingInfoEllipsis": {
+    "info": {
+      "source": "Loading..."
     }
   },
   "modify": "変更",
@@ -802,16 +472,346 @@
       "source": "Modify"
     }
   },
+  "noActivityFoundThatCanHandleThisFileType": "このファイルを処理できるアクティビティはありません",
+  "@noActivityFoundThatCanHandleThisFileType": {
+    "info": {
+      "source": "There's no activity that can handle this file"
+    }
+  },
+  "noResults": "結果がありません！",
+  "@noResults": {
+    "info": {
+      "source": "No results!"
+    }
+  },
+  "none": "なし",
+  "@none": {
+    "info": {
+      "source": "None"
+    }
+  },
+  "notAvailable": "利用不可",
+  "@notAvailable": {
+    "info": {
+      "source": "Not available"
+    }
+  },
+  "notDefined": "定義されていません",
+  "@notDefined": {
+    "info": {
+      "source": "Not defined"
+    }
+  },
+  "notSet": "設定されていません",
+  "@notSet": {
+    "info": {
+      "source": "Not set"
+    }
+  },
+  "ofN": "の",
+  "@ofN": {
+    "info": {
+      "source": "of"
+    }
+  },
+  "openFileLocation": "開いているファイルの場所",
+  "@openFileLocation": {
+    "info": {
+      "source": "Open file location"
+    }
+  },
+  "openOnFDroid": "F-Droid で開く",
+  "@openOnFDroid": {
+    "info": {
+      "source": "Open on F-Droid"
+    }
+  },
+  "openOnPlayStore": "Play ストアで開く",
+  "@openOnPlayStore": {
+    "info": {
+      "source": "Open on Play Store"
+    }
+  },
+  "openSettingsPage": "設定ページを開く",
+  "@openSettingsPage": {
+    "info": {
+      "source": "Open settings page"
+    }
+  },
+  "openSourceLicenses": "オープンソースライセンス",
+  "@openSourceLicenses": {
+    "info": {
+      "source": "Open source licenses"
+    }
+  },
+  "openingFolderIsNotSupportedYet": "フォルダーを開くことはまだサポートされていません",
+  "@openingFolderIsNotSupportedYet": {
+    "info": {
+      "source": "Opening a folder is not supported yet"
+    }
+  },
+  "operationNotAllowedMayBeProtectedPackage": "操作は許可されていません。おそらくこれは保護されたパッケージです",
+  "@operationNotAllowedMayBeProtectedPackage": {
+    "info": {
+      "source": "Operation not allowed, probably this is a protected package"
+    }
+  },
+  "otherDonationMethods": "その他の寄付方法",
+  "@otherDonationMethods": {
+    "info": {
+      "source": "Other donation methods"
+    }
+  },
+  "overscrollIndicator": "オーバースクロールインジケーター",
+  "@overscrollIndicator": {
+    "info": {
+      "source": "Overscroll indicator"
+    }
+  },
+  "packageAndVersion": "パッケージとバージョン",
+  "@packageAndVersion": {
+    "info": {
+      "source": "Package and version"
+    }
+  },
+  "packageIdIsNotAvailable": "パッケージIDが利用できません",
+  "@packageIdIsNotAvailable": {
+    "info": {
+      "source": "Package ID is not available"
+    }
+  },
+  "packageNameIsNotAvailable": "パッケージ名が利用できません",
+  "@packageNameIsNotAvailable": {
+    "info": {
+      "source": "Package name is not available"
+    }
+  },
+  "paymentMethodCard": "カード",
+  "@paymentMethodCard": {
+    "info": {
+      "source": "Card"
+    }
+  },
+  "permissionDenied": "アクセス拒否",
+  "@permissionDenied": {
+    "info": {
+      "source": "Permission denied"
+    }
+  },
+  "permissionRestrictedByAndroid": "Androidによる権限制限",
+  "@permissionRestrictedByAndroid": {
+    "info": {
+      "source": "Permission restricted by Android"
+    }
+  },
+  "preInstalled": "プリインストール済み",
+  "@preInstalled": {
+    "info": {
+      "source": "Pre-installed"
+    }
+  },
+  "redDark": "赤濃い",
+  "@redDark": {
+    "info": {
+      "source": "Red dark"
+    }
+  },
+  "remove": "削除",
+  "@remove": {
+    "info": {
+      "source": "Remove"
+    }
+  },
+  "reportIssue": "問題を報告する",
+  "@reportIssue": {
+    "info": {
+      "source": "Report issue"
+    }
+  },
+  "resetAllPreferences": "すべての設定をリセットする",
+  "@resetAllPreferences": {
+    "info": {
+      "source": "Reset all preferences"
+    }
+  },
+  "resetAllPreferencesQuestion": "すべての設定をリセットしますか?",
+  "@resetAllPreferencesQuestion": {
+    "info": {
+      "source": "Reset all preferences?"
+    }
+  },
+  "resetFolder": "フォルダをリセットする",
+  "@resetFolder": {
+    "info": {
+      "source": "Reset folder"
+    }
+  },
+  "searchOnline": "オンラインで検索",
+  "@searchOnline": {
+    "info": {
+      "source": "Search online"
+    }
+  },
+  "searchPackagesAndApps": "パッケージとアプリを検索する",
+  "@searchPackagesAndApps": {
+    "info": {
+      "source": "Search packages and apps"
+    }
+  },
+  "selectOutputFolder": "出力フォルダーの選択",
+  "@selectOutputFolder": {
+    "info": {
+      "source": "Select output folder"
+    }
+  },
+  "selectUnselectAll": "すべて選択/選択解除",
+  "@selectUnselectAll": {
+    "info": {
+      "source": "Select/Unselect all"
+    }
+  },
+  "settings": "設定",
+  "@settings": {
+    "info": {
+      "source": "Settings"
+    }
+  },
+  "share": "共有",
+  "@share": {
+    "info": {
+      "source": "Share"
+    }
+  },
+  "shareApk": "APKを共有する",
+  "@shareApk": {
+    "info": {
+      "source": "Share apk"
+    }
+  },
   "showMoreOptions": "さらにオプションを表示",
   "@showMoreOptions": {
     "info": {
       "source": "Show more options"
     }
   },
-  "dark": "暗い",
-  "@dark": {
+  "someApkWereNotExtracted": "一部の APK は {apkLocation} にありますが、一部を抽出できませんでした",
+  "@someApkWereNotExtracted": {
     "info": {
-      "source": "Dark"
+      "source": "Some apks are located in {apkLocation} but some could not be extracted"
+    }
+  },
+  "someApkWereNotExtractedPlain": "一部の APK は正常に抽出されましたが、一部の APK は抽出できませんでした",
+  "@someApkWereNotExtractedPlain": {
+    "info": {
+      "source": "Some apks are were successfully extracted but some could not be extracted"
+    }
+  },
+  "soon": "すぐ",
+  "@soon": {
+    "info": {
+      "source": "Soon"
+    }
+  },
+  "soonEllipsis": "すぐ...",
+  "@soonEllipsis": {
+    "info": {
+      "source": "Soon..."
+    }
+  },
+  "sorryWeCouldNotExportAnyApkBecauseTheyAreRestrictedByTheOS": "申し訳ありませんが、OS によって制限されているため、これらの APK はエクスポートできませんでした",
+  "@sorryWeCouldNotExportAnyApkBecauseTheyAreRestrictedByTheOS": {
+    "info": {
+      "source": "Sorry, we could not export any of these apks because they are restricted by the OS"
+    }
+  },
+  "storagePermissionExplanationMessage": "APK を抽出するには、このアプリにはフォルダーへのアクセス許可が必要です。空のフォルダーを選択するか、新しいフォルダーを作成することをお勧めします。 Android フォルダーやダウンロード フォルダーなど、システムによって予約されているフォルダーを選択しないことも重要です。",
+  "@storagePermissionExplanationMessage": {
+    "info": {
+      "source": "To extract the apks this app needs access permission to a folder. It is recommended to select an empty folder or create a new one. It is also important to not select folders that are reserved by the system, such as the Android or Downloads folder."
+    }
+  },
+  "successQueued": "成功！ 「抽出済み」タブを確認してください",
+  "@successQueued": {
+    "info": {
+      "source": "Success! check \"Extracted\" tab"
+    }
+  },
+  "system": "システム",
+  "@system": {
+    "info": {
+      "source": "System"
+    }
+  },
+  "tasksAreAlreadyBeingDeleted": "これらのタスクは削除されました。まもなく削除されます",
+  "@tasksAreAlreadyBeingDeleted": {
+    "info": {
+      "source": "These tasks were deleted and will be removed soon"
+    }
+  },
+  "theme": "テーマ",
+  "@theme": {
+    "info": {
+      "source": "Theme"
+    }
+  },
+  "thisIsIrreversible": "これは元に戻せない操作なので、必ず実行してください。",
+  "@thisIsIrreversible": {
+    "info": {
+      "source": "This is a irreversible action, be sure you want to do it."
+    }
+  },
+  "toggleSelect": "選択を切り替えます",
+  "@toggleSelect": {
+    "info": {
+      "source": "Toggle select"
+    }
+  },
+  "transparentNavigationBar": "半透明のガラス効果",
+  "@transparentNavigationBar": {
+    "info": {
+      "source": "Translucent glass effect"
+    }
+  },
+  "transparentNavigationBarExplanation": "ホーム ナビゲーション バーにぼかし透明効果を適用します。",
+  "@transparentNavigationBarExplanation": {
+    "info": {
+      "source": "Apply a blur transparent effect to the home navigation bar."
+    }
+  },
+  "trySelectingAtLeastOneFilter": "少なくとも 1 つのフィルターを選択してみてください。",
+  "@trySelectingAtLeastOneFilter": {
+    "info": {
+      "source": "Try selecting at least one filter!"
+    }
+  },
+  "unavailable": "利用不可",
+  "@unavailable": {
+    "info": {
+      "source": "Unavailable"
+    }
+  },
+  "uninstall": "アンインストール",
+  "@uninstall": {
+    "info": {
+      "source": "Uninstall"
+    }
+  },
+  "unnamedPackage": "名前のないパッケージ",
+  "@unnamedPackage": {
+    "info": {
+      "source": "Unnamed package"
+    }
+  },
+  "user": "ユーザー",
+  "@user": {
+    "info": {
+      "source": "User"
+    }
+  },
+  "version": "バージョン",
+  "@version": {
+    "info": {
+      "source": "Version"
     }
   }
 }

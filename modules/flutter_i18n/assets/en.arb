@@ -1,5 +1,15 @@
 {
   "@@locale": "en",
+  "@backToPreviousViewMode": {
+    "description": "String that is displayed as tooltip for the search arrow back app bar."
+  },
+  "@darkLightsOut": {
+    "description": "One of the available themes representing a darker black high-contrast theme."
+  },
+  "@searchForPackagesAndApps": {
+    "description": "String that is displayed as tooltip for the search button at homepage appbar."
+  },
+  "allApksWereSuccessfullyExtracted": "All apks were extracted to {apkLocation}",
   "@allApksWereSuccessfullyExtracted": {
     "description": "Message that explains that the multiple apk extraction process had partial success.",
     "placeholders": {
@@ -9,118 +19,10 @@
       }
     }
   },
+  "allApksWereSuccessfullyExtractedPlain": "All apks were extracted",
   "@allApksWereSuccessfullyExtractedPlain": {
     "description": "Message that explains that the multiple apk extraction process done successfully without variable/param."
   },
-  "@backToPreviousViewMode": {
-    "description": "String that is displayed as tooltip for the search arrow back app bar."
-  },
-  "@changeTheme": {
-    "description": "String that is displayed as tooltip for the theme button at homepage appbar."
-  },
-  "@showMoreOptions": {
-    "description": "String that is displayed as tooltip for the three dot menu button in the app list tile."
-  },
-  "@darkDimmed": {
-    "description": "One of the available themes representing a dark yet not too dark theme."
-  },
-  "@darkLightsOut": {
-    "description": "One of the available themes representing a darker black high-contrast theme."
-  },
-  "@display": {
-    "description": "String that is displayed as a settings tile title."
-  },
-  "@export": {
-    "description": "String that is displayed as a settings tile title."
-  },
-  "@extractAllSelected": {
-    "description": "String that describes the action of exporting all the current selected apks."
-  },
-  "@extractedTo": {
-    "description": "String that is used when the extraction process was a success as part of the toast to show the extracted apk path."
-  },
-  "@extractingApks": {
-    "description": "String that is displayed in a dialog when the app starting working in background to extract the selected apks."
-  },
-  "@followTheSystem": {
-    "description": "One of the available themes representing a theme that follows the device/system theme."
-  },
-  "@fontFamily": {
-    "description": "Label displayed as title of the font family picker dialog."
-  },
-  "@greenDark": {
-    "description": "One of the available themes representing a dark lights out with green as primary color."
-  },
-  "@isNotSupportedYet": {
-    "description": "Warning label showed when the native system language is not supported."
-  },
-  "@language": {
-    "description": "Label displayed as title of the language picker dialog."
-  },
-  "@light": {
-    "description": "One of the available themes representing a basic light theme."
-  },
-  "@notDefined": {
-    "description": "String used to warn the user when there's no output folder defined."
-  },
-  "@ofN": {
-    "description": "String to be used as preposition, e.g: Showing 10 results of 1000."
-  },
-  "@openSettingsPage": {
-    "description": "String that is displayed as tooltip for the settings page button at homepage appbar."
-  },
-  "@operationNotAllowedMayBeProtectedPackage": {
-    "description": "String that is displayed in a toast when the extraction process results in an unknown error that often caused by trying to extract some protected package."
-  },
-  "@permissionDenied": {
-    "description": "String that is displayed when an extraction process fails due missing permission, often because the user declined to select an output folder."
-  },
-  "@permissionRestrictedByAndroid": {
-    "description": "String that is displayed in a toast when the extraction process results in an error of permission restricted by the OS (Android)."
-  },
-  "@redDark": {
-    "description": "One of the available themes representing a dark lights out with red as primary color."
-  },
-  "@resetAllPreferences": {
-    "description": "Label displayed as tooltip for reset settings button."
-  },
-  "@searchForPackagesAndApps": {
-    "description": "String that is displayed as tooltip for the search button at homepage appbar."
-  },
-  "@selectOutputFolder": {
-    "description": "String used to ask the user for a folder/path/location to save the extracted apk."
-  },
-  "@selectUnselectAll": {
-    "description": "String that is displayed as tooltip for the toggle selection button at homepage appbar on selection mode."
-  },
-  "@settings": {
-    "description": "Label for the settings page."
-  },
-  "@someApkWereNotExtracted": {
-    "description": "Message that explains that the multiple apk extraction process had partial success.",
-    "placeholders": {
-      "apkLocation": {
-        "type": "String",
-        "example": "0/Downloads/Apks/Extracted.apk"
-      }
-    }
-  },
-  "@someApkWereNotExtractedPlain": {
-    "description": "Message that explains that the multiple apk extraction process had partial success without any variable/param."
-  },
-  "@sorryWeCouldNotExportAnyApkBecauseTheyAreRestrictedByTheOS": {
-    "description": "Friendly error message that shows up when the user tries to extract multiple restricted apks."
-  },
-  "@theme": {
-    "description": "Label displayed as title of the theme picker dialog."
-  },
-  "@toggleSelect": {
-    "description": "Tooltip label of the select/unselect tile icon button."
-  },
-  "installed": "Installed",
-  "preInstalled": "Pre-installed",
-  "allApksWereSuccessfullyExtracted": "All apks were extracted to {apkLocation}",
-  "allApksWereSuccessfullyExtractedPlain": "All apks were extracted",
   "allFiles": "All files",
   "appearancePreferences": "Appearance preferences",
   "apps": "Apps",
@@ -130,11 +32,9 @@
   "cancel": "Cancel",
   "cancelTask": "Cancel task",
   "changeTheme": "Change theme",
-  "showMoreOptions": "Show more options",
-  "@dark": {
-    "description": "'Dark' string"
+  "@changeTheme": {
+    "description": "String that is displayed as tooltip for the theme button at homepage appbar."
   },
-  "dark": "Dark",
   "confirm": "Confirm",
   "confirmIrreversibleActions": "Ask for confirmation",
   "confirmIrreversibleActionsExplanation": "Ask for confirmation whenever the user tries to do any irreversible action like deleting a file.",
@@ -144,12 +44,22 @@
   "couldNotExtractWithExplanation": "Could not extract, this apk was probably uninstalled because we did not found it's apk file",
   "couldNotFindFileLocationWithExplanation": "Could not find the file location this either was deleted or we have no permission over the folder.",
   "couldNotFindTargetFile": "We could not find the target file",
+  "couldNotStartApp": "Could not start app, probably because it has no UI (no launch intent is declared)",
+  "dark": "Dark",
+  "@dark": {
+    "description": "'Dark' string"
+  },
   "darkDimmed": "Dark dimmed",
-  "fullDark": "Full dark",
+  "@darkDimmed": {
+    "description": "One of the available themes representing a dark yet not too dark theme."
+  },
   "darkSimple": "Default dark theme",
   "delete": "Delete",
   "deleteAllSelected": "Delete all selected",
   "display": "Display",
+  "@display": {
+    "description": "String that is displayed as a settings tile title."
+  },
   "displayBuiltInApps": "Show built-in apps",
   "displayBuiltInAppsExplanation": "If enabled the home list will include built-in apps, they are like system apps but openable.",
   "displaySystemApps": "Show system apps",
@@ -162,57 +72,99 @@
   "donateOnGitHub": "Donate on GitHub (Card)",
   "donateOnKofi": "Ko-fi (Card or PayPal)",
   "donateUsingBtc": "BTC donation",
-  "donateUsingPix": "Pix donation (Brazil only)",
   "exitSearch": "Exit search",
   "export": "Export",
+  "@export": {
+    "description": "String that is displayed as a settings tile title."
+  },
   "exportApk": "Export apk",
   "exportApkExplanationMessage": "The apk list will appear here, to get start try to click over a tile on the app list screen! It will create a new export job that will copy the app apk to the folder you chose.",
   "extract": "Extract",
   "extractAllSelected": "Extract all selected",
+  "@extractAllSelected": {
+    "description": "String that describes the action of exporting all the current selected apks."
+  },
   "extractApk": "Extract apk",
   "extractWithSingleClick": "Extract with single click",
   "extractWithSingleClickExplanation": "If enabled, the app list will extract apk with a single click instead of opening the details page.",
   "extracted": "Extracted",
   "extractedTo": "Extracted to",
+  "@extractedTo": {
+    "description": "String that is used when the extraction process was a success as part of the toast to show the extracted apk path."
+  },
   "extractingApks": "Extracting Apks",
+  "@extractingApks": {
+    "description": "String that is displayed in a dialog when the app starting working in background to extract the selected apks."
+  },
   "extractionIsNotFinishedCanNotInstallYet": "Not fully extracted yet, can not install right now",
   "filterWillRemoveSomeSelectedItems": "This filter will erase some of your selected items, and you will need to re-select them again",
   "followMeOnGitHub": "Follow me on GitHub",
   "followTheSystem": "Follow the system",
+  "@followTheSystem": {
+    "description": "One of the available themes representing a theme that follows the device/system theme."
+  },
   "fontFamily": "Font family",
+  "@fontFamily": {
+    "description": "Label displayed as title of the font family picker dialog."
+  },
+  "fullDark": "Full dark",
   "githubRepository": "GitHub repository",
   "glow": "Glow",
   "goToAppList": "Go to app list",
   "greenDark": "Dark green",
-  "modify": "Modify",
+  "@greenDark": {
+    "description": "One of the available themes representing a dark lights out with green as primary color."
+  },
   "hideAppBarOnScroll": "Hide app bar on scroll",
   "hideAppBarOnScrollExplanation": "If enabled, the app bar will automatically hide when scroll down.",
   "install": "Install",
   "installApk": "Install apk",
+  "installed": "Installed",
   "invalidApkItWasProbablyDeleted": "Invalid apk, is was probably deleted.",
   "invalidPackageUri": "Invalid package Uri",
   "isNotSupportedYet": "is not supported yet",
+  "@isNotSupportedYet": {
+    "description": "Warning label showed when the native system language is not supported."
+  },
   "language": "Language",
+  "@language": {
+    "description": "Label displayed as title of the language picker dialog."
+  },
   "launchApp": "Execute application",
   "light": "Light",
-  "couldNotStartApp": "Could not start app, probably because it has no UI (no launch intent is declared)",
+  "@light": {
+    "description": "One of the available themes representing a basic light theme."
+  },
   "links": "Links",
   "loadingInfo": "Loading",
   "loadingInfoEllipsis": "Loading...",
+  "modify": "Modify",
   "noActivityFoundThatCanHandleThisFileType": "There's no activity that can handle this file",
   "noResults": "No results!",
   "none": "None",
   "notAvailable": "Not available",
   "notDefined": "Not defined",
+  "@notDefined": {
+    "description": "String used to warn the user when there's no output folder defined."
+  },
   "notSet": "Not set",
   "ofN": "of",
+  "@ofN": {
+    "description": "String to be used as preposition, e.g: Showing 10 results of 1000."
+  },
   "openFileLocation": "Open file location",
   "openOnFDroid": "Open on F-Droid",
   "openOnPlayStore": "Open on Play Store",
   "openSettingsPage": "Open settings page",
+  "@openSettingsPage": {
+    "description": "String that is displayed as tooltip for the settings page button at homepage appbar."
+  },
   "openSourceLicenses": "Open source licenses",
   "openingFolderIsNotSupportedYet": "Opening a folder is not supported yet",
   "operationNotAllowedMayBeProtectedPackage": "Operation not allowed, probably this is a protected package",
+  "@operationNotAllowedMayBeProtectedPackage": {
+    "description": "String that is displayed in a toast when the extraction process results in an unknown error that often caused by trying to extract some protected package."
+  },
   "otherDonationMethods": "Other donation methods",
   "overscrollIndicator": "Overscroll indicator",
   "packageAndVersion": "Package and version",
@@ -220,32 +172,79 @@
   "packageNameIsNotAvailable": "Package name is not available",
   "paymentMethodCard": "Card",
   "permissionDenied": "Permission denied",
+  "@permissionDenied": {
+    "description": "String that is displayed when an extraction process fails due missing permission, often because the user declined to select an output folder."
+  },
   "permissionRestrictedByAndroid": "Permission restricted by Android",
+  "@permissionRestrictedByAndroid": {
+    "description": "String that is displayed in a toast when the extraction process results in an error of permission restricted by the OS (Android)."
+  },
+  "preInstalled": "Pre-installed",
   "redDark": "Red dark",
+  "@redDark": {
+    "description": "One of the available themes representing a dark lights out with red as primary color."
+  },
   "remove": "Remove",
   "reportIssue": "Report issue",
   "resetAllPreferences": "Reset all preferences",
+  "@resetAllPreferences": {
+    "description": "Label displayed as tooltip for reset settings button."
+  },
   "resetAllPreferencesQuestion": "Reset all preferences?",
   "resetFolder": "Reset folder",
   "searchOnline": "Search online",
   "searchPackagesAndApps": "Search packages and apps",
   "selectOutputFolder": "Select output folder",
+  "@selectOutputFolder": {
+    "description": "String used to ask the user for a folder/path/location to save the extracted apk."
+  },
   "selectUnselectAll": "Select/Unselect all",
+  "@selectUnselectAll": {
+    "description": "String that is displayed as tooltip for the toggle selection button at homepage appbar on selection mode."
+  },
   "settings": "Settings",
+  "@settings": {
+    "description": "Label for the settings page."
+  },
   "share": "Share",
   "shareApk": "Share apk",
+  "showMoreOptions": "Show more options",
+  "@showMoreOptions": {
+    "description": "String that is displayed as tooltip for the three dot menu button in the app list tile."
+  },
   "someApkWereNotExtracted": "Some apks are located in {apkLocation} but some could not be extracted",
+  "@someApkWereNotExtracted": {
+    "description": "Message that explains that the multiple apk extraction process had partial success.",
+    "placeholders": {
+      "apkLocation": {
+        "type": "String",
+        "example": "0/Downloads/Apks/Extracted.apk"
+      }
+    }
+  },
   "someApkWereNotExtractedPlain": "Some apks are were successfully extracted but some could not be extracted",
+  "@someApkWereNotExtractedPlain": {
+    "description": "Message that explains that the multiple apk extraction process had partial success without any variable/param."
+  },
   "soon": "Soon",
   "soonEllipsis": "Soon...",
   "sorryWeCouldNotExportAnyApkBecauseTheyAreRestrictedByTheOS": "Sorry, we could not export any of these apks because they are restricted by the OS",
+  "@sorryWeCouldNotExportAnyApkBecauseTheyAreRestrictedByTheOS": {
+    "description": "Friendly error message that shows up when the user tries to extract multiple restricted apks."
+  },
   "storagePermissionExplanationMessage": "To extract the apks this app needs access permission to a folder. It is recommended to select an empty folder or create a new one. It is also important to not select folders that are reserved by the system, such as the Android or Downloads folder.",
   "successQueued": "Success! check \"Extracted\" tab",
   "system": "System",
   "tasksAreAlreadyBeingDeleted": "These tasks were deleted and will be removed soon",
   "theme": "Theme",
+  "@theme": {
+    "description": "Label displayed as title of the theme picker dialog."
+  },
   "thisIsIrreversible": "This is a irreversible action, be sure you want to do it.",
   "toggleSelect": "Toggle select",
+  "@toggleSelect": {
+    "description": "Tooltip label of the select/unselect tile icon button."
+  },
   "transparentNavigationBar": "Translucent glass effect",
   "transparentNavigationBarExplanation": "Apply a blur transparent effect to the home navigation bar.",
   "trySelectingAtLeastOneFilter": "Try selecting at least one filter!",

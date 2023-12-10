@@ -58,3 +58,6 @@ auto-translate:
 
 # DEVELOPMENT
 dev: gw
+
+# AFTER DEVELOPMENT
+prepush: gb

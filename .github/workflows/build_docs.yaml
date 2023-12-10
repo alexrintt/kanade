@@ -12,9 +12,6 @@ on:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    # defaults:
-    #   run:
-    #     working-directory: ./modules/website
     steps:
       - uses: actions/checkout@v2
       - name: Deploy docs

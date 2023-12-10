@@ -7,16 +7,6 @@ flutter_i18n_module = modules/flutter_i18n
 flutter_i18n_auto_translate_module = modules/flutter_i18n/auto_translate
 daemon_pkg = pkgs/daemon
 
-.PHONY: setup dependencies test run generate dev clean
-
-ifeq ($(OS),Windows_NT)
-    RM = RD /S /Q
-    FIXPATH = $(subst /,\,$1)
-else
-    RM = rm -rf
-    FIXPATH = $1
-endif
-
 # SETUP ENVIROMENT
 setup: setup-flutter-app setup-flutter-i18n setup-flutter-i18n-auto-translate setup-daemon-pkg
 

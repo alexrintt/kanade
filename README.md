@@ -7,7 +7,7 @@
 
 <p align="center">
   <a href="https://github.com/alexrintt/kanade/releases"><b>Download</b></a> •
-  <a href="https://alexrintt.io/kanade"><b>User Guide</b></a> •
+  <a href="https://alexrintt.github.io/kanade/user-guide/"><b>User Guide</b></a> •
   <a href="https://donate.alexrintt.io"><b>Donate</b></a>
 </p>
 

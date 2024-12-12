@@ -109,7 +109,7 @@ If you wanna contribute in private, you can also ping me on my email [kanade@ale
 
 - [Fantazzj](https://github.com/Fantazzj) added Italian language support.
 - [@WSTxda](https://linktr.ee/wstxda) made the v0.4.0 app icon and provided support in the v0.5.0 icon.
-- [IzzySoft](https://gitlab.com/IzzySoft) reported a issue with android version code [#13](https://github.com/alexrintt/kanade/issues/13) and added fastlane docs [#15](https://github.com/alexrintt/kanade/pull/15).
+- [IzzySoft](https://gitlab.com/IzzySoft) reported an issue with android version code [#13](https://github.com/alexrintt/kanade/issues/13) and added fastlane docs [#15](https://github.com/alexrintt/kanade/pull/15).
 
 Thanks to all contributors!
 
